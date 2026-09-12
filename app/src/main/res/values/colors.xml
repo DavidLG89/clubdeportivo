@@ -2,4 +2,11 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="background_app">#F5F5F5</color> 
+    
+    <color name="background_text_edit">#F5F8FA</color>
+    <color name="color_boton_principal">#084081</color>
+    <color name="edittext_bg_new">#F5F8FA</color>
+    <color name="edittext_border">#084081</color>
+    <color name="text_grey">#555555</color>
 </resources>
