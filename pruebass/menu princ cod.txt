@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_app"
+    android:fillViewport="true"
+    tools:context=".menu_principal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="MENU PRINCIPAL"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+
+        <Button
+            android:id="@+id/btnRegistro_socio_nosocio"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:layout_marginTop="140dp"
+            android:backgroundTint="@color/color_boton_principal"
+            android:text="Registro socio-no socio"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:cornerRadius="5dp" />
+
+        <Button
+            android:id="@+id/btnGestion_pagos"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:layout_marginTop="25dp"
+            android:backgroundTint="@color/color_boton_principal"
+            android:text="Gestion de pagos"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:cornerRadius="5dp" />
+
+        <Button
+            android:id="@+id/btnReserva_actividades"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:layout_marginTop="25dp"
+            android:backgroundTint="@color/color_boton_principal"
+            android:text="Reserva de actividades"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:cornerRadius="5dp" />
+
+        <Button
+            android:id="@+id/btnImprimir_carnet_socio"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:layout_marginTop="25dp"
+            android:backgroundTint="@color/color_boton_principal"
+            android:text="Imprimir carnet de socio"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:cornerRadius="5dp" />
+
+        <Button
+            android:id="@+id/btnVer_listado_vencimientos"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:layout_marginTop="25dp"
+            android:backgroundTint="@color/color_boton_principal"
+            android:text="Ver listado de vencimientos"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:cornerRadius="5dp" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
