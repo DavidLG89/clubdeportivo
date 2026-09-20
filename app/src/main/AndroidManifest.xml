@@ -25,6 +25,16 @@
             android:name=".menu_principal"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".gestion_pagos"
+            android:exported="false" />
+        <activity
+            android:name=".perfil_administrador"
+            android:exported="false" />
+        <activity
+            android:name=".registro_cliente"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

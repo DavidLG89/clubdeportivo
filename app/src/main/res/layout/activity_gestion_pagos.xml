@@ -6,7 +6,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_app"
-    tools:context=".menu_principal">
+    tools:context=".gestion_pagos">
+
+    <!-- Botón de retorno -->
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Regresar"
+        android:src="@drawable/ic_arrow_back_circle" />
 
     <!-- Título de la pantalla -->
 
@@ -17,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="88dp"
-        android:text="MENU PRINCIPAL"
+        android:text="GESTION DE PAGOS"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -40,11 +53,11 @@
         app:layout_constraintTop_toBottomOf="@+id/tvTitle">
 
         <Button
-            android:id="@+id/btnRegistro_socio_nosocio"
+            android:id="@+id/btnSocio"
             android:layout_width="match_parent"
             android:layout_height="58dp"
             android:backgroundTint="@color/color_boton_principal"
-            android:text="Registro socio-no socio"
+            android:text="Socio"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="18sp"
@@ -52,53 +65,12 @@
             app:cornerRadius="5dp" />
 
         <Button
-            android:id="@+id/btnGestion_pagos"
+            android:id="@+id/btnNoSocio"
             android:layout_width="match_parent"
             android:layout_height="58dp"
             android:layout_marginTop="25dp"
             android:backgroundTint="@color/color_boton_principal"
-            android:text="Gestion de pagos"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:cornerRadius="5dp" />
-
-
-        <Button
-            android:id="@+id/btnReserva_actividades"
-            android:layout_width="match_parent"
-            android:layout_height="58dp"
-            android:layout_marginTop="25dp"
-            android:backgroundTint="@color/color_boton_principal"
-            android:text="Reserva de actividades"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:cornerRadius="5dp" />
-
-
-        <Button
-            android:id="@+id/btnImprimir_carnet_socio"
-            android:layout_width="match_parent"
-            android:layout_height="58dp"
-            android:layout_marginTop="25dp"
-            android:backgroundTint="@color/color_boton_principal"
-            android:text="Imprimir carnet de socio"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:cornerRadius="5dp" />
-
-        <Button
-            android:id="@+id/btnVer_listado_vencimientos"
-            android:layout_width="match_parent"
-            android:layout_height="58dp"
-            android:layout_marginTop="25dp"
-            android:backgroundTint="@color/color_boton_principal"
-            android:text="Ver listado de vencimientos"
+            android:text="No socio"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="18sp"
@@ -121,24 +93,25 @@
         <!-- Inicio -->
         <LinearLayout
             android:id="@+id/navInicio"
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-          android:background="?attr/selectableItemBackground"
-          android:clickable="true"
-          android:focusable="true"
-          android:gravity="center"
-          android:orientation="vertical">
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical">
 
-          <ImageView
-              android:layout_width="100dp"
-              android:layout_height="100dp"
-              android:contentDescription="Inicio"
-              android:src="@drawable/ic_home3" />
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:contentDescription="Inicio"
+                android:src="@drawable/ic_home3" />
 
-      </LinearLayout>
+        </LinearLayout>
 
-      <!-- Perfil -->
+        <!-- Perfil -->
         <LinearLayout
             android:id="@+id/navPerfil"
             android:layout_width="0dp"

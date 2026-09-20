@@ -6,7 +6,14 @@
     
     <color name="background_text_edit">#F5F8FA</color>
     <color name="color_boton_principal">#084081</color>
+
     <color name="edittext_bg_new">#F5F8FA</color>
     <color name="edittext_border">#084081</color>
     <color name="text_grey">#555555</color>
+    <color name="text_grey2">#424242</color>
+    <color name="color_hint_oscuro">#757575</color>
+    <color name="color_boton_principal2">#2CB5B2</color>
+    <color name="step_grey">#E0E0E0</color>
+    <color name="btn_no_socio_bg">#D4ECEB</color>
+    <color name="btn_socio_bg">#D3DBE7</color>
 </resources>
