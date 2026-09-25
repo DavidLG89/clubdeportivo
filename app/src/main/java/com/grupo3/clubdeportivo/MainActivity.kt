@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ScrollView
+import android.widget.ToggleButton
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -31,6 +32,20 @@ class MainActivity : AppCompatActivity() {
         btnIngresar.setOnClickListener {
             val intent = Intent(this, menu_principal::class.java)
             startActivity(intent)
+        }
+
+        // Ver/ ocultar texto contraseña
+        val btnAccion = findViewById<ToggleButton>(R.id.btnAccion)
+        val etPass = findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etPass)
+
+        btnAccion.setOnClickListener {
+            if(btnAccion.isChecked) {
+                btnAccion.text = "Ocultar"
+                etPass.inputType = android.text.InputType.TYPE_CLASS_TEXT
+            } else {
+                btnAccion.text = "Ver"
+                etPass.inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+            }
         }
     }
 }
