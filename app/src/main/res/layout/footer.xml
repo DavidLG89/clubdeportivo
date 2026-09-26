@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bottomNavigation"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="@color/color_boton_principal"
+    android:orientation="horizontal"
+    android:baselineAligned="false">
+
+    <!-- Inicio -->
+    <LinearLayout
+        android:id="@+id/navInicio"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="68dp"
+            android:contentDescription="Inicio"
+            android:src="@drawable/ic_home3" />
+
+    </LinearLayout>
+
+    <!-- Perfil -->
+    <LinearLayout
+        android:id="@+id/navPerfil"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="68dp"
+            android:contentDescription="Perfil"
+            android:src="@drawable/img_perfil1" />
+
+    </LinearLayout>
+</LinearLayout>

@@ -76,6 +76,7 @@
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -114,6 +115,7 @@
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilPass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -124,7 +126,10 @@
                 app:boxCornerRadiusTopEnd="5dp"
                 app:boxCornerRadiusBottomStart="5dp"
                 app:boxCornerRadiusBottomEnd="5dp"
-                app:hintEnabled="false">
+                app:hintEnabled="false"
+                app:endIconMode="password_toggle"
+                app:endIconDrawable="@drawable/password_toggle_icon"
+                app:endIconTint="@color/black">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPass"
@@ -137,34 +142,47 @@
                     android:textAlignment="center"
                     android:importantForAutofill="no"
                     android:inputType="textPassword"
-                    android:padding="0dp" />
+                    android:paddingStart="36dp"
+                    android:paddingEnd="36dp"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
 
         <TextView
+            android:id="@+id/tvOlvideContrasenia"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="¿Olvidaste tu contraseña? ingresa aquí"
             android:textColor="@color/black"
-            android:textSize="10sp"
-            android:textStyle="bold" />
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground" />
 
         <Button
             android:id="@+id/btnIngresar"
             android:layout_width="184dp"
-            android:layout_height="58dp"
+            android:layout_height="wrap_content"
+            android:minHeight="58dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:layout_marginTop="60dp"
             android:layout_marginBottom="20dp"
             app:cornerRadius="5dp"
             android:backgroundTint="@color/color_boton_principal"
             android:text="Ingresar"
-
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeMaxTextSize="18sp"
+            app:autoSizeStepGranularity="1sp"/>
 
     </LinearLayout>
 </ScrollView>
