@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">Club Deportivo</string>
+    <string name="reserva_de_actividades">RESERVA DE ACTIVIDADES</string>
+    <string name="regresar">Regresar</string>
+    <string name="ingrese_dni">Ingrese DNI</string>
+    <string name="paso_1">1</string>
+    <string name="paso_2">2</string>
+    <string name="paso_3">3</string>
+    <string name="paso_4">4</string>
 
 
 </resources>
