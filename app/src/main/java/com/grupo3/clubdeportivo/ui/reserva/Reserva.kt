@@ -2,21 +2,18 @@ package com.grupo3.clubdeportivo.ui.reserva
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageButton
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaReserva
 import com.grupo3.clubdeportivo.ui.components.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.components.CompBarraEstadoReserva
 import com.grupo3.clubdeportivo.ui.fragments.FragmBusquedaDni
-import com.grupo3.clubdeportivo.ui.fragments.FragmVerificacionCliente
+
 
 
 class Reserva : AppCompatActivity(), BarraEstadoHost {
@@ -54,6 +51,7 @@ class Reserva : AppCompatActivity(), BarraEstadoHost {
             avanzarA(FragmBusquedaDni(), EtapaReserva.BUSQUEDA_DNI)
         }
     }
+
 
     // Etapa
     override fun setStep(etapa: EtapaReserva) {
