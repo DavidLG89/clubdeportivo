@@ -47,12 +47,13 @@ class Reserva : AppCompatActivity(), BarraEstadoHost {
         stepBar = findViewById(R.id.componentStepBar)
 
 
-        if(savedInstanceState == null) {
+        viewModel.pasoActual.observe(this) { etapa ->
+            setStep(etapa)
+        }
+        if (savedInstanceState == null) {
             avanzarA(FragmBusquedaDni(), EtapaReserva.BUSQUEDA_DNI)
         }
-
     }
-
 
     // Etapa
     override fun setStep(etapa: EtapaReserva) {
