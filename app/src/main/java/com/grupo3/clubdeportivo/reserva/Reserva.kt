@@ -1,7 +1,10 @@
 package com.grupo3.clubdeportivo.reserva
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
+import android.widget.ImageButton
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -35,6 +38,12 @@ class Reserva : AppCompatActivity() {
 
         if(savedInstanceState == null) {
             avanzarA(FragmentDni(), 1)
+        }
+
+        val btnBack = findViewById<ImageButton>(R.id.btnBack)
+
+        btnBack.setOnClickListener {
+            finish()
         }
     }
     fun avanzarA(fragment: Fragment, numeroPaso: Int) {
