@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Barra de progreso/Pasos -->
-<androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/stepBarContainer"
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/step_bar_reserva"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="24dp"
@@ -16,7 +16,7 @@
         android:layout_height="3dp"
         android:background="@color/color_boton_principal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/step4"
+        app:layout_constraintEnd_toEndOf="@+id/step5"
         app:layout_constraintStart_toStartOf="@+id/step1"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -70,6 +70,20 @@
         android:background="@drawable/circle_grey"
         android:gravity="center"
         android:text="@string/paso_4"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/step3"
+        app:layout_constraintStart_toEndOf="@+id/step5"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Paso 5 -->
+    <TextView
+        android:id="@+id/step5"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:background="@drawable/circle_grey"
+        android:gravity="center"
+        android:text="5"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

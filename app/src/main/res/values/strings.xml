@@ -7,6 +7,9 @@
     <string name="paso_2">2</string>
     <string name="paso_3">3</string>
     <string name="paso_4">4</string>
-
-
+    <string name="paso_5">5</string>
+    <string name="reserva_actividades">Reserva de actividades</string>
+    <string name="vencimientos">Vencimientos</string>
+    <string name="impresion_carnet">Impresión de carnet</string>
+    <string name="registro_clientes">Registro de clientes</string>
 </resources>
