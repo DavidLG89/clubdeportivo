@@ -55,19 +55,29 @@
         <Button
             android:id="@+id/btnSocio"
             android:layout_width="match_parent"
-            android:layout_height="58dp"
+            android:layout_height="wrap_content"
+            android:minHeight="58dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:backgroundTint="@color/color_boton_principal"
             android:text="Socio"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:cornerRadius="5dp" />
+            app:cornerRadius="5dp"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeMaxTextSize="18sp"
+            app:autoSizeStepGranularity="1sp" />
 
         <Button
             android:id="@+id/btnNoSocio"
             android:layout_width="match_parent"
-            android:layout_height="58dp"
+            android:layout_height="wrap_content"
+            android:minHeight="58dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:layout_marginTop="25dp"
             android:backgroundTint="@color/color_boton_principal"
             android:text="No socio"
@@ -75,61 +85,21 @@
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:cornerRadius="5dp" />
+            app:cornerRadius="5dp"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeMaxTextSize="18sp"
+            app:autoSizeStepGranularity="1sp" />
     </LinearLayout>
 
-    <!-- Barra de navegación inferior personalizada según la imagen -->
-    <LinearLayout
+    <!-- Barra de navegación inferior reutilizable -->
+    <include
         android:id="@+id/bottomNavigation"
+        layout="@layout/footer"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="@color/color_boton_principal"
-        android:orientation="horizontal"
-        android:baselineAligned="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <!-- Inicio -->
-        <LinearLayout
-            android:id="@+id/navInicio"
-
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:contentDescription="Inicio"
-                android:src="@drawable/ic_home3" />
-
-        </LinearLayout>
-
-        <!-- Perfil -->
-        <LinearLayout
-            android:id="@+id/navPerfil"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:contentDescription="Perfil"
-                android:src="@drawable/img_perfil1" />
-
-        </LinearLayout>
-    </LinearLayout>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

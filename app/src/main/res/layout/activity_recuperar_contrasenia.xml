@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_app"
-    tools:context=".perfil_administrador">
+    tools:context=".recuperar_contrasenia">
 
     <!-- Botón de retorno -->
     <ImageButton
@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="88dp"
-        android:text="PERFIL ADMINISTRADOR"
+        android:text="RECUPERAR CONTRASEÑA"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -35,7 +35,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Tarjeta del Perfil -->
+    <!-- Tarjeta de Recuperar Contraseña -->
     <LinearLayout
         android:id="@+id/cardContainer"
         android:layout_width="255dp"
@@ -45,7 +45,7 @@
         android:orientation="vertical"
         android:padding="24dp"
         android:gravity="center_horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/btnCerrarSesion"
+        app:layout_constraintBottom_toTopOf="@+id/btnEnviarEmail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle"
@@ -54,12 +54,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Usuario activo:"
+            android:text="Ingrese Email:"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <!-- Cuadro con el nombre de usuario (Alberto) reutilizando el estilo de los campos de texto -->
+        <!-- Cuadro editable para ingresar email -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -74,11 +74,13 @@
             app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etUsername"
+                android:id="@+id/etEmailRecuperar"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:text="nombre_usuario"
-                android:enabled="false"
+                android:hint="ejemplo@email.com"
+                android:textColorHint="@color/color_hint_oscuro"
+                android:inputType="textEmailAddress"
+                android:enabled="true"
                 android:gravity="center"
                 android:textColor="@color/black"
                 android:textSize="15sp"
@@ -86,9 +88,9 @@
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
-    <!-- Botón Cerrar Sesión -->
+    <!-- Botón Enviar email -->
     <Button
-        android:id="@+id/btnCerrarSesion"
+        android:id="@+id/btnEnviarEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="58dp"
@@ -97,7 +99,7 @@
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
         android:backgroundTint="@color/color_boton_principal"
-        android:text="Cerrar sesión"
+        android:text="Enviar email"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="18sp"
