@@ -32,10 +32,19 @@ class menu_principal : AppCompatActivity() {
             startActivity(intent)
         }
 
+        // Botón a Reserva
+        val btnReserva = findViewById<Button>(R.id.btnReserva_actividades)
+        btnReserva.setOnClickListener {
+            val intent = Intent(this, Reserva::class.java)
+            startActivity(intent)
+        }
+
         // Navegación al Perfil del Administrador desde la barra inferior
         findViewById<LinearLayout>(R.id.navPerfil).setOnClickListener {
             val intent = Intent(this, perfil_administrador::class.java)
             startActivity(intent)
         }
+
+
     }
 }
