@@ -36,11 +36,12 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
+
             android:name=".recuperar_contrasenia"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".Reserva"
+            android:name=".reserva.Reserva"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
     </application>

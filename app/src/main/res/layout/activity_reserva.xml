@@ -5,14 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_app"
-    android:orientation="vertical"
-    android:padding="20dp">
+    android:orientation="vertical">
 
     <!-- Botón de retorno -->
     <ImageButton
         android:id="@+id/btnBack"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/regresar"
         android:src="@drawable/ic_arrow_back_circle" />
@@ -30,65 +31,29 @@
         android:textStyle="bold"
         android:layout_marginBottom="40dp"/>
 
+    <!-- Componente barra de estado -->
     <com.grupo3.clubdeportivo.components.StepBarView
+        android:id="@+id/componentStepBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="32dp"
-        android:text="Búsqueda DNI cliente"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+<!-- Fragmento búsqueda dni -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1" />
 
-    <!-- Tarjeta del DNI: centrada horizontalmente -->
-    <LinearLayout
-        android:id="@+id/cardContainer"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/card_background"
-        android:backgroundTint="@color/color_boton_principal2"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="24dp">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/outlinedTextField"
-            android:layout_width="220dp"
-            android:layout_height="wrap_content"
-            android:hint="@string/ingrese_dni"
-            android:background="@color/background_app"
-            app:endIconCheckable="true"
-            app:endIconDrawable="@drawable/search"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="40dp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-    </LinearLayout>
-        <Button
-            android:id="@+id/btnIngresar"
-            android:layout_width="184dp"
-            android:layout_height="58dp"
-            android:layout_marginTop="60dp"
-            android:layout_marginBottom="20dp"
-            app:cornerRadius="5dp"
-            android:backgroundTint="@color/color_boton_principal"
-            android:text="Buscar"
-            android:layout_gravity="center"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
-
+    <!-- Barra de navegación inferior reutilizable -->
+    <include
+        android:id="@+id/bottomNavigation"
+        layout="@layout/footer"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </LinearLayout>
