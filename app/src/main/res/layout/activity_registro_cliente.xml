@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_app"
-    tools:context=".registro_cliente">
+    tools:context=".ui.registro_cliente">
 
     <!-- Botón de retorno -->
     <ImageButton

@@ -32,13 +32,13 @@
         android:layout_marginBottom="40dp"/>
 
     <!-- Componente barra de estado -->
-    <com.grupo3.clubdeportivo.components.StepBarView
+    <com.grupo3.clubdeportivo.ui.components.CompBarraEstadoReserva
         android:id="@+id/componentStepBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"/>
 
-<!-- Fragmento búsqueda dni -->
+<!-- Fragmento -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"

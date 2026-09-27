@@ -1,28 +1,44 @@
-package com.grupo3.clubdeportivo
+package com.grupo3.clubdeportivo.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ImageButton
+import android.widget.Button
 import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.ui.reserva.Reserva
 
-class gestion_pagos : AppCompatActivity() {
+class menu_principal : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_gestion_pagos)
+        setContentView(R.layout.activity_menu_principal)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        val btnBack = findViewById<ImageButton>(R.id.btnBack)
-        btnBack.setOnClickListener {
-            finish()
+        val btnGestionPagos = findViewById<Button>(R.id.btnGestion_pagos)
+        btnGestionPagos.setOnClickListener {
+            val intent = Intent(this, gestion_pagos::class.java)
+            startActivity(intent)
+        }
+
+        // Botón Registro Socio-No Socio
+        findViewById<Button>(R.id.btnRegistro_socio_nosocio).setOnClickListener {
+            val intent = Intent(this, registro_cliente::class.java)
+            startActivity(intent)
+        }
+
+        // Botón a Reserva
+        val btnReserva = findViewById<Button>(R.id.btnReserva_actividades)
+        btnReserva.setOnClickListener {
+            val intent = Intent(this, Reserva::class.java)
+            startActivity(intent)
         }
 
         // Navegación al Perfil del Administrador desde la barra inferior
@@ -31,13 +47,6 @@ class gestion_pagos : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // Navegación al Menú Principal desde la barra inferior (Inicio)
-        findViewById<LinearLayout>(R.id.navInicio).setOnClickListener {
-            val intent = Intent(this, menu_principal::class.java)
-            // FLAG_ACTIVITY_CLEAR_TOP evita acumular ventanas repetidas en el historial hacia atrás
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-            startActivity(intent)
-            finish()
-        }
+
     }
 }
