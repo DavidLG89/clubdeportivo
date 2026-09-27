@@ -19,11 +19,19 @@ class FragmVerificacionCliente : Fragment(R.layout.fragment_datos_cliente){
         val valCliente = view.findViewById<LinearLayout>(R.id.cardContainerValidacion)
 
         val btnVolver = view.findViewById<Button>(R.id.btnVolver)
+        val btnContinuar = view.findViewById<Button>(R.id.btnContinuar)
 
         btnVolver.setOnClickListener {
             (requireActivity() as? BarraEstadoHost)?.avanzarA(
                 FragmBusquedaDni(),
                 EtapaReserva.BUSQUEDA_DNI
+            )
+        }
+
+        btnContinuar.setOnClickListener {
+            (requireActivity() as? BarraEstadoHost)?.avanzarA(
+                FragmSeleccionActividad(),
+                EtapaReserva.SELECCION_ACTIVIDAD
             )
         }
     }

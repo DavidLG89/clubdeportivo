@@ -3,6 +3,7 @@
     <string name="reserva_de_actividades">RESERVA DE ACTIVIDADES</string>
     <string name="regresar">Regresar</string>
     <string name="ingrese_dni">Ingrese DNI</string>
+    <string name="ingrese_actividad">Ingrese actividad</string>
     <string name="paso_1">1</string>
     <string name="paso_2">2</string>
     <string name="paso_3">3</string>
@@ -16,6 +17,7 @@
     <string name="buscar">Buscar</string>
     <string name="continuar">Continuar</string>
     <string name="validacion_cliente">Verificación cliente</string>
+    <string name="busqueda_actividad">Búsqueda de actividades de interes</string>
     <string name="numero_dni">DNI:</string>
     <string name="nombre">Nombre:</string>
     <string name="tipo_cliente">Tipo cliente:</string>
