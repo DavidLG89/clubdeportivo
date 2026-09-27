@@ -41,8 +41,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:paddingStart="40dp"
-        android:paddingEnd="40dp"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle">
 
         <!-- Línea conectora de fondo -->
@@ -125,7 +125,9 @@
                 android:layout_marginTop="12dp">
 
                 <TextView
-                    android:layout_width="85dp"
+                    android:layout_width="wrap_content"
+                    android:minWidth="75dp"
+                    android:paddingEnd="8dp"
                     android:layout_height="wrap_content"
                     android:text="Nombre:"
                     android:textColor="@color/black"
@@ -133,6 +135,7 @@
                     android:textStyle="bold" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilNombre"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -148,14 +151,17 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etNombre"
                         android:layout_width="match_parent"
-                        android:layout_height="48dp"
+                        android:layout_height="wrap_content"
+                        android:minHeight="48dp"
                         android:hint="Ingrese nombre"
                         android:textColor="@color/black"
                         android:textColorHint="@color/color_hint_oscuro"
                         android:textSize="15sp"
-                        android:padding="0dp"
                         android:gravity="center_vertical|start"
                         android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
                         android:inputType="textPersonName" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -169,7 +175,9 @@
                 android:layout_marginTop="12dp">
 
                 <TextView
-                    android:layout_width="85dp"
+                    android:layout_width="wrap_content"
+                    android:minWidth="75dp"
+                    android:paddingEnd="8dp"
                     android:layout_height="wrap_content"
                     android:text="Apellido:"
                     android:textColor="@color/black"
@@ -177,6 +185,7 @@
                     android:textStyle="bold" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilApellido"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -192,14 +201,17 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etApellido"
                         android:layout_width="match_parent"
-                        android:layout_height="48dp"
+                        android:layout_height="wrap_content"
+                        android:minHeight="48dp"
                         android:hint="Ingrese apellido"
                         android:textColor="@color/black"
                         android:textColorHint="@color/color_hint_oscuro"
                         android:textSize="15sp"
-                        android:padding="0dp"
                         android:gravity="center_vertical|start"
                         android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
                         android:inputType="textPersonName" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -213,7 +225,9 @@
                 android:layout_marginTop="12dp">
 
                 <TextView
-                    android:layout_width="85dp"
+                    android:layout_width="wrap_content"
+                    android:minWidth="75dp"
+                    android:paddingEnd="8dp"
                     android:layout_height="wrap_content"
                     android:text="DNI:"
                     android:textColor="@color/black"
@@ -221,6 +235,7 @@
                     android:textStyle="bold" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilDni"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -236,14 +251,17 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etDni"
                         android:layout_width="match_parent"
-                        android:layout_height="48dp"
+                        android:layout_height="wrap_content"
+                        android:minHeight="48dp"
                         android:hint="Ingrese DNI"
                         android:textColor="@color/black"
                         android:textColorHint="@color/color_hint_oscuro"
                         android:textSize="15sp"
-                        android:padding="0dp"
                         android:gravity="center_vertical|start"
                         android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
                         android:inputType="number" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -257,7 +275,9 @@
                 android:layout_marginTop="12dp">
 
                 <TextView
-                    android:layout_width="85dp"
+                    android:layout_width="wrap_content"
+                    android:minWidth="75dp"
+                    android:paddingEnd="8dp"
                     android:layout_height="wrap_content"
                     android:text="Email:"
                     android:textColor="@color/black"
@@ -265,6 +285,7 @@
                     android:textStyle="bold" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilEmail"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -280,14 +301,17 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etEmail"
                         android:layout_width="match_parent"
-                        android:layout_height="48dp"
+                        android:layout_height="wrap_content"
+                        android:minHeight="48dp"
                         android:hint="Ingrese email"
                         android:textColor="@color/black"
                         android:textColorHint="@color/color_hint_oscuro"
                         android:textSize="15sp"
-                        android:padding="0dp"
                         android:gravity="center_vertical|start"
                         android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
                         android:inputType="textEmailAddress" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -319,7 +343,6 @@
                     android:id="@+id/btnSelectionNoSocio"
                     android:layout_width="120dp"
                     android:layout_height="48dp"
-
                     android:background="?attr/selectableItemBackground"
                     android:clickable="true"
                     android:contentDescription="No socio"
@@ -352,8 +375,13 @@
             <!-- Botón REGISTRAR -->
             <Button
                 android:id="@+id/btnRegistrar"
-                android:layout_width="184dp"
-                android:layout_height="58dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="58dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="16dp"
@@ -362,60 +390,23 @@
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:cornerRadius="5dp" />
+                app:cornerRadius="5dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeStepGranularity="1sp" />
 
         </LinearLayout>
     </ScrollView>
 
-    <!-- Barra de navegación inferior fija -->
-    <LinearLayout
+    <!-- Barra de navegación inferior reutilizable -->
+    <include
         android:id="@+id/bottomNavigation"
+        layout="@layout/footer"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="@color/color_boton_principal"
-        android:orientation="horizontal"
-        android:baselineAligned="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <!-- Inicio -->
-        <LinearLayout
-            android:id="@+id/navInicio"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:contentDescription="Inicio"
-                android:src="@drawable/ic_home3" />
-        </LinearLayout>
-
-        <!-- Perfil -->
-        <LinearLayout
-            android:id="@+id/navPerfil"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:contentDescription="Perfil"
-                android:src="@drawable/img_perfil1" />
-        </LinearLayout>
-    </LinearLayout>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
