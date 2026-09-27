@@ -1,4 +1,4 @@
-package com.grupo3.clubdeportivo.components
+package com.grupo3.clubdeportivo.ui.components
 
 
 import android.content.Context
@@ -6,9 +6,10 @@ import android.util.AttributeSet
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.data.model.EtapaReserva
 
 
-class StepBarView @JvmOverloads constructor(
+class CompBarraEstadoReserva @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : ConstraintLayout(context, attrs) {
 
@@ -25,8 +26,9 @@ class StepBarView @JvmOverloads constructor(
         )
     }
 
-    fun setStep(pasoActual: Int) {
+    fun setStep(etapa: EtapaReserva) {
         circles.forEachIndexed { index, circle ->
+            var pasoActual = etapa.numero
             val numeroPaso = index + 1
             when {
                 numeroPaso < pasoActual -> {

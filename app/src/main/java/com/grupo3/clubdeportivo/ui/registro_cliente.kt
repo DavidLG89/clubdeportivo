@@ -1,4 +1,4 @@
-package com.grupo3.clubdeportivo
+package com.grupo3.clubdeportivo.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -16,6 +16,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.grupo3.clubdeportivo.R
 
 class registro_cliente : AppCompatActivity() {
 

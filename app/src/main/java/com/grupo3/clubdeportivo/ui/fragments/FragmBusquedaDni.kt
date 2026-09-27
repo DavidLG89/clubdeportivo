@@ -1,18 +1,16 @@
-package com.grupo3.clubdeportivo.fragments
+package com.grupo3.clubdeportivo.ui.fragments
 
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import com.grupo3.clubdeportivo.R
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.google.android.material.textfield.TextInputLayout
-import com.grupo3.clubdeportivo.reserva.Reserva
+import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.data.model.EtapaReserva
+import com.grupo3.clubdeportivo.ui.reserva.Reserva
+import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 
-
-import com.grupo3.clubdeportivo.reserva.ReservaViewModel
-
-class FragmentDni : Fragment(R.layout.fragment_busqueda_dni){
+class FragmBusquedaDni : Fragment(R.layout.fragment_busqueda_dni){
     private val viewModel: ReservaViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -21,8 +19,8 @@ class FragmentDni : Fragment(R.layout.fragment_busqueda_dni){
 
         btnContinuar.setOnClickListener {
             (requireActivity() as Reserva).avanzarA(
-                ValidacionCliente(),
-                2
+                FragmVerificacionCliente(),
+                EtapaReserva.VERIFICACION_CLIENTE
             )
         }
     }

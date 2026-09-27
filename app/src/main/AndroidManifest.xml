@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ClubDeportivo">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -22,26 +22,26 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".menu_principal"
+            android:name=".ui.menu_principal"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".gestion_pagos"
+            android:name=".ui.gestion_pagos"
             android:exported="false" />
         <activity
-            android:name=".perfil_administrador"
+            android:name=".ui.perfil_administrador"
             android:exported="false" />
         <activity
-            android:name=".registro_cliente"
+            android:name=".ui.registro_cliente"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
 
-            android:name=".recuperar_contrasenia"
+            android:name=".ui.recuperar_contrasenia"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".reserva.Reserva"
+            android:name=".ui.reserva.Reserva"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
     </application>
