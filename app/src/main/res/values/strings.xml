@@ -12,4 +12,6 @@
     <string name="vencimientos">Vencimientos</string>
     <string name="impresion_carnet">Impresión de carnet</string>
     <string name="registro_clientes">Registro de clientes</string>
+    <string name="busqueda_dni_cliente">Búsqueda DNI cliente</string>
+    <string name="buscar">Buscar</string>
 </resources>

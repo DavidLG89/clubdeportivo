@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Barra de progreso/Pasos -->
-<androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/step_bar_reserva"
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="24dp"
