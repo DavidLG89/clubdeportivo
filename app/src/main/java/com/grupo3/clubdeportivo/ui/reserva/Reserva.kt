@@ -2,18 +2,21 @@ package com.grupo3.clubdeportivo.ui.reserva
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageButton
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaReserva
 import com.grupo3.clubdeportivo.ui.components.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.components.CompBarraEstadoReserva
 import com.grupo3.clubdeportivo.ui.fragments.FragmBusquedaDni
+import com.grupo3.clubdeportivo.ui.fragments.FragmVerificacionCliente
 
 
 class Reserva : AppCompatActivity(), BarraEstadoHost {
@@ -24,22 +27,22 @@ class Reserva : AppCompatActivity(), BarraEstadoHost {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Toast.makeText(this, "Llegué a onCreate", Toast.LENGTH_SHORT).show()
+
         setContentView(R.layout.activity_reserva)
-        Toast.makeText(this, "Llegué a onCreate 2", Toast.LENGTH_SHORT).show()
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.reserva_actividades)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        Toast.makeText(this, "Llegué a onCreate 3", Toast.LENGTH_SHORT).show()
+
         // Botón volver
         val btnBack = findViewById<ImageButton>(R.id.btnBack)
         btnBack.setOnClickListener {
             finish()
         }
-        Toast.makeText(this, "Llegué a onCreate 4", Toast.LENGTH_SHORT).show()
+
         // Barra de Estado
         stepBar = findViewById(R.id.componentStepBar)
 

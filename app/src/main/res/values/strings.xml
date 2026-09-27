@@ -15,7 +15,7 @@
     <string name="busqueda_dni_cliente">Búsqueda DNI cliente</string>
     <string name="buscar">Buscar</string>
     <string name="continuar">Continuar</string>
-    <string name="validacion_cliente">Validación cliente</string>
+    <string name="validacion_cliente">Verificación cliente</string>
     <string name="numero_dni">DNI:</string>
     <string name="nombre">Nombre:</string>
     <string name="tipo_cliente">Tipo cliente:</string>
