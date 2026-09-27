@@ -26,11 +26,11 @@ class MainActivity : AppCompatActivity() {
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
-            
+
             // Sumamos el margen del teclado al padding inferior del ScrollView para que se reduzca su tamaño real.
             // Si el teclado está abierto, usamos su tamaño; si no, el del sistema.
             val bottomPadding = if (ime.bottom > 0) ime.bottom else systemBars.bottom
-            
+
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, bottomPadding)
             insets
         }
@@ -84,5 +84,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, recuperar_contrasenia::class.java)
             startActivity(intent)
         }
+
     }
 }
