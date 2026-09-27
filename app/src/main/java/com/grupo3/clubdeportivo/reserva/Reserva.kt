@@ -1,18 +1,17 @@
 package com.grupo3.clubdeportivo.reserva
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageButton
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.Fragment
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.components.StepBarView
 import com.grupo3.clubdeportivo.fragments.FragmentDni
+import com.grupo3.clubdeportivo.fragments.ValidacionCliente
 
 class Reserva : AppCompatActivity() {
 
