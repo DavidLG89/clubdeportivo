@@ -25,7 +25,7 @@ class FragmSeleccionFecha : Fragment(R.layout.fragment_seleccion_fecha) {
         val btnContinuar = view.findViewById<Button>(R.id.btnContinuar)
 
         btnContinuar.setOnClickListener {
-            (requireActivity() as? BarraEstadoHost)?.avanzarA(
+            (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.avanzarA(
                 FragmSeleccionHora(),
                 EtapaReserva.SELECCION_HORA
             )

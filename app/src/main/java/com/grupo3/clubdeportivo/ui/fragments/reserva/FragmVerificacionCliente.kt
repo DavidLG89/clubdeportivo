@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaReserva
 import com.grupo3.clubdeportivo.ui.components.BarraEstadoHost
+import com.grupo3.clubdeportivo.ui.fragments.compartidos.FragmBusquedaDni
 import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 
 class FragmVerificacionCliente : Fragment(R.layout.fragment_datos_cliente){
@@ -21,14 +22,14 @@ class FragmVerificacionCliente : Fragment(R.layout.fragment_datos_cliente){
         val btnContinuar = view.findViewById<Button>(R.id.btnContinuar)
 
         btnVolver.setOnClickListener {
-            (requireActivity() as? BarraEstadoHost)?.avanzarA(
+            (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.avanzarA(
                 FragmBusquedaDni(),
                 EtapaReserva.BUSQUEDA_DNI
             )
         }
 
         btnContinuar.setOnClickListener {
-            (requireActivity() as? BarraEstadoHost)?.avanzarA(
+            (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.avanzarA(
                 FragmSeleccionActividad(),
                 EtapaReserva.SELECCION_ACTIVIDAD
             )

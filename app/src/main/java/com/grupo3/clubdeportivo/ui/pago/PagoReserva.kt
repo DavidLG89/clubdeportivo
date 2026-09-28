@@ -1,34 +1,34 @@
-package com.grupo3.clubdeportivo.ui.reserva
+package com.grupo3.clubdeportivo.ui.pago
 
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.data.model.EtapaReserva
+import com.grupo3.clubdeportivo.data.model.EtapaPago
 import com.grupo3.clubdeportivo.ui.components.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.components.BusquedaDniListener
-import com.grupo3.clubdeportivo.ui.components.CompBarraEstadoReserva
+import com.grupo3.clubdeportivo.ui.components.CompBarraEstadoPago
 import com.grupo3.clubdeportivo.ui.fragments.compartidos.FragmBusquedaDni
-import com.grupo3.clubdeportivo.ui.fragments.reserva.FragmVerificacionCliente
 
 
-class Reserva : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, BusquedaDniListener {
+class PagoReserva : AppCompatActivity(), BarraEstadoHost<EtapaPago>, BusquedaDniListener {
 
-    private val viewModel: ReservaViewModel by viewModels()
-    private lateinit var stepBar: CompBarraEstadoReserva
+    private val viewModel: PagoResViewModel by viewModels()
+    private lateinit var stepBar: CompBarraEstadoPago
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_reserva)
+        setContentView(R.layout.activity_pago_reserva)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.reserva_actividades)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.pago_reserva)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
@@ -49,18 +49,18 @@ class Reserva : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, BusquedaDniL
             setStep(etapa)
         }
         if (savedInstanceState == null) {
-            avanzarA(FragmBusquedaDni(), EtapaReserva.BUSQUEDA_DNI)
+            avanzarA(FragmBusquedaDni(), EtapaPago.BUSQUEDA_DNI)
         }
     }
 
 
     // Etapa
-    override fun setStep(etapa: EtapaReserva) {
+    override fun setStep(etapa: EtapaPago) {
         stepBar.setStep(etapa)
     }
 
     // Avanza etapa de formulario
-    override fun avanzarA(fragment: Fragment, etapa: EtapaReserva) {
+    override fun avanzarA(fragment: Fragment, etapa: EtapaPago) {
         viewModel.irAPaso(etapa)
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, fragment)
@@ -70,10 +70,6 @@ class Reserva : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, BusquedaDniL
 
     override fun onDniValidado(dni: String) {
         viewModel.dni = dni
-        avanzarA(
-            FragmVerificacionCliente(),
-            EtapaReserva.VERIFICACION
-
-        )
+        Toast.makeText(this, "En espera de continuar a etapa verificación", Toast.LENGTH_LONG).show()
     }
 }

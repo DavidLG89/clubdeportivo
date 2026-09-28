@@ -37,7 +37,7 @@ class FragmSeleccionActividad : Fragment(R.layout.fragment_seleccion_actividad) 
             } else {
                 ilActividad.error = null
                 viewModel.actividad = actividad
-                (requireActivity() as? BarraEstadoHost)?.avanzarA(
+                (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.avanzarA(
                     FragmSeleccionFecha(),
                     EtapaReserva.SELECCION_FECHA
                 )
