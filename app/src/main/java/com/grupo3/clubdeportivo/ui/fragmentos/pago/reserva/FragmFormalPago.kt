@@ -17,13 +17,13 @@ import com.grupo3.clubdeportivo.ui.fragmentos.reserva.FragmSeleccionActividad
 import com.grupo3.clubdeportivo.ui.pago.PagoResViewModel
 import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 
-class FragmVerificacionReserva : Fragment(R.layout.fragment_verificacion_reserva) {
+class FragmFormalPago : Fragment(R.layout.fragment_formalizacion_pago) {
     private val viewModel: PagoResViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        val actividades = resources.getStringArray(R.array.actividades)
-        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, actividades)
+        val pagos = resources.getStringArray(R.array.metodos_pago)
+        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, pagos)
 
         val autoCompleteTextView = view.findViewById<AutoCompleteTextView>(R.id.autocompleteTV)
 
@@ -31,7 +31,7 @@ class FragmVerificacionReserva : Fragment(R.layout.fragment_verificacion_reserva
 
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
 
-            viewModel.actividad = actividades[position]
+            viewModel.pago = pagos[position]
         }
 
         val btnVolver = view.findViewById<Button>(R.id.btnVolver)
@@ -39,16 +39,17 @@ class FragmVerificacionReserva : Fragment(R.layout.fragment_verificacion_reserva
 
         btnVolver.setOnClickListener {
             (requireActivity() as? BarraEstadoHost<EtapaPago>)?.avanzarA(
-                FragmBusquedaDni(),
-                EtapaPago.BUSQUEDA_DNI
+                FragmVerificacionReserva(),
+                EtapaPago.VERIFICACION
             )
         }
 
         btnContinuar.setOnClickListener {
-            (requireActivity() as? BarraEstadoHost<EtapaPago>)?.avanzarA(
-                FragmFormalPago(),
-                EtapaPago.FORMALIZACION_PAGO
-            )
+            Toast.makeText(
+                requireContext(),
+                "Próximamente siguiente paso",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 }
