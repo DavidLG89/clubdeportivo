@@ -13,26 +13,20 @@ import com.grupo3.clubdeportivo.data.model.EtapaReserva
 import com.grupo3.clubdeportivo.ui.components.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 
-class FragmSeleccionHora : Fragment(R.layout.fragment_seleccion_hora){
+class FragmCompReserva : Fragment(R.layout.fragment_comprobante_reserva){
     private val viewModel: ReservaViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        val btnVolver = view.findViewById<Button>(R.id.btnVolver)
-        val btnReservar = view.findViewById<Button>(R.id.btnContinuar)
+        val btnEnviar = view.findViewById<Button>(R.id.btnEnviar)
 
-        btnVolver.setOnClickListener {
-            (requireActivity() as? BarraEstadoHost)?.avanzarA(
-                FragmSeleccionFecha(),
-                EtapaReserva.SELECCION_FECHA
-            )
-        }
 
-        btnReservar.setOnClickListener {
-            (requireActivity() as? BarraEstadoHost)?.avanzarA(
-                FragmCompReserva(),
-                EtapaReserva.CONFIRMACION_RESERVA
-            )
+        btnEnviar.setOnClickListener {
+            //(requireActivity() as? BarraEstadoHost)?.avanzarA(
+              //  FragmSeleccionActividad(),
+                //EtapaReserva.SELECCION_ACTIVIDAD
+            // )
+            Toast.makeText(requireContext(), "Enviando comprobante...", Toast.LENGTH_LONG).show()
         }
     }
 }
