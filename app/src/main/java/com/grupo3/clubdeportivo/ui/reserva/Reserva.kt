@@ -12,7 +12,7 @@ import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaReserva
 import com.grupo3.clubdeportivo.ui.components.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.components.CompBarraEstadoReserva
-import com.grupo3.clubdeportivo.ui.fragments.FragmBusquedaDni
+import com.grupo3.clubdeportivo.ui.fragments.reserva.FragmBusquedaDni
 
 
 

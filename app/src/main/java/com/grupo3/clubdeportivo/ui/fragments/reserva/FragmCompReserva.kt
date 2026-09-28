@@ -1,16 +1,12 @@
-package com.grupo3.clubdeportivo.ui.fragments
+package com.grupo3.clubdeportivo.ui.fragments.reserva
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.data.model.EtapaReserva
-import com.grupo3.clubdeportivo.ui.components.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 
 class FragmCompReserva : Fragment(R.layout.fragment_comprobante_reserva){
