@@ -9,7 +9,18 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginTop="32dp"
-        android:text="@string/busqueda_actividad"
+        android:text="@string/actividad"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/seleccione_una_fecha"
         android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -18,7 +29,7 @@
         android:id="@+id/edtDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_margin="40dp"
         android:hint="Seleccione un día"
         android:clickable="false"
         android:focusable="false"/>

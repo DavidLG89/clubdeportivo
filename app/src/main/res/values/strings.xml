@@ -22,4 +22,6 @@
     <string name="nombre">Nombre:</string>
     <string name="tipo_cliente">Tipo cliente:</string>
     <string name="apto_f_sico">Apto Físico:</string>
+    <string name="seleccione_una_fecha">Seleccione una fecha</string>
+    <string name="actividad">Actividad:</string>
 </resources>
