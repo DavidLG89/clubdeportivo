@@ -19,13 +19,12 @@ class FragmSeleccionActividad : Fragment(R.layout.fragment_seleccion_actividad) 
     private val viewModel: ReservaViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Toast.makeText(requireContext(), "Entro en Fragmento Actividad", Toast.LENGTH_LONG).show()
+
         // Validar campo actividad
         var edtActividad = view.findViewById<TextInputEditText>(R.id.edtActividad)
         val ilActividad = view.findViewById<TextInputLayout>(R.id.tilActividad)
         val btnBuscar = view.findViewById<Button>(R.id.btnBuscarAct)
         val tvError = view.findViewById<TextView>(R.id.tvErrorAct)
-        Toast.makeText(requireContext(), "Entro en Fragmento Actividad ANTES DEL CLICK", Toast.LENGTH_LONG).show()
 
         btnBuscar.setOnClickListener {
 
@@ -36,13 +35,13 @@ class FragmSeleccionActividad : Fragment(R.layout.fragment_seleccion_actividad) 
                 ilActividad.errorIconDrawable = null
                 tvError.text = "Debe ingresar una actividad"
             } else {
-
-                //viewModel.actividad = actividad
-                //(requireActivity() as? BarraEstadoHost)?.avanzarA(
-                //    FragmVerificacionCliente(),
-                //    EtapaReserva.SELECCION_FECHA
-                //)
-               // tvError.visibility = GONE
+                ilActividad.error = null
+                viewModel.actividad = actividad
+                (requireActivity() as? BarraEstadoHost)?.avanzarA(
+                    FragmSeleccionFecha(),
+                    EtapaReserva.SELECCION_FECHA
+                )
+                tvError.visibility = GONE
                 Toast.makeText(requireContext(), "Puede seleccionar fecha", Toast.LENGTH_LONG).show()
             }
         }
