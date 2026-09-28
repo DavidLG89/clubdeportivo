@@ -24,4 +24,7 @@
     <string name="apto_f_sico">Apto Físico:</string>
     <string name="seleccione_una_fecha">Seleccione una fecha</string>
     <string name="actividad">Actividad:</string>
+    <string name="seleccione_una_hora">Seleccione una hora</string>
+    <string name="seleccione_un_dia">Seleccione un día</string>
+    <string name="reservar">Reservar</string>
 </resources>
