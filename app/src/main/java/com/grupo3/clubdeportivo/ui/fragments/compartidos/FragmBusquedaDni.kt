@@ -1,24 +1,20 @@
-package com.grupo3.clubdeportivo.ui.fragments
+package com.grupo3.clubdeportivo.ui.fragments.compartidos
 
 import android.os.Bundle
 import android.view.View
-import android.view.View.GONE
 import android.widget.Button
 import android.widget.TextView
-import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.data.model.EtapaReserva
-import com.grupo3.clubdeportivo.ui.components.BarraEstadoHost
-import com.grupo3.clubdeportivo.ui.reserva.Reserva
+import com.grupo3.clubdeportivo.ui.components.BusquedaDniListener
 import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 
 class FragmBusquedaDni : Fragment(R.layout.fragment_busqueda_dni){
     private val viewModel: ReservaViewModel by activityViewModels()
-
+    private val listener get() = requireActivity() as BusquedaDniListener
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         // Validar campo dni
@@ -45,11 +41,8 @@ class FragmBusquedaDni : Fragment(R.layout.fragment_busqueda_dni){
                 else -> {
 
                     viewModel.dni = dni
-                    (requireActivity() as? BarraEstadoHost)?.avanzarA(
-                        FragmVerificacionCliente(),
-                        EtapaReserva.VERIFICACION_CLIENTE
-                    )
-                    tvError.visibility = GONE
+                   listener.onDniValidado(dni)
+                    tvError.visibility = View.GONE
                 }
             }
         }

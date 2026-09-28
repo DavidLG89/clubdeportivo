@@ -24,7 +24,7 @@ class menu_principal : AppCompatActivity() {
 
         val btnGestionPagos = findViewById<Button>(R.id.btnGestion_pagos)
         btnGestionPagos.setOnClickListener {
-            val intent = Intent(this, gestion_pagos::class.java)
+            val intent = Intent(this, gestionPago::class.java)
             startActivity(intent)
         }
 

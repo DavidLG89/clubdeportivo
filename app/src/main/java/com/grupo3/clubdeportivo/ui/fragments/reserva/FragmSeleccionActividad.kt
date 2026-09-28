@@ -1,4 +1,4 @@
-package com.grupo3.clubdeportivo.ui.fragments
+package com.grupo3.clubdeportivo.ui.fragments.reserva
 
 import android.os.Bundle
 import android.view.View
@@ -19,7 +19,7 @@ class FragmSeleccionActividad : Fragment(R.layout.fragment_seleccion_actividad) 
     private val viewModel: ReservaViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+        Toast.makeText(requireContext(), "Entra a selección actividad", Toast.LENGTH_LONG).show()
         // Validar campo actividad
         var edtActividad = view.findViewById<TextInputEditText>(R.id.edtActividad)
         val ilActividad = view.findViewById<TextInputLayout>(R.id.tilActividad)
@@ -37,7 +37,7 @@ class FragmSeleccionActividad : Fragment(R.layout.fragment_seleccion_actividad) 
             } else {
                 ilActividad.error = null
                 viewModel.actividad = actividad
-                (requireActivity() as? BarraEstadoHost)?.avanzarA(
+                (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.avanzarA(
                     FragmSeleccionFecha(),
                     EtapaReserva.SELECCION_FECHA
                 )
