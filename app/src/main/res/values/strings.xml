@@ -30,4 +30,14 @@
     <string name="enviar">Enviar</string>
     <string name="comprobante_reserva">COMPROBANTE RESERVA</string>
     <string name="id_reserva">ID Reserva: 0001</string>
+    <string name="verificacion_reserva">Verificación Reserva</string>
+
+    <string-array name="actividades">
+        <item>Natación</item>
+        <item>Tenis</item>
+        <item>Fútbol</item>
+        <item>Acondicionamiento</item>
+        <item>Yoga</item>
+        <item>Karate</item>
+    </string-array>
 </resources>

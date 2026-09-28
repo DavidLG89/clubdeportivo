@@ -1,4 +1,4 @@
-package com.grupo3.clubdeportivo.ui.fragments.reserva
+package com.grupo3.clubdeportivo.ui.fragmentos.reserva
 
 import android.os.Bundle
 import android.view.View
@@ -12,7 +12,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaReserva
-import com.grupo3.clubdeportivo.ui.components.BarraEstadoHost
+import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 
 class FragmSeleccionActividad : Fragment(R.layout.fragment_seleccion_actividad) {

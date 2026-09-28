@@ -38,7 +38,7 @@
 
 
     <!-- Componente barra de estado -->
-    <com.grupo3.clubdeportivo.ui.components.CompBarraEstadoReserva
+    <com.grupo3.clubdeportivo.ui.componentes.CompBarraEstadoReserva
         android:id="@+id/componentStepBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

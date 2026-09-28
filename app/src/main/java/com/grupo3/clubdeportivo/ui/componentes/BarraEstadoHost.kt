@@ -1,6 +1,4 @@
-package com.grupo3.clubdeportivo.ui.components
-
-import com.grupo3.clubdeportivo.data.model.EtapaReserva
+package com.grupo3.clubdeportivo.ui.componentes
 
 interface BarraEstadoHost<T> {
     fun setStep(etapa: T)

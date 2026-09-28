@@ -1,4 +1,4 @@
-package com.grupo3.clubdeportivo.ui.components
+package com.grupo3.clubdeportivo.ui.componentes
 
 
 import android.content.Context
@@ -6,27 +6,26 @@ import android.util.AttributeSet
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.data.model.EtapaReserva
+import com.grupo3.clubdeportivo.data.model.EtapaPago
 
 
-class CompBarraEstadoReserva @JvmOverloads constructor(
+class CompBarraEstadoPago @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : ConstraintLayout(context, attrs) {
 
     private lateinit var circles: List<TextView>
 
     init {
-        inflate(context, R.layout.component_step_bar_reserva, this)
+        inflate(context, R.layout.component_step_bar_pago, this)
         circles = listOf(
             findViewById(R.id.step1),
             findViewById(R.id.step2),
             findViewById(R.id.step3),
-            findViewById(R.id.step4),
-            findViewById(R.id.step5)
+            findViewById(R.id.step4)
         )
     }
 
-    fun setStep(etapa: EtapaReserva) {
+    fun setStep(etapa: EtapaPago) {
         circles.forEachIndexed { index, circle ->
             var pasoActual = etapa.numero
             val numeroPaso = index + 1
