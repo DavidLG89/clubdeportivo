@@ -16,7 +16,7 @@
         android:layout_height="3dp"
         android:background="@color/color_boton_principal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/step5"
+        app:layout_constraintEnd_toEndOf="@+id/step3"
         app:layout_constraintStart_toStartOf="@+id/step1"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,7 +27,7 @@
         android:layout_height="28dp"
         android:background="@drawable/circle_teal"
         android:gravity="center"
-        android:text="@string/paso_1"
+        android:text="1"
         android:textColor="@color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -43,7 +43,7 @@
         android:layout_height="28dp"
         android:background="@drawable/circle_grey"
         android:gravity="center"
-        android:text="@string/paso_2"
+        android:text="2"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/step3"
@@ -57,39 +57,11 @@
         android:layout_height="28dp"
         android:background="@drawable/circle_grey"
         android:gravity="center"
-        android:text="@string/paso_3"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/step4"
-        app:layout_constraintStart_toEndOf="@+id/step2"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- Paso 4 -->
-    <TextView
-        android:id="@+id/step4"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:background="@drawable/circle_grey"
-        android:gravity="center"
-        android:text="@string/paso_4"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/step5"
-        app:layout_constraintStart_toEndOf="@+id/step3"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- Paso 5 -->
-    <TextView
-        android:id="@+id/step5"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:background="@drawable/circle_grey"
-        android:gravity="center"
-        android:text="5"
+        android:text="3"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/step4"
+        app:layout_constraintStart_toEndOf="@+id/step2"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

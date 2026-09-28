@@ -5,26 +5,24 @@ import android.util.AttributeSet
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.data.model.EtapaReserva
+import com.grupo3.clubdeportivo.data.model.EtapaRegistro
 
-class CompBarraEstadoReserva @JvmOverloads constructor(
+class CompBarraRegistroCliente @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
     private val circles: List<TextView>
 
     init {
-        inflate(context, R.layout.component_step_bar_reserva, this)
+        inflate(context, R.layout.component_step_bar_registro_cliente, this)
         circles = listOf(
             findViewById(R.id.step1),
             findViewById(R.id.step2),
-            findViewById(R.id.step3),
-            findViewById(R.id.step4),
-            findViewById(R.id.step5)
+            findViewById(R.id.step3)
         )
     }
 
-    fun setStep(etapa: EtapaReserva) {
+    fun setStep(etapa: EtapaRegistro) {
         circles.forEachIndexed { index, circle ->
             val pasoActual = etapa.numero
             val numeroPaso = index + 1

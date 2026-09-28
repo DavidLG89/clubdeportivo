@@ -66,41 +66,41 @@
             android:textColor="@color/black"
             android:textSize="14sp" />
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
-    <Button
-        android:id="@+id/btnVolver"
-        android:layout_width="128dp"
-        android:layout_height="58dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="60dp"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/color_boton_principal2"
-        android:text="Volver"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:cornerRadius="5dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnVolver"
+                android:layout_width="128dp"
+                android:layout_height="58dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="60dp"
+                android:layout_marginBottom="20dp"
+                android:backgroundTint="@color/color_boton_principal2"
+                android:text="Volver"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:cornerRadius="5dp" />
 
-        <Button
-            android:id="@+id/btnContinuar"
-            android:layout_width="128dp"
-            android:layout_height="58dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="60dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="20dp"
-            android:backgroundTint="@color/color_boton_principal"
-            android:text="@string/continuar"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:cornerRadius="5dp" />
+            <Button
+                android:id="@+id/btnContinuar"
+                android:layout_width="128dp"
+                android:layout_height="58dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="60dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="20dp"
+                android:backgroundTint="@color/color_boton_principal"
+                android:text="@string/continuar"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:cornerRadius="5dp" />
 
-    </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
