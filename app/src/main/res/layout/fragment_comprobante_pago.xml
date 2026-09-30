@@ -7,18 +7,18 @@
     android:orientation="vertical">
 
 
-    <!-- Tarjeta Comprobante Reserva-->
+    <!-- Tarjeta Comprobante Pago-->
     <LinearLayout
-        android:id="@+id/cardContainerValidacion"
+        android:id="@+id/cardContainer"
         android:layout_width="300dp"
-        android:layout_height="400dp"
+        android:layout_height="460dp"
         android:layout_gravity="center"
         android:layout_marginTop="12dp"
         android:background="@drawable/card_background"
         android:backgroundTint="@color/white"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingHorizontal="10dp">
+        android:padding="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,27 +35,52 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
                 android:gravity="center"
-                android:text="@string/comprobante_reserva"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:gravity="center"
+                    android:text="COMPROBANTE PAGO"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
-                android:text="@string/id_reserva"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ID Pago:"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="0001"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+            </LinearLayout>
         </LinearLayout>
-        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
+            android:text="$ 10.000"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -107,18 +132,43 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
+
         <View
             android:id="@+id/lineConnector"
             android:layout_width="match_parent"
-            android:layout_marginTop="18dp"
             android:layout_height="2dp"
-            android:background="@color/color_boton_principal"
- />
+            android:layout_marginTop="20dp"
+            android:background="@color/color_boton_principal" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginTop="6dp"
+                android:text="ID Reserva:"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginTop="6dp"
+                android:layout_marginStart="10dp"
+                android:text="001"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -144,15 +194,14 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
->
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginTop="6dp"
-                android:text="Fecha"
+                android:text="Método Pago:"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -163,7 +212,7 @@
                 android:layout_gravity="left"
                 android:layout_marginTop="6dp"
                 android:layout_marginStart="10dp"
-                android:text="30 sept 2026"
+                android:text="Tarjeta de crédito"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
@@ -178,7 +227,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginTop="6dp"
-                android:text="Horario:"
+                android:text="N°Cuotas:"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -189,85 +238,31 @@
                 android:layout_gravity="left"
                 android:layout_marginTop="6dp"
                 android:layout_marginStart="10dp"
-                android:text="12:00"
+                android:text="3"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
->
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginTop="6dp"
-                android:text="Lugar:"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginTop="6dp"
-                android:layout_marginStart="10dp"
-                android:text="Martín García 2244"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginTop="6dp"
-                android:text="Valor:"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginTop="6dp"
-                android:layout_marginStart="10dp"
-                android:text="$ 10.000"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-
         </LinearLayout>
     </LinearLayout>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
 
-    android:gravity="center">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
 
-    <Button
-        android:id="@+id/btnEnviar"
-        android:layout_width="128dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/color_boton_principal"
-        android:text="@string/enviar"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:cornerRadius="5dp" />
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btnEnviar"
+            android:layout_width="128dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/color_boton_principal"
+            android:text="@string/enviar"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="5dp" />
     </LinearLayout>
 
 </LinearLayout>

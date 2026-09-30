@@ -29,23 +29,32 @@
         android:orientation="vertical"
         android:padding="24dp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilActividad"
-            android:layout_width="220dp"
+        <LinearLayout
+            android:layout_width="290dp"
             android:layout_height="wrap_content"
-            android:hint="@string/ingrese_actividad"
-            android:background="@color/background_app"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:errorEnabled="false">
+            android:gravity="center">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtActividad"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilActividad"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="260dp"
+                android:layout_height="50dp"
+                android:background="@color/background_app"
+                android:hint="Actividad"
+                app:errorEnabled="false">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <AutoCompleteTextView
+                    android:id="@+id/autocompleteTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:inputType="none"
+                    android:paddingStart="20dp"
+                    android:paddingTop="11dp"
+                    android:paddingBottom="11dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
 
     </LinearLayout>
     <TextView
