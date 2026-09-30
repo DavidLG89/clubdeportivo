@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="20dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/busqueda_dni_cliente"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <!-- Tarjeta del DNI: centrada horizontalmente -->
+    <LinearLayout
+        android:id="@+id/cardContainer"
+        android:layout_width="300dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="12dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/card_background"
+        android:backgroundTint="@color/color_boton_principal2"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilDniReserva"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/ingrese_dni"
+            android:background="@color/background_app"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:errorEnabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtDniReserva"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tvError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="13sp"
+        android:textColor="@color/red"
+        android:layout_marginLeft="40dp"
+        android:visibility="visible"
+        />
+
+    <Button
+        android:id="@+id/btnBuscar"
+        android:layout_width="184dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="20dp"
+        app:cornerRadius="5dp"
+        android:backgroundTint="@color/color_boton_principal"
+        android:text="@string/buscar"
+        android:layout_gravity="center"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+</LinearLayout>

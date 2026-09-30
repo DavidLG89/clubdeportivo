@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.ui.registroCliente.registro_cliente
+import com.grupo3.clubdeportivo.ui.reserva.Reserva
 
 class menu_principal : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +31,13 @@ class menu_principal : AppCompatActivity() {
         // Botón Registro Socio-No Socio
         findViewById<Button>(R.id.btnRegistro_socio_nosocio).setOnClickListener {
             val intent = Intent(this, registro_cliente::class.java)
+            startActivity(intent)
+        }
+
+        // Botón a Reserva
+        val btnReserva = findViewById<Button>(R.id.btnReserva_actividades)
+        btnReserva.setOnClickListener {
+            val intent = Intent(this, Reserva::class.java)
             startActivity(intent)
         }
 

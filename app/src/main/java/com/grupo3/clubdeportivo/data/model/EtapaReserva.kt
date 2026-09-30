@@ -1,7 +1,8 @@
+package com.grupo3.clubdeportivo.data.model
 
 enum class EtapaReserva(val numero : Int) {
     BUSQUEDA_DNI(1),
-    VERIFICACION_CLIENTE(1),
+    VERIFICACION(1),
     SELECCION_ACTIVIDAD(2),
     SELECCION_FECHA(3),
     SELECCION_HORA(4),
