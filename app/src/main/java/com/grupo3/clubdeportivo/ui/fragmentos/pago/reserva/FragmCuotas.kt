@@ -68,11 +68,10 @@ class FragmCuotas : Fragment(R.layout.fragment_pago_cuotas) {
                 }
             }
 
-            Toast.makeText(
-                requireContext(),
-                "Próximamente siguiente paso",
-                Toast.LENGTH_LONG
-            ).show()
+            (requireActivity() as? BarraEstadoHost<EtapaPago>)?.avanzarA(
+                FragmComprobantePago(),
+                EtapaPago.COMPROBANTE_PAGO
+            )
         }
     }
 }

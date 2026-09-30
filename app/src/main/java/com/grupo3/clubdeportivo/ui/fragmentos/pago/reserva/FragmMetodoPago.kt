@@ -47,11 +47,7 @@ class FragmMetodoPago : Fragment(R.layout.fragment_metodo_pago) {
 
         btnContinuar.setOnClickListener {
             if(metodoPago == "") {
-                Toast.makeText(
-                    requireContext(),
-                    "Debe seleccionar método de pago",
-                    Toast.LENGTH_LONG
-                ).show()
+
                 return@setOnClickListener
             }
 
@@ -61,11 +57,10 @@ class FragmMetodoPago : Fragment(R.layout.fragment_metodo_pago) {
                     EtapaPago.PAGO_CUOTAS
                 )
             } else {
-                Toast.makeText(
-                    requireContext(),
-                    "Paso a desarrollar próximamente",
-                    Toast.LENGTH_LONG
-                ).show()
+                (requireActivity() as? BarraEstadoHost<EtapaPago>)?.avanzarA(
+                    FragmComprobantePago(),
+                    EtapaPago.COMPROBANTE_PAGO
+                )
             }
 
         }
