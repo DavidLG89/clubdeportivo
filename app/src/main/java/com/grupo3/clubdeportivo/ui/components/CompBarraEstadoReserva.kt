@@ -1,30 +1,34 @@
 package com.grupo3.clubdeportivo.ui.components
 
+
 import android.content.Context
 import android.util.AttributeSet
-import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.data.model.EtapaRegistro
+import com.grupo3.clubdeportivo.data.model.EtapaReserva
 
-class CompBarraRegistroCliente @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : FrameLayout(context, attrs, defStyleAttr) {
 
-    private val circles: List<TextView>
+class CompBarraEstadoReserva @JvmOverloads constructor(
+    context: Context, attrs: AttributeSet? = null
+) : ConstraintLayout(context, attrs) {
+
+    private lateinit var circles: List<TextView>
 
     init {
-        inflate(context, R.layout.component_step_bar_registro_cliente, this)
+        inflate(context, R.layout.component_step_bar_reserva, this)
         circles = listOf(
             findViewById(R.id.step1),
             findViewById(R.id.step2),
-            findViewById(R.id.step3)
+            findViewById(R.id.step3),
+            findViewById(R.id.step4),
+            findViewById(R.id.step5)
         )
     }
 
-    fun setStep(etapa: EtapaRegistro) {
+    fun setStep(etapa: EtapaReserva) {
         circles.forEachIndexed { index, circle ->
-            val pasoActual = etapa.numero
+            var pasoActual = etapa.numero
             val numeroPaso = index + 1
             when {
                 numeroPaso < pasoActual -> {
@@ -35,6 +39,7 @@ class CompBarraRegistroCliente @JvmOverloads constructor(
                 }
                 else -> {
                     circle.setBackgroundResource(R.drawable.circle_grey)
+
                 }
             }
         }
