@@ -41,7 +41,7 @@ class FragmCuotas : Fragment(R.layout.fragment_pago_cuotas) {
         btnVolver.setOnClickListener {
             (requireActivity() as? BarraEstadoHost<EtapaPago>)?.avanzarA(
                 FragmVerificacionReserva(),
-                EtapaPago.VERIFICACION
+                EtapaPago.METODO_PAGO
             )
         }
 

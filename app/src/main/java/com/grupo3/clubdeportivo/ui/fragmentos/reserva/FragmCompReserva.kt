@@ -18,7 +18,7 @@ class FragmCompReserva : Fragment(R.layout.fragment_comprobante_reserva){
 
 
         btnEnviar.setOnClickListener {
-            Toast.makeText(requireContext(), "Enviando comprobante de reserva...", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "Enviando comprobante de reserva...", Toast.LENGTH_SHORT).show()
             MaterialAlertDialogBuilder(
                 requireContext(),
                 R.style.ThemeOverlay_App_MaterialAlertDialog_FullWidthButtons
@@ -39,7 +39,7 @@ class FragmCompReserva : Fragment(R.layout.fragment_comprobante_reserva){
                         .show()
                 }
                 .setPositiveButton(resources.getString(R.string.paga)) { _, _ ->
-                    Toast.makeText(requireContext(), "Redirigiendo a pago de reserva...", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "Redirigiendo a pago de reserva...", Toast.LENGTH_SHORT).show()
                     val intent = Intent(requireContext(), PagoReserva::class.java)
                     startActivity(intent)
                 }

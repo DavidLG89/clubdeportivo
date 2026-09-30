@@ -7,6 +7,7 @@ import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.data.model.EtapaPago
 import com.grupo3.clubdeportivo.data.model.EtapaReserva
 import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmBusquedaDni
@@ -21,16 +22,16 @@ class FragmVerificacionCliente : Fragment(R.layout.fragment_datos_cliente) {
         val btnContinuar = view.findViewById<Button>(R.id.btnContinuar)
 
         btnVolver.setOnClickListener {
-            (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.avanzarA(
+            (requireActivity() as? BarraEstadoHost<EtapaPago>)?.avanzarA(
                 FragmBusquedaDni(),
-                EtapaReserva.BUSQUEDA_DNI
+                EtapaPago.BUSQUEDA_DNI
             )
         }
 
         btnContinuar.setOnClickListener {
-            (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.avanzarA(
+            (requireActivity() as? BarraEstadoHost<EtapaPago>)?.avanzarA(
                 FragmSeleccionActividad(),
-                EtapaReserva.SELECCION_ACTIVIDAD
+                EtapaPago.METODO_PAGO
             )
         }
     }
