@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
@@ -18,6 +19,11 @@ class FragmVerificacionReserva : Fragment(R.layout.fragment_verificacion_reserva
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        // Imprime en pantalla datos de la reserva
+        view.findViewById<TextView>(R.id.tvPrintDni).text = viewModel.dni
+        view.findViewById<TextView>(R.id.tvPrintNombre).text = viewModel.nombre
+
+        // Selecciona la reserva realizada por cliente no socio para pago (lógica no desarrollada aún)
         val actividades = resources.getStringArray(R.array.actividades)
         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, actividades)
 

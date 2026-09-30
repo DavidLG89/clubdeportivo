@@ -5,7 +5,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
-import android.widget.Toast
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
@@ -21,7 +21,15 @@ class FragmMetodoPago : Fragment(R.layout.fragment_metodo_pago) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        // Imprime en pantalla datos de la reserva
+        view.findViewById<TextView>(R.id.tvPrintDni).text = viewModel.dni
+        view.findViewById<TextView>(R.id.tvPrintNombre).text = viewModel.nombre
+        view.findViewById<TextView>(R.id.tvPrintActividad).text = viewModel.actividad
+        view.findViewById<TextView>(R.id.tvPrintValor).text = viewModel.monto.toString()
+
+
         val metodosPago = resources.getStringArray(R.array.metodos_pago)
+
         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, metodosPago)
 
         val autoCompleteTextView = view.findViewById<AutoCompleteTextView>(R.id.tvAutoMPago)
@@ -31,7 +39,7 @@ class FragmMetodoPago : Fragment(R.layout.fragment_metodo_pago) {
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
 
             metodoPago = metodosPago[position]
-            viewModel.pago = metodosPago[position]
+            viewModel.metodoPago = metodosPago[position]
 
         }
 
@@ -53,7 +61,7 @@ class FragmMetodoPago : Fragment(R.layout.fragment_metodo_pago) {
 
             if(metodoPago == "Tarjeta Crédito" || metodoPago == "MercadoPago") {
                 (requireActivity() as? BarraEstadoHost<EtapaPago>)?.avanzarA(
-                    FragmCuotas(),
+                    FragmPagoEnCuotas(),
                     EtapaPago.PAGO_CUOTAS
                 )
             } else {

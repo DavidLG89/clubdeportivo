@@ -88,7 +88,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvEditDni"
+                android:id="@+id/tvPrintDni"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -113,7 +113,33 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvEditNombre"
+                android:id="@+id/tvPrintNombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginStart="10dp"
+                android:text="Andrea Jiménez"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/tvCliente"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="Cliente:"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvPrintTipoCliente"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -147,7 +173,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvEditActividad"
+                android:id="@+id/tvPrintActividad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -174,7 +200,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvEditFecha"
+                android:id="@+id/tvPrintFecha"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -201,7 +227,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvEditHorario"
+                android:id="@+id/tvPrintHorario"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
