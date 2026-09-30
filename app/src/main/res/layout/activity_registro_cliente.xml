@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_app"
     android:orientation="vertical"
-    tools:context=".ui.registro_cliente">
+    tools:context=".ui.registroCliente.registro_cliente">
 
     <!-- Botón de retorno -->
     <ImageButton
@@ -17,7 +17,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="Regresar"
+        android:contentDescription="@string/regresar"
         android:src="@drawable/ic_arrow_back_circle" />
 
     <!-- Título de la pantalla -->
@@ -27,25 +27,33 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:gravity="center"
-        android:text="REGISTRO CLIENTE"
+        android:text="@string/registro_clientes"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginBottom="16dp"/>
 
-    <!-- Componente barra de estado -->
+    <!-- Componente barra de estado (Fijo) -->
     <com.grupo3.clubdeportivo.ui.components.CompBarraRegistroCliente
         android:id="@+id/componentStepBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"/>
 
-    <!-- Fragmento Container -->
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainer"
+    <!-- ScrollView debajo de CompBarraRegistroCliente y sobre el footer -->
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <!-- Fragmento Container (Desplazable) -->
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </ScrollView>
 
     <!-- Barra de navegación inferior reutilizable -->
     <include

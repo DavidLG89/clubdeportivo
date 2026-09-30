@@ -1,83 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_margin="20dp">
+    android:fillViewport="true">
 
-    <!-- Tarjeta Paso 2 (Simulado: Cuota Socio / Pago) -->
     <LinearLayout
-        android:id="@+id/cardContainerPaso2"
-        android:layout_width="300dp"
-        android:layout_height="420dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/card_background"
-        android:backgroundTint="@color/white"
-        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="24dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="PASO 2: CUOTA SOCIO"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvInfoClientePaso2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:gravity="center"
-            android:text="Generación e inscripción de la primera cuota de socio."
-            android:textColor="@color/black"
-            android:textSize="14sp" />
-
+        <!-- Separador Datos Socio -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="(Paso Simulado)"
+            android:text="@string/datos_socio"
             android:textColor="@color/text_grey"
-            android:textSize="12sp"
-            android:textStyle="italic" />
+            android:textSize="14sp" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="4dp"
+            android:background="#DBDBDB" />
+
+        <!-- Datos del cliente -->
+        <TextView
+            android:id="@+id/tvDniPaso2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            tools:text="DNI: 36.899.9011" />
+
+        <TextView
+            android:id="@+id/tvNombrePaso2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            tools:text="Nombre: José Alfredo Pérez" />
+
+        <TextView
+            android:id="@+id/tvTipoClientePaso2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            tools:text="Tipo de cliente: Socio" />
+
+        <TextView
+            android:id="@+id/tvAptoFisicoPaso2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            tools:text="Apto Físico: Sí" />
+
+        <!-- Fila Monto Cuota -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="32dp">
 
-            <Button
-                android:id="@+id/btnVolverPaso2"
-                android:layout_width="120dp"
-                android:layout_height="50dp"
-                android:backgroundTint="@color/color_boton_principal2"
-                android:text="Volver"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                app:cornerRadius="5dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="0dp"
+                android:paddingEnd="12dp"
+                android:text="@string/monto_cuota"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/btnContinuarPaso2"
-                android:layout_width="120dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="16dp"
-                android:backgroundTint="@color/color_boton_principal"
-                android:text="Continuar"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                app:cornerRadius="5dp" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilMontoCuota"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxBackgroundColor="@color/edittext_bg_new"
+                app:boxStrokeColor="@color/selector_borde_edittext"
+                app:boxCornerRadiusTopStart="5dp"
+                app:boxCornerRadiusTopEnd="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
+                app:boxCornerRadiusBottomEnd="5dp"
+                app:hintEnabled="false">
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etMontoCuota"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:hint="@string/ingrese_monto"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/color_hint_oscuro"
+                    android:textSize="15sp"
+                    android:gravity="center_vertical|start"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:inputType="numberDecimal" />
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
+
+        <!-- Espacio flexible antes del botón -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- Botón CONTINUAR -->
+        <Button
+            android:id="@+id/btnContinuarPaso2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="50dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/color_boton_principal"
+            android:text="@string/continuar"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="5dp" />
+
     </LinearLayout>
-</LinearLayout>
+</ScrollView>

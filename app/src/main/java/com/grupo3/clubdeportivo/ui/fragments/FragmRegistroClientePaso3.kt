@@ -1,16 +1,18 @@
 package com.grupo3.clubdeportivo.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.data.model.EtapaRegistro
-import com.grupo3.clubdeportivo.ui.RegistroClienteViewModel
-import com.grupo3.clubdeportivo.ui.components.BarraEstadoRegistroHost
+import com.grupo3.clubdeportivo.ui.registroCliente.RegistroClienteViewModel
+import com.grupo3.clubdeportivo.ui.registroCliente.registro_cliente_mensaje_aceptacion_contrato
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class FragmRegistroClientePaso3 : Fragment(R.layout.fragment_registro_cliente_paso3) {
 
@@ -19,20 +21,33 @@ class FragmRegistroClientePaso3 : Fragment(R.layout.fragment_registro_cliente_pa
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val tvInfo = view.findViewById<TextView>(R.id.tvInfoClientePaso3)
-        val tipoCliente = if (viewModel.esSocio == true) "Socio" else "No Socio"
-        tvInfo.text = "Cliente: ${viewModel.nombre} ${viewModel.apellido}\nDNI: ${viewModel.dni}\nTipo: $tipoCliente\n\nFirma y aprobación del contrato."
+        val tvFecha = view.findViewById<TextView>(R.id.tvFechaContrato)
+        val tvParrafo1 = view.findViewById<TextView>(R.id.tvParrafo1Contrato)
+        val tvParrafo2 = view.findViewById<TextView>(R.id.tvParrafo2Contrato)
+        val tvParrafo3 = view.findViewById<TextView>(R.id.tvParrafo3Contrato)
+        val tvParrafo4 = view.findViewById<TextView>(R.id.tvParrafo4Contrato)
 
-        view.findViewById<Button>(R.id.btnVolverPaso3).setOnClickListener {
-            (requireActivity() as? BarraEstadoRegistroHost)?.avanzarA(
-                FragmRegistroClientePaso2(),
-                EtapaRegistro.CUOTA_SOCIO
-            )
-        }
+        val calendar = Calendar.getInstance()
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val fechaHoyStr = dateFormat.format(calendar.time)
+        val diaMes = calendar.get(Calendar.DAY_OF_MONTH)
 
-        view.findViewById<Button>(R.id.btnFinalizar).setOnClickListener {
-            Toast.makeText(requireContext(), "Registro completado con éxito", Toast.LENGTH_SHORT).show()
-            requireActivity().finish()
+        val montoStr = if (viewModel.montoCuota.isNotEmpty()) "$${viewModel.montoCuota}" else "$10.000"
+
+        tvFecha?.text = "Fecha: $fechaHoyStr"
+
+        tvParrafo1?.text = "Se deja constancia que el cliente ${viewModel.nombre} ${viewModel.apellido}, DNI ${viewModel.dni}, ha solicitado su inscripción como socio en el Club Deportivo."
+
+        tvParrafo2?.text = "El valor de la cuota mensual asciende a $montoStr.\nEl socio se compromete a pagar el monto de la cuota los días $diaMes de cada mes."
+
+        tvParrafo3?.text = "Si a la fecha de vencimiento no ha cancelado la cuota, quedará inactivo y no podrá acceder a ninguna actividad hasta pagar la cuota correspondiente."
+
+        tvParrafo4?.text = "El socio declara conocer y aceptar el reglamento interno del club."
+
+        // Botón IMPRIMIR (Avanza a mensaje de aceptación del contrato)
+        view.findViewById<Button>(R.id.btnImprimirContrato)?.setOnClickListener {
+            val intent = Intent(requireContext(), registro_cliente_mensaje_aceptacion_contrato::class.java)
+            startActivity(intent)
         }
     }
 }

@@ -32,17 +32,25 @@
             android:name=".ui.perfil_administrador"
             android:exported="false" />
         <activity
-            android:name=".ui.registro_cliente"
+            android:name=".ui.registroCliente.registro_cliente"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.registroCliente.registro_cliente_mensaje_aceptacion_contrato"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.registroCliente.registro_cliente_mensaje_si"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.registroCliente.registro_cliente_mensaje_no"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.recuperar_contrasenia"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".ui.reserva.Reserva"
-            android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>

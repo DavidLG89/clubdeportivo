@@ -13,7 +13,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaRegistro
-import com.grupo3.clubdeportivo.ui.RegistroClienteViewModel
+import com.grupo3.clubdeportivo.ui.registroCliente.RegistroClienteViewModel
 import com.grupo3.clubdeportivo.ui.components.BarraEstadoRegistroHost
 
 class FragmRegistroClientePaso1 : Fragment(R.layout.fragment_registro_cliente_paso1) {
@@ -23,6 +23,9 @@ class FragmRegistroClientePaso1 : Fragment(R.layout.fragment_registro_cliente_pa
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Asegurar que la barra de estado esté visible al cargar el Paso 1
+        requireActivity().findViewById<View>(R.id.componentStepBar)?.visibility = View.VISIBLE
 
         val etNombre = view.findViewById<TextInputEditText>(R.id.etNombre)
         val etApellido = view.findViewById<TextInputEditText>(R.id.etApellido)
@@ -104,14 +107,11 @@ class FragmRegistroClientePaso1 : Fragment(R.layout.fragment_registro_cliente_pa
                 hayError = true
             }
 
-            if (!cbAptoFisico.isChecked) {
-                hayError = true
-            }
 
             if (hayError) {
                 AlertDialog.Builder(requireContext())
                     .setTitle("Error de registro")
-                    .setMessage("No se pudo completar registro, revise errores, seleccione socio o no socio y tilde 'Presenta apto físico'")
+                    .setMessage("No se pudo completar registro, revise errores, seleccione socio o no socio.")
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setPositiveButton("Aceptar", null)
                     .show()
@@ -123,10 +123,17 @@ class FragmRegistroClientePaso1 : Fragment(R.layout.fragment_registro_cliente_pa
                 viewModel.esSocio = esSocioSeleccionado
                 viewModel.aptoFisico = cbAptoFisico.isChecked
 
-                (requireActivity() as? BarraEstadoRegistroHost)?.avanzarA(
-                    FragmConfirmacionRegistro(),
-                    EtapaRegistro.CONFIRMACION_REGISTRO
-                )
+                if (esSocioSeleccionado == false) {
+                    (requireActivity() as? BarraEstadoRegistroHost)?.avanzarA(
+                        FragmConfirmacionRegistroNoSocio(),
+                        EtapaRegistro.CONFIRMACION_REGISTRO
+                    )
+                } else {
+                    (requireActivity() as? BarraEstadoRegistroHost)?.avanzarA(
+                        FragmConfirmacionRegistro(),
+                        EtapaRegistro.CONFIRMACION_REGISTRO
+                    )
+                }
             }
         }
     }

@@ -1,83 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_margin="20dp">
+    android:fillViewport="true">
 
-    <!-- Tarjeta Paso 3 (Simulado: Contrato / Firma) -->
     <LinearLayout
-        android:id="@+id/cardContainerPaso3"
-        android:layout_width="300dp"
-        android:layout_height="420dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/card_background"
-        android:backgroundTint="@color/white"
-        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="24dp">
 
+        <!-- Fecha -->
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="PASO 3: CONTRATO"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvInfoClientePaso3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:gravity="center"
-            android:text="Firma y aceptación del contrato de adhesión del club."
-            android:textColor="@color/black"
-            android:textSize="14sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="(Paso Simulado)"
-            android:textColor="@color/text_grey"
-            android:textSize="12sp"
-            android:textStyle="italic" />
-
-        <LinearLayout
+            android:id="@+id/tvFechaContrato"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_marginTop="16dp"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            tools:text="Fecha: 31/08/2026" />
 
-            <Button
-                android:id="@+id/btnVolverPaso3"
-                android:layout_width="120dp"
-                android:layout_height="50dp"
-                android:backgroundTint="@color/color_boton_principal2"
-                android:text="Volver"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                app:cornerRadius="5dp" />
+        <!-- Párrafo 1 -->
+        <TextView
+            android:id="@+id/tvParrafo1Contrato"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:lineSpacingExtra="3dp"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            tools:text="Se deja constancia que el cliente Jose Alfredo Perez, DNI 36.899.901, ha solicitado su inscripción como socio en el Club Deportivo." />
 
-            <Button
-                android:id="@+id/btnFinalizar"
-                android:layout_width="120dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="16dp"
-                android:backgroundTint="@color/color_boton_principal"
-                android:text="Finalizar"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                app:cornerRadius="5dp" />
+        <!-- Párrafo 2 -->
+        <TextView
+            android:id="@+id/tvParrafo2Contrato"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:lineSpacingExtra="3dp"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            tools:text="El valor de la cuota mensual asciende a $10.000.\nEl socio se compromete a pagar el monto de la cuota los días 31 de cada mes." />
 
-        </LinearLayout>
+        <!-- Párrafo 3 -->
+        <TextView
+            android:id="@+id/tvParrafo3Contrato"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:lineSpacingExtra="3dp"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            tools:text="Si a la fecha de vencimiento no ha cancelado la cuota, quedará inactivo y no podrá acceder a ninguna actividad hasta pagar la cuota correspondiente." />
+
+        <!-- Divisor de sección -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="12dp"
+            android:background="#DBDBDB" />
+
+        <!-- Párrafo 4 -->
+        <TextView
+            android:id="@+id/tvParrafo4Contrato"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="3dp"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            tools:text="El socio declara conocer y aceptar el reglamento interno del club." />
+
+        <!-- Botón IMPRIMIR -->
+        <Button
+            android:id="@+id/btnImprimirContrato"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="24dp"
+            android:backgroundTint="@color/color_boton_principal2"
+            android:text="@string/imprimir"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="5dp" />
+
     </LinearLayout>
-</LinearLayout>
+</ScrollView>

@@ -8,10 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaRegistro
-import com.grupo3.clubdeportivo.ui.RegistroClienteViewModel
+import com.grupo3.clubdeportivo.ui.registroCliente.RegistroClienteViewModel
 import com.grupo3.clubdeportivo.ui.components.BarraEstadoRegistroHost
 
-class FragmConfirmacionRegistro : Fragment(R.layout.fragment_confirmacion_registro) {
+class FragmConfirmacionRegistro : Fragment(R.layout.fragment_registro_cliente_paso1_confirmacion_socio) {
 
     private val viewModel: RegistroClienteViewModel by activityViewModels()
 
@@ -21,20 +21,14 @@ class FragmConfirmacionRegistro : Fragment(R.layout.fragment_confirmacion_regist
         val tvNombre = view.findViewById<TextView>(R.id.tvNombreConfirmacion)
         val tvDetalle = view.findViewById<TextView>(R.id.tvDetalleConfirmacion)
 
-        val tipoCliente = if (viewModel.esSocio == true) "Socio" else "No Socio"
-        val aptoFisicoStr = if (viewModel.aptoFisico) "Sí" else "No"
+        val esSocio = viewModel.esSocio == true
+        val tipoCliente = if (esSocio) "SOCIO" else "NO SOCIO"
+        val numeroCliente = if (esSocio) "Nº 1: " else ": "
 
-        tvNombre.text = "Cliente: ${viewModel.nombre} ${viewModel.apellido}"
-        tvDetalle.text = "DNI: ${viewModel.dni}\nEmail: ${viewModel.email}\nTipo: $tipoCliente\nApto Físico: $aptoFisicoStr"
+        tvNombre?.text = "Registro exitoso de CLIENTE"
+        tvDetalle?.text = "$tipoCliente $numeroCliente${viewModel.nombre}, ${viewModel.apellido}"
 
-        view.findViewById<Button>(R.id.btnVolverConfirmacion).setOnClickListener {
-            (requireActivity() as? BarraEstadoRegistroHost)?.avanzarA(
-                FragmRegistroClientePaso1(),
-                EtapaRegistro.REGISTRO_DATOS_CLIENTE
-            )
-        }
-
-        view.findViewById<Button>(R.id.btnContinuarConfirmacion).setOnClickListener {
+        view.findViewById<Button>(R.id.btnContinuarConfirmacion)?.setOnClickListener {
             (requireActivity() as? BarraEstadoRegistroHost)?.avanzarA(
                 FragmRegistroClientePaso2(),
                 EtapaRegistro.CUOTA_SOCIO

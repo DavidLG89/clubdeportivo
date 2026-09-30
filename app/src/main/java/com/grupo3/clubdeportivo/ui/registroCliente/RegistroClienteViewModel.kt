@@ -1,4 +1,4 @@
-package com.grupo3.clubdeportivo.ui
+package com.grupo3.clubdeportivo.ui.registroCliente
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,6 +15,7 @@ class RegistroClienteViewModel : ViewModel() {
     var email: String = ""
     var esSocio: Boolean? = null
     var aptoFisico: Boolean = false
+    var montoCuota: String = ""
 
     fun irAPaso(etapa: EtapaRegistro) {
         _pasoActual.value = etapa

@@ -1,30 +1,24 @@
-package com.grupo3.clubdeportivo.ui
+package com.grupo3.clubdeportivo.ui.registroCliente
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.fragment.app.Fragment
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.data.model.EtapaRegistro
-import com.grupo3.clubdeportivo.ui.components.BarraEstadoRegistroHost
-import com.grupo3.clubdeportivo.ui.components.CompBarraRegistroCliente
-import com.grupo3.clubdeportivo.ui.fragments.FragmRegistroClientePaso1
+import com.grupo3.clubdeportivo.ui.menu_principal
+import com.grupo3.clubdeportivo.ui.perfil_administrador
 
-class registro_cliente : AppCompatActivity(), BarraEstadoRegistroHost {
-
-    private val viewModel: RegistroClienteViewModel by viewModels()
-    private lateinit var stepBar: CompBarraRegistroCliente
+class registro_cliente_mensaje_aceptacion_contrato : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_registro_cliente)
+        setContentView(R.layout.activity_registro_cliente_mensaje_aceptacion_contrato)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -37,15 +31,16 @@ class registro_cliente : AppCompatActivity(), BarraEstadoRegistroHost {
             finish()
         }
 
-        // Barra de Estado
-        stepBar = findViewById(R.id.componentStepBar)
-
-        viewModel.pasoActual.observe(this) { etapa ->
-            setStep(etapa)
+        // Botón NO -> abre pantalla de contrato NO aceptado
+        findViewById<Button>(R.id.btnNo).setOnClickListener {
+            val intent = Intent(this, registro_cliente_mensaje_no::class.java)
+            startActivity(intent)
         }
 
-        if (savedInstanceState == null) {
-            avanzarA(FragmRegistroClientePaso1(), EtapaRegistro.REGISTRO_DATOS_CLIENTE)
+        // Botón SÍ -> abre pantalla de contrato SÍ aceptado
+        findViewById<Button>(R.id.btnSi).setOnClickListener {
+            val intent = Intent(this, registro_cliente_mensaje_si::class.java)
+            startActivity(intent)
         }
 
         // Navegación en footer
@@ -60,17 +55,5 @@ class registro_cliente : AppCompatActivity(), BarraEstadoRegistroHost {
             val intent = Intent(this, perfil_administrador::class.java)
             startActivity(intent)
         }
-    }
-
-    override fun setStep(etapa: EtapaRegistro) {
-        stepBar.setStep(etapa)
-    }
-
-    override fun avanzarA(fragment: Fragment, etapa: EtapaRegistro) {
-        viewModel.irAPaso(etapa)
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, fragment)
-            .addToBackStack(null)
-            .commit()
     }
 }
