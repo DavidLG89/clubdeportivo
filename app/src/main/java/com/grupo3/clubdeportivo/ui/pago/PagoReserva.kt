@@ -3,7 +3,6 @@ package com.grupo3.clubdeportivo.ui.pago
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.ImageButton
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -11,13 +10,14 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaPago
-import com.grupo3.clubdeportivo.ui.components.BarraEstadoHost
-import com.grupo3.clubdeportivo.ui.components.BusquedaDniListener
-import com.grupo3.clubdeportivo.ui.components.CompBarraEstadoPago
-import com.grupo3.clubdeportivo.ui.fragments.compartidos.FragmBusquedaDni
+import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
+import com.grupo3.clubdeportivo.ui.componentes.ListenerCompartido
+import com.grupo3.clubdeportivo.ui.componentes.CompBarraEstadoPago
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmBusquedaDni
+import com.grupo3.clubdeportivo.ui.fragmentos.pago.reserva.FragmVerificacionReserva
 
 
-class PagoReserva : AppCompatActivity(), BarraEstadoHost<EtapaPago>, BusquedaDniListener {
+class PagoReserva : AppCompatActivity(), BarraEstadoHost<EtapaPago>, ListenerCompartido {
 
     private val viewModel: PagoResViewModel by viewModels()
     private lateinit var stepBar: CompBarraEstadoPago
@@ -70,6 +70,9 @@ class PagoReserva : AppCompatActivity(), BarraEstadoHost<EtapaPago>, BusquedaDni
 
     override fun onDniValidado(dni: String) {
         viewModel.dni = dni
-        Toast.makeText(this, "En espera de continuar a etapa verificación", Toast.LENGTH_LONG).show()
+        avanzarA(
+            FragmVerificacionReserva(),
+            EtapaPago.VERIFICACION
+        )
     }
 }

@@ -16,36 +16,28 @@
         android:textSize="16sp"
         android:textStyle="bold" />
 
-    <!-- Tarjeta del DNI: centrada horizontalmente -->
+    <!-- Tarjeta del DNI -->
     <LinearLayout
         android:id="@+id/cardContainer"
-        android:layout_width="300dp"
+        android:layout_width="320dp"
         android:layout_height="150dp"
         android:layout_marginTop="12dp"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/card_background"
+        android:background="@drawable/card_back_without_radius"
         android:backgroundTint="@color/color_boton_principal2"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="24dp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilDniReserva"
+        <EditText
+            android:id="@+id/edtDni"
             android:layout_width="220dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:hint="@string/ingrese_dni"
+            android:paddingStart="12dp"
             android:background="@color/background_app"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:errorEnabled="false">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtDniReserva"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                />
-
-        </com.google.android.material.textfield.TextInputLayout>
+            app:errorEnabled="false"/>
 
     </LinearLayout>
     <TextView

@@ -7,12 +7,13 @@
     android:orientation="vertical">
 
 
-    <!-- Tarjeta de Verificación Cliente -->
+    <!-- Tarjeta de Verificación de Reserva -->
     <LinearLayout
-        android:id="@+id/cardContainerValidacion"
+        android:id="@+id/cardContainer"
         android:layout_width="300dp"
         android:layout_height="420dp"
         android:layout_gravity="center"
+        android:layout_marginTop="12dp"
         android:background="@drawable/card_background"
         android:backgroundTint="@color/white"
         android:gravity="center"
@@ -23,7 +24,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/validacion_cliente"
+            android:layout_marginTop="32dp"
+            android:text="@string/verificacion_reserva"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -76,62 +78,46 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginStart="10dp"
-
                 android:text="Andrea Jiménez"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <LinearLayout
+        <View
+            android:id="@+id/lineConnector"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/tvTipoCliente"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:text="@string/tipo_cliente"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvPrintTipoCliente"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginStart="10dp"
-
-                android:text="No socio"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-        </LinearLayout>
+            android:layout_height="2dp"
+            android:layout_marginTop="18dp"
+            android:background="@color/color_boton_principal" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_width="290dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="40dp">
 
-            <TextView
-                android:id="@+id/tvAptoF"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:text="@string/apto_fisico"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilActividad"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="260dp"
+                android:layout_height="50dp"
+                android:background="@color/background_app"
+                android:hint="@string/actividad"
+                app:errorEnabled="false">
 
-            <TextView
-                android:id="@+id/tvPrintAptoF"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginStart="10dp"
-                android:text="Sí"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
+                <AutoCompleteTextView
+                    android:id="@+id/autoActividad"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:inputType="none"
+                    android:paddingStart="20dp"
+                    android:paddingTop="11dp"
+                    android:paddingBottom="11dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -146,7 +132,7 @@
                 android:layout_marginTop="60dp"
                 android:layout_marginBottom="20dp"
                 android:backgroundTint="@color/color_boton_principal2"
-                android:text="@string/volver"
+                android:text="Volver"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="16sp"
@@ -168,6 +154,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:cornerRadius="5dp" />
+
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

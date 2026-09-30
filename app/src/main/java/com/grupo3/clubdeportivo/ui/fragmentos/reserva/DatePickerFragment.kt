@@ -1,4 +1,4 @@
-package com.grupo3.clubdeportivo.ui.fragments.reserva
+package com.grupo3.clubdeportivo.ui.fragmentos.reserva
 
 import android.app.DatePickerDialog
 import android.app.Dialog

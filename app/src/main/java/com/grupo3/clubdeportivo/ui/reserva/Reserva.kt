@@ -10,14 +10,14 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaReserva
-import com.grupo3.clubdeportivo.ui.components.BarraEstadoHost
-import com.grupo3.clubdeportivo.ui.components.BusquedaDniListener
-import com.grupo3.clubdeportivo.ui.components.CompBarraEstadoReserva
-import com.grupo3.clubdeportivo.ui.fragments.compartidos.FragmBusquedaDni
-import com.grupo3.clubdeportivo.ui.fragments.reserva.FragmVerificacionCliente
+import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
+import com.grupo3.clubdeportivo.ui.componentes.ListenerCompartido
+import com.grupo3.clubdeportivo.ui.componentes.CompBarraEstadoReserva
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmBusquedaDni
+import com.grupo3.clubdeportivo.ui.fragmentos.reserva.FragmVerificacionCliente
 
 
-class Reserva : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, BusquedaDniListener {
+class Reserva : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, ListenerCompartido {
 
     private val viewModel: ReservaViewModel by viewModels()
     private lateinit var stepBar: CompBarraEstadoReserva

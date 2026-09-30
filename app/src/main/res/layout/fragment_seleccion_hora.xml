@@ -3,31 +3,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_marginBottom="40dp">
+    android:layout_marginBottom="40dp"
+    android:orientation="vertical">
 
+    <!-- Título -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="40dp"
         android:text="@string/seleccione_una_hora"
         android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold" />
 
+    <!-- Listado de cards hora y cupo -->
     <LinearLayout
+        android:id="@+id/contenedorHorarios"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="20dp">
+        android:layout_margin="20dp"
+        android:orientation="vertical">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp">
+            android:layout_margin="8dp"
+            android:clickable="true"
+            android:focusable="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -38,24 +43,38 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp"
-                    android:clickable="true"
-                    android:focusable="true">
+                    android:padding="16dp">
 
                     <!-- Title, secondary and supporting text -->
                     <TextView
+                        android:tag="hora"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="14:00"
                         android:textAppearance="?attr/textAppearanceHeadline6" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Cupo disponible: 16"
-                        android:textAppearance="?attr/textAppearanceBody2"
-                        android:textColor="?android:attr/textColorSecondary" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="Cupo disponible:"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="?android:attr/textColorSecondary" />
+
+                        <TextView
+                            android:tag="cupo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginStart="7dp"
+                            android:text="16"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="?android:attr/textColorSecondary" />
+                    </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>
@@ -66,7 +85,9 @@
             android:id="@+id/card2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp">
+            android:layout_margin="8dp"
+            android:clickable="true"
+            android:focusable="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -76,25 +97,40 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+
                     android:orientation="vertical"
-                    android:padding="16dp"
-                    android:clickable="true"
-                    android:focusable="true">
+                    android:padding="16dp">
 
                     <!-- Title, secondary and supporting text -->
                     <TextView
+                        android:tag="hora"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="16:00"
                         android:textAppearance="?attr/textAppearanceHeadline6" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Cupo disponible: 12"
-                        android:textAppearance="?attr/textAppearanceBody2"
-                        android:textColor="?android:attr/textColorSecondary" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="Cupo disponible:"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="?android:attr/textColorSecondary" />
+
+                        <TextView
+                            android:tag="cupo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginStart="7dp"
+                            android:text="12"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="?android:attr/textColorSecondary" />
+                    </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>
@@ -105,7 +141,9 @@
             android:id="@+id/card3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp">
+            android:layout_margin="8dp"
+            android:clickable="true"
+            android:focusable="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -116,24 +154,38 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp"
-                    android:clickable="true"
-                    android:focusable="true">
+                    android:padding="16dp">
 
                     <!-- Title, secondary and supporting text -->
                     <TextView
+                        android:tag="hora"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="18:00"
                         android:textAppearance="?attr/textAppearanceHeadline6" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Cupo disponible: 10"
-                        android:textAppearance="?attr/textAppearanceBody2"
-                        android:textColor="?android:attr/textColorSecondary" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="Cupo disponible:"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="?android:attr/textColorSecondary" />
+
+                        <TextView
+                            android:tag="cupo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginStart="7dp"
+                            android:text="10"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="?android:attr/textColorSecondary" />
+                    </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>
@@ -144,7 +196,9 @@
             android:id="@+id/card4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp">
+            android:layout_margin="8dp"
+            android:clickable="true"
+            android:focusable="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -155,36 +209,50 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp"
-                    android:clickable="true"
-                    android:focusable="true">
+                    android:padding="16dp">
 
-                    <!-- Title, secondary and supporting text -->
                     <TextView
+                        android:tag="hora"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="20:00"
                         android:textAppearance="?attr/textAppearanceHeadline6" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Cupo disponible: 6"
-                        android:textAppearance="?attr/textAppearanceBody2"
-                        android:textColor="?android:attr/textColorSecondary" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="Cupo disponible:"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="?android:attr/textColorSecondary" />
+
+                        <TextView
+                            android:tag="cupo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginStart="7dp"
+                            android:text="0"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="?android:attr/textColorSecondary" />
+                    </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- Botones -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_gravity="center_horizontal"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btnVolver"
@@ -194,7 +262,7 @@
                 android:layout_marginTop="60dp"
                 android:layout_marginBottom="20dp"
                 android:backgroundTint="@color/color_boton_principal2"
-                android:text="Volver"
+                android:text="@string/volver"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="16sp"
@@ -202,13 +270,13 @@
                 app:cornerRadius="5dp" />
 
             <Button
-                android:id="@+id/btnContinuar"
+                android:id="@+id/btnReservar"
                 android:layout_width="128dp"
                 android:layout_height="58dp"
                 android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="60dp"
                 android:layout_marginBottom="20dp"
-                android:layout_marginLeft="20dp"
                 android:backgroundTint="@color/color_boton_principal"
                 android:text="@string/reservar"
                 android:textAllCaps="false"
