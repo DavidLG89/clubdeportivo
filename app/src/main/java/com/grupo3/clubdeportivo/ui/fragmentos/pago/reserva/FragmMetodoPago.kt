@@ -6,32 +6,33 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.Toast
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaPago
 import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
-import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmBusquedaDni
-import com.grupo3.clubdeportivo.ui.fragmentos.reserva.FragmSeleccionActividad
 import com.grupo3.clubdeportivo.ui.pago.PagoResViewModel
-import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 
-class FragmFormalPago : Fragment(R.layout.fragment_formalizacion_pago) {
+
+class FragmMetodoPago : Fragment(R.layout.fragment_metodo_pago) {
     private val viewModel: PagoResViewModel by activityViewModels()
+
+    var metodoPago: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        val pagos = resources.getStringArray(R.array.metodos_pago)
-        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, pagos)
+        val metodosPago = resources.getStringArray(R.array.metodos_pago)
+        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, metodosPago)
 
-        val autoCompleteTextView = view.findViewById<AutoCompleteTextView>(R.id.autocompleteTV)
+        val autoCompleteTextView = view.findViewById<AutoCompleteTextView>(R.id.tvAutocomplete)
 
         autoCompleteTextView.setAdapter(arrayAdapter)
 
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
 
-            viewModel.pago = pagos[position]
+            metodoPago = metodosPago[position]
+            viewModel.pago = metodosPago[position]
+
         }
 
         val btnVolver = view.findViewById<Button>(R.id.btnVolver)
@@ -45,11 +46,28 @@ class FragmFormalPago : Fragment(R.layout.fragment_formalizacion_pago) {
         }
 
         btnContinuar.setOnClickListener {
-            Toast.makeText(
-                requireContext(),
-                "Próximamente siguiente paso",
-                Toast.LENGTH_LONG
-            ).show()
+            if(metodoPago == "") {
+                Toast.makeText(
+                    requireContext(),
+                    "Debe seleccionar método de pago",
+                    Toast.LENGTH_LONG
+                ).show()
+                return@setOnClickListener
+            }
+
+            if(metodoPago == "Tarjeta Crédito" || metodoPago == "MercadoPago") {
+                (requireActivity() as? BarraEstadoHost<EtapaPago>)?.avanzarA(
+                    FragmCuotas(),
+                    EtapaPago.PAGO_CUOTAS
+                )
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "Paso a desarrollar próximamente",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+
         }
     }
 }

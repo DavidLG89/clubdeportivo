@@ -9,20 +9,22 @@
 
     <!-- Tarjeta de Validación Cliente -->
     <LinearLayout
-        android:id="@+id/cardContainerValidacion"
+        android:id="@+id/cardContainer"
         android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_height="420dp"
         android:layout_gravity="center"
+        android:layout_marginTop="12dp"
         android:background="@drawable/card_background"
         android:backgroundTint="@color/white"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingHorizontal="10dp">
+        android:padding="10dp">
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:text="Formalización de pago"
             android:textColor="@color/black"
             android:textSize="16sp"
@@ -73,14 +75,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:layout_marginTop="6dp"
                 android:layout_marginStart="10dp"
 
                 android:text="Andrea Jiménez"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
         </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -110,8 +110,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -136,6 +135,32 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginTop="6dp"
+                android:text="Método pago:"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginTop="6dp"
+                android:layout_marginStart="10dp"
+                android:text="Tarjeta de crédito"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="290dp"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -147,11 +172,11 @@
                 android:layout_width="260dp"
                 android:layout_height="50dp"
                 android:background="@color/background_app"
-                android:hint="Método pago"
+                android:hint="Número cuotas"
                 app:errorEnabled="false">
 
                 <AutoCompleteTextView
-                    android:id="@+id/autocompleteTV"
+                    android:id="@+id/tvAutocomplete"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -163,6 +188,8 @@
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
     </LinearLayout>
+
+    <!-- Botones -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

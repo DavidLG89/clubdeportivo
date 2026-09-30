@@ -5,17 +5,13 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
-import android.widget.Toast
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaPago
 import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmBusquedaDni
-import com.grupo3.clubdeportivo.ui.fragmentos.reserva.FragmSeleccionActividad
 import com.grupo3.clubdeportivo.ui.pago.PagoResViewModel
-import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 
 class FragmVerificacionReserva : Fragment(R.layout.fragment_verificacion_reserva) {
     private val viewModel: PagoResViewModel by activityViewModels()
@@ -46,8 +42,8 @@ class FragmVerificacionReserva : Fragment(R.layout.fragment_verificacion_reserva
 
         btnContinuar.setOnClickListener {
             (requireActivity() as? BarraEstadoHost<EtapaPago>)?.avanzarA(
-                FragmFormalPago(),
-                EtapaPago.FORMALIZACION_PAGO
+                FragmMetodoPago(),
+                EtapaPago.METODO_PAGO
             )
         }
     }

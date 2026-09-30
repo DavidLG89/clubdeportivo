@@ -48,7 +48,7 @@ class FragmSeleccionFecha : Fragment(R.layout.fragment_seleccion_fecha) {
     fun onDateSelected(day: Int, month: Int, year: Int) {
         val fechaTexto = "%02d/%02d/%04d".format(day, month + 1, year)
         edtDate.setText(fechaTexto)
-        viewModel.fechaHora = fechaTexto
+        viewModel.fecha = fechaTexto
     }
 
 }

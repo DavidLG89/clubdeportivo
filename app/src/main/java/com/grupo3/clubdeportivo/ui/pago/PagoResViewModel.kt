@@ -15,7 +15,7 @@ class PagoResViewModel : ViewModel() {
     var actividad: String? = null
     var monto: Int? = null
     var pago: String? = null
-    var cuotas: String? = null
+    var cuota: Int? = null
 
     fun irAPaso(numero: EtapaPago) {
         _pasoActual.value = numero

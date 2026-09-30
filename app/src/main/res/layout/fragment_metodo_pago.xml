@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:layout_margin="20dp"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <!-- Tarjeta de Verificación de Reserva -->
+    <!-- Tarjeta de Validación Cliente -->
     <LinearLayout
         android:id="@+id/cardContainer"
         android:layout_width="300dp"
@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="@string/verificacion_reserva"
+            android:text="Formalización de pago"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -40,6 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
+                android:layout_marginTop="6dp"
                 android:text="@string/numero_dni"
                 android:textColor="@color/black"
                 android:textSize="14sp"
@@ -64,6 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
+                android:layout_marginTop="6dp"
                 android:text="Nombre:"
                 android:textColor="@color/black"
                 android:textSize="14sp"
@@ -80,12 +82,57 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <View
-            android:id="@+id/lineConnector"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginTop="18dp"
-            android:background="@color/color_boton_principal" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginTop="6dp"
+                android:text="Actividad:"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginTop="6dp"
+                android:layout_marginStart="10dp"
+                android:text="Fútbol"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginTop="6dp"
+                android:text="Valor:"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginTop="6dp"
+                android:layout_marginStart="10dp"
+                android:text="$ 10.000"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="290dp"
@@ -94,16 +141,16 @@
             android:layout_marginTop="40dp">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilActividad"
+                android:id="@+id/tilMPago"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="260dp"
                 android:layout_height="50dp"
                 android:background="@color/background_app"
-                android:hint="Actividad"
+                android:hint="Método pago"
                 app:errorEnabled="false">
 
                 <AutoCompleteTextView
-                    android:id="@+id/autocompleteTV"
+                    android:id="@+id/tvAutocomplete"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -114,44 +161,45 @@
 
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
+    </LinearLayout>
 
+    <!-- Botones -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+        <Button
+            android:id="@+id/btnVolver"
+            android:layout_width="128dp"
+            android:layout_height="58dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/color_boton_principal2"
+            android:text="Volver"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="5dp" />
 
-            <Button
-                android:id="@+id/btnVolver"
-                android:layout_width="128dp"
-                android:layout_height="58dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="60dp"
-                android:layout_marginBottom="20dp"
-                android:backgroundTint="@color/color_boton_principal2"
-                android:text="Volver"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:cornerRadius="5dp" />
+        <Button
+            android:id="@+id/btnContinuar"
+            android:layout_width="128dp"
+            android:layout_height="58dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:backgroundTint="@color/color_boton_principal"
+            android:text="@string/continuar"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="5dp" />
 
-            <Button
-                android:id="@+id/btnContinuar"
-                android:layout_width="128dp"
-                android:layout_height="58dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="60dp"
-                android:layout_marginBottom="20dp"
-                android:backgroundTint="@color/color_boton_principal"
-                android:text="@string/continuar"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:cornerRadius="5dp" />
-
-        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

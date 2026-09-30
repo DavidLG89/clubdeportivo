@@ -11,9 +11,11 @@ class ReservaViewModel : ViewModel() {
 
     var dni: String = ""
     var actividad: String? = null
-    var fechaHora: String? = null
+    var fecha: String? = null
+    var horaSeleccionada: String? = null
 
     fun irAPaso(numero: EtapaReserva) {
+
         _pasoActual.value = numero
     }
 }

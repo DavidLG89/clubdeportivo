@@ -6,7 +6,11 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.data.model.EtapaPago
+import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmBusquedaDni
 import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 
 class FragmCompReserva : Fragment(R.layout.fragment_comprobante_reserva){
@@ -18,11 +22,36 @@ class FragmCompReserva : Fragment(R.layout.fragment_comprobante_reserva){
 
 
         btnEnviar.setOnClickListener {
-            //(requireActivity() as? BarraEstadoHost)?.avanzarA(
-              //  FragmSeleccionActividad(),
-                //EtapaReserva.SELECCION_ACTIVIDAD
-            // )
-            Toast.makeText(requireContext(), "Enviando comprobante...", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "Enviando comprobante de reserva...", Toast.LENGTH_LONG).show()
+            MaterialAlertDialogBuilder(
+                requireContext(),
+                R.style.ThemeOverlay_App_MaterialAlertDialog_FullWidthButtons
+
+            )
+                .setMessage(resources.getString(R.string.mensaje_pago))
+                .setNegativeButton(resources.getString(R.string.no_paga)) { dialog, which ->
+                    MaterialAlertDialogBuilder(
+                        requireContext(),
+                        R.style.ThemeOverlay_App_MaterialAlertDialog_FullWidthButtons
+
+                    )
+                        .setMessage(resources.getString(R.string.recordatorio))
+
+                        .setPositiveButton(resources.getString(R.string.aceptar)) { dialog, which ->
+                            dialog.dismiss()
+                        }
+                        .show()
+                }
+                .setPositiveButton(resources.getString(R.string.paga)) { dialog, which ->
+                    Toast.makeText(requireContext(), "Redirigiendo a pago de reserva...", Toast.LENGTH_LONG).show()
+                    //(requireActivity() as? BarraEstadoHost<EtapaPago>)?.avanzarA(
+                    //    FragmBusquedaDni(),
+                    //    EtapaPago.BUSQUEDA_DNI
+                    //)
+                }
+                .show()
+
+            Toast.makeText(requireContext(), "Finalizando reserva de cliente...", Toast.LENGTH_LONG).show()
         }
     }
 }

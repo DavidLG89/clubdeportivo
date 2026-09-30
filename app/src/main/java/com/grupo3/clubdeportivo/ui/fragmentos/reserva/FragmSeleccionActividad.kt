@@ -3,6 +3,8 @@ package com.grupo3.clubdeportivo.ui.fragmentos.reserva
 import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -21,29 +23,30 @@ class FragmSeleccionActividad : Fragment(R.layout.fragment_seleccion_actividad) 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Toast.makeText(requireContext(), "Entra a selección actividad", Toast.LENGTH_LONG).show()
         // Validar campo actividad
-        var edtActividad = view.findViewById<TextInputEditText>(R.id.edtActividad)
+
         val ilActividad = view.findViewById<TextInputLayout>(R.id.tilActividad)
         val btnBuscar = view.findViewById<Button>(R.id.btnBuscarAct)
         val tvError = view.findViewById<TextView>(R.id.tvErrorAct)
 
+        val actividades = resources.getStringArray(R.array.actividades)
+        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, actividades)
+
+        val autoCompleteTextView = view.findViewById<AutoCompleteTextView>(R.id.autocompleteTV)
+
+        autoCompleteTextView.setAdapter(arrayAdapter)
+
+        autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
+
+            viewModel.actividad = actividades[position]
+        }
+
+
         btnBuscar.setOnClickListener {
 
-            val actividad = edtActividad.text?.toString()?.trim() ?: ""
-
-            if (actividad.isEmpty()) {
-                ilActividad.error = ""
-                ilActividad.errorIconDrawable = null
-                tvError.text = "Debe ingresar una actividad"
-            } else {
-                ilActividad.error = null
-                viewModel.actividad = actividad
-                (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.avanzarA(
-                    FragmSeleccionFecha(),
-                    EtapaReserva.SELECCION_FECHA
-                )
-                tvError.visibility = GONE
-                Toast.makeText(requireContext(), "Puede seleccionar fecha", Toast.LENGTH_LONG).show()
-            }
+            (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.avanzarA(
+                FragmSeleccionFecha(),
+                EtapaReserva.SELECCION_FECHA
+            )
         }
     }
 }
