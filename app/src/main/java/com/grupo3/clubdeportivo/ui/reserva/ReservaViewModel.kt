@@ -10,9 +10,13 @@ class ReservaViewModel : ViewModel() {
     val pasoActual: LiveData<EtapaReserva> = _pasoActual
 
     var dni: String = ""
+    var nombre: String? = "Sofía Egaña J." // harcodeado
+    var tipoCliente: String? = "No Socio" // harcodeado
+    var aptoFisico: String? = "Sí" // harcodeado
     var actividad: String? = null
     var fecha: String? = null
     var horaSeleccionada: String? = null
+
 
     fun irAPaso(numero: EtapaReserva) {
 

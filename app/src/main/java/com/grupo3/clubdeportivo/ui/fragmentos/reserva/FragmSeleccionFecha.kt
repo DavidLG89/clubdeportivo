@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -18,7 +19,9 @@ class FragmSeleccionFecha : Fragment(R.layout.fragment_seleccion_fecha) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Toast.makeText(requireContext(), "Entré a FragmSeleccionFecha", Toast.LENGTH_SHORT).show()
+
+        // Imprime actividad seleccionada en pantalla
+        view.findViewById<TextView>(R.id.tvPrintActividad).text = viewModel.actividad
 
 
         // Pasar a la siguiente etapa

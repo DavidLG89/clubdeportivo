@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.google.android.material.card.MaterialCardView
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaReserva
 import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
@@ -26,24 +27,26 @@ class FragmSeleccionHora : Fragment(R.layout.fragment_seleccion_hora) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        // Imprime actividad y fecha por pantalla
+        view.findViewById<TextView>(R.id.tvPrintActividad).text = viewModel.actividad
+        view.findViewById<TextView>(R.id.tvPrintFecha).text = viewModel.fecha
+
         val btnVolver = view.findViewById<Button>(R.id.btnVolver)
         val btnReservar = view.findViewById<Button>(R.id.btnReservar)
         val contenedor = view.findViewById<LinearLayout>(R.id.contenedorHorarios)
 
         val colorSelecto = ContextCompat.getColor(requireContext(), R.color.color_boton_principal2)
 
-        contenedor.children.forEach { item ->
+        contenedor.children.filterIsInstance<MaterialCardView>().forEach { item ->
             item.setOnClickListener {
                 itemSeleccionado?.setBackgroundColor(Color.TRANSPARENT)
                 item.setBackgroundColor(colorSelecto)
                 itemSeleccionado = item
 
-                val hora = view.findViewWithTag<TextView>("hora").text.toString()
-                val cupo = view.findViewWithTag<TextView>("cupo").text.toString()
+                val hora = item.findViewWithTag<TextView>("hora").text.toString()
+                val cupo = item.findViewWithTag<TextView>("cupo").text.toString().toIntOrNull() ?: 0
 
-                val cupoDisponible = cupo.toInt()
-
-                if (cupoDisponible <= 0) {
+                if (cupo <= 0) {
                     Toast.makeText(
                         requireContext(), "No hay cupos disponibles en ese horario",
                         Toast.LENGTH_SHORT
@@ -52,7 +55,7 @@ class FragmSeleccionHora : Fragment(R.layout.fragment_seleccion_hora) {
                 }
 
                 viewModel.horaSeleccionada = hora
-                cupoActual = cupoDisponible
+                cupoActual = cupo
             }
         }
 
@@ -73,7 +76,9 @@ class FragmSeleccionHora : Fragment(R.layout.fragment_seleccion_hora) {
                 return@setOnClickListener
             }
 
-            cupoRestante = cupoActual - 1
+
+            cupoRestante = cupoActual - 1 // Cupo se guardará en la bd
+
 
             (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.avanzarA(
                 FragmCompReserva(),
