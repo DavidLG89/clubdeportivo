@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:layout_margin="20dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical">
 
 
-    <!-- Tarjeta de Validación Cliente -->
+    <!-- Tarjeta de Verificación Cliente -->
     <LinearLayout
         android:id="@+id/cardContainerValidacion"
         android:layout_width="300dp"
@@ -35,6 +35,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/tvDni"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -44,6 +45,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvPrintDni"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -59,15 +61,17 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/tvNombre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:text="Nombre:"
+                android:text="@string/nombre"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvPrintNombre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -83,15 +87,17 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/tvTipoCliente"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:text="Tipo cliente:"
+                android:text="@string/tipo_cliente"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvPrintTipoCliente"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -107,60 +113,61 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/tvAptoF"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:text="Apto físico:"
+                android:text="@string/apto_fisico"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvPrintAptoF"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginStart="10dp"
-
                 android:text="Sí"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
         </LinearLayout>
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
-    <Button
-        android:id="@+id/btnVolver"
-        android:layout_width="128dp"
-        android:layout_height="58dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="60dp"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/color_boton_principal2"
-        android:text="Volver"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:cornerRadius="5dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btnContinuar"
-            android:layout_width="128dp"
-            android:layout_height="58dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="60dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="20dp"
-            android:backgroundTint="@color/color_boton_principal"
-            android:text="@string/continuar"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:cornerRadius="5dp" />
+            <Button
+                android:id="@+id/btnVolver"
+                android:layout_width="128dp"
+                android:layout_height="58dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="60dp"
+                android:layout_marginBottom="20dp"
+                android:backgroundTint="@color/color_boton_principal2"
+                android:text="@string/volver"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:cornerRadius="5dp" />
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/btnContinuar"
+                android:layout_width="128dp"
+                android:layout_height="58dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="60dp"
+                android:layout_marginBottom="20dp"
+                android:backgroundTint="@color/color_boton_principal"
+                android:text="@string/continuar"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:cornerRadius="5dp" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

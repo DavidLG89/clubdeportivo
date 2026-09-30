@@ -16,7 +16,7 @@
         android:textSize="16sp"
         android:textStyle="bold" />
 
-    <!-- Tarjeta del Actividades: centrada horizontalmente -->
+    <!-- Tarjeta del Actividades -->
     <LinearLayout
         android:id="@+id/cardContainer"
         android:layout_width="300dp"
@@ -44,7 +44,7 @@
                 app:errorEnabled="false">
 
                 <AutoCompleteTextView
-                    android:id="@+id/autocompleteTV"
+                    android:id="@+id/autoActividad"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -58,7 +58,7 @@
 
     </LinearLayout>
     <TextView
-        android:id="@+id/tvErrorAct"
+        android:id="@+id/tvError"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -69,7 +69,7 @@
         />
 
     <Button
-        android:id="@+id/btnBuscarAct"
+        android:id="@+id/btnBuscar"
         android:layout_width="184dp"
         android:layout_height="58dp"
         android:layout_marginTop="60dp"

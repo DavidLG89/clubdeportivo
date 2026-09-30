@@ -9,6 +9,6 @@
     android:padding="15dp"
     android:textColor="@color/black"
     android:textSize="12sp"
-    tools:text="Seleccione opción"
+    tools:text="@string/seleccione_opcion"
     xmlns:android="http://schemas.android.com/apk/res/android" />
 

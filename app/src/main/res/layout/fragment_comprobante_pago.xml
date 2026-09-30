@@ -24,7 +24,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!-- Logo -->
             <ImageView
                 android:layout_width="85dp"
                 android:layout_height="80dp"
@@ -43,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
                     android:gravity="center"
-                    android:text="COMPROBANTE PAGO"
+                    android:text="@string/comprobante_pago"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -53,13 +52,15 @@
                     android:layout_height="wrap_content">
 
                     <TextView
+                        android:id="@+id/tvIdPago"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="ID Pago:"
+                        android:text="@string/id_pago"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
                     <TextView
+                        android:id="@+id/tvEditIdPago"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
@@ -67,11 +68,11 @@
                         android:textColor="@color/black"
                         android:textSize="16sp" />
                 </LinearLayout>
-
             </LinearLayout>
         </LinearLayout>
 
         <TextView
+            android:id="@+id/tvMonto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -81,7 +82,6 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -89,6 +89,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/tvDni"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -98,6 +99,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvEditDni"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -105,7 +107,6 @@
                 android:text="24.753.731"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -113,6 +114,7 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/tvNombre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -122,16 +124,15 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvEditNombre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginStart="10dp"
-
                 android:text="Andrea Jiménez"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
         </LinearLayout>
-
 
         <View
             android:id="@+id/lineConnector"
@@ -146,16 +147,18 @@
             android:layout_marginTop="20dp">
 
             <TextView
+                android:id="@+id/tvIdReserva"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginTop="6dp"
-                android:text="ID Reserva:"
+                android:text="@string/id_reserva"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvEditIdReserva"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -171,16 +174,18 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/tvActividad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginTop="6dp"
-                android:text="Actividad:"
+                android:text="@string/actividad"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvEditActividad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -189,7 +194,6 @@
                 android:text="Fútbol"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -197,25 +201,26 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/tvMetodoPago"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginTop="6dp"
-                android:text="Método Pago:"
+                android:text="@string/metodo_pago"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvEditMetodoPago"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginTop="6dp"
                 android:layout_marginStart="10dp"
-                android:text="Tarjeta de crédito"
+                android:text="Tarjeta crédito"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -224,16 +229,18 @@
             android:layout_marginBottom="20dp">
 
             <TextView
+                android:id="@+id/tvNumCuotas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginTop="6dp"
-                android:text="N°Cuotas:"
+                android:text="@string/num_cuotas"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvEditNumCuotas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"

@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="Formalización de pago"
+            android:text="@string/formalizacion_de_pago"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -37,6 +37,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/tvDni"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -47,6 +48,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvPrintDni"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -62,21 +64,22 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/tvNombre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginTop="6dp"
-                android:text="Nombre:"
+                android:text="@string/nombre"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvPrintNombre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginStart="10dp"
-
                 android:text="Andrea Jiménez"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
@@ -87,16 +90,18 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/tvActividad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginTop="6dp"
-                android:text="Actividad:"
+                android:text="@string/actividad"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvPrintActividad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -113,16 +118,18 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/tvValor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginTop="6dp"
-                android:text="Valor:"
+                android:text="@string/valor"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvPrintValor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -139,16 +146,18 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/tvMetodoPago"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginTop="6dp"
-                android:text="Método pago:"
+                android:text="@string/metodo_pago"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvPrintMetodoPago"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -167,7 +176,7 @@
             android:layout_marginTop="40dp">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilMPago"
+                android:id="@+id/tilNCuotas"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="260dp"
                 android:layout_height="50dp"
@@ -176,7 +185,7 @@
                 app:errorEnabled="false">
 
                 <AutoCompleteTextView
-                    android:id="@+id/tvAutocomplete"
+                    android:id="@+id/tvAutoNCuotas"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"

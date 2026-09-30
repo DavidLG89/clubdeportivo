@@ -21,17 +21,14 @@ class FragmSeleccionActividad : Fragment(R.layout.fragment_seleccion_actividad) 
     private val viewModel: ReservaViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Toast.makeText(requireContext(), "Entra a selección actividad", Toast.LENGTH_LONG).show()
-        // Validar campo actividad
 
-        val ilActividad = view.findViewById<TextInputLayout>(R.id.tilActividad)
-        val btnBuscar = view.findViewById<Button>(R.id.btnBuscarAct)
-        val tvError = view.findViewById<TextView>(R.id.tvErrorAct)
+        val btnBuscar = view.findViewById<Button>(R.id.btnBuscar)
+
 
         val actividades = resources.getStringArray(R.array.actividades)
         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, actividades)
 
-        val autoCompleteTextView = view.findViewById<AutoCompleteTextView>(R.id.autocompleteTV)
+        val autoCompleteTextView = view.findViewById<AutoCompleteTextView>(R.id.autoActividad)
 
         autoCompleteTextView.setAdapter(arrayAdapter)
 

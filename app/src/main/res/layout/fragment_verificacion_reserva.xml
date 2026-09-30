@@ -37,6 +37,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/tvDni"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -46,6 +47,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvPrintDni"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -61,20 +63,21 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/tvNombre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:text="Nombre:"
+                android:text="@string/nombre"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvPrintNombre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginStart="10dp"
-
                 android:text="Andrea Jiménez"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
@@ -99,11 +102,11 @@
                 android:layout_width="260dp"
                 android:layout_height="50dp"
                 android:background="@color/background_app"
-                android:hint="Actividad"
+                android:hint="@string/actividad"
                 app:errorEnabled="false">
 
                 <AutoCompleteTextView
-                    android:id="@+id/autocompleteTV"
+                    android:id="@+id/autoActividad"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"

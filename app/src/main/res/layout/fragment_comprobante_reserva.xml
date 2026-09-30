@@ -24,37 +24,51 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!-- Logo -->
             <ImageView
                 android:layout_width="85dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="20dp"
-                android:contentDescription="Logo"
+                android:contentDescription="@string/logo"
                 android:src="@drawable/logo1" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
                 android:gravity="center"
-                android:text="@string/comprobante_reserva"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:gravity="center"
+                    android:text="@string/comprobante_reserva"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
-                android:text="@string/id_reserva"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-        </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tvIdReserva"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/id_reserva"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tvEditIdReserva"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="0001"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -64,6 +78,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/tvDni"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -73,6 +88,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvEditDni"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -80,7 +96,6 @@
                 android:text="24.753.731"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -88,20 +103,21 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/tvNombre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:text="Nombre:"
+                android:text="@string/nombre"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvEditNombre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginStart="10dp"
-
                 android:text="Andrea Jiménez"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
@@ -110,10 +126,9 @@
         <View
             android:id="@+id/lineConnector"
             android:layout_width="match_parent"
-            android:layout_marginTop="18dp"
             android:layout_height="2dp"
-            android:background="@color/color_boton_principal"
- />
+            android:layout_marginTop="18dp"
+            android:background="@color/color_boton_principal" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -121,49 +136,78 @@
             android:layout_marginTop="20dp">
 
             <TextView
+                android:id="@+id/tvActividad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginTop="6dp"
-                android:text="Actividad:"
+                android:text="@string/actividad"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvEditActividad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:layout_marginTop="6dp"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="6dp"
                 android:text="Fútbol"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
-
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
->
+            android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/tvFecha"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginTop="6dp"
-                android:text="Fecha"
+                android:text="@string/fecha"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvEditFecha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="6dp"
+                android:text="30 sept 2026"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvHorario"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginTop="6dp"
+                android:text="@string/horario"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvEditHorario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
                 android:layout_marginStart="10dp"
-                android:text="30 sept 2026"
+                android:layout_marginTop="6dp"
+                android:text="12:00"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
@@ -174,48 +218,23 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/tvLugar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginTop="6dp"
-                android:text="Horario:"
+                android:text="@string/lugar"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvPrintLugar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:layout_marginTop="6dp"
                 android:layout_marginStart="10dp"
-                android:text="12:00"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
->
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
                 android:layout_marginTop="6dp"
-                android:text="Lugar:"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginTop="6dp"
-                android:layout_marginStart="10dp"
                 android:text="Martín García 2244"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
@@ -229,46 +248,47 @@
             android:layout_marginBottom="20dp">
 
             <TextView
+                android:id="@+id/tvValor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginTop="6dp"
-                android:text="Valor:"
+                android:text="@string/valor"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvPrintValor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:layout_marginTop="6dp"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="6dp"
                 android:text="$ 10.000"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
-
         </LinearLayout>
     </LinearLayout>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
 
-    android:gravity="center">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
 
-    <Button
-        android:id="@+id/btnEnviar"
-        android:layout_width="128dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/color_boton_principal"
-        android:text="@string/enviar"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:cornerRadius="5dp" />
+        <Button
+            android:id="@+id/btnEnviar"
+            android:layout_width="128dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/color_boton_principal"
+            android:text="@string/enviar"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="5dp" />
     </LinearLayout>
 
 </LinearLayout>

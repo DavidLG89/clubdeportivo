@@ -18,9 +18,8 @@ import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 
 class FragmSeleccionHora : Fragment(R.layout.fragment_seleccion_hora) {
     private val viewModel: ReservaViewModel by activityViewModels()
-        private var itemSeleccionado: View? = null
+    private var itemSeleccionado: View? = null
 
-    var horaSeleccionada: String = ""
     var cupoActual = 0
     var cupoRestante = 0
 
@@ -28,7 +27,7 @@ class FragmSeleccionHora : Fragment(R.layout.fragment_seleccion_hora) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         val btnVolver = view.findViewById<Button>(R.id.btnVolver)
-        val btnReservar = view.findViewById<Button>(R.id.btnContinuar)
+        val btnReservar = view.findViewById<Button>(R.id.btnReservar)
         val contenedor = view.findViewById<LinearLayout>(R.id.contenedorHorarios)
 
         val colorSelecto = ContextCompat.getColor(requireContext(), R.color.color_boton_principal2)

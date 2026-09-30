@@ -21,7 +21,7 @@ class FragmVerificacionReserva : Fragment(R.layout.fragment_verificacion_reserva
         val actividades = resources.getStringArray(R.array.actividades)
         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, actividades)
 
-        val autoCompleteTextView = view.findViewById<AutoCompleteTextView>(R.id.autocompleteTV)
+        val autoCompleteTextView = view.findViewById<AutoCompleteTextView>(R.id.autoActividad)
 
         autoCompleteTextView.setAdapter(arrayAdapter)
 

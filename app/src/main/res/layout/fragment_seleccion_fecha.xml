@@ -13,16 +13,18 @@
         android:layout_marginTop="20dp">
 
         <TextView
+            android:id="@+id/tvActividad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:layout_marginTop="6dp"
-            android:text="Actividad:"
+            android:text="@string/actividad"
             android:textColor="@color/black"
             android:textSize="14sp"
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tvPrintActividad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"

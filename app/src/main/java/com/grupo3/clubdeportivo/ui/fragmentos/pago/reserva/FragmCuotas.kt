@@ -24,7 +24,7 @@ class FragmCuotas : Fragment(R.layout.fragment_pago_cuotas) {
         val cuotas = resources.getStringArray(R.array.cuotas)
         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, cuotas)
 
-        val autoCompleteTextView = view.findViewById<AutoCompleteTextView>(R.id.tvAutocomplete)
+        val autoCompleteTextView = view.findViewById<AutoCompleteTextView>(R.id.tvAutoNCuotas)
 
         autoCompleteTextView.setAdapter(arrayAdapter)
 

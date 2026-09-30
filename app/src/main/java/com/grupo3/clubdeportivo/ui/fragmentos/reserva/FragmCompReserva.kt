@@ -1,20 +1,16 @@
 package com.grupo3.clubdeportivo.ui.fragmentos.reserva
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.data.model.EtapaPago
-import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
-import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmBusquedaDni
-import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
+import com.grupo3.clubdeportivo.ui.pago.PagoReserva
 
 class FragmCompReserva : Fragment(R.layout.fragment_comprobante_reserva){
-    private val viewModel: ReservaViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -29,7 +25,7 @@ class FragmCompReserva : Fragment(R.layout.fragment_comprobante_reserva){
 
             )
                 .setMessage(resources.getString(R.string.mensaje_pago))
-                .setNegativeButton(resources.getString(R.string.no_paga)) { dialog, which ->
+                .setNegativeButton(resources.getString(R.string.no_paga)) { _, _ ->
                     MaterialAlertDialogBuilder(
                         requireContext(),
                         R.style.ThemeOverlay_App_MaterialAlertDialog_FullWidthButtons
@@ -37,17 +33,15 @@ class FragmCompReserva : Fragment(R.layout.fragment_comprobante_reserva){
                     )
                         .setMessage(resources.getString(R.string.recordatorio))
 
-                        .setPositiveButton(resources.getString(R.string.aceptar)) { dialog, which ->
+                        .setPositiveButton(resources.getString(R.string.aceptar)) { dialog, _->
                             dialog.dismiss()
                         }
                         .show()
                 }
-                .setPositiveButton(resources.getString(R.string.paga)) { dialog, which ->
+                .setPositiveButton(resources.getString(R.string.paga)) { _, _ ->
                     Toast.makeText(requireContext(), "Redirigiendo a pago de reserva...", Toast.LENGTH_LONG).show()
-                    //(requireActivity() as? BarraEstadoHost<EtapaPago>)?.avanzarA(
-                    //    FragmBusquedaDni(),
-                    //    EtapaPago.BUSQUEDA_DNI
-                    //)
+                    val intent = Intent(requireContext(), PagoReserva::class.java)
+                    startActivity(intent)
                 }
                 .show()
 

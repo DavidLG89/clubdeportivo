@@ -24,7 +24,7 @@ class FragmMetodoPago : Fragment(R.layout.fragment_metodo_pago) {
         val metodosPago = resources.getStringArray(R.array.metodos_pago)
         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, metodosPago)
 
-        val autoCompleteTextView = view.findViewById<AutoCompleteTextView>(R.id.tvAutocomplete)
+        val autoCompleteTextView = view.findViewById<AutoCompleteTextView>(R.id.tvAutoMPago)
 
         autoCompleteTextView.setAdapter(arrayAdapter)
 

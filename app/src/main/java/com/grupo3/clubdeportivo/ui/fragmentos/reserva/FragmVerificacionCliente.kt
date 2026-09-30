@@ -12,11 +12,10 @@ import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmBusquedaDni
 import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 
-class FragmVerificacionCliente : Fragment(R.layout.fragment_datos_cliente){
+class FragmVerificacionCliente : Fragment(R.layout.fragment_datos_cliente) {
     private val viewModel: ReservaViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val valCliente = view.findViewById<LinearLayout>(R.id.cardContainerValidacion)
 
         val btnVolver = view.findViewById<Button>(R.id.btnVolver)
         val btnContinuar = view.findViewById<Button>(R.id.btnContinuar)
