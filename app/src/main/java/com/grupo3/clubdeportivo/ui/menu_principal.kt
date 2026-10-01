@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.ui.registroCliente.registro_cliente
 
+
 class menu_principal : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,9 +31,10 @@ class menu_principal : AppCompatActivity() {
 
         // Botón Registro Socio-No Socio
         findViewById<Button>(R.id.btnRegistro_socio_nosocio).setOnClickListener {
-            val intent = Intent(this, registro_cliente::class.java)
+            val intent = Intent(this, registro_cliente::class.java )
             startActivity(intent)
         }
+
 
         // Navegación al Perfil del Administrador desde la barra inferior
         findViewById<LinearLayout>(R.id.navPerfil).setOnClickListener {

@@ -10,7 +10,7 @@
     android:fitsSystemWindows="true"
     tools:context=".ui.MainActivity">
 
-        <LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"

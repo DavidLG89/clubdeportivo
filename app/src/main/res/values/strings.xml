@@ -36,4 +36,9 @@
     <string name="no">NO</string>
     <string name="contrato_aceptado_por_el_cliente">Contrato aceptado\npor el cliente!</string>
     <string name="contrato_no_aceptado_por_el_cliente">Contrato NO ha sido aceptado\npor el cliente!</string>
+    <string name="comprobante_reserva">Comprobante de Reserva</string>
+    <string name="id_reserva">ID Reserva:</string>
+    <string name="enviar">Enviar</string>
+    <string name="seleccione_una_hora">Seleccione una hora</string>
+    <string name="reservar">Reservar</string>
 </resources>

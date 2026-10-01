@@ -35,12 +35,12 @@ class recuperar_contrasenia : AppCompatActivity() {
 
         // Navegación Inicio
         findViewById<LinearLayout>(R.id.navInicio).setOnClickListener {
-        //Sin navegacion porque no tiene sentido llevar a menu si no se logueó
+            //Sin navegacion porque no tiene sentido llevar a menu si no se logueó
         }
 
         // Navegación Perfil
         findViewById<LinearLayout>(R.id.navPerfil).setOnClickListener {
-        //Sin navegacion porque no tiene sentido llevar a perfil si no se logueó
+            //Sin navegacion porque no tiene sentido llevar a perfil si no se logueó
         }
     }
 }

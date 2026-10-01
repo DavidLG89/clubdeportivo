@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         }
         tvOlvide.text = spannable
         tvOlvide.setOnClickListener {
-            val intent = Intent(this, recuperar_contrasenia::class.java)
+            val intent = Intent(this, recuperar_contrasenia::class.java  )
             startActivity(intent)
         }
 

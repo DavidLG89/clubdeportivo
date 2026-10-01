@@ -26,13 +26,15 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.gestion_pagos"
-            android:exported="false" />
-        <activity
             android:name=".ui.perfil_administrador"
             android:exported="false" />
         <activity
             android:name=".ui.registroCliente.registro_cliente"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.recuperar_contrasenia"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
@@ -48,7 +50,7 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.reserva.Reserva"
+            android:name=".ui.gestionPago"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
     </application>
