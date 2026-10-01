@@ -17,4 +17,8 @@
     <color name="step_grey">#E0E0E0</color>
     <color name="btn_no_socio_bg">#D4ECEB</color>
     <color name="btn_socio_bg">#D3DBE7</color>
+    <color name="azul_boton_aceptar">#172F9B</color>
+    <color name="gris_boton_no">#D9D9D9</color>
+    <color name="naranja">#F69657</color>
+
 </resources>
