@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
-
+import com.grupo3.clubdeportivo.ui.pago.PagoReserva
 
 class gestionPago : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +30,10 @@ class gestionPago : AppCompatActivity() {
 
         val btnNoSocio = findViewById<Button>(R.id.btnNoSocio)
 
+        btnNoSocio.setOnClickListener {
+            val intent = Intent(this, PagoReserva::class.java)
+            startActivity(intent)
+        }
 
         // Navegación al Perfil del Administrador desde la barra inferior
         findViewById<LinearLayout>(R.id.navPerfil).setOnClickListener {
