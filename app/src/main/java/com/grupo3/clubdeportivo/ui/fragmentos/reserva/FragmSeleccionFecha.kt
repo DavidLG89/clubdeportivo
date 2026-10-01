@@ -6,8 +6,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaReserva
 import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
@@ -24,27 +26,38 @@ class FragmSeleccionFecha : Fragment(R.layout.fragment_seleccion_fecha) {
         view.findViewById<TextView>(R.id.tvPrintActividad).text = viewModel.actividad
 
 
+        // Mostrar date picker
+        edtDate = view.findViewById(R.id.edtDate)
+
+        edtDate.setText(viewModel.fecha)
+
+        childFragmentManager.setFragmentResultListener("fecha", viewLifecycleOwner) {
+            _, bundle ->
+            onDateSelected(bundle.getInt("d"), bundle.getInt("m"), bundle.getInt("y"))
+        }
+
+        edtDate.setOnClickListener {
+            showDatePickerDialog()
+        }
+
         // Pasar a la siguiente etapa
         val btnContinuar = view.findViewById<Button>(R.id.btnContinuar)
 
         btnContinuar.setOnClickListener {
+            if(viewModel.fecha.isNullOrEmpty()) {
+                Toast.makeText(requireContext(), "Debe seleccionar una fecha", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.avanzarA(
                 FragmSeleccionHora(),
                 EtapaReserva.SELECCION_HORA
             )
         }
-
-        // Mostrar date picker
-        edtDate = view.findViewById(R.id.edtDate)
-
-        edtDate.setOnClickListener {
-            showDatePickerDialog()
-        }
     }
 
     private fun showDatePickerDialog() {
         val datePicker =
-            DatePickerFragment({ day, month, year -> onDateSelected(day, month, year) })
+            DatePickerFragment()
         datePicker.show(childFragmentManager, "datePicker")
     }
 

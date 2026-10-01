@@ -59,14 +59,19 @@ class PagoReserva : AppCompatActivity(), BarraEstadoHost<EtapaPago>, ListenerCom
         stepBar.setStep(etapa)
     }
 
+
     // Avanza etapa de formulario
     override fun avanzarA(fragment: Fragment, etapa: EtapaPago) {
+        val esPrimero = supportFragmentManager.findFragmentById(R.id.fragmentContainer) == null
+
         viewModel.irAPaso(etapa)
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, fragment)
-            .addToBackStack(null)
+            .apply { if (!esPrimero) addToBackStack(null) }
             .commit()
     }
+
+
 
     override fun onDniValidado(dni: String) {
         viewModel.dni = dni

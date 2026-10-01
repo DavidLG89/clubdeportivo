@@ -61,10 +61,12 @@ class Reserva : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, ListenerComp
 
     // Avanza etapa de formulario
     override fun avanzarA(fragment: Fragment, etapa: EtapaReserva) {
+        val esPrimero = supportFragmentManager.findFragmentById(R.id.fragmentContainer) == null
+
         viewModel.irAPaso(etapa)
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, fragment)
-            .addToBackStack(null)
+            .apply { if (!esPrimero) addToBackStack(null) }
             .commit()
     }
 
