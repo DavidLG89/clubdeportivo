@@ -3,47 +3,43 @@ package com.grupo3.clubdeportivo.ui
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.ui.reserva.Reserva
+import com.grupo3.clubdeportivo.ui.pago.PagoReserva
+import com.grupo3.clubdeportivo.vencimiento.BuscarVencimientoPorDni
 import com.grupo3.clubdeportivo.vencimiento.VencimientoDiario
 
-class menu_principal : AppCompatActivity() {
+class Vencimientos : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_menu_principal)
+        setContentView(R.layout.activity_vencimientos)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        val btnGestionPagos = findViewById<Button>(R.id.btnGestion_pagos)
-        btnGestionPagos.setOnClickListener {
-            val intent = Intent(this, gestionPago::class.java)
-            startActivity(intent)
+        val btnBack = findViewById<ImageButton>(R.id.btnBack)
+        btnBack.setOnClickListener {
+            finish()
         }
 
-        // Botón Registro Socio-No Socio
-        findViewById<Button>(R.id.btnRegistro_socio_nosocio).setOnClickListener {
-            val intent = Intent(this, registro_cliente::class.java)
+        val btnSocio = findViewById<Button>(R.id.btnBuscarSocio)
+
+        btnSocio.setOnClickListener {
+            val intent = Intent(this, BuscarVencimientoPorDni::class.java)
             startActivity(intent)
         }
+        val btnVencimiento = findViewById<Button>(R.id.btnVencimientoDiario)
 
-        // Botón a Reserva
-        val btnReserva = findViewById<Button>(R.id.btnReserva_actividades)
-        btnReserva.setOnClickListener {
-            val intent = Intent(this, Reserva::class.java)
-            startActivity(intent)
-        }
-
-        findViewById<Button>(R.id.btnVerGestionVencimientos).setOnClickListener {
-            val intent = Intent(this, Vencimientos::class.java)
+        btnVencimiento.setOnClickListener {
+            val intent = Intent(this, VencimientoDiario::class.java)
             startActivity(intent)
         }
 
@@ -53,6 +49,13 @@ class menu_principal : AppCompatActivity() {
             startActivity(intent)
         }
 
-
+        // Navegación al Menú Principal desde la barra inferior (Inicio)
+        findViewById<LinearLayout>(R.id.navInicio).setOnClickListener {
+            val intent = Intent(this, menu_principal::class.java)
+            // FLAG_ACTIVITY_CLEAR_TOP evita acumular ventanas repetidas en el historial hacia atrás
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            startActivity(intent)
+            finish()
+        }
     }
 }
