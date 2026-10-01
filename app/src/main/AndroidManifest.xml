@@ -47,6 +47,17 @@
             android:name=".ui.pago.PagoReserva"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ui.Vencimientos"
+            android:exported="false" />
+        <activity
+            android:name=".vencimiento.VencimientoDiario"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".vencimiento.BuscarVencimientoPorDni"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>
