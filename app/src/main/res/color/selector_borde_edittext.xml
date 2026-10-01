@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Cuando está seleccionado o enfocado -->
+    <item android:state_focused="true" android:color="@color/edittext_border" />
+    <!-- Cuando está habilitado pero no seleccionado (estado normal) -->
+    <item android:state_enabled="true" android:color="@color/edittext_border" />
+    <!-- Por defecto -->
+    <item android:color="@color/edittext_border" />
+</selector>

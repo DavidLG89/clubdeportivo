@@ -2,8 +2,22 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.ClubDeportivo" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
     </style>
 
     <style name="Theme.ClubDeportivo" parent="Base.Theme.ClubDeportivo" />
+
+    <!-- Diálogo con botones a ancho completo -->
+    <style name="ThemeOverlay.App.MaterialAlertDialog.FullWidthButtons"
+        parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.App.DialogButton.FullWidth</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.App.DialogButton.FullWidth</item>
+    </style>
+
+    <style name="Widget.App.DialogButton.FullWidth"
+        parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
 </resources>
