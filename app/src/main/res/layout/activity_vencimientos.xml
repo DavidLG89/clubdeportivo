@@ -6,7 +6,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_app"
-    tools:context=".ui.menu_principal">
+    tools:context=".ui.gestionPago">
+
+    <!-- Botón de retorno -->
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Regresar"
+        android:src="@drawable/ic_arrow_back_circle" />
 
     <!-- Título de la pantalla -->
 
@@ -17,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="88dp"
-        android:text="MENU PRINCIPAL"
+        android:text="GESTION VENCIMIENTOS"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -40,88 +53,26 @@
         app:layout_constraintTop_toBottomOf="@+id/tvTitle">
 
         <Button
-            android:id="@+id/btnRegistro_socio_nosocio"
+            android:id="@+id/btnVencimientoDiario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/color_boton_principal"
             android:minHeight="58dp"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
-            android:backgroundTint="@color/color_boton_principal"
-            android:text="Registro socio-no socio"
+            android:text="Vencimiento diario"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:cornerRadius="5dp"
-            app:autoSizeTextType="uniform"
-            app:autoSizeMinTextSize="12sp"
             app:autoSizeMaxTextSize="18sp"
-            app:autoSizeStepGranularity="1sp" />
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
+            app:cornerRadius="5dp" />
 
         <Button
-            android:id="@+id/btnGestion_pagos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="58dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:layout_marginTop="25dp"
-            android:backgroundTint="@color/color_boton_principal"
-            android:text="Gestion de pagos"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:cornerRadius="5dp"
-            app:autoSizeTextType="uniform"
-            app:autoSizeMinTextSize="12sp"
-            app:autoSizeMaxTextSize="18sp"
-            app:autoSizeStepGranularity="1sp" />
-
-
-        <Button
-            android:id="@+id/btnReserva_actividades"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="58dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:layout_marginTop="25dp"
-            android:backgroundTint="@color/color_boton_principal"
-            android:text="Reserva de actividades"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:cornerRadius="5dp"
-            app:autoSizeTextType="uniform"
-            app:autoSizeMinTextSize="12sp"
-            app:autoSizeMaxTextSize="18sp"
-            app:autoSizeStepGranularity="1sp" />
-
-
-        <Button
-            android:id="@+id/btnImprimir_carnet_socio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="58dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:layout_marginTop="25dp"
-            android:backgroundTint="@color/color_boton_principal"
-            android:text="Imprimir carnet de socio"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:cornerRadius="5dp"
-            app:autoSizeTextType="uniform"
-            app:autoSizeMinTextSize="12sp"
-            app:autoSizeMaxTextSize="18sp"
-            app:autoSizeStepGranularity="1sp" />
-
-        <Button
-            android:id="@+id/btnVerGestionVencimientos"
+            android:id="@+id/btnBuscarSocio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
@@ -129,7 +80,7 @@
             android:minHeight="58dp"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
-            android:text="Ver Menú de Vencimientos"
+            android:text="Buscar por id"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="18sp"
