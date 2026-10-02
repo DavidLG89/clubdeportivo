@@ -27,7 +27,7 @@
     <string name="cuota_nro">Seleccione cuota:</string>
     <string name="registro_exitoso_cliente">Registro exitoso de CLIENTE</string>
     <string name="registro_exitoso">Registro Exitoso</string>
-    <string name="volver">Volver</string>
+
     <string name="datos_socio">Datos socio</string>
     <string name="monto_cuota">Monto cuota:</string>
     <string name="ingrese_monto">Ingrese monto</string>
@@ -37,16 +37,16 @@
     <string name="no">NO</string>
     <string name="contrato_aceptado_por_el_cliente">Contrato aceptado\npor el cliente!</string>
     <string name="contrato_no_aceptado_por_el_cliente">Contrato NO ha sido aceptado\npor el cliente!</string>
-    <string name="comprobante_reserva">Comprobante de Reserva</string>
-    <string name="id_reserva">ID Reserva:</string>
-    <string name="enviar">Enviar</string>
+
+
+
     <string name="seleccione_una_hora">Seleccione una hora</string>
     <string name="seleccione_un_dia">Seleccione un día</string>
     <string name="reservar">Reservar</string>
     <string name="enviar">Enviar</string>
     <string name="comprobante_reserva">COMPROBANTE RESERVA</string>
     <string name="id_reserva">ID Reserva:</string>
-    <string name="id_pago">ID Pago:</string>
+
     <string name="verificacion_reserva">Verificación Reserva</string>
     <string name="no_paga">No pagaré</string>
     <string name="paga">Pagaré ahora</string>
@@ -76,6 +76,7 @@
     <string name="ingrese_titular">Ingrese titular</string>
     <string name="ingrese_tipo_cuenta">Ingrese tipo cuenta</string>
     <string name="seleccione_opcion">Seleccione opción</string>
+    <string name="id_pago">id_pago</string>
 
     <string-array name="actividades">
         <item>Natación</item>
@@ -107,48 +108,7 @@
         <item>6</item>
         <item>12</item>
     </string-array>
-    <string name="seleccione_opcion">Seleccione opción</string>
-    <string name="formalizacion_de_pago">Formalización de pago</string>
-    <string name="comprobante_pago">COMPROBANTE PAGO</string>
-    <string name="id_pago">ID Pago:</string>
-    <string name="metodo_pago">Método Pago:</string>
-    <string name="titular">Titular:</string>
-    <string name="banco">Banco:</string>
-    <string name="num_cuenta">N°Cta:</string>
-    <string name="num_cuotas">N° Cuotas:</string>
-    <string name="tipo_cuenta">Tipo Cta:</string>
-    <string name="fecha_exp">Fecha exp.</string>
-    <string name="cvv">CVV</string>
-    <string name="pagar">PAGAR</string>
 
-    <string-array name="actividades">
-        <item>Natación</item>
-        <item>Tenis</item>
-        <item>Fútbol</item>
-        <item>Acondicionamiento</item>
-        <item>Yoga</item>
-        <item>Karate</item>
-    </string-array>
 
-    <string-array name="metodos_pago">
-        <item>Efectivo</item>
-        <item>Transferencia</item>
-        <item>Tarjeta Crédito</item>
-        <item>Tarjeta Débito</item>
-        <item>MercadoPago</item>
-    </string-array>
 
-    <string-array name="cuotas">
-        <item>1</item>
-        <item>3</item>
-        <item>6</item>
-        <item>12</item>
-    </string-array>
-
-    <string-array name="bancos">
-        <item>1</item>
-        <item>3</item>
-        <item>6</item>
-        <item>12</item>
-    </string-array>
 </resources>
