@@ -6,10 +6,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaReserva
 import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
@@ -48,7 +46,7 @@ class FragmSeleccionFecha : Fragment(R.layout.fragment_seleccion_fecha) {
                 Toast.makeText(requireContext(), "Debe seleccionar una fecha", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.avanzarA(
+            (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
                 FragmSeleccionHora(),
                 EtapaReserva.SELECCION_HORA
             )

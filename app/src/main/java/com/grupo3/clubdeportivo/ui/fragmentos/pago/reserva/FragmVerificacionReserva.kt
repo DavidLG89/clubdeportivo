@@ -18,6 +18,7 @@ import com.grupo3.clubdeportivo.ui.pago.PagoResViewModel
 
 class FragmVerificacionReserva : Fragment(R.layout.fragment_verificacion_reserva) {
     private val viewModel: PagoResViewModel by activityViewModels()
+    var actividadSeleccionada: String? = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -33,19 +34,21 @@ class FragmVerificacionReserva : Fragment(R.layout.fragment_verificacion_reserva
 
         autoCompleteTextView.setAdapter(arrayAdapter)
 
-        if(autoCompleteTextView.isGone) {
-            Toast.makeText(requireContext(), "No existen actividades reservadas", Toast.LENGTH_SHORT).show()
+        viewModel.actividad?.takeIf { it.isEmpty() }?.let {
+            actividadSeleccionada = it
+            autoCompleteTextView.setText(it, false)
         }
-        autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
 
-            viewModel.actividad = actividades[position]
+        autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
+            actividadSeleccionada = actividades[position]
+            viewModel.actividad = actividadSeleccionada
         }
 
         val btnVolver = view.findViewById<Button>(R.id.btnVolver)
         val btnContinuar = view.findViewById<Button>(R.id.btnContinuar)
 
         btnVolver.setOnClickListener {
-            (requireActivity() as? BarraEstadoHost<EtapaPago>)?.avanzarA(
+            (requireActivity() as? BarraEstadoHost<EtapaPago>)?.irA(
                 FragmBusquedaDni(),
                 EtapaPago.BUSQUEDA_DNI
             )
@@ -56,7 +59,7 @@ class FragmVerificacionReserva : Fragment(R.layout.fragment_verificacion_reserva
                 Toast.makeText(requireContext(), "Debe seleccionar una actividad", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            (requireActivity() as? BarraEstadoHost<EtapaPago>)?.avanzarA(
+            (requireActivity() as? BarraEstadoHost<EtapaPago>)?.irA(
                 FragmMetodoPago(),
                 EtapaPago.METODO_PAGO
             )

@@ -160,7 +160,8 @@
                     android:inputType="none"
                     android:paddingStart="20dp"
                     android:paddingTop="11dp"
-                    android:paddingBottom="11dp" />
+                    android:paddingBottom="11dp"
+                    android:saveEnabled="false"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
     </LinearLayout>

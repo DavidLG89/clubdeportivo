@@ -48,40 +48,27 @@ class FragmPagoEnCuotas : Fragment(R.layout.fragment_pago_en_cuotas) {
         val btnContinuar = view.findViewById<Button>(R.id.btnContinuar)
 
         btnVolver.setOnClickListener {
-            (requireActivity() as? BarraEstadoHost<EtapaPago>)?.avanzarA(
+            (requireActivity() as? BarraEstadoHost<EtapaPago>)?.irA(
                 FragmVerificacionReserva(),
                 EtapaPago.METODO_PAGO
             )
         }
 
         btnContinuar.setOnClickListener {
-            if(viewModel.cuota == null ) {
+            val cuotaSeleccionada = viewModel.cuota
+            if(cuotaSeleccionada == null ) {
                 Toast.makeText(requireContext(), "Debe seleccionar número de cuotas", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            when{
-                cuota == 3 -> {
-                    Toast.makeText(
-                        requireContext(),
-                        "Tiene 5% de descuento",
-                        Toast.LENGTH_SHORT).show()
-                }
-
-                cuota == 6 -> {
-                    Toast.makeText(
-                        requireContext(),
-                        "Tiene 10% de descuento",
-                        Toast.LENGTH_SHORT).show()
-                }
-                else -> {
-                    Toast.makeText(
-                        requireContext(),
-                        "NO tiene descuento",
-                        Toast.LENGTH_SHORT).show()
-                }
+            val mensaje = when (cuotaSeleccionada){
+                3 -> "Tiene 5% de descuento"
+                6 -> "Tiene 3% de descuento"
+                else -> "No tiene descuento"
             }
 
-            (requireActivity() as? BarraEstadoHost<EtapaPago>)?.avanzarA(
+            Toast.makeText(requireContext(), mensaje, Toast.LENGTH_SHORT).show()
+
+            (requireActivity() as? BarraEstadoHost<EtapaPago>)?.irA(
                 FragmComprobantePago(),
                 EtapaPago.COMPROBANTE_PAGO
             )

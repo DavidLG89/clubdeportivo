@@ -69,7 +69,7 @@ class FragmSeleccionHora : Fragment(R.layout.fragment_seleccion_hora) {
 
         btnVolver.setOnClickListener {
 
-            (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.avanzarA(
+            (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
                 FragmSeleccionFecha(),
                 EtapaReserva.SELECCION_FECHA
             )
@@ -88,7 +88,7 @@ class FragmSeleccionHora : Fragment(R.layout.fragment_seleccion_hora) {
             cupoRestante = cupoActual - 1 // Cupo se guardará en la bd
 
 
-            (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.avanzarA(
+            (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
                 FragmCompReserva(),
                 EtapaReserva.CONFIRMACION_RESERVA
             )

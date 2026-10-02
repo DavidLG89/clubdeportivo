@@ -18,8 +18,7 @@ import com.grupo3.clubdeportivo.utils.formatoPeso
 
 class FragmMetodoPago : Fragment(R.layout.fragment_metodo_pago) {
     private val viewModel: PagoResViewModel by activityViewModels()
-    var metodoPago: String = ""
-    var cuota: String? = "Sin cuota"
+    var metodoPagoSeleccionado: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -38,37 +37,40 @@ class FragmMetodoPago : Fragment(R.layout.fragment_metodo_pago) {
 
         autoCompleteTextView.setAdapter(arrayAdapter)
 
+        viewModel.metodoPago?.takeIf { it.isEmpty() }?.let {
+            metodoPagoSeleccionado = it
+            autoCompleteTextView.setText(it, false)
+        }
+
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
-
-            metodoPago = metodosPago[position]
-            viewModel.metodoPago = metodosPago[position]
-
+            metodoPagoSeleccionado = metodosPago[position]
+            viewModel.metodoPago = metodoPagoSeleccionado
         }
 
         val btnVolver = view.findViewById<Button>(R.id.btnVolver)
         val btnContinuar = view.findViewById<Button>(R.id.btnContinuar)
 
+
         btnVolver.setOnClickListener {
-            (requireActivity() as? BarraEstadoHost<EtapaPago>)?.avanzarA(
+            (requireActivity() as? BarraEstadoHost<EtapaPago>)?.irA(
                 FragmVerificacionReserva(),
                 EtapaPago.VERIFICACION
             )
         }
 
         btnContinuar.setOnClickListener {
-            if(metodoPago == "") {
+            if(metodoPagoSeleccionado == "") {
                 Toast.makeText(requireContext(), "Debe seleccionar un método de pago", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            if(metodoPago == "Tarjeta Crédito" || metodoPago == "MercadoPago") {
-                (requireActivity() as? BarraEstadoHost<EtapaPago>)?.avanzarA(
+            if(metodoPagoSeleccionado == "Tarjeta Crédito" || metodoPagoSeleccionado == "MercadoPago") {
+                (requireActivity() as? BarraEstadoHost<EtapaPago>)?.irA(
                     FragmPagoEnCuotas(),
                     EtapaPago.PAGO_CUOTAS
                 )
             } else {
-                viewModel.sinCuota = cuota
-                (requireActivity() as? BarraEstadoHost<EtapaPago>)?.avanzarA(
+                (requireActivity() as? BarraEstadoHost<EtapaPago>)?.irA(
                     FragmComprobantePago(),
                     EtapaPago.COMPROBANTE_PAGO
                 )

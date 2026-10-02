@@ -15,7 +15,6 @@ class PagoResViewModel : ViewModel() {
     var monto: Int? = 10000 // harcodeado
     var metodoPago: String? = null
     var cuota: Int? = null
-    var sinCuota: String? = ""
 
     fun irAPaso(numero: EtapaPago) {
         _pasoActual.value = numero
