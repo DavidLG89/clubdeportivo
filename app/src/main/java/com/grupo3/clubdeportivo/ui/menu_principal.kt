@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.ui.registroCliente.registro_cliente
 import com.grupo3.clubdeportivo.ui.reserva.Reserva
 import com.grupo3.clubdeportivo.vencimiento.VencimientoDiario
 
