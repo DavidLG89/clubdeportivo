@@ -11,6 +11,7 @@
     <string name="paso_5">5</string>
     <string name="reserva_actividades">Reserva de actividades</string>
     <string name="vencimientos">Vencimientos</string>
+    <string name="cuotas_vencidas_del_dia">Cuotas vencidas del día</string>
     <string name="impresion_carnet">Impresión de carnet</string>
     <string name="registro_clientes">REGISTRO CLIENTE</string>
     <string name="busqueda_dni_cliente">Búsqueda DNI cliente</string>

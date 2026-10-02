@@ -74,6 +74,10 @@
             android:name=".vencimiento.BuscarVencimientoPorDni"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.carnet.ImpresionCarnetActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

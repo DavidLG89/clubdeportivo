@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.ui.carnet.ImpresionCarnetActivity
 import com.grupo3.clubdeportivo.ui.registroCliente.registro_cliente
 import com.grupo3.clubdeportivo.ui.reserva.Reserva
 import com.grupo3.clubdeportivo.vencimiento.VencimientoDiario
@@ -45,6 +46,12 @@ class menu_principal : AppCompatActivity() {
 
         findViewById<Button>(R.id.btnVerGestionVencimientos).setOnClickListener {
             val intent = Intent(this, Vencimientos::class.java)
+            startActivity(intent)
+        }
+
+        // Botón Imprimir Carnet de Socio
+        findViewById<Button>(R.id.btnImprimir_carnet_socio).setOnClickListener {
+            val intent = Intent(this, ImpresionCarnetActivity::class.java)
             startActivity(intent)
         }
 
