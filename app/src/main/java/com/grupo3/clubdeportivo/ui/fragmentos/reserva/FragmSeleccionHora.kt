@@ -39,7 +39,7 @@ class FragmSeleccionHora : Fragment(R.layout.fragment_seleccion_hora) {
         val contenedor = view.findViewById<LinearLayout>(R.id.contenedorHorarios)
 
         val colorNormal = (contenedor.children.first() as MaterialCardView).cardBackgroundColor
-        var seleccionado: MaterialCardView? = null
+        var itemSeleccionado: MaterialCardView? = null
 
         val colorSelecto = ContextCompat.getColor(requireContext(), R.color.color_boton_principal2)
 

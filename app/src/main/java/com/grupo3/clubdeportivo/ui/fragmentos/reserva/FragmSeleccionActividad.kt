@@ -24,7 +24,6 @@ class FragmSeleccionActividad : Fragment(R.layout.fragment_seleccion_actividad) 
 
         val btnBuscar = view.findViewById<Button>(R.id.btnBuscar)
 
-
         val actividades = resources.getStringArray(R.array.actividades)
         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, actividades)
 
@@ -39,7 +38,11 @@ class FragmSeleccionActividad : Fragment(R.layout.fragment_seleccion_actividad) 
 
 
         btnBuscar.setOnClickListener {
-
+            Toast.makeText(requireContext(), "actividad = ${viewModel.actividad}", Toast.LENGTH_SHORT).show()
+            if(viewModel.actividad.isNullOrEmpty()) {
+                Toast.makeText(requireContext(), "Debe seleccionar una actividad", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.avanzarA(
                 FragmSeleccionFecha(),
                 EtapaReserva.SELECCION_FECHA

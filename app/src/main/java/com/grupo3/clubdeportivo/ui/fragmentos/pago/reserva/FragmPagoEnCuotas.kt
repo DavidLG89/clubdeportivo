@@ -13,6 +13,7 @@ import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaPago
 import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.pago.PagoResViewModel
+import com.grupo3.clubdeportivo.utils.formatoPeso
 
 
 class FragmPagoEnCuotas : Fragment(R.layout.fragment_pago_en_cuotas) {
@@ -26,7 +27,7 @@ class FragmPagoEnCuotas : Fragment(R.layout.fragment_pago_en_cuotas) {
         view.findViewById<TextView>(R.id.tvPrintDni).text = viewModel.dni
         view.findViewById<TextView>(R.id.tvPrintNombre).text = viewModel.nombre
         view.findViewById<TextView>(R.id.tvPrintActividad).text = viewModel.actividad
-        view.findViewById<TextView>(R.id.tvPrintValor).text = viewModel.monto.toString()
+        view.findViewById<TextView>(R.id.tvPrintValor).text = viewModel.monto?.formatoPeso()
         view.findViewById<TextView>(R.id.tvPrintMetodoPago).text = viewModel.metodoPago
 
         val cuotas = resources.getStringArray(R.array.cuotas)
@@ -54,6 +55,10 @@ class FragmPagoEnCuotas : Fragment(R.layout.fragment_pago_en_cuotas) {
         }
 
         btnContinuar.setOnClickListener {
+            if(viewModel.cuota == null ) {
+                Toast.makeText(requireContext(), "Debe seleccionar número de cuotas", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             when{
                 cuota == 3 -> {
                     Toast.makeText(

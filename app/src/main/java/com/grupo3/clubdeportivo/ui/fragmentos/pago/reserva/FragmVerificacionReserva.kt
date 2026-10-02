@@ -6,6 +6,8 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
@@ -31,6 +33,9 @@ class FragmVerificacionReserva : Fragment(R.layout.fragment_verificacion_reserva
 
         autoCompleteTextView.setAdapter(arrayAdapter)
 
+        if(autoCompleteTextView.isGone) {
+            Toast.makeText(requireContext(), "No existen actividades reservadas", Toast.LENGTH_SHORT).show()
+        }
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
 
             viewModel.actividad = actividades[position]
@@ -47,6 +52,10 @@ class FragmVerificacionReserva : Fragment(R.layout.fragment_verificacion_reserva
         }
 
         btnContinuar.setOnClickListener {
+            if(viewModel.actividad.isNullOrEmpty()) {
+                Toast.makeText(requireContext(), "Debe seleccionar una actividad", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             (requireActivity() as? BarraEstadoHost<EtapaPago>)?.avanzarA(
                 FragmMetodoPago(),
                 EtapaPago.METODO_PAGO

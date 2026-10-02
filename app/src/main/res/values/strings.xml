@@ -32,7 +32,7 @@
     <string name="id_reserva">ID Reserva:</string>
     <string name="id_pago">ID Pago:</string>
     <string name="verificacion_reserva">Verificación Reserva</string>
-    <string name="no_paga">No pagaré</string>
+    <string name="no_paga">No pagaré ahora</string>
     <string name="paga">Pagaré ahora</string>
     <string name="aceptar">Aceptar</string>
     <string name="ingrese_num_cuenta">Ingrese número cuenta</string>

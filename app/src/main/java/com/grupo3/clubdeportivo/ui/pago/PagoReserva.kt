@@ -14,6 +14,7 @@ import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.componentes.ListenerCompartido
 import com.grupo3.clubdeportivo.ui.componentes.CompBarraEstadoPago
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmBusquedaDni
+import com.grupo3.clubdeportivo.ui.fragmentos.pago.reserva.FragmMetodoPago
 import com.grupo3.clubdeportivo.ui.fragmentos.pago.reserva.FragmVerificacionReserva
 
 
@@ -21,6 +22,13 @@ class PagoReserva : AppCompatActivity(), BarraEstadoHost<EtapaPago>, ListenerCom
 
     private val viewModel: PagoResViewModel by viewModels()
     private lateinit var stepBar: CompBarraEstadoPago
+
+    companion object {
+        const val EXTRA_DNI = "extra_dni"
+        const val EXTRA_NOMBRE = "extra_nombre"
+        const val EXTRA_ACTIVIDAD = "extra_actividad"
+        const val EXTRA_MONTO = "extra_monto"
+    }
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,10 +57,26 @@ class PagoReserva : AppCompatActivity(), BarraEstadoHost<EtapaPago>, ListenerCom
             setStep(etapa)
         }
         if (savedInstanceState == null) {
-            avanzarA(FragmBusquedaDni(), EtapaPago.BUSQUEDA_DNI)
+            val dni = intent.getStringExtra(EXTRA_DNI)
+            val nombre = intent.getStringExtra(EXTRA_NOMBRE)
+            val actividad = intent.getStringExtra(EXTRA_ACTIVIDAD)
+            val monto = if (intent.hasExtra(EXTRA_MONTO)) intent.getIntExtra(EXTRA_MONTO, 0) else null
+// ...
+            viewModel.monto = monto
+
+            if(!dni.isNullOrEmpty()) {
+                viewModel.dni = dni
+                viewModel.nombre = nombre
+                viewModel.actividad = actividad
+                viewModel.monto = monto?.toInt()
+
+                avanzarA(FragmMetodoPago(), EtapaPago.METODO_PAGO)
+
+            } else {
+                avanzarA(FragmBusquedaDni(), EtapaPago.BUSQUEDA_DNI)
+            }
         }
     }
-
 
     // Etapa
     override fun setStep(etapa: EtapaPago) {
@@ -70,8 +94,6 @@ class PagoReserva : AppCompatActivity(), BarraEstadoHost<EtapaPago>, ListenerCom
             .apply { if (!esPrimero) addToBackStack(null) }
             .commit()
     }
-
-
 
     override fun onDniValidado(dni: String) {
         viewModel.dni = dni
