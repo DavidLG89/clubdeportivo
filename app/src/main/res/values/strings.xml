@@ -11,6 +11,7 @@
     <string name="paso_5">5</string>
     <string name="reserva_actividades">Reserva de actividades</string>
     <string name="vencimientos">Vencimientos</string>
+    <string name="cuotas_vencidas_del_dia">Cuotas vencidas del día</string>
     <string name="impresion_carnet">Impresión de carnet</string>
     <string name="registro_clientes">REGISTRO CLIENTE</string>
     <string name="busqueda_dni_cliente">Búsqueda DNI cliente</string>
@@ -37,16 +38,12 @@
     <string name="no">NO</string>
     <string name="contrato_aceptado_por_el_cliente">Contrato aceptado\npor el cliente!</string>
     <string name="contrato_no_aceptado_por_el_cliente">Contrato NO ha sido aceptado\npor el cliente!</string>
-
-
-
     <string name="seleccione_una_hora">Seleccione una hora</string>
     <string name="seleccione_un_dia">Seleccione un día</string>
     <string name="reservar">Reservar</string>
     <string name="enviar">Enviar</string>
     <string name="comprobante_reserva">COMPROBANTE RESERVA</string>
     <string name="id_reserva">ID Reserva:</string>
-
     <string name="verificacion_reserva">Verificación Reserva</string>
     <string name="no_paga">No pagaré ahora</string>
     <string name="paga">Pagaré ahora</string>
@@ -55,7 +52,6 @@
     <string name="ingrese_banco">Ingrese banco</string>
     <string name="metodo_pago">Método Pago:</string>
     <string name="comprobante_pago">COMPROBANTE PAGO</string>
-
     <string name="mensaje_pago">Puede pagar al momento de reservar o el mismo día de la actividad ¿Desea pagar la actividad reservada?</string>
     <string name="recordatorio">Debe llegar al menos 15 minutos antes del inicio de la actividad para cancelar el importe</string>
     <string name="logo">Logo</string>
@@ -108,7 +104,4 @@
         <item>6</item>
         <item>12</item>
     </string-array>
-
-
-
 </resources>
