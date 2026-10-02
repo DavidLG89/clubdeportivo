@@ -12,7 +12,7 @@
     <string name="reserva_actividades">Reserva de actividades</string>
     <string name="vencimientos">Vencimientos</string>
     <string name="impresion_carnet">Impresión de carnet</string>
-    <string name="registro_clientes">Registro de clientes</string>
+    <string name="registro_clientes">REGISTRO CLIENTE</string>
     <string name="busqueda_dni_cliente">Búsqueda DNI cliente</string>
     <string name="buscar">Buscar</string>
     <string name="continuar">Continuar</string>
@@ -24,13 +24,29 @@
     <string name="apto_fisico">Apto Físico:</string>
     <string name="seleccione_una_fecha">Seleccione una fecha</string>
     <string name="actividad">Actividad:</string>
+    <string name="cuota_nro">Seleccione cuota:</string>
+    <string name="registro_exitoso_cliente">Registro exitoso de CLIENTE</string>
+    <string name="registro_exitoso">Registro Exitoso</string>
+
+    <string name="datos_socio">Datos socio</string>
+    <string name="monto_cuota">Monto cuota:</string>
+    <string name="ingrese_monto">Ingrese monto</string>
+    <string name="imprimir">IMPRIMIR</string>
+    <string name="cliente_acepta_contrato">¿Cliente acepta el contrato?</string>
+    <string name="si">SÍ</string>
+    <string name="no">NO</string>
+    <string name="contrato_aceptado_por_el_cliente">Contrato aceptado\npor el cliente!</string>
+    <string name="contrato_no_aceptado_por_el_cliente">Contrato NO ha sido aceptado\npor el cliente!</string>
+
+
+
     <string name="seleccione_una_hora">Seleccione una hora</string>
     <string name="seleccione_un_dia">Seleccione un día</string>
     <string name="reservar">Reservar</string>
     <string name="enviar">Enviar</string>
     <string name="comprobante_reserva">COMPROBANTE RESERVA</string>
     <string name="id_reserva">ID Reserva:</string>
-    <string name="id_pago">ID Pago:</string>
+
     <string name="verificacion_reserva">Verificación Reserva</string>
     <string name="no_paga">No pagaré ahora</string>
     <string name="paga">Pagaré ahora</string>
@@ -60,6 +76,7 @@
     <string name="ingrese_titular">Ingrese titular</string>
     <string name="ingrese_tipo_cuenta">Ingrese tipo cuenta</string>
     <string name="seleccione_opcion">Seleccione opción</string>
+    <string name="id_pago">id_pago</string>
 
     <string-array name="actividades">
         <item>Natación</item>
@@ -91,4 +108,7 @@
         <item>6</item>
         <item>12</item>
     </string-array>
+
+
+
 </resources>

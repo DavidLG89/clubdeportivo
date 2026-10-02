@@ -10,15 +10,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.ui.pagoCuota.PagoCuotaActivity
-
 import com.grupo3.clubdeportivo.ui.pago.PagoReserva
+import com.grupo3.clubdeportivo.vencimiento.BuscarVencimientoPorDni
+import com.grupo3.clubdeportivo.vencimiento.VencimientoDiario
 
-class gestionPago : AppCompatActivity() {
+class Vencimientos : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_gestion_pagos)
+        setContentView(R.layout.activity_vencimientos)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -30,16 +30,16 @@ class gestionPago : AppCompatActivity() {
             finish()
         }
 
-        val btnSocio = findViewById<Button>(R.id.btnSocio)
+        val btnSocio = findViewById<Button>(R.id.btnBuscarSocio)
+
         btnSocio.setOnClickListener {
-            val intent = Intent(this, PagoCuotaActivity::class.java)
+            val intent = Intent(this, BuscarVencimientoPorDni::class.java)
             startActivity(intent)
         }
+        val btnVencimiento = findViewById<Button>(R.id.btnVencimientoDiario)
 
-        val btnNoSocio = findViewById<Button>(R.id.btnNoSocio)
-
-        btnNoSocio.setOnClickListener {
-            val intent = Intent(this, PagoReserva::class.java)
+        btnVencimiento.setOnClickListener {
+            val intent = Intent(this, VencimientoDiario::class.java)
             startActivity(intent)
         }
 
