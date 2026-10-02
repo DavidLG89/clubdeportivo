@@ -27,6 +27,9 @@ class FragmSeleccionHora : Fragment(R.layout.fragment_seleccion_hora) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        // Incializa hora seleccionada
+        viewModel.horaSeleccionada = null
+
         // Imprime actividad y fecha por pantalla
         view.findViewById<TextView>(R.id.tvPrintActividad).text = viewModel.actividad
         view.findViewById<TextView>(R.id.tvPrintFecha).text = viewModel.fecha
@@ -35,17 +38,19 @@ class FragmSeleccionHora : Fragment(R.layout.fragment_seleccion_hora) {
         val btnReservar = view.findViewById<Button>(R.id.btnReservar)
         val contenedor = view.findViewById<LinearLayout>(R.id.contenedorHorarios)
 
+        val colorNormal = (contenedor.children.first() as MaterialCardView).cardBackgroundColor
+        var itemSeleccionado: MaterialCardView? = null
+
         val colorSelecto = ContextCompat.getColor(requireContext(), R.color.color_boton_principal2)
 
         contenedor.children.filterIsInstance<MaterialCardView>().forEach { item ->
-            item.setOnClickListener {
-                itemSeleccionado?.setBackgroundColor(Color.TRANSPARENT)
-                item.setBackgroundColor(colorSelecto)
-                itemSeleccionado = item
+
 
                 val hora = item.findViewWithTag<TextView>("hora").text.toString()
                 val cupo = item.findViewWithTag<TextView>("cupo").text.toString().toIntOrNull() ?: 0
+                if(cupo <= 0) {item.alpha = 0.5f}
 
+                item.setOnClickListener {
                 if (cupo <= 0) {
                     Toast.makeText(
                         requireContext(), "No hay cupos disponibles en ese horario",
@@ -54,14 +59,17 @@ class FragmSeleccionHora : Fragment(R.layout.fragment_seleccion_hora) {
                     return@setOnClickListener
                 }
 
+                itemSeleccionado?.setBackgroundColor(Color.TRANSPARENT)
+                item.setBackgroundColor(colorSelecto)
+                itemSeleccionado = item
                 viewModel.horaSeleccionada = hora
                 cupoActual = cupo
-            }
+                }
         }
 
         btnVolver.setOnClickListener {
 
-            (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.avanzarA(
+            (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
                 FragmSeleccionFecha(),
                 EtapaReserva.SELECCION_FECHA
             )
@@ -80,7 +88,7 @@ class FragmSeleccionHora : Fragment(R.layout.fragment_seleccion_hora) {
             cupoRestante = cupoActual - 1 // Cupo se guardará en la bd
 
 
-            (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.avanzarA(
+            (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
                 FragmCompReserva(),
                 EtapaReserva.CONFIRMACION_RESERVA
             )

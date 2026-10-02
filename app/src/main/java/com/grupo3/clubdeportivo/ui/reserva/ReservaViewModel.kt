@@ -17,6 +17,8 @@ class ReservaViewModel : ViewModel() {
     var fecha: String? = null
     var horaSeleccionada: String? = null
 
+    var monto: Int? = 20000 // harcodeado
+
 
     fun irAPaso(numero: EtapaReserva) {
 

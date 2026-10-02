@@ -24,27 +24,38 @@ class FragmSeleccionFecha : Fragment(R.layout.fragment_seleccion_fecha) {
         view.findViewById<TextView>(R.id.tvPrintActividad).text = viewModel.actividad
 
 
+        // Mostrar date picker
+        edtDate = view.findViewById(R.id.edtDate)
+
+        edtDate.setText(viewModel.fecha)
+
+        childFragmentManager.setFragmentResultListener("fecha", viewLifecycleOwner) {
+            _, bundle ->
+            onDateSelected(bundle.getInt("d"), bundle.getInt("m"), bundle.getInt("y"))
+        }
+
+        edtDate.setOnClickListener {
+            showDatePickerDialog()
+        }
+
         // Pasar a la siguiente etapa
         val btnContinuar = view.findViewById<Button>(R.id.btnContinuar)
 
         btnContinuar.setOnClickListener {
-            (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.avanzarA(
+            if(viewModel.fecha.isNullOrEmpty()) {
+                Toast.makeText(requireContext(), "Debe seleccionar una fecha", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
                 FragmSeleccionHora(),
                 EtapaReserva.SELECCION_HORA
             )
-        }
-
-        // Mostrar date picker
-        edtDate = view.findViewById(R.id.edtDate)
-
-        edtDate.setOnClickListener {
-            showDatePickerDialog()
         }
     }
 
     private fun showDatePickerDialog() {
         val datePicker =
-            DatePickerFragment({ day, month, year -> onDateSelected(day, month, year) })
+            DatePickerFragment()
         datePicker.show(childFragmentManager, "datePicker")
     }
 

@@ -13,6 +13,7 @@ import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaPago
 import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.pago.PagoResViewModel
+import com.grupo3.clubdeportivo.utils.formatoPeso
 
 
 class FragmPagoEnCuotas : Fragment(R.layout.fragment_pago_en_cuotas) {
@@ -26,7 +27,7 @@ class FragmPagoEnCuotas : Fragment(R.layout.fragment_pago_en_cuotas) {
         view.findViewById<TextView>(R.id.tvPrintDni).text = viewModel.dni
         view.findViewById<TextView>(R.id.tvPrintNombre).text = viewModel.nombre
         view.findViewById<TextView>(R.id.tvPrintActividad).text = viewModel.actividad
-        view.findViewById<TextView>(R.id.tvPrintValor).text = viewModel.monto.toString()
+        view.findViewById<TextView>(R.id.tvPrintValor).text = viewModel.monto?.formatoPeso()
         view.findViewById<TextView>(R.id.tvPrintMetodoPago).text = viewModel.metodoPago
 
         val cuotas = resources.getStringArray(R.array.cuotas)
@@ -47,36 +48,27 @@ class FragmPagoEnCuotas : Fragment(R.layout.fragment_pago_en_cuotas) {
         val btnContinuar = view.findViewById<Button>(R.id.btnContinuar)
 
         btnVolver.setOnClickListener {
-            (requireActivity() as? BarraEstadoHost<EtapaPago>)?.avanzarA(
+            (requireActivity() as? BarraEstadoHost<EtapaPago>)?.irA(
                 FragmVerificacionReserva(),
                 EtapaPago.METODO_PAGO
             )
         }
 
         btnContinuar.setOnClickListener {
-            when{
-                cuota == 3 -> {
-                    Toast.makeText(
-                        requireContext(),
-                        "Tiene 5% de descuento",
-                        Toast.LENGTH_SHORT).show()
-                }
-
-                cuota == 6 -> {
-                    Toast.makeText(
-                        requireContext(),
-                        "Tiene 10% de descuento",
-                        Toast.LENGTH_SHORT).show()
-                }
-                else -> {
-                    Toast.makeText(
-                        requireContext(),
-                        "NO tiene descuento",
-                        Toast.LENGTH_SHORT).show()
-                }
+            val cuotaSeleccionada = viewModel.cuota
+            if(cuotaSeleccionada == null ) {
+                Toast.makeText(requireContext(), "Debe seleccionar número de cuotas", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            val mensaje = when (cuotaSeleccionada){
+                3 -> "Tiene 5% de descuento"
+                6 -> "Tiene 3% de descuento"
+                else -> "No tiene descuento"
             }
 
-            (requireActivity() as? BarraEstadoHost<EtapaPago>)?.avanzarA(
+            Toast.makeText(requireContext(), mensaje, Toast.LENGTH_SHORT).show()
+
+            (requireActivity() as? BarraEstadoHost<EtapaPago>)?.irA(
                 FragmComprobantePago(),
                 EtapaPago.COMPROBANTE_PAGO
             )
