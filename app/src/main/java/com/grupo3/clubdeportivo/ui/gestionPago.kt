@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.ui.pagoCuota.PagoCuotaActivity
+
 import com.grupo3.clubdeportivo.ui.pago.PagoReserva
 
 class gestionPago : AppCompatActivity() {
@@ -26,6 +28,12 @@ class gestionPago : AppCompatActivity() {
         val btnBack = findViewById<ImageButton>(R.id.btnBack)
         btnBack.setOnClickListener {
             finish()
+        }
+
+        val btnSocio = findViewById<Button>(R.id.btnSocio)
+        btnSocio.setOnClickListener {
+            val intent = Intent(this, PagoCuotaActivity::class.java)
+            startActivity(intent)
         }
 
         val btnNoSocio = findViewById<Button>(R.id.btnNoSocio)
