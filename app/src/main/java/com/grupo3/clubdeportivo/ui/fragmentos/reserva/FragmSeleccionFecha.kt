@@ -55,7 +55,7 @@ class FragmSeleccionFecha : Fragment(R.layout.fragment_seleccion_fecha) {
 
     private fun showDatePickerDialog() {
         val datePicker =
-            DatePickerFragment()
+            FragmDatePicker()
         datePicker.show(childFragmentManager, "datePicker")
     }
 

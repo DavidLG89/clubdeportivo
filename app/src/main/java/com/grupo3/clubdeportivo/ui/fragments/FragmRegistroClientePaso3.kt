@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.ui.registroCliente.RegistroClienteViewModel
-import com.grupo3.clubdeportivo.ui.registroCliente.registro_cliente_mensaje_aceptacion_contrato
+import com.grupo3.clubdeportivo.ui.registroCliente.RegistroClienteMensajeAceptacionContrato
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -46,7 +46,7 @@ class FragmRegistroClientePaso3 : Fragment(R.layout.fragment_registro_cliente_pa
 
         // Botón IMPRIMIR (Avanza a mensaje de aceptación del contrato)
         view.findViewById<Button>(R.id.btnImprimirContrato)?.setOnClickListener {
-            val intent = Intent(requireContext(), registro_cliente_mensaje_aceptacion_contrato::class.java)
+            val intent = Intent(requireContext(), RegistroClienteMensajeAceptacionContrato::class.java)
             startActivity(intent)
         }
     }

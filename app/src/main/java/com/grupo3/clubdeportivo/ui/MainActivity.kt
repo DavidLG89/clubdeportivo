@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                     .show()
             } else {
                 Toast.makeText(this, "Login correcto", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, menu_principal::class.java)
+                val intent = Intent(this, menuPrincipal::class.java)
                 startActivity(intent)
             }
         }
@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         }
         tvOlvide.text = spannable
         tvOlvide.setOnClickListener {
-            val intent = Intent(this, recuperar_contrasenia::class.java)
+            val intent = Intent(this, recuperarContrasenia::class.java)
             startActivity(intent)
         }
 

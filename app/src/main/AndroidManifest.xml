@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.menu_principal"
+            android:name=".ui.menuPrincipal"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
@@ -33,34 +33,34 @@
             android:name=".ui.gestionPago"
             android:exported="false" />
         <activity
-            android:name=".ui.perfil_administrador"
+            android:name=".ui.perfilAdministrador"
             android:exported="false" />
         <activity
-            android:name=".ui.registroCliente.registro_cliente"
+            android:name=".ui.registroCliente.RegistroClienteActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.registroCliente.registro_cliente_mensaje_aceptacion_contrato"
+            android:name=".ui.registroCliente.RegistroClienteMensajeAceptacionContrato"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.registroCliente.registro_cliente_mensaje_si"
+            android:name=".ui.registroCliente.RegistroClienteMensajeSi"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.registroCliente.registro_cliente_mensaje_no"
+            android:name=".ui.registroCliente.RegistroClienteMensajeNo"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.recuperar_contrasenia"
+            android:name=".ui.recuperarContrasenia"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.reserva.Reserva"
+            android:name=".ui.reserva.ReservaActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".ui.pago.PagoReserva"
+            android:name=".ui.pago.PagoReservaActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity

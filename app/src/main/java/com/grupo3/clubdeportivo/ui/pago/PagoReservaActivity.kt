@@ -20,7 +20,7 @@ import com.grupo3.clubdeportivo.ui.fragmentos.pago.reserva.FragmPagoEnCuotas
 import com.grupo3.clubdeportivo.ui.fragmentos.pago.reserva.FragmVerificacionReserva
 
 
-class PagoReserva : AppCompatActivity(), BarraEstadoHost<EtapaPago>, ListenerCompartido {
+class PagoReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, ListenerCompartido {
 
     private val viewModel: PagoResViewModel by viewModels()
     private lateinit var stepBar: CompBarraEstadoPago

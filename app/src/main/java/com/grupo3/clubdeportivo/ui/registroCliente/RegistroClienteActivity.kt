@@ -15,10 +15,10 @@ import com.grupo3.clubdeportivo.data.model.EtapaRegistro
 import com.grupo3.clubdeportivo.ui.components.BarraEstadoRegistroHost
 import com.grupo3.clubdeportivo.ui.components.CompBarraRegistroCliente
 import com.grupo3.clubdeportivo.ui.fragments.FragmRegistroClientePaso1
-import com.grupo3.clubdeportivo.ui.menu_principal
-import com.grupo3.clubdeportivo.ui.perfil_administrador
+import com.grupo3.clubdeportivo.ui.menuPrincipal
+import com.grupo3.clubdeportivo.ui.perfilAdministrador
 
-class registro_cliente : AppCompatActivity(), BarraEstadoRegistroHost {
+class RegistroClienteActivity : AppCompatActivity(), BarraEstadoRegistroHost {
 
     private val viewModel: RegistroClienteViewModel by viewModels()
     private lateinit var stepBar: CompBarraRegistroCliente
@@ -58,14 +58,14 @@ class registro_cliente : AppCompatActivity(), BarraEstadoRegistroHost {
 
         // Navegación en footer
         findViewById<LinearLayout>(R.id.navInicio)?.setOnClickListener {
-            val intent = Intent(this, menu_principal::class.java)
+            val intent = Intent(this, menuPrincipal::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
             startActivity(intent)
             finish()
         }
 
         findViewById<LinearLayout>(R.id.navPerfil)?.setOnClickListener {
-            val intent = Intent(this, perfil_administrador::class.java)
+            val intent = Intent(this, perfilAdministrador::class.java)
             startActivity(intent)
         }
     }

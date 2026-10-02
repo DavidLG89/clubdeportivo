@@ -21,7 +21,7 @@ import com.grupo3.clubdeportivo.ui.fragmentos.reserva.FragmSeleccionHora
 import com.grupo3.clubdeportivo.ui.fragmentos.reserva.FragmVerificacionCliente
 
 
-class Reserva : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, ListenerCompartido {
+class ReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, ListenerCompartido {
 
     private val viewModel: ReservaViewModel by viewModels()
     private lateinit var stepBar: CompBarraEstadoReserva

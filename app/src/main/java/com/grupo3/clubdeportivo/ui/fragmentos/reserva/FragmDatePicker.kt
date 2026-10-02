@@ -2,7 +2,6 @@ package com.grupo3.clubdeportivo.ui.fragmentos.reserva
 
 import android.app.DatePickerDialog
 import android.app.Dialog
-import android.content.Context
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.widget.DatePicker
@@ -10,7 +9,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
 
-class DatePickerFragment :
+class FragmDatePicker :
     DialogFragment(),
     DatePickerDialog.OnDateSetListener {
 

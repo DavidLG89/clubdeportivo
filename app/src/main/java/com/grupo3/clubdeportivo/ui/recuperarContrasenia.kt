@@ -14,7 +14,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.textfield.TextInputEditText
 import com.grupo3.clubdeportivo.R
 
-class recuperar_contrasenia : AppCompatActivity() {
+class recuperarContrasenia : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

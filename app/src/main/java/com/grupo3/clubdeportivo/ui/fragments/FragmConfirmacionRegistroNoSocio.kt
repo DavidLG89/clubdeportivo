@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.ui.menu_principal
+import com.grupo3.clubdeportivo.ui.menuPrincipal
 import com.grupo3.clubdeportivo.ui.registroCliente.RegistroClienteViewModel
 
 class FragmConfirmacionRegistroNoSocio : Fragment(R.layout.fragment_registro_cliente_paso1_confirmacion_nosocio) {
@@ -28,7 +28,7 @@ class FragmConfirmacionRegistroNoSocio : Fragment(R.layout.fragment_registro_cli
         tvDetalle?.text = "NO SOCIO Nº 1: ${viewModel.nombre} ${viewModel.apellido}"
 
         view.findViewById<Button>(R.id.btnVolverNoSocio)?.setOnClickListener {
-            val intent = Intent(requireContext(), menu_principal::class.java)
+            val intent = Intent(requireContext(), menuPrincipal::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
             startActivity(intent)
             requireActivity().finish()

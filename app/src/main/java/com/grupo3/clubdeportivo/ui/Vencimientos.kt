@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.ui.pago.PagoReserva
 import com.grupo3.clubdeportivo.vencimiento.BuscarVencimientoPorDni
 import com.grupo3.clubdeportivo.vencimiento.VencimientoDiario
 
@@ -45,13 +44,13 @@ class Vencimientos : AppCompatActivity() {
 
         // Navegación al Perfil del Administrador desde la barra inferior
         findViewById<LinearLayout>(R.id.navPerfil).setOnClickListener {
-            val intent = Intent(this, perfil_administrador::class.java)
+            val intent = Intent(this, perfilAdministrador::class.java)
             startActivity(intent)
         }
 
         // Navegación al Menú Principal desde la barra inferior (Inicio)
         findViewById<LinearLayout>(R.id.navInicio).setOnClickListener {
-            val intent = Intent(this, menu_principal::class.java)
+            val intent = Intent(this, menuPrincipal::class.java)
             // FLAG_ACTIVITY_CLEAR_TOP evita acumular ventanas repetidas en el historial hacia atrás
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
             startActivity(intent)
