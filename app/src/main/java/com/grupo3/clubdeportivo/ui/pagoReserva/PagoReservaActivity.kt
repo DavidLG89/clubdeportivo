@@ -1,4 +1,4 @@
-package com.grupo3.clubdeportivo.ui.pago
+package com.grupo3.clubdeportivo.ui.pagoReserva
 
 import android.annotation.SuppressLint
 import android.os.Bundle

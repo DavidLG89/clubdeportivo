@@ -1,4 +1,4 @@
-package com.grupo3.clubdeportivo.ui.components
+package com.grupo3.clubdeportivo.ui.componentes
 
 import android.content.Context
 import android.content.Intent
@@ -6,8 +6,8 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.ui.menuPrincipal
-import com.grupo3.clubdeportivo.ui.perfilAdministrador
+import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
+import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
 
 class FooterView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -18,8 +18,8 @@ class FooterView @JvmOverloads constructor(
 
         // Configuración automática del botón Inicio -> Menú Principal
         findViewById<View>(R.id.navInicio)?.setOnClickListener {
-            if (context !is menuPrincipal) {
-                val intent = Intent(context, menuPrincipal::class.java)
+            if (context !is MenuPrincipalActivity) {
+                val intent = Intent(context, MenuPrincipalActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
                 context.startActivity(intent)
             }
@@ -27,8 +27,8 @@ class FooterView @JvmOverloads constructor(
 
         // Configuración automática del botón Perfil -> Perfil Administrador
         findViewById<View>(R.id.navPerfil)?.setOnClickListener {
-            if (context !is perfilAdministrador) {
-                val intent = Intent(context, perfilAdministrador::class.java)
+            if (context !is PerfilAdminActivity) {
+                val intent = Intent(context, PerfilAdminActivity::class.java)
                 context.startActivity(intent)
             }
         }

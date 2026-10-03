@@ -1,4 +1,4 @@
-package com.grupo3.clubdeportivo.ui.fragments
+package com.grupo3.clubdeportivo.ui.fragmentos.registroCliente
 
 import android.os.Bundle
 import android.view.View
@@ -9,7 +9,7 @@ import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaRegistro
 import com.grupo3.clubdeportivo.ui.registroCliente.RegistroClienteViewModel
-import com.grupo3.clubdeportivo.ui.components.BarraEstadoRegistroHost
+import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoRegistroHost
 
 class FragmConfirmacionRegistro : Fragment(R.layout.fragment_registro_cliente_paso1_confirmacion_socio) {
 

@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.ui.pago.PagoReservaActivity
+import com.grupo3.clubdeportivo.ui.pagoReserva.PagoReservaActivity
 import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 import com.grupo3.clubdeportivo.utils.formatoPeso
 import kotlin.getValue

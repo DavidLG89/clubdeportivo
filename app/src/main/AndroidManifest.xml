@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.menuPrincipal"
+            android:name=".ui.MenuPrincipalActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
@@ -30,10 +30,10 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.gestionPago"
+            android:name=".ui.GestionPagoActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.perfilAdministrador"
+            android:name=".ui.PerfilAdminActivity"
             android:exported="false" />
         <activity
             android:name=".ui.registroCliente.RegistroClienteActivity"
@@ -52,7 +52,7 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.recuperarContrasenia"
+            android:name=".ui.RecuperarContraseniaActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
@@ -60,18 +60,18 @@
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".ui.pago.PagoReservaActivity"
+            android:name=".ui.pagoReserva.PagoReservaActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".ui.Vencimientos"
+            android:name=".ui.vencimiento.VencimientosActivity"
             android:exported="false" />
         <activity
-            android:name=".vencimiento.VencimientoDiario"
+            android:name=".ui.vencimiento.VencimientoDiarioActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".vencimiento.BuscarVencimientoPorDni"
+            android:name=".ui.vencimiento.BuscarVencimientoPorDniActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity

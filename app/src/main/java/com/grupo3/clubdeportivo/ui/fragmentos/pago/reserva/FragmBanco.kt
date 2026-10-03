@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.ui.pago.PagoResViewModel
+import com.grupo3.clubdeportivo.ui.pagoReserva.PagoResViewModel
 
 class FragmBanco : Fragment(R.layout.fragment_pago_banco) {
     private val viewModel: PagoResViewModel by activityViewModels()

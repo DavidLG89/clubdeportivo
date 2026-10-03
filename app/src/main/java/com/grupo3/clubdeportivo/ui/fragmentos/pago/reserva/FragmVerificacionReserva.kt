@@ -7,14 +7,13 @@ import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaPago
 import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmBusquedaDni
-import com.grupo3.clubdeportivo.ui.pago.PagoResViewModel
+import com.grupo3.clubdeportivo.ui.pagoReserva.PagoResViewModel
 
 class FragmVerificacionReserva : Fragment(R.layout.fragment_verificacion_reserva) {
     private val viewModel: PagoResViewModel by activityViewModels()

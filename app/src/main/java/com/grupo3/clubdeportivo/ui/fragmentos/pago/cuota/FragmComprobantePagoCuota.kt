@@ -1,4 +1,4 @@
-package com.grupo3.clubdeportivo.ui.fragments.pagoCuota
+package com.grupo3.clubdeportivo.ui.fragmentos.pago.cuota
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.ui.menuPrincipal
+import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.pagoCuota.PagoCuotaViewModel
 
 class FragmComprobantePagoCuota : Fragment(R.layout.fragment_comprobante_pago_cuota_paso4) {
@@ -25,7 +25,7 @@ class FragmComprobantePagoCuota : Fragment(R.layout.fragment_comprobante_pago_cu
         val btnContinuar = view.findViewById<Button>(R.id.btnEnviar)
         btnContinuar?.setOnClickListener {
             Toast.makeText(requireContext(), "Enviando comprobante de pago de cuota...", Toast.LENGTH_LONG).show()
-            val intent = Intent(requireContext(), menuPrincipal::class.java)
+            val intent = Intent(requireContext(), MenuPrincipalActivity::class.java)
             startActivity(intent)
         }
     }

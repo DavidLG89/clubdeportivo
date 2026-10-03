@@ -1,7 +1,10 @@
-package com.grupo3.clubdeportivo.vencimiento
+package com.grupo3.clubdeportivo.ui.vencimiento
 
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Typeface
+import android.graphics.pdf.PdfDocument
 import android.os.Bundle
 import android.print.PrintAttributes
 import android.print.PrintDocumentAdapter
@@ -18,8 +21,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.ui.menu_principal
-import com.grupo3.clubdeportivo.ui.perfil_administrador
+import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
+import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
 import android.os.CancellationSignal
 import android.os.ParcelFileDescriptor
 import android.print.PageRange
@@ -73,13 +76,13 @@ class VencimientoDiarioActivity : AppCompatActivity() {
 
         // Navegación al Perfil del Administrador desde la barra inferior
         findViewById<LinearLayout>(R.id.navPerfil).setOnClickListener {
-            val intent = Intent(this, perfil_administrador::class.java)
+            val intent = Intent(this, PerfilAdminActivity::class.java)
             startActivity(intent)
         }
 
         // Navegación al Menú Principal desde la barra inferior (Inicio)
         findViewById<LinearLayout>(R.id.navInicio).setOnClickListener {
-            val intent = Intent(this, menu_principal::class.java)
+            val intent = Intent(this, MenuPrincipalActivity::class.java)
             // FLAG_ACTIVITY_CLEAR_TOP evita acumular ventanas repetidas en el historial hacia atrás
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
             startActivity(intent)
@@ -197,7 +200,7 @@ class VencimientoDiarioActivity : AppCompatActivity() {
             newAttributes: PrintAttributes,
             cancellationSignal: CancellationSignal?,
             callback: LayoutResultCallback,
-            extras: android.os.Bundle?
+            extras: Bundle?
         ) {
 
             if (cancellationSignal?.isCanceled == true) {
@@ -222,12 +225,12 @@ class VencimientoDiarioActivity : AppCompatActivity() {
 
             try {
 
-                val pdfDocument = android.graphics.pdf.PdfDocument()
+                val pdfDocument = PdfDocument()
 
                 val pageWidth = 595
                 val pageHeight = 842
 
-                val pageInfo = android.graphics.pdf.PdfDocument.PageInfo.Builder(
+                val pageInfo = PdfDocument.PageInfo.Builder(
                     pageWidth,
                     pageHeight,
                     1
@@ -237,9 +240,9 @@ class VencimientoDiarioActivity : AppCompatActivity() {
 
                 val canvas = page.canvas
 
-                val paint = android.graphics.Paint()
+                val paint = Paint()
                 paint.isAntiAlias = true
-                paint.color = android.graphics.Color.BLACK
+                paint.color = Color.BLACK
 
                 // -----------------------------------------
                 // MÁRGENES
@@ -255,8 +258,8 @@ class VencimientoDiarioActivity : AppCompatActivity() {
                 // -----------------------------------------
 
                 paint.textSize = 22f
-                paint.typeface = android.graphics.Typeface.DEFAULT_BOLD
-                paint.textAlign = android.graphics.Paint.Align.CENTER
+                paint.typeface = Typeface.DEFAULT_BOLD
+                paint.textAlign = Paint.Align.CENTER
 
                 canvas.drawText(
                     "CLUB DEPORTIVO",
@@ -317,8 +320,8 @@ class VencimientoDiarioActivity : AppCompatActivity() {
                 // ENCABEZADO
                 // -----------------------------------------
 
-                paint.style = android.graphics.Paint.Style.FILL
-                paint.color = android.graphics.Color.rgb(169, 212, 244)
+                paint.style = Paint.Style.FILL
+                paint.color = Color.rgb(169, 212, 244)
 
                 canvas.drawRect(
                     x1,
@@ -328,8 +331,8 @@ class VencimientoDiarioActivity : AppCompatActivity() {
                     paint
                 )
 
-                paint.color = android.graphics.Color.BLACK
-                paint.style = android.graphics.Paint.Style.STROKE
+                paint.color = Color.BLACK
+                paint.style = Paint.Style.STROKE
                 paint.strokeWidth = 1f
 
                 canvas.drawRect(
@@ -346,10 +349,10 @@ class VencimientoDiarioActivity : AppCompatActivity() {
 
                 // Texto del encabezado
 
-                paint.style = android.graphics.Paint.Style.FILL
+                paint.style = Paint.Style.FILL
                 paint.textSize = 12f
-                paint.typeface = android.graphics.Typeface.DEFAULT_BOLD
-                paint.textAlign = android.graphics.Paint.Align.CENTER
+                paint.typeface = Typeface.DEFAULT_BOLD
+                paint.textAlign = Paint.Align.CENTER
 
                 val centroY = y + 24f
 
@@ -364,14 +367,14 @@ class VencimientoDiarioActivity : AppCompatActivity() {
                 // FILAS
                 // -----------------------------------------
 
-                paint.typeface = android.graphics.Typeface.DEFAULT
+                paint.typeface = Typeface.DEFAULT
                 paint.textSize = 12f
 
                 for (cuota in cuotas) {
 
                     // Fondo de la fila
 
-                    paint.color = android.graphics.Color.rgb(
+                    paint.color = Color.rgb(
                         239,
                         247,
                         252
@@ -387,13 +390,13 @@ class VencimientoDiarioActivity : AppCompatActivity() {
 
                     // Bordes
 
-                    paint.color = android.graphics.Color.rgb(
+                    paint.color = Color.rgb(
                         139,
                         200,
                         250
                     )
 
-                    paint.style = android.graphics.Paint.Style.STROKE
+                    paint.style = Paint.Style.STROKE
                     paint.strokeWidth = 1f
 
                     canvas.drawRect(
@@ -410,9 +413,9 @@ class VencimientoDiarioActivity : AppCompatActivity() {
 
                     // Texto
 
-                    paint.style = android.graphics.Paint.Style.FILL
-                    paint.color = android.graphics.Color.BLACK
-                    paint.textAlign = android.graphics.Paint.Align.CENTER
+                    paint.style = Paint.Style.FILL
+                    paint.color = Color.BLACK
+                    paint.textAlign = Paint.Align.CENTER
 
                     val textoY = y + 24f
 
@@ -453,7 +456,7 @@ class VencimientoDiarioActivity : AppCompatActivity() {
 
                 y += 30f
 
-                paint.textAlign = android.graphics.Paint.Align.LEFT
+                paint.textAlign = Paint.Align.LEFT
                 paint.textSize = 10f
 
                 canvas.drawText(

@@ -34,7 +34,7 @@
         android:layout_marginBottom="16dp"/>
 
     <!-- Componente barra de estado (Fijo) -->
-    <com.grupo3.clubdeportivo.ui.components.CompBarraRegistroCliente
+    <com.grupo3.clubdeportivo.ui.componentes.CompBarraRegistroCliente
         android:id="@+id/componentStepBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -1,4 +1,4 @@
-package com.grupo3.clubdeportivo.ui.pago
+package com.grupo3.clubdeportivo.ui.pagoReserva
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

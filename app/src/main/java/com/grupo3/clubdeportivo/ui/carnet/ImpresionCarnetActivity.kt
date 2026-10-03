@@ -10,10 +10,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
+import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
 import com.grupo3.clubdeportivo.ui.componentes.ListenerCompartido
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmBusquedaDni
-import com.grupo3.clubdeportivo.ui.menu_principal
-import com.grupo3.clubdeportivo.ui.perfil_administrador
 
 class ImpresionCarnetActivity : AppCompatActivity(), ListenerCompartido {
 
@@ -37,13 +37,13 @@ class ImpresionCarnetActivity : AppCompatActivity(), ListenerCompartido {
 
         // Navegación al Perfil desde la barra inferior
         findViewById<LinearLayout>(R.id.navPerfil)?.setOnClickListener {
-            val intent = Intent(this, perfil_administrador::class.java)
+            val intent = Intent(this, PerfilAdminActivity::class.java)
             startActivity(intent)
         }
 
         // Navegación al Menú Principal desde la barra inferior
         findViewById<LinearLayout>(R.id.navInicio)?.setOnClickListener {
-            val intent = Intent(this, menu_principal::class.java)
+            val intent = Intent(this, MenuPrincipalActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
             startActivity(intent)
             finish()

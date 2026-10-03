@@ -11,7 +11,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
 
-class perfilAdministrador : AppCompatActivity() {
+class PerfilAdminActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -29,7 +29,7 @@ class perfilAdministrador : AppCompatActivity() {
 
         // Navegación Inicio
         findViewById<LinearLayout>(R.id.navInicio).setOnClickListener {
-            val intent = Intent(this, menuPrincipal::class.java)
+            val intent = Intent(this, MenuPrincipalActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
             startActivity(intent)
             finish()
