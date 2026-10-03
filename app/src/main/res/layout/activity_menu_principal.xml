@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_app"
-    tools:context=".ui.menu_principal">
+    tools:context=".ui.menuPrincipal">
 
     <!-- Título de la pantalla -->
 
@@ -129,7 +129,7 @@
             android:minHeight="58dp"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
-            android:text="Ver Menú de Vencimientos"
+            android:text="Vencimientos"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="18sp"
@@ -146,7 +146,7 @@
         android:id="@+id/bottomNavigation"
         layout="@layout/footer"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="82dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

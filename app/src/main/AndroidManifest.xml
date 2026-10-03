@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.menu_principal"
+            android:name=".ui.MenuPrincipalActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
@@ -30,48 +30,52 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.gestionPago"
+            android:name=".ui.GestionPagoActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.perfil_administrador"
+            android:name=".ui.PerfilAdminActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.registroCliente.registro_cliente"
+            android:name=".ui.registroCliente.RegistroClienteActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.registroCliente.registro_cliente_mensaje_aceptacion_contrato"
+            android:name=".ui.registroCliente.RegistroClienteMensajeAceptacionContrato"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.registroCliente.registro_cliente_mensaje_si"
+            android:name=".ui.registroCliente.RegistroClienteMensajeSi"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.registroCliente.registro_cliente_mensaje_no"
+            android:name=".ui.registroCliente.RegistroClienteMensajeNo"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.recuperar_contrasenia"
+            android:name=".ui.RecuperarContraseniaActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.reserva.Reserva"
+            android:name=".ui.reserva.ReservaActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".ui.pago.PagoReserva"
+            android:name=".ui.pagoReserva.PagoReservaActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".ui.Vencimientos"
+            android:name=".ui.vencimiento.VencimientosActivity"
             android:exported="false" />
         <activity
-            android:name=".vencimiento.VencimientoDiario"
+            android:name=".ui.vencimiento.VencimientoDiarioActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".vencimiento.BuscarVencimientoPorDni"
+            android:name=".ui.vencimiento.BuscarVencimientoPorDniActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.carnet.ImpresionCarnetActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
     </application>

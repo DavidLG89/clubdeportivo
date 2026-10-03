@@ -10,8 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.ui.menu_principal
-import com.grupo3.clubdeportivo.ui.pago.PagoReserva
+import com.grupo3.clubdeportivo.ui.pagoReserva.PagoReservaActivity
 import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 import com.grupo3.clubdeportivo.utils.formatoPeso
 import kotlin.getValue
@@ -59,11 +58,11 @@ class FragmCompReserva : Fragment(R.layout.fragment_comprobante_reserva){
                 }
                 .setPositiveButton(resources.getString(R.string.paga)) { _, _ ->
                     Toast.makeText(requireContext(), "Redirigiendo a pago de reserva...", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(requireContext(), PagoReserva::class.java).apply {
-                        putExtra(PagoReserva.EXTRA_DNI, viewModel.dni)
-                        putExtra(PagoReserva.EXTRA_NOMBRE, viewModel.nombre)
-                        putExtra(PagoReserva.EXTRA_ACTIVIDAD, viewModel.actividad)
-                        putExtra(PagoReserva.EXTRA_MONTO, viewModel.monto)
+                    val intent = Intent(requireContext(), PagoReservaActivity::class.java).apply {
+                        putExtra(PagoReservaActivity.EXTRA_DNI, viewModel.dni)
+                        putExtra(PagoReservaActivity.EXTRA_NOMBRE, viewModel.nombre)
+                        putExtra(PagoReservaActivity.EXTRA_ACTIVIDAD, viewModel.actividad)
+                        putExtra(PagoReservaActivity.EXTRA_MONTO, viewModel.monto)
                     }
                     startActivity(intent)
                 }

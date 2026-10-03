@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.grupo3.clubdeportivo.ui.components.FooterView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.grupo3.clubdeportivo.ui.componentes.FooterView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/bottomNavigation"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="82dp"
     android:background="@color/color_boton_principal"
     android:orientation="horizontal"
     android:baselineAligned="false">
@@ -23,7 +23,7 @@
             android:layout_width="60dp"
             android:layout_height="68dp"
             android:contentDescription="Inicio"
-            android:src="@drawable/ic_home3" />
+            android:src="@drawable/boton_inicio" />
 
     </LinearLayout>
 
@@ -43,7 +43,7 @@
             android:layout_width="60dp"
             android:layout_height="68dp"
             android:contentDescription="Perfil"
-            android:src="@drawable/img_perfil1" />
+            android:src="@drawable/boton_perfil" />
 
     </LinearLayout>
-</com.grupo3.clubdeportivo.ui.components.FooterView>
+</com.grupo3.clubdeportivo.ui.componentes.FooterView>

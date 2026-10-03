@@ -21,4 +21,16 @@
     <color name="gris_boton_no">#D9D9D9</color>
     <color name="naranja">#F69657</color>
 
+    <!-- Table colors -->
+    <color name="borde_tabla">#8BC8FA</color>
+    <color name="texto_tabla">#000000</color>
+
+    <!-- #A9D4F4 con 21% de opacidad -->
+    <color name="fondo_celda_tabla">#36A9D4F4</color>
+
+    <!-- #A9D4F4 con 41% de opacidad -->
+    <color name="fondo_header_tabla">#69A9D4F4</color>
+
+    <color name="blanco_tabla">#FFFFFF</color>
+
 </resources>

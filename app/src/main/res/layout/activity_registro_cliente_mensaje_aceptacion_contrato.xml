@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_app"
     android:orientation="vertical"
-    tools:context=".ui.registroCliente.registro_cliente_mensaje_aceptacion_contrato">
+    tools:context=".ui.registroCliente.RegistroClienteMensajeAceptacionContrato">
 
     <!-- Botón de retorno -->
     <ImageButton
