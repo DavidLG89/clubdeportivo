@@ -36,6 +36,7 @@
             android:layout_height="48dp"
             android:hint="@string/ingrese_dni"
             android:textColorHint="@color/color_hint_oscuro"
+            android:textColor="@color/black"
             android:paddingStart="12dp"
             android:background="@color/background_app"
             android:inputType="number"

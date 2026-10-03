@@ -74,6 +74,9 @@
     <string name="seleccione_opcion">Seleccione opción</string>
     <string name="id_pago">id_pago</string>
     <string name="cuotas_del_socio">CUOTAS DEL SOCIO</string>
+    <string name="buscar_cuotas_por_dni">Buscar cuotas por DNI</string>
+    <string name="vencimiento_diario">Vencimiento diario</string>
+    <string name="gestion_vencimientos">GESTION VENCIMIENTOS</string>
 
     <string-array name="actividades">
         <item>Natación</item>
