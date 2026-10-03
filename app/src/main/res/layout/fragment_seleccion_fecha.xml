@@ -54,7 +54,7 @@
         android:layout_margin="40dp"
         android:hint="@string/seleccione_un_dia"
         android:clickable="false"
-        android:focusable="false"/>
+        android:focusable="false" />
 
     <Button
         android:id="@+id/btnContinuar"

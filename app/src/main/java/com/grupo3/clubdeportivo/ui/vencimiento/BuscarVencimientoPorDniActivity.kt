@@ -1,4 +1,4 @@
-package com.grupo3.clubdeportivo.vencimiento
+package com.grupo3.clubdeportivo.ui.vencimiento
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,9 +10,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.ui.menu_principal
-import com.grupo3.clubdeportivo.ui.perfil_administrador
+import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
 
-class BuscarVencimientoPorDni : AppCompatActivity() {
+class BuscarVencimientoPorDniActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -30,7 +30,7 @@ class BuscarVencimientoPorDni : AppCompatActivity() {
 
         // Navegación al Perfil del Administrador desde la barra inferior
         findViewById<LinearLayout>(R.id.navPerfil).setOnClickListener {
-            val intent = Intent(this, perfil_administrador::class.java)
+            val intent = Intent(this, PerfilAdminActivity::class.java)
             startActivity(intent)
         }
 

@@ -10,10 +10,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.ui.menu_principal
-import com.grupo3.clubdeportivo.ui.perfil_administrador
+import com.grupo3.clubdeportivo.ui.menuPrincipal
+import com.grupo3.clubdeportivo.ui.perfilAdministrador
 
-class registro_cliente_mensaje_aceptacion_contrato : AppCompatActivity() {
+class RegistroClienteMensajeAceptacionContrato : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,26 +33,26 @@ class registro_cliente_mensaje_aceptacion_contrato : AppCompatActivity() {
 
         // Botón NO -> abre pantalla de contrato NO aceptado
         findViewById<Button>(R.id.btnNo).setOnClickListener {
-            val intent = Intent(this, registro_cliente_mensaje_no::class.java)
+            val intent = Intent(this, RegistroClienteMensajeNo::class.java)
             startActivity(intent)
         }
 
         // Botón SÍ -> abre pantalla de contrato SÍ aceptado
         findViewById<Button>(R.id.btnSi).setOnClickListener {
-            val intent = Intent(this, registro_cliente_mensaje_si::class.java)
+            val intent = Intent(this, RegistroClienteMensajeSi::class.java)
             startActivity(intent)
         }
 
         // Navegación en footer
         findViewById<LinearLayout>(R.id.navInicio)?.setOnClickListener {
-            val intent = Intent(this, menu_principal::class.java)
+            val intent = Intent(this, menuPrincipal::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
             startActivity(intent)
             finish()
         }
 
         findViewById<LinearLayout>(R.id.navPerfil)?.setOnClickListener {
-            val intent = Intent(this, perfil_administrador::class.java)
+            val intent = Intent(this, perfilAdministrador::class.java)
             startActivity(intent)
         }
     }

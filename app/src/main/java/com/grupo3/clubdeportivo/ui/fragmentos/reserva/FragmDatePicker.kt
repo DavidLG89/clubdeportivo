@@ -2,13 +2,14 @@ package com.grupo3.clubdeportivo.ui.fragmentos.reserva
 
 import android.app.DatePickerDialog
 import android.app.Dialog
-import android.content.Context
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.widget.DatePicker
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.setFragmentResult
 
-class DatePickerFragment(val listener: (day: Int, month: Int, year: Int) -> Unit) :
+class FragmDatePicker :
     DialogFragment(),
     DatePickerDialog.OnDateSetListener {
 
@@ -18,8 +19,9 @@ class DatePickerFragment(val listener: (day: Int, month: Int, year: Int) -> Unit
         val month = calendar.get(Calendar.MONTH)
         val year = calendar.get(Calendar.YEAR)
 
-        val picker = DatePickerDialog(activity as Context, this, year, month, day)
-        return picker
+        return DatePickerDialog(requireContext(), this, year, month, day).apply { datePicker.minDate =
+            System.currentTimeMillis() - 1000
+        }
     }
 
     override fun onDateSet(
@@ -28,6 +30,6 @@ class DatePickerFragment(val listener: (day: Int, month: Int, year: Int) -> Unit
         month: Int,
         dayOfMonth: Int
     ) {
-        listener(dayOfMonth, month, year)
+        setFragmentResult("fecha", bundleOf("d" to dayOfMonth, "m" to month, "y" to year))
     }
 }

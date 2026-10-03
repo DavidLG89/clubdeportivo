@@ -14,10 +14,14 @@ import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.componentes.ListenerCompartido
 import com.grupo3.clubdeportivo.ui.componentes.CompBarraEstadoReserva
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmBusquedaDni
+import com.grupo3.clubdeportivo.ui.fragmentos.reserva.FragmCompReserva
+import com.grupo3.clubdeportivo.ui.fragmentos.reserva.FragmSeleccionActividad
+import com.grupo3.clubdeportivo.ui.fragmentos.reserva.FragmSeleccionFecha
+import com.grupo3.clubdeportivo.ui.fragmentos.reserva.FragmSeleccionHora
 import com.grupo3.clubdeportivo.ui.fragmentos.reserva.FragmVerificacionCliente
 
 
-class Reserva : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, ListenerCompartido {
+class ReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, ListenerCompartido {
 
     private val viewModel: ReservaViewModel by viewModels()
     private lateinit var stepBar: CompBarraEstadoReserva
@@ -26,6 +30,7 @@ class Reserva : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, ListenerComp
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Establece el layout de la activity
         setContentView(R.layout.activity_reserva)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.reserva_actividades)) { v, insets ->
@@ -35,42 +40,57 @@ class Reserva : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, ListenerComp
         }
 
 
-        // Botón volver
-        val btnBack = findViewById<ImageButton>(R.id.btnBack)
-        btnBack.setOnClickListener {
-            finish()
-        }
-
-        // Barra de Estado
+        // Obtiene Barra de Estado del layout
         stepBar = findViewById(R.id.componentStepBar)
 
+        // Reconoce el fragmento actual al volver con el botón del celular
+        supportFragmentManager.addOnBackStackChangedListener {
+            when (supportFragmentManager.findFragmentById(R.id.fragmentContainer)) {
+                is FragmBusquedaDni -> viewModel.irAPaso(EtapaReserva.BUSQUEDA_DNI)
+                is FragmVerificacionCliente -> viewModel.irAPaso(EtapaReserva.VERIFICACION)
+                is FragmSeleccionActividad -> viewModel.irAPaso(EtapaReserva.SELECCION_ACTIVIDAD)
+                is FragmSeleccionFecha -> viewModel.irAPaso(EtapaReserva.SELECCION_FECHA)
+                is FragmSeleccionHora -> viewModel.irAPaso(EtapaReserva.SELECCION_HORA)
+                is FragmCompReserva -> viewModel.irAPaso(EtapaReserva.CONFIRMACION_RESERVA)
+            }
+        }
+        // Botón Volver regresa al fragmento anterior
+        val btnBack = findViewById<ImageButton>(R.id.btnBack)
+        btnBack.setOnClickListener {
+            supportFragmentManager.popBackStack()
+        }
 
+        // Observa la etapa actual y actualiza la barra de estado
         viewModel.pasoActual.observe(this) { etapa ->
             setStep(etapa)
         }
+
+        // Carga el primer fragmento al iniciar la activity
         if (savedInstanceState == null) {
-            avanzarA(FragmBusquedaDni(), EtapaReserva.BUSQUEDA_DNI)
+            irA(FragmBusquedaDni(), EtapaReserva.BUSQUEDA_DNI)
         }
     }
 
-
-    // Etapa
+    // Actualiza la barra de estado
     override fun setStep(etapa: EtapaReserva) {
         stepBar.setStep(etapa)
     }
 
-    // Avanza etapa de formulario
-    override fun avanzarA(fragment: Fragment, etapa: EtapaReserva) {
+    // Navega en los distintos fragmentos de la activity
+    override fun irA(fragment: Fragment, etapa: EtapaReserva) {
+        val esPrimero = supportFragmentManager.findFragmentById(R.id.fragmentContainer) == null
+
         viewModel.irAPaso(etapa)
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, fragment)
-            .addToBackStack(null)
+            .apply { if (!esPrimero) addToBackStack(null) }
             .commit()
     }
 
+    // Si el dni está validado, continúa al paso siguiente y guarda el dato en viewModel
     override fun onDniValidado(dni: String) {
         viewModel.dni = dni
-        avanzarA(
+        irA(
             FragmVerificacionCliente(),
             EtapaReserva.VERIFICACION
 

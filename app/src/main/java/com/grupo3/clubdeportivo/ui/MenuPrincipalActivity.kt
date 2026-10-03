@@ -10,9 +10,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.ui.carnet.ImpresionCarnetActivity
-import com.grupo3.clubdeportivo.ui.registroCliente.registro_cliente
-import com.grupo3.clubdeportivo.ui.reserva.Reserva
-import com.grupo3.clubdeportivo.vencimiento.VencimientoDiario
+import com.grupo3.clubdeportivo.ui.registroCliente.RegistroClienteActivity
+import com.grupo3.clubdeportivo.ui.reserva.ReservaActivity
 
 class menu_principal : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,14 +32,14 @@ class menu_principal : AppCompatActivity() {
 
         // Botón Registro Socio-No Socio
         findViewById<Button>(R.id.btnRegistro_socio_nosocio).setOnClickListener {
-            val intent = Intent(this, registro_cliente::class.java)
+            val intent = Intent(this, RegistroClienteActivity::class.java)
             startActivity(intent)
         }
 
         // Botón a Reserva
         val btnReserva = findViewById<Button>(R.id.btnReserva_actividades)
         btnReserva.setOnClickListener {
-            val intent = Intent(this, Reserva::class.java)
+            val intent = Intent(this, ReservaActivity::class.java)
             startActivity(intent)
         }
 
@@ -57,7 +56,7 @@ class menu_principal : AppCompatActivity() {
 
         // Navegación al Perfil del Administrador desde la barra inferior
         findViewById<LinearLayout>(R.id.navPerfil).setOnClickListener {
-            val intent = Intent(this, perfil_administrador::class.java)
+            val intent = Intent(this, perfilAdministrador::class.java)
             startActivity(intent)
         }
 

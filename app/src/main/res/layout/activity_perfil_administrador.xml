@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_app"
-    tools:context=".ui.perfil_administrador">
+    tools:context=".ui.perfilAdministrador">
 
     <!-- Botón de retorno -->
     <ImageButton
