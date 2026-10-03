@@ -1,8 +1,10 @@
 package com.grupo3.clubdeportivo.ui.reserva
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -10,6 +12,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaReserva
+import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
+import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
 import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.componentes.ListenerCompartido
 import com.grupo3.clubdeportivo.ui.componentes.CompBarraEstadoReserva
@@ -68,6 +72,17 @@ class ReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, List
         // Carga el primer fragmento al iniciar la activity
         if (savedInstanceState == null) {
             irA(FragmBusquedaDni(), EtapaReserva.BUSQUEDA_DNI)
+        } // Navegación en footer
+        findViewById<LinearLayout>(R.id.navInicio)?.setOnClickListener {
+            val intent = Intent(this, MenuPrincipalActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            startActivity(intent)
+            finish()
+        }
+
+        findViewById<LinearLayout>(R.id.navPerfil)?.setOnClickListener {
+            val intent = Intent(this, PerfilAdminActivity::class.java)
+            startActivity(intent)
         }
     }
 
