@@ -55,7 +55,7 @@ class FragmConfirmacionCarnet : Fragment(R.layout.fragment_confirmacion_carnet) 
 
     private fun imprimirCarnet() {
         val printManager = requireContext().getSystemService(Context.PRINT_SERVICE) as PrintManager
-        val nombreDocumento = "Carnet_Socio_${viewModel.}"
+        val nombreDocumento = "Carnet_Socio_${viewModel.nombre}"
 
         printManager.print(
             nombreDocumento,
@@ -82,7 +82,7 @@ class FragmConfirmacionCarnet : Fragment(R.layout.fragment_confirmacion_carnet) 
                 return
             }
 
-            val info = PrintDocumentInfo.Builder("carnet_socio_${viewModel.dni}.pdf")
+            val info = PrintDocumentInfo.Builder("carnet_socio_${viewModel.nombre}.pdf")
                 .setContentType(PrintDocumentInfo.CONTENT_TYPE_DOCUMENT)
                 .setPageCount(1)
                 .build()

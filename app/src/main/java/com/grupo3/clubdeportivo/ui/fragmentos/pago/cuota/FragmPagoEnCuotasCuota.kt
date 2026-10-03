@@ -1,4 +1,4 @@
-package com.grupo3.clubdeportivo.ui.fragments.pagoCuota
+package com.grupo3.clubdeportivo.ui.fragmentos.pago.cuota
 
 import android.os.Bundle
 import android.view.View
@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaPagoCuota
-import com.grupo3.clubdeportivo.ui.components.BarraEstadoPagoCuotaHost
+import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoPagoCuotaHost
 import com.grupo3.clubdeportivo.ui.pagoCuota.PagoCuotaViewModel
 
 class FragmPagoEnCuotasCuota : Fragment(R.layout.fragment_pago_en_cuotas_cuota_paso3_1) {

@@ -1,4 +1,4 @@
-package com.grupo3.clubdeportivo.ui.fragments
+package com.grupo3.clubdeportivo.ui.fragmentos.registroCliente
 
 import android.os.Bundle
 import android.text.Html
@@ -12,7 +12,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaRegistro
 import com.grupo3.clubdeportivo.ui.registroCliente.RegistroClienteViewModel
-import com.grupo3.clubdeportivo.ui.components.BarraEstadoRegistroHost
+import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoRegistroHost
 
 class FragmRegistroClientePaso2 : Fragment(R.layout.fragment_registro_cliente_paso2) {
 

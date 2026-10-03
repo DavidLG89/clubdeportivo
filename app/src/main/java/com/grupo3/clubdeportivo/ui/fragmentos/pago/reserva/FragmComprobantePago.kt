@@ -9,8 +9,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.ui.menuPrincipal
-import com.grupo3.clubdeportivo.ui.pago.PagoResViewModel
+import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
+import com.grupo3.clubdeportivo.ui.pagoReserva.PagoResViewModel
 import com.grupo3.clubdeportivo.utils.formatoPeso
 
 class FragmComprobantePago : Fragment(R.layout.fragment_comprobante_pago) {
@@ -40,7 +40,7 @@ class FragmComprobantePago : Fragment(R.layout.fragment_comprobante_pago) {
 
         btnContinuar.setOnClickListener {
             Toast.makeText(requireContext(), "Enviando comprobante de reserva...", Toast.LENGTH_LONG).show()
-            val intent = Intent(requireContext(), menuPrincipal::class.java)
+            val intent = Intent(requireContext(), MenuPrincipalActivity::class.java)
             startActivity(intent)
         }
     }

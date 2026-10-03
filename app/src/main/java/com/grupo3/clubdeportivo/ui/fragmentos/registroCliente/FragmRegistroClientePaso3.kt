@@ -1,4 +1,4 @@
-package com.grupo3.clubdeportivo.ui.fragments
+package com.grupo3.clubdeportivo.ui.fragmentos.registroCliente
 
 import android.content.Intent
 import android.os.Bundle

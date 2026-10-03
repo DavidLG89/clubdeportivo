@@ -1,4 +1,4 @@
-package com.grupo3.clubdeportivo.ui.fragments.pagoCuota
+package com.grupo3.clubdeportivo.ui.fragmentos.pago.cuota
 
 import android.os.Bundle
 import android.view.View
@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.ui.components.ListenerPagoCuota
+import com.grupo3.clubdeportivo.ui.componentes.ListenerPagoCuota
 import com.grupo3.clubdeportivo.ui.pagoCuota.PagoCuotaViewModel
 
 class FragmBusquedaDniCuota : Fragment(R.layout.fragment_busqueda_dni_paso1) {

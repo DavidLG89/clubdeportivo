@@ -2,6 +2,7 @@ package com.grupo3.clubdeportivo.ui.vencimiento
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
@@ -9,15 +10,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
+import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 
-class BuscarVencimientoPorDniActivity : AppCompatActivity() {
+class VencimientosActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_buscar_por_dni)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.BuscarVencimientoPorDni)) { v, insets ->
+        setContentView(R.layout.activity_vencimientos)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.vencimientos)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
@@ -26,6 +27,19 @@ class BuscarVencimientoPorDniActivity : AppCompatActivity() {
         val btnBack = findViewById<ImageButton>(R.id.btnBack)
         btnBack.setOnClickListener {
             finish()
+        }
+
+        val btnSocio = findViewById<Button>(R.id.btnBuscarSocio)
+
+        btnSocio.setOnClickListener {
+            val intent = Intent(this, BuscarVencimientoPorDniActivity::class.java)
+            startActivity(intent)
+        }
+        val btnVencimiento = findViewById<Button>(R.id.btnVencimientoDiario)
+
+        btnVencimiento.setOnClickListener {
+            val intent = Intent(this, VencimientoDiarioActivity::class.java)
+            startActivity(intent)
         }
 
         // Navegación al Perfil del Administrador desde la barra inferior

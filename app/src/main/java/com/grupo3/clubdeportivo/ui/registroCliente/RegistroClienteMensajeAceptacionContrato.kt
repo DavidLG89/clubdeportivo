@@ -10,8 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.ui.menuPrincipal
-import com.grupo3.clubdeportivo.ui.perfilAdministrador
+import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
+import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
 
 class RegistroClienteMensajeAceptacionContrato : AppCompatActivity() {
 
@@ -45,14 +45,14 @@ class RegistroClienteMensajeAceptacionContrato : AppCompatActivity() {
 
         // Navegación en footer
         findViewById<LinearLayout>(R.id.navInicio)?.setOnClickListener {
-            val intent = Intent(this, menuPrincipal::class.java)
+            val intent = Intent(this, MenuPrincipalActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
             startActivity(intent)
             finish()
         }
 
         findViewById<LinearLayout>(R.id.navPerfil)?.setOnClickListener {
-            val intent = Intent(this, perfilAdministrador::class.java)
+            val intent = Intent(this, PerfilAdminActivity::class.java)
             startActivity(intent)
         }
     }

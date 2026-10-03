@@ -12,11 +12,11 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaRegistro
-import com.grupo3.clubdeportivo.ui.components.BarraEstadoRegistroHost
-import com.grupo3.clubdeportivo.ui.components.CompBarraRegistroCliente
-import com.grupo3.clubdeportivo.ui.fragments.FragmRegistroClientePaso1
-import com.grupo3.clubdeportivo.ui.menuPrincipal
-import com.grupo3.clubdeportivo.ui.perfilAdministrador
+import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
+import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoRegistroHost
+import com.grupo3.clubdeportivo.ui.componentes.CompBarraRegistroCliente
+import com.grupo3.clubdeportivo.ui.fragmentos.registroCliente.FragmRegistroClientePaso1
+import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
 
 class RegistroClienteActivity : AppCompatActivity(), BarraEstadoRegistroHost {
 
@@ -58,14 +58,14 @@ class RegistroClienteActivity : AppCompatActivity(), BarraEstadoRegistroHost {
 
         // Navegación en footer
         findViewById<LinearLayout>(R.id.navInicio)?.setOnClickListener {
-            val intent = Intent(this, menuPrincipal::class.java)
+            val intent = Intent(this, MenuPrincipalActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
             startActivity(intent)
             finish()
         }
 
         findViewById<LinearLayout>(R.id.navPerfil)?.setOnClickListener {
-            val intent = Intent(this, perfilAdministrador::class.java)
+            val intent = Intent(this, PerfilAdminActivity::class.java)
             startActivity(intent)
         }
     }

@@ -12,8 +12,9 @@ import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.ui.carnet.ImpresionCarnetActivity
 import com.grupo3.clubdeportivo.ui.registroCliente.RegistroClienteActivity
 import com.grupo3.clubdeportivo.ui.reserva.ReservaActivity
+import com.grupo3.clubdeportivo.ui.vencimiento.VencimientosActivity
 
-class menu_principal : AppCompatActivity() {
+class MenuPrincipalActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -26,7 +27,7 @@ class menu_principal : AppCompatActivity() {
 
         val btnGestionPagos = findViewById<Button>(R.id.btnGestion_pagos)
         btnGestionPagos.setOnClickListener {
-            val intent = Intent(this, gestionPago::class.java)
+            val intent = Intent(this, GestionPagoActivity::class.java)
             startActivity(intent)
         }
 
@@ -44,7 +45,7 @@ class menu_principal : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.btnVerGestionVencimientos).setOnClickListener {
-            val intent = Intent(this, Vencimientos::class.java)
+            val intent = Intent(this, VencimientosActivity::class.java)
             startActivity(intent)
         }
 
@@ -56,7 +57,7 @@ class menu_principal : AppCompatActivity() {
 
         // Navegación al Perfil del Administrador desde la barra inferior
         findViewById<LinearLayout>(R.id.navPerfil).setOnClickListener {
-            val intent = Intent(this, perfilAdministrador::class.java)
+            val intent = Intent(this, PerfilAdminActivity::class.java)
             startActivity(intent)
         }
 
