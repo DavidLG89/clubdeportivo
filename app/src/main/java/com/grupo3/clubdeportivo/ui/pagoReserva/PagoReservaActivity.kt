@@ -81,15 +81,15 @@ class PagoReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Lis
             val dni = intent.getStringExtra(EXTRA_DNI)
             val nombre = intent.getStringExtra(EXTRA_NOMBRE)
             val actividad = intent.getStringExtra(EXTRA_ACTIVIDAD)
-            val monto = if (intent.hasExtra(EXTRA_MONTO)) intent.getIntExtra(EXTRA_MONTO, 0) else null
-            viewModel.monto = monto
+            if (intent.hasExtra(EXTRA_MONTO)) {
+                viewModel.monto = intent.getIntExtra(EXTRA_MONTO, 0)
+            }
 
             // Si recibe dni, guarda los datos en viewModel y continúa con la etapa métodoo de pago
             if(!dni.isNullOrEmpty()) {
                 viewModel.dni = dni
                 viewModel.nombre = nombre
                 viewModel.actividad = actividad
-                viewModel.monto = monto
 
                 irA(FragmMetodoPago(), EtapaPago.METODO_PAGO)
 

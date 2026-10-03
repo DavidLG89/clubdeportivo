@@ -27,7 +27,7 @@ class FragmMetodoPago : Fragment(R.layout.fragment_metodo_pago) {
         view.findViewById<TextView>(R.id.tvPrintNombre).text = viewModel.nombre
         view.findViewById<TextView>(R.id.tvPrintActividad).text = viewModel.actividad
         view.findViewById<TextView>(R.id.tvPrintValor).text = viewModel.monto?.formatoPeso()
-
+        Toast.makeText(requireContext(), "el pago es de: ${viewModel.monto}", Toast.LENGTH_SHORT ).show()
 
         val metodosPago = resources.getStringArray(R.array.metodos_pago)
 
