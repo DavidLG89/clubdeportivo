@@ -1,5 +1,6 @@
 package com.grupo3.clubdeportivo.ui.vencimiento
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Paint
@@ -14,119 +15,81 @@ import android.print.PrintDocumentAdapter
 import android.print.PrintDocumentInfo
 import android.print.PrintManager
 import android.view.Gravity
+import android.view.View
 import android.widget.Button
-import android.widget.ImageButton
-import android.widget.LinearLayout
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
-import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class VencimientoDiarioActivity : AppCompatActivity() {
+class FragmCuotasSocio : Fragment(R.layout.fragment_cuotas_socio) {
 
-    private lateinit var tableLayout: TableLayout
-    private lateinit var fechaHoyActual: String
+    private val viewModel: VencimientoDniViewModel by activityViewModels()
 
-    // ==========================
-    // DATOS DE PRUEBA
-    // ==========================
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    val cuotas: List<List<String>> = listOf(
-        listOf("1", "14", "Roberto Gomez", "$30.000"),
-        listOf("22", "55", "Juan Amarilla", "$30.000"),
-        listOf("13", "10", "David Sanchez", "$30.000"),
-        listOf("4", "3", "Sergio Gon", "$30.000"),
-        listOf("60", "17", "Pablo Leguizamon", "$30.000"),
-        listOf("45", "4", "Maximo Perez", "$30.000"),
-        listOf("8", "78", "Delfina Cabañas", "$30.000")
-    )
+        val tvInfoSocio = view.findViewById<TextView>(R.id.tvInfoSocio)
+        val tvDniSocio = view.findViewById<TextView>(R.id.tvDniSocio)
+        val tableLayout = view.findViewById<TableLayout>(R.id.tableLayoutCuotas)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_vencimiento_diario)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        tvInfoSocio?.text = "SOCIO: ${viewModel.nombreSocio} (${viewModel.numeroSocio})"
+        tvDniSocio?.text = "DNI: ${viewModel.dni}"
+
+        setupTable(tableLayout)
+
+        val btnVolver = view.findViewById<Button>(R.id.btnVolver)
+        val btnImprimir = view.findViewById<Button>(R.id.btnImprimir)
+
+        btnVolver?.setOnClickListener {
+            parentFragmentManager.popBackStack()
         }
 
-        val btnBack = findViewById<ImageButton>(R.id.btnBack)
-        btnBack.setOnClickListener {
-            finish()
-        }
-
-        // Obtener fecha actual dinámicamente
-        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        fechaHoyActual = sdf.format(Date())
-
-        val tvFechaHoy = findViewById<TextView>(R.id.tvFechaHoy)
-        tvFechaHoy.text = "Fecha: $fechaHoyActual"
-
-        // Referencia a la tabla
-        tableLayout = findViewById(R.id.tableLayout)
-
-        // Crear la tabla
-        setupTable()
-
-        val btnImprimir = findViewById<Button>(R.id.btnImprimir)
-
-        btnImprimir.setOnClickListener {
-            imprimirCuotas()
-        }
-
-        // Navegación al Perfil del Administrador desde la barra inferior
-        findViewById<LinearLayout>(R.id.navPerfil).setOnClickListener {
-            val intent = Intent(this, PerfilAdminActivity::class.java)
-            startActivity(intent)
-        }
-
-        // Navegación al Menú Principal desde la barra inferior (Inicio)
-        findViewById<LinearLayout>(R.id.navInicio).setOnClickListener {
-            val intent = Intent(this, MenuPrincipalActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-            startActivity(intent)
-            finish()
+        btnImprimir?.setOnClickListener {
+            imprimirCuotasSocio()
         }
     }
 
-    private fun setupTable() {
-        val headerRow = TableRow(this)
-        val headers = listOf("Id", "Nro Socio", "Nombre y Apellido", "Monto")
+    private fun setupTable(tableLayout: TableLayout?) {
+        if (tableLayout == null) return
+
+        tableLayout.removeAllViews()
+
+        // Encabezados
+        val headerRow = TableRow(requireContext())
+        val headers = listOf("Id", "Vencimiento", "Monto", "Estado")
 
         for (texto in headers) {
-            val textView = TextView(this).apply {
+            val textView = TextView(requireContext()).apply {
                 text = texto
                 setTextColor(Color.BLACK)
                 gravity = Gravity.CENTER
                 textSize = 12f
-                setPadding(5, 8, 5, 8)
+                setPadding(4, 8, 4, 8)
                 setBackgroundResource(R.drawable.fondo_header_tabla)
             }
             headerRow.addView(textView)
         }
         tableLayout.addView(headerRow)
 
-        for (cuota in cuotas) {
-            val tableRow = TableRow(this)
+        // Filas de datos
+        for (cuota in viewModel.cuotasSocio) {
+            val tableRow = TableRow(requireContext())
             for (dato in cuota) {
-                val textView = TextView(this).apply {
+                val textView = TextView(requireContext()).apply {
                     text = dato
                     setTextColor(Color.BLACK)
                     gravity = Gravity.CENTER
-                    textSize = 12f
-                    setPadding(5, 12, 5, 12)
+                    textSize = 11f
+                    setPadding(4, 10, 4, 10)
                     setBackgroundResource(R.drawable.fondo_celda)
                 }
                 tableRow.addView(textView)
@@ -135,13 +98,13 @@ class VencimientoDiarioActivity : AppCompatActivity() {
         }
     }
 
-    private fun imprimirCuotas() {
-        val printManager = getSystemService(PRINT_SERVICE) as PrintManager
-        val nombreDocumento = "Cuotas_vencidas_del_dia_$fechaHoyActual"
+    private fun imprimirCuotasSocio() {
+        val printManager = requireContext().getSystemService(Context.PRINT_SERVICE) as PrintManager
+        val nombreDocumento = "Cuotas_Socio_${viewModel.nombreSocio}"
 
         printManager.print(
             nombreDocumento,
-            CuotasPrintAdapter(),
+            CuotasSocioPrintAdapter(),
             PrintAttributes.Builder()
                 .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
                 .setResolution(PrintAttributes.Resolution("pdf", "pdf", 300, 300))
@@ -151,24 +114,26 @@ class VencimientoDiarioActivity : AppCompatActivity() {
     }
 
     private fun mostrarDialogoOpciones() {
-        AlertDialog.Builder(this)
+        if (!isAdded) return
+
+        AlertDialog.Builder(requireContext())
             .setTitle("Impresión finalizada")
             .setMessage("¿Desea volver al menú principal o continuar en esta pantalla?")
             .setPositiveButton("Ir al Inicio") { _, _ ->
-                val intent = Intent(this, MenuPrincipalActivity::class.java)
+                val intent = Intent(requireContext(), MenuPrincipalActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
                 startActivity(intent)
-                finish()
+                requireActivity().finish()
             }
             .setNegativeButton("Continuar aquí", null)
             .show()
     }
 
-    private inner class CuotasPrintAdapter : PrintDocumentAdapter() {
+    private inner class CuotasSocioPrintAdapter : PrintDocumentAdapter() {
 
         override fun onFinish() {
             super.onFinish()
-            runOnUiThread {
+            activity?.runOnUiThread {
                 mostrarDialogoOpciones()
             }
         }
@@ -185,7 +150,7 @@ class VencimientoDiarioActivity : AppCompatActivity() {
                 return
             }
 
-            val info = PrintDocumentInfo.Builder("cuotas_vencidas_del_dia.pdf")
+            val info = PrintDocumentInfo.Builder("cuotas_socio_${viewModel.dni}.pdf")
                 .setContentType(PrintDocumentInfo.CONTENT_TYPE_DOCUMENT)
                 .setPageCount(1)
                 .build()
@@ -228,39 +193,46 @@ class VencimientoDiarioActivity : AppCompatActivity() {
                 paint.textAlign = Paint.Align.CENTER
                 canvas.drawText("CLUB DEPORTIVO", pageWidth / 2f, y, paint)
 
-                y += 35f
+                y += 32f
                 paint.textSize = 18f
-                canvas.drawText("CUOTAS VENCIDAS DEL DÍA", pageWidth / 2f, y, paint)
+                canvas.drawText("ESTADO DE CUOTAS DEL SOCIO", pageWidth / 2f, y, paint)
 
-                // FECHA DINÁMICA
                 y += 24f
-                paint.textSize = 13f
+                paint.textSize = 12f
                 paint.typeface = Typeface.DEFAULT
-                canvas.drawText("Fecha: $fechaHoyActual", pageWidth / 2f, y, paint)
+                val fechaActual = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
+                canvas.drawText("Fecha de emisión: $fechaActual", pageWidth / 2f, y, paint)
 
                 y += 20f
-
-                // LÍNEA DIVISORIA
                 paint.strokeWidth = 1f
                 canvas.drawLine(margenIzquierdo, y, pageWidth - margenDerecho, y, paint)
 
-                y += 30f
+                y += 25f
+                // DATOS DEL SOCIO
+                paint.textAlign = Paint.Align.LEFT
+                paint.textSize = 13f
+                paint.typeface = Typeface.DEFAULT_BOLD
+                canvas.drawText("Socio: ${viewModel.nombreSocio} (Nº ${viewModel.numeroSocio})", margenIzquierdo, y, paint)
+                y += 20f
+                canvas.drawText("DNI: ${viewModel.dni}", margenIzquierdo, y, paint)
 
-                // TABLA
+                y += 25f
+
+                // TABLA DE CUOTAS PDF
                 val anchoTabla = pageWidth - margenIzquierdo - margenDerecho
                 val anchoId = 55f
-                val anchoSocio = 90f
-                val anchoNombre = 260f
-                val anchoMonto = anchoTabla - anchoId - anchoSocio - anchoNombre
-                val altoFila = 38f
+                val anchoVencimiento = 130f
+                val anchoMonto = 140f
+                val anchoEstado = anchoTabla - anchoId - anchoVencimiento - anchoMonto
+                val altoFila = 36f
 
                 val x1 = margenIzquierdo
                 val x2 = x1 + anchoId
-                val x3 = x2 + anchoSocio
-                val x4 = x3 + anchoNombre
-                val x5 = x4 + anchoMonto
+                val x3 = x2 + anchoVencimiento
+                val x4 = x3 + anchoMonto
+                val x5 = x4 + anchoEstado
 
-                // ENCABEZADO PDF
+                // ENCABEZADOS DE TABLA PDF
                 paint.style = Paint.Style.FILL
                 paint.color = Color.rgb(169, 212, 244)
                 canvas.drawRect(x1, y, x5, y + altoFila, paint)
@@ -279,11 +251,11 @@ class VencimientoDiarioActivity : AppCompatActivity() {
                 paint.typeface = Typeface.DEFAULT_BOLD
                 paint.textAlign = Paint.Align.CENTER
 
-                val centroY = y + 24f
+                val centroY = y + 23f
                 canvas.drawText("Id", (x1 + x2) / 2, centroY, paint)
-                canvas.drawText("Nro Socio", (x2 + x3) / 2, centroY, paint)
-                canvas.drawText("Nombre y Apellido", (x3 + x4) / 2, centroY, paint)
-                canvas.drawText("Monto", (x4 + x5) / 2, centroY, paint)
+                canvas.drawText("Vencimiento", (x2 + x3) / 2, centroY, paint)
+                canvas.drawText("Monto", (x3 + x4) / 2, centroY, paint)
+                canvas.drawText("Estado", (x4 + x5) / 2, centroY, paint)
 
                 y += altoFila
 
@@ -291,7 +263,7 @@ class VencimientoDiarioActivity : AppCompatActivity() {
                 paint.typeface = Typeface.DEFAULT
                 paint.textSize = 12f
 
-                for (cuota in cuotas) {
+                for (cuota in viewModel.cuotasSocio) {
                     paint.color = Color.rgb(239, 247, 252)
                     canvas.drawRect(x1, y, x5, y + altoFila, paint)
 
@@ -308,7 +280,7 @@ class VencimientoDiarioActivity : AppCompatActivity() {
                     paint.color = Color.BLACK
                     paint.textAlign = Paint.Align.CENTER
 
-                    val textoY = y + 24f
+                    val textoY = y + 23f
                     canvas.drawText(cuota[0], (x1 + x2) / 2, textoY, paint)
                     canvas.drawText(cuota[1], (x2 + x3) / 2, textoY, paint)
                     canvas.drawText(cuota[2], (x3 + x4) / 2, textoY, paint)
@@ -317,11 +289,12 @@ class VencimientoDiarioActivity : AppCompatActivity() {
                     y += altoFila
                 }
 
-                // PIE DE PÁGINA PDF
+                // PIE DE PÁGINA
                 y += 30f
                 paint.textAlign = Paint.Align.LEFT
                 paint.textSize = 10f
-                canvas.drawText("Reporte generado por el sistema - Fecha: $fechaHoyActual", margenIzquierdo, y, paint)
+                paint.color = Color.GRAY
+                canvas.drawText("Reporte de cuotas generado por el sistema - Club Deportivo", margenIzquierdo, y, paint)
 
                 pdfDocument.finishPage(page)
 
