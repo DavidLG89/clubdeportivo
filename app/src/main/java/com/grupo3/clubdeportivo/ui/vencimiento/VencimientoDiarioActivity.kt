@@ -15,8 +15,6 @@ import android.widget.TableRow
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
@@ -27,9 +25,8 @@ import android.os.ParcelFileDescriptor
 import android.print.PageRange
 import android.print.PrintDocumentInfo
 import java.io.FileOutputStream
-import java.io.File
 
-class VencimientoDiario : AppCompatActivity() {
+class VencimientoDiarioActivity : AppCompatActivity() {
 
     private lateinit var tableLayout: TableLayout
 

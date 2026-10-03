@@ -1,8 +1,7 @@
-package com.grupo3.clubdeportivo.ui
+package com.grupo3.clubdeportivo.ui.vencimiento
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
@@ -10,15 +9,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.vencimiento.BuscarVencimientoPorDni
-import com.grupo3.clubdeportivo.vencimiento.VencimientoDiario
+import com.grupo3.clubdeportivo.ui.menu_principal
+import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
 
-class Vencimientos : AppCompatActivity() {
+class BuscarVencimientoPorDniActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_vencimientos)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.vencimientos)) { v, insets ->
+        setContentView(R.layout.activity_buscar_por_dni)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.BuscarVencimientoPorDni)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
@@ -29,28 +28,15 @@ class Vencimientos : AppCompatActivity() {
             finish()
         }
 
-        val btnSocio = findViewById<Button>(R.id.btnBuscarSocio)
-
-        btnSocio.setOnClickListener {
-            val intent = Intent(this, BuscarVencimientoPorDni::class.java)
-            startActivity(intent)
-        }
-        val btnVencimiento = findViewById<Button>(R.id.btnVencimientoDiario)
-
-        btnVencimiento.setOnClickListener {
-            val intent = Intent(this, VencimientoDiario::class.java)
-            startActivity(intent)
-        }
-
         // Navegación al Perfil del Administrador desde la barra inferior
         findViewById<LinearLayout>(R.id.navPerfil).setOnClickListener {
-            val intent = Intent(this, perfilAdministrador::class.java)
+            val intent = Intent(this, PerfilAdminActivity::class.java)
             startActivity(intent)
         }
 
         // Navegación al Menú Principal desde la barra inferior (Inicio)
         findViewById<LinearLayout>(R.id.navInicio).setOnClickListener {
-            val intent = Intent(this, menuPrincipal::class.java)
+            val intent = Intent(this, menu_principal::class.java)
             // FLAG_ACTIVITY_CLEAR_TOP evita acumular ventanas repetidas en el historial hacia atrás
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
             startActivity(intent)
