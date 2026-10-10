@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaPago
 import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmVerificacion
 import com.grupo3.clubdeportivo.ui.pagoCuota.PagoCuotaViewModel
 
 class FragmMetodoPago : Fragment(R.layout.fragment_metodo_pago_cuota_paso3) {
@@ -19,10 +20,10 @@ class FragmMetodoPago : Fragment(R.layout.fragment_metodo_pago_cuota_paso3) {
     var metodoPago: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        view.findViewById<TextView>(R.id.tvPrintDni).text = viewModel.dni
-        view.findViewById<TextView>(R.id.tvPrintNombre).text = viewModel.nombre
-        view.findViewById<TextView>(R.id.tvPrintActividad).text = viewModel.actividad
-        view.findViewById<TextView>(R.id.tvPrintValor).text = viewModel.monto?.toString() ?: ""
+        //view.findViewById<TextView>(R.id.tvPrintDni).text = viewModel.dni
+        //view.findViewById<TextView>(R.id.tvPrintNombre).text = viewModel.nombre
+        //view.findViewById<TextView>(R.id.tvPrintActividad).text = viewModel.actividad
+        //view.findViewById<TextView>(R.id.tvPrintValor).text = viewModel.monto?.toString() ?: ""
 
         val metodosPago = resources.getStringArray(R.array.metodos_pago)
         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, metodosPago)
@@ -40,7 +41,7 @@ class FragmMetodoPago : Fragment(R.layout.fragment_metodo_pago_cuota_paso3) {
 
         btnVolver.setOnClickListener {
             (requireActivity() as? BarraEstadoHost<EtapaPago>)?.irA(
-                FragmVerificacionCuota(),
+                FragmVerificacion(),
                 EtapaPago.VERIFICACION
             )
         }

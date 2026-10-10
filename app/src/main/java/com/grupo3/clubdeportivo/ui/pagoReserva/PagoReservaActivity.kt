@@ -17,14 +17,15 @@ import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
 import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.componentes.ListenerDni
 import com.grupo3.clubdeportivo.ui.componentes.CompBarraEstadoPago
+import com.grupo3.clubdeportivo.ui.componentes.ListenerVerificacion
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmBusquedaDni
 import com.grupo3.clubdeportivo.ui.fragmentos.pago.FragmComprobantePago
 import com.grupo3.clubdeportivo.ui.fragmentos.pago.FragmMetodoPago
 import com.grupo3.clubdeportivo.ui.fragmentos.pago.FragmPagoEnCuotas
-import com.grupo3.clubdeportivo.ui.fragmentos.pago.FragmVerificacionReserva
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmVerificacion
 
 
-class PagoReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, ListenerDni {
+class PagoReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, ListenerDni, ListenerVerificacion{
 
     private val viewModel: PagoResViewModel by viewModels()
     private lateinit var stepBar: CompBarraEstadoPago
@@ -63,7 +64,7 @@ class PagoReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Lis
         supportFragmentManager.addOnBackStackChangedListener {
             when(supportFragmentManager.findFragmentById(R.id.fragmentContainer)) {
                 is FragmBusquedaDni -> viewModel.irAPaso(EtapaPago.BUSQUEDA_DNI)
-                is FragmVerificacionReserva -> viewModel.irAPaso(EtapaPago.VERIFICACION)
+                is FragmVerificacion -> viewModel.irAPaso(EtapaPago.VERIFICACION)
                 is FragmMetodoPago -> viewModel.irAPaso(EtapaPago.METODO_PAGO)
                 is FragmPagoEnCuotas -> viewModel.irAPaso(EtapaPago.PAGO_CUOTAS)
                 is FragmComprobantePago -> viewModel.irAPaso(EtapaPago.COMPROBANTE_PAGO)
@@ -134,7 +135,7 @@ class PagoReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Lis
     override fun onDniValidado(dni: String) {
         viewModel.dni = dni
         irA(
-            FragmVerificacionReserva(),
+            FragmVerificacion(),
             EtapaPago.VERIFICACION
         )
     }
@@ -142,4 +143,27 @@ class PagoReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Lis
     // Define color de barra de estado y card del dni
     override val colorBarraEstado = R.color.color_boton_principal2
     override val colorCard = R.color.color_boton_principal2
+
+    // Título y nombre dropdown de fragmento verificación
+    override val tituloRes = R.string.verificacion_reserva
+    override val opcionRes = R.array.actividades
+    override val hintRes = R.string.actividad
+
+    override var seleccion: String?
+        get() = viewModel.actividad
+        set(value) { viewModel.actividad = value }
+
+    override fun onVolver() {
+        irA(
+            FragmBusquedaDni(),
+            EtapaPago.BUSQUEDA_DNI
+        )
+    }
+
+    override fun onContinuar() {
+        irA(
+            FragmMetodoPago(),
+            EtapaPago.METODO_PAGO
+        )
+    }
 }

@@ -17,8 +17,8 @@ import com.grupo3.clubdeportivo.ui.pagoReserva.PagoReservaActivity
 import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 
 class FragmBusquedaDni : Fragment(R.layout.fragment_busqueda_dni) {
-    private val viewModel: ReservaViewModel by activityViewModels()
     private val listener get() = requireActivity() as ListenerDni
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         // Validar campo dni
@@ -41,8 +41,6 @@ class FragmBusquedaDni : Fragment(R.layout.fragment_busqueda_dni) {
                     tvError.text = "El DNI debe tener 8 dígitos"
                 }
                 else -> {
-
-                    viewModel.dni = dni
                    listener.onDniValidado(dni)
                     tvError.visibility = View.GONE
                 }

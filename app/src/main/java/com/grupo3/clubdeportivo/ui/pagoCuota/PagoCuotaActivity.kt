@@ -13,10 +13,12 @@ import com.grupo3.clubdeportivo.data.model.EtapaPago
 import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.componentes.CompBarraEstadoPago
 import com.grupo3.clubdeportivo.ui.componentes.ListenerDni
+import com.grupo3.clubdeportivo.ui.componentes.ListenerVerificacion
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmBusquedaDni
-import com.grupo3.clubdeportivo.ui.fragmentos.pago.FragmVerificacionCuota
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmVerificacion
+import com.grupo3.clubdeportivo.ui.fragmentos.pago.FragmMetodoPago
 
-class PagoCuotaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, ListenerDni {
+class PagoCuotaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, ListenerDni, ListenerVerificacion {
 
     private val viewModel: PagoCuotaViewModel by viewModels()
     private lateinit var stepBar: CompBarraEstadoPago
@@ -62,10 +64,33 @@ class PagoCuotaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Liste
 
     override fun onDniValidado(dni: String) {
         viewModel.dni = dni
-        irA(FragmVerificacionCuota(), EtapaPago.VERIFICACION)
+        irA(FragmVerificacion(), EtapaPago.VERIFICACION)
     }
 
     // Define color de barra de estado y card del dni
     override val colorBarraEstado = R.color.naranja
     override val colorCard = R.color.naranja
+
+    // Título y nombre dropdown de fragmento verificación
+    override val tituloRes = R.string.verificacion_cuota_pendiente
+    override val opcionRes = R.array.cuotas
+    override val hintRes = R.string.cuota_nro
+
+    override var seleccion: String?
+        get() = viewModel.actividad
+        set(value) { viewModel.actividad = value}
+
+    override fun onVolver() {
+        irA(
+            FragmBusquedaDni(),
+            EtapaPago.BUSQUEDA_DNI
+        )
+    }
+
+    override fun onContinuar() {
+        irA(
+            FragmMetodoPago(),
+            EtapaPago.METODO_PAGO
+        )
+    }
 }

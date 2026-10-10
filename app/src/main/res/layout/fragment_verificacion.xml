@@ -22,6 +22,7 @@
 
 
         <TextView
+            android:id="@+id/tvTitulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -97,16 +98,16 @@
             android:layout_marginTop="40dp">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilActividad"
+                android:id="@+id/tilOpciones"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="260dp"
                 android:layout_height="50dp"
                 android:background="@color/background_app"
-                android:hint="Actividad"
+                android:hint="@string/actividad"
                 app:errorEnabled="false">
 
                 <AutoCompleteTextView
-                    android:id="@+id/autoActividad"
+                    android:id="@+id/autoOpciones"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"

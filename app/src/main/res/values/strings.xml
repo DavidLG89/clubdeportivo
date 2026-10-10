@@ -72,11 +72,13 @@
     <string name="ingrese_titular">Ingrese titular</string>
     <string name="ingrese_tipo_cuenta">Ingrese tipo cuenta</string>
     <string name="seleccione_opcion">Seleccione opción</string>
-    <string name="id_pago">id_pago</string>
+    <string name="id_pago">ID Pago</string>
     <string name="cuotas_del_socio">CUOTAS DEL SOCIO</string>
     <string name="buscar_cuotas_por_dni">Buscar cuotas por DNI</string>
     <string name="vencimiento_diario">Vencimiento diario</string>
     <string name="gestion_vencimientos">GESTION VENCIMIENTOS</string>
+    <string name="verificacion_cuota_pendiente">Verificación cuota pendiente</string>
+    <string name="vencimiento">Vencimiento:</string>
 
     <string-array name="actividades">
         <item>Natación</item>

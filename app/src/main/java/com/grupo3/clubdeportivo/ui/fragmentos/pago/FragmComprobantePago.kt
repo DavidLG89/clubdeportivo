@@ -11,14 +11,17 @@ import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.pagoCuota.PagoCuotaViewModel
+import com.grupo3.clubdeportivo.ui.pagoReserva.PagoResViewModel
+import com.grupo3.clubdeportivo.ui.pagoReserva.PagoReservaActivity
 
-class FragmComprobantePago : Fragment(R.layout.fragment_comprobante_pago_cuota_paso4) {
+class FragmComprobantePago : Fragment(R.layout.fragment_comprobante_pago) {
     private val viewModel: PagoCuotaViewModel by activityViewModels()
+    private val vModel: PagoResViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         view.findViewById<TextView>(R.id.tvPrintDni)?.text = viewModel.dni
         view.findViewById<TextView>(R.id.tvPrintNombre)?.text = viewModel.nombre
-        view.findViewById<TextView>(R.id.tvPrintActividad)?.text = viewModel.actividad
+        view.findViewById<TextView>(R.id.tvPrintActividad)?.text = vModel.actividad
         view.findViewById<TextView>(R.id.tvPrintMetodoPago)?.text = viewModel.metodoPago
         view.findViewById<TextView>(R.id.tvPrintNumCuotas)?.text = viewModel.cuota?.toString() ?: "-"
 
