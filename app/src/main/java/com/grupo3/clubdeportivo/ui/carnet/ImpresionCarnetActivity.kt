@@ -63,4 +63,6 @@ class ImpresionCarnetActivity : AppCompatActivity(), ListenerDni {
             .addToBackStack(null)
             .commit()
     }
+
+    override val colorCard = R.color.color_boton_principal2
 }

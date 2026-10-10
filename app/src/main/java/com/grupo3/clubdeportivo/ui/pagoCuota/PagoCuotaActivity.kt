@@ -13,7 +13,7 @@ import com.grupo3.clubdeportivo.data.model.EtapaPago
 import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.componentes.CompBarraEstadoPago
 import com.grupo3.clubdeportivo.ui.componentes.ListenerDni
-import com.grupo3.clubdeportivo.ui.fragmentos.pago.FragmBusquedaDniCuota
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmBusquedaDni
 import com.grupo3.clubdeportivo.ui.fragmentos.pago.FragmVerificacionCuota
 
 class PagoCuotaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, ListenerDni {
@@ -44,7 +44,7 @@ class PagoCuotaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Liste
         }
 
         if (savedInstanceState == null) {
-            irA(FragmBusquedaDniCuota(), EtapaPago.BUSQUEDA_DNI)
+            irA(FragmBusquedaDni(), EtapaPago.BUSQUEDA_DNI)
         }
     }
 
@@ -65,5 +65,7 @@ class PagoCuotaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Liste
         irA(FragmVerificacionCuota(), EtapaPago.VERIFICACION)
     }
 
+    // Define color de barra de estado y card del dni
     override val colorBarraEstado = R.color.naranja
+    override val colorCard = R.color.naranja
 }

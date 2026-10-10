@@ -4,14 +4,19 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.ui.componentes.ListenerDni
+import com.grupo3.clubdeportivo.ui.pagoCuota.PagoCuotaActivity
+import com.grupo3.clubdeportivo.ui.pagoReserva.PagoReservaActivity
 import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 
-class FragmBusquedaDni : Fragment(R.layout.fragment_busqueda_dni){
+class FragmBusquedaDni : Fragment(R.layout.fragment_busqueda_dni) {
     private val viewModel: ReservaViewModel by activityViewModels()
     private val listener get() = requireActivity() as ListenerDni
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -21,6 +26,9 @@ class FragmBusquedaDni : Fragment(R.layout.fragment_busqueda_dni){
         val btnBuscar = view.findViewById<Button>(R.id.btnBuscar)
         val tvError = view.findViewById<TextView>(R.id.tvError)
 
+        // Aplica color de listener a la card del fragmento
+        val cardDni = view.findViewById<CardView>(R.id.cardContainer)
+        cardDni.setCardBackgroundColor(ContextCompat.getColor(requireContext(), listener.colorCard))
 
         btnBuscar.setOnClickListener {
             val dni = edtDni.text?.toString()?.trim() ?: ""

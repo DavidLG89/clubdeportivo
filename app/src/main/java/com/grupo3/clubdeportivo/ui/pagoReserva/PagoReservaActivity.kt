@@ -85,7 +85,7 @@ class PagoReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Lis
                 viewModel.monto = intent.getIntExtra(EXTRA_MONTO, 0)
             }
 
-            // Si recibe dni, guarda los datos en viewModel y continúa con la etapa métodoo de pago
+            // Si recibe dni, guarda los datos en viewModel y continúa con la etapa método de pago
             if(!dni.isNullOrEmpty()) {
                 viewModel.dni = dni
                 viewModel.nombre = nombre
@@ -139,5 +139,7 @@ class PagoReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Lis
         )
     }
 
+    // Define color de barra de estado y card del dni
     override val colorBarraEstado = R.color.color_boton_principal2
+    override val colorCard = R.color.color_boton_principal2
 }

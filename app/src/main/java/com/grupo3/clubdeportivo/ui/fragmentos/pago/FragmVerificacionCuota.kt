@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaPago
 import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmBusquedaDni
 import com.grupo3.clubdeportivo.ui.pagoCuota.PagoCuotaViewModel
 
 class FragmVerificacionCuota : Fragment(R.layout.fragment_verificacion_cuota_paso2) {
@@ -34,7 +35,7 @@ class FragmVerificacionCuota : Fragment(R.layout.fragment_verificacion_cuota_pas
 
         btnVolver.setOnClickListener {
             (requireActivity() as? BarraEstadoHost<EtapaPago>)?.irA(
-                FragmBusquedaDniCuota(),
+                FragmBusquedaDni(),
                 EtapaPago.BUSQUEDA_DNI
             )
         }
