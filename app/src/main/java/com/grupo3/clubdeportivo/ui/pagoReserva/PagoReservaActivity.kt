@@ -14,17 +14,17 @@ import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaPago
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
-import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoPagoHost
+import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.componentes.ListenerDni
 import com.grupo3.clubdeportivo.ui.componentes.CompBarraEstadoPago
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmBusquedaDni
-import com.grupo3.clubdeportivo.ui.fragmentos.pago.reserva.FragmComprobantePago
-import com.grupo3.clubdeportivo.ui.fragmentos.pago.reserva.FragmMetodoPago
-import com.grupo3.clubdeportivo.ui.fragmentos.pago.reserva.FragmPagoEnCuotas
-import com.grupo3.clubdeportivo.ui.fragmentos.pago.reserva.FragmVerificacionReserva
+import com.grupo3.clubdeportivo.ui.fragmentos.pago.FragmComprobantePago
+import com.grupo3.clubdeportivo.ui.fragmentos.pago.FragmMetodoPago
+import com.grupo3.clubdeportivo.ui.fragmentos.pago.FragmPagoEnCuotas
+import com.grupo3.clubdeportivo.ui.fragmentos.pago.FragmVerificacionReserva
 
 
-class PagoReservaActivity : AppCompatActivity(), BarraEstadoPagoHost<EtapaPago>, ListenerDni {
+class PagoReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, ListenerDni {
 
     private val viewModel: PagoResViewModel by viewModels()
     private lateinit var stepBar: CompBarraEstadoPago

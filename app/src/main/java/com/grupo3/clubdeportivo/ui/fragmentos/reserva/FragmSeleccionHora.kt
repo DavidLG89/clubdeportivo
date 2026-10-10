@@ -14,7 +14,7 @@ import androidx.fragment.app.activityViewModels
 import com.google.android.material.card.MaterialCardView
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaReserva
-import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoPagoHost
+import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 
 class FragmSeleccionHora : Fragment(R.layout.fragment_seleccion_hora) {
@@ -69,7 +69,7 @@ class FragmSeleccionHora : Fragment(R.layout.fragment_seleccion_hora) {
 
         btnVolver.setOnClickListener {
 
-            (requireActivity() as? BarraEstadoPagoHost<EtapaReserva>)?.irA(
+            (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
                 FragmSeleccionFecha(),
                 EtapaReserva.SELECCION_FECHA
             )
@@ -88,7 +88,7 @@ class FragmSeleccionHora : Fragment(R.layout.fragment_seleccion_hora) {
             cupoRestante = cupoActual - 1 // Cupo se guardará en la bd
 
 
-            (requireActivity() as? BarraEstadoPagoHost<EtapaReserva>)?.irA(
+            (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
                 FragmCompReserva(),
                 EtapaReserva.CONFIRMACION_RESERVA
             )

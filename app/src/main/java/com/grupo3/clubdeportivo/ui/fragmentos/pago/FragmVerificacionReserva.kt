@@ -1,4 +1,4 @@
-package com.grupo3.clubdeportivo.ui.fragmentos.pago.reserva
+package com.grupo3.clubdeportivo.ui.fragmentos.pago
 
 import android.os.Bundle
 import android.view.View
@@ -11,7 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaPago
-import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoPagoHost
+import com.grupo3.clubdeportivo.data.model.EtapaReserva
+import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmBusquedaDni
 import com.grupo3.clubdeportivo.ui.pagoReserva.PagoResViewModel
 
@@ -47,9 +48,9 @@ class FragmVerificacionReserva : Fragment(R.layout.fragment_verificacion_reserva
         val btnContinuar = view.findViewById<Button>(R.id.btnContinuar)
 
         btnVolver.setOnClickListener {
-            (requireActivity() as? BarraEstadoPagoHost<EtapaPago>)?.irA(
+            (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
                 FragmBusquedaDni(),
-                EtapaPago.BUSQUEDA_DNI
+                EtapaReserva.BUSQUEDA_DNI
             )
         }
 
@@ -58,7 +59,7 @@ class FragmVerificacionReserva : Fragment(R.layout.fragment_verificacion_reserva
                 Toast.makeText(requireContext(), "Debe seleccionar una actividad", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            (requireActivity() as? BarraEstadoPagoHost<EtapaPago>)?.irA(
+            (requireActivity() as? BarraEstadoHost<EtapaPago>)?.irA(
                 FragmMetodoPago(),
                 EtapaPago.METODO_PAGO
             )

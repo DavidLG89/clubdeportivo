@@ -12,7 +12,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaRegistro
 import com.grupo3.clubdeportivo.ui.registroCliente.RegistroClienteViewModel
-import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoRegistroHost
+import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 
 class FragmRegistroClientePaso2 : Fragment(R.layout.fragment_registro_cliente_paso2) {
 
@@ -49,7 +49,7 @@ class FragmRegistroClientePaso2 : Fragment(R.layout.fragment_registro_cliente_pa
                 tilMontoCuota?.error = "Ingrese monto"
             } else {
                 viewModel.montoCuota = monto
-                (requireActivity() as? BarraEstadoRegistroHost)?.avanzarA(
+                (requireActivity() as? BarraEstadoHost<EtapaRegistro>)?.irA(
                     FragmRegistroClientePaso3(),
                     EtapaRegistro.CONTRATO
                 )

@@ -9,7 +9,7 @@ import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaRegistro
 import com.grupo3.clubdeportivo.ui.registroCliente.RegistroClienteViewModel
-import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoRegistroHost
+import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 
 class FragmConfirmacionRegistro : Fragment(R.layout.fragment_registro_cliente_paso1_confirmacion_socio) {
 
@@ -29,7 +29,7 @@ class FragmConfirmacionRegistro : Fragment(R.layout.fragment_registro_cliente_pa
         tvDetalle?.text = "$tipoCliente $numeroCliente${viewModel.nombre}, ${viewModel.apellido}"
 
         view.findViewById<Button>(R.id.btnContinuarConfirmacion)?.setOnClickListener {
-            (requireActivity() as? BarraEstadoRegistroHost)?.avanzarA(
+            (requireActivity() as? BarraEstadoHost<EtapaRegistro>)?.irA(
                 FragmRegistroClientePaso2(),
                 EtapaRegistro.CUOTA_SOCIO
             )

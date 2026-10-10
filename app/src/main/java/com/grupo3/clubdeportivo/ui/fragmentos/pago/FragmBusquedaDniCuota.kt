@@ -1,4 +1,4 @@
-package com.grupo3.clubdeportivo.ui.fragmentos.pago.cuota
+package com.grupo3.clubdeportivo.ui.fragmentos.pago
 
 import android.os.Bundle
 import android.view.View

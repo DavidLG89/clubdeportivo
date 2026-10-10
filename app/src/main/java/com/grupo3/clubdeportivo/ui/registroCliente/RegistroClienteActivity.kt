@@ -13,12 +13,12 @@ import androidx.fragment.app.Fragment
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaRegistro
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
-import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoRegistroHost
+import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.componentes.CompBarraRegistroCliente
 import com.grupo3.clubdeportivo.ui.fragmentos.registroCliente.FragmRegistroClientePaso1
 import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
 
-class RegistroClienteActivity : AppCompatActivity(), BarraEstadoRegistroHost {
+class RegistroClienteActivity : AppCompatActivity(), BarraEstadoHost<EtapaRegistro> {
 
     private val viewModel: RegistroClienteViewModel by viewModels()
     private lateinit var stepBar: CompBarraRegistroCliente
@@ -53,7 +53,7 @@ class RegistroClienteActivity : AppCompatActivity(), BarraEstadoRegistroHost {
         }
 
         if (savedInstanceState == null) {
-            avanzarA(FragmRegistroClientePaso1(), EtapaRegistro.REGISTRO_DATOS_CLIENTE)
+            irA(FragmRegistroClientePaso1(), EtapaRegistro.REGISTRO_DATOS_CLIENTE)
         }
 
         // Navegación en footer
@@ -74,7 +74,7 @@ class RegistroClienteActivity : AppCompatActivity(), BarraEstadoRegistroHost {
         stepBar.setStep(etapa)
     }
 
-    override fun avanzarA(fragment: Fragment, etapa: EtapaRegistro) {
+    override fun irA(fragment: Fragment, etapa: EtapaRegistro) {
         viewModel.irAPaso(etapa)
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, fragment)

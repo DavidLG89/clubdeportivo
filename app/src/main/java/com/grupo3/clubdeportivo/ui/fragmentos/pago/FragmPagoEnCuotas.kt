@@ -1,4 +1,4 @@
-package com.grupo3.clubdeportivo.ui.fragmentos.pago.reserva
+package com.grupo3.clubdeportivo.ui.fragmentos.pago
 
 import android.os.Bundle
 import android.view.View
@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaPago
-import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoPagoHost
+import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.pagoReserva.PagoResViewModel
 import com.grupo3.clubdeportivo.utils.formatoPeso
 
@@ -48,7 +48,7 @@ class FragmPagoEnCuotas : Fragment(R.layout.fragment_pago_en_cuotas) {
         val btnContinuar = view.findViewById<Button>(R.id.btnContinuar)
 
         btnVolver.setOnClickListener {
-            (requireActivity() as? BarraEstadoPagoHost<EtapaPago>)?.irA(
+            (requireActivity() as? BarraEstadoHost<EtapaPago>)?.irA(
                 FragmVerificacionReserva(),
                 EtapaPago.METODO_PAGO
             )
@@ -68,7 +68,7 @@ class FragmPagoEnCuotas : Fragment(R.layout.fragment_pago_en_cuotas) {
 
             Toast.makeText(requireContext(), mensaje, Toast.LENGTH_SHORT).show()
 
-            (requireActivity() as? BarraEstadoPagoHost<EtapaPago>)?.irA(
+            (requireActivity() as? BarraEstadoHost<EtapaPago>)?.irA(
                 FragmComprobantePago(),
                 EtapaPago.COMPROBANTE_PAGO
             )

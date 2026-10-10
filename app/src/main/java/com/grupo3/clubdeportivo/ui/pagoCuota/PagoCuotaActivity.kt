@@ -10,13 +10,13 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaPago
-import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoPagoHost
+import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.componentes.CompBarraEstadoPago
 import com.grupo3.clubdeportivo.ui.componentes.ListenerDni
-import com.grupo3.clubdeportivo.ui.fragmentos.pago.cuota.FragmBusquedaDniCuota
-import com.grupo3.clubdeportivo.ui.fragmentos.pago.cuota.FragmVerificacionCuota
+import com.grupo3.clubdeportivo.ui.fragmentos.pago.FragmBusquedaDniCuota
+import com.grupo3.clubdeportivo.ui.fragmentos.pago.FragmVerificacionCuota
 
-class PagoCuotaActivity : AppCompatActivity(), BarraEstadoPagoHost, ListenerDni {
+class PagoCuotaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, ListenerDni {
 
     private val viewModel: PagoCuotaViewModel by viewModels()
     private lateinit var stepBar: CompBarraEstadoPago
@@ -44,7 +44,7 @@ class PagoCuotaActivity : AppCompatActivity(), BarraEstadoPagoHost, ListenerDni 
         }
 
         if (savedInstanceState == null) {
-            avanzarA(FragmBusquedaDniCuota(), EtapaPago.BUSQUEDA_DNI)
+            irA(FragmBusquedaDniCuota(), EtapaPago.BUSQUEDA_DNI)
         }
     }
 
@@ -52,7 +52,7 @@ class PagoCuotaActivity : AppCompatActivity(), BarraEstadoPagoHost, ListenerDni 
         stepBar.setStep(etapa)
     }
 
-    override fun avanzarA(fragment: Fragment, etapa: EtapaPago) {
+    override fun irA(fragment: Fragment, etapa: EtapaPago) {
         viewModel.irAPaso(etapa)
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, fragment)
@@ -62,6 +62,6 @@ class PagoCuotaActivity : AppCompatActivity(), BarraEstadoPagoHost, ListenerDni 
 
     override fun onDniValidado(dni: String) {
         viewModel.dni = dni
-        avanzarA(FragmVerificacionCuota(), EtapaPago.VERIFICACION)
+        irA(FragmVerificacionCuota(), EtapaPago.VERIFICACION)
     }
 }
