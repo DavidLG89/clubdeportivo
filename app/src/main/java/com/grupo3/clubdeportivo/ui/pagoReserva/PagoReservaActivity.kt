@@ -138,4 +138,6 @@ class PagoReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Lis
             EtapaPago.VERIFICACION
         )
     }
+
+    override val colorBarraEstado = R.color.color_boton_principal2
 }

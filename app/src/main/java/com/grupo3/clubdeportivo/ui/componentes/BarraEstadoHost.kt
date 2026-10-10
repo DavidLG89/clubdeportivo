@@ -6,4 +6,5 @@ import com.grupo3.clubdeportivo.data.model.EtapaRegistro
 interface BarraEstadoHost<T> {
     fun setStep(etapa: T)
     fun irA(fragment: Fragment, etapa: T)
+    val colorBarraEstado: Int
 }

@@ -111,4 +111,6 @@ class ReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, List
 
         )
     }
+
+    override val colorBarraEstado = R.color.color_boton_principal2
 }

@@ -64,4 +64,6 @@ class PagoCuotaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Liste
         viewModel.dni = dni
         irA(FragmVerificacionCuota(), EtapaPago.VERIFICACION)
     }
+
+    override val colorBarraEstado = R.color.naranja
 }

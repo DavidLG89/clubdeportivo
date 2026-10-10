@@ -81,4 +81,7 @@ class RegistroClienteActivity : AppCompatActivity(), BarraEstadoHost<EtapaRegist
             .addToBackStack(null)
             .commit()
     }
+
+    override val colorBarraEstado = R.color.color_boton_principal2
+
 }

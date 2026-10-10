@@ -1,9 +1,11 @@
 package com.grupo3.clubdeportivo.ui.componentes
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.util.AttributeSet
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaPago
 
@@ -21,23 +23,18 @@ class CompBarraEstadoPago @JvmOverloads constructor(
             findViewById(R.id.step3),
             findViewById(R.id.step4)
         )
+
+        circles.forEach { it.setBackgroundResource(R.drawable.circle_grey) }
     }
 
     fun setStep(etapa: EtapaPago) {
+        val pasoActual = etapa.numero
+        val resActivo = (context as BarraEstadoHost<*>).colorBarraEstado ?: R.color.color_boton_principal2
+        val colorActivo = ContextCompat.getColor(context, resActivo)
         circles.forEachIndexed { index, circle ->
-            val pasoActual = etapa.numero
-            val numeroPaso = index + 1
-            when {
-                numeroPaso < pasoActual -> {
-                    circle.setBackgroundResource(R.drawable.circle_grey)
-                }
-                numeroPaso == pasoActual -> {
-                    circle.setBackgroundResource(R.drawable.circle_orange)
-                }
-                else -> {
-                    circle.setBackgroundResource(R.drawable.circle_grey)
-                }
-            }
+            circle.backgroundTintList =
+                if(index + 1 == pasoActual) ColorStateList.valueOf(colorActivo) else null
+
         }
     }
 }
