@@ -7,15 +7,13 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.ui.componentes.ListenerCompartido
+import com.grupo3.clubdeportivo.ui.componentes.ListenerDni
 import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 
 class FragmBusquedaDni : Fragment(R.layout.fragment_busqueda_dni){
     private val viewModel: ReservaViewModel by activityViewModels()
-    private val listener get() = requireActivity() as ListenerCompartido
+    private val listener get() = requireActivity() as ListenerDni
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         // Validar campo dni

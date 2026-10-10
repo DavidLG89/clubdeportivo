@@ -8,12 +8,12 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.ui.componentes.ListenerPagoCuota
+import com.grupo3.clubdeportivo.ui.componentes.ListenerDni
 import com.grupo3.clubdeportivo.ui.pagoCuota.PagoCuotaViewModel
 
 class FragmBusquedaDniCuota : Fragment(R.layout.fragment_busqueda_dni_paso1) {
     private val viewModel: PagoCuotaViewModel by activityViewModels()
-    private val listener get() = requireActivity() as ListenerPagoCuota
+    private val listener get() = requireActivity() as ListenerDni
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val edtDni = view.findViewById<EditText>(R.id.edtDni)

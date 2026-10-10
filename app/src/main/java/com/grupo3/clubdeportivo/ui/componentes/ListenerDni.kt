@@ -1,5 +1,5 @@
 package com.grupo3.clubdeportivo.ui.componentes
 
-interface ListenerCompartido {
+interface ListenerDni {
     fun onDniValidado(dni: String)
 }

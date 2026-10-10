@@ -12,11 +12,11 @@ import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaPago
 import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoPagoHost
 import com.grupo3.clubdeportivo.ui.componentes.CompBarraEstadoPago
-import com.grupo3.clubdeportivo.ui.componentes.ListenerPagoCuota
+import com.grupo3.clubdeportivo.ui.componentes.ListenerDni
 import com.grupo3.clubdeportivo.ui.fragmentos.pago.cuota.FragmBusquedaDniCuota
 import com.grupo3.clubdeportivo.ui.fragmentos.pago.cuota.FragmVerificacionCuota
 
-class PagoCuotaActivity : AppCompatActivity(), BarraEstadoPagoHost, ListenerPagoCuota {
+class PagoCuotaActivity : AppCompatActivity(), BarraEstadoPagoHost, ListenerDni {
 
     private val viewModel: PagoCuotaViewModel by viewModels()
     private lateinit var stepBar: CompBarraEstadoPago
