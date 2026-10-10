@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaPago
-import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoPagoCuotaHost
+import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoPagoHost
 import com.grupo3.clubdeportivo.ui.pagoCuota.PagoCuotaViewModel
 
 class FragmMetodoPagoCuota : Fragment(R.layout.fragment_metodo_pago_cuota_paso3) {
@@ -39,7 +39,7 @@ class FragmMetodoPagoCuota : Fragment(R.layout.fragment_metodo_pago_cuota_paso3)
         val btnContinuar = view.findViewById<Button>(R.id.btnContinuar)
 
         btnVolver.setOnClickListener {
-            (requireActivity() as? BarraEstadoPagoCuotaHost)?.avanzarA(
+            (requireActivity() as? BarraEstadoPagoHost)?.avanzarA(
                 FragmVerificacionCuota(),
                 EtapaPago.VERIFICACION
             )
@@ -51,12 +51,12 @@ class FragmMetodoPagoCuota : Fragment(R.layout.fragment_metodo_pago_cuota_paso3)
             }
 
             if (metodoPago == "Tarjeta Crédito" || metodoPago == "MercadoPago") {
-                (requireActivity() as? BarraEstadoPagoCuotaHost)?.avanzarA(
+                (requireActivity() as? BarraEstadoPagoHost)?.avanzarA(
                     FragmPagoEnCuotasCuota(),
                     EtapaPago.PAGO_CUOTAS
                 )
             } else {
-                (requireActivity() as? BarraEstadoPagoCuotaHost)?.avanzarA(
+                (requireActivity() as? BarraEstadoPagoHost)?.avanzarA(
                     FragmComprobantePagoCuota(),
                     EtapaPago.COMPROBANTE_PAGO
                 )

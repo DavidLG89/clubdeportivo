@@ -14,7 +14,7 @@ import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaReserva
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
-import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
+import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoPagoHost
 import com.grupo3.clubdeportivo.ui.componentes.ListenerCompartido
 import com.grupo3.clubdeportivo.ui.componentes.CompBarraEstadoReserva
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmBusquedaDni
@@ -25,7 +25,7 @@ import com.grupo3.clubdeportivo.ui.fragmentos.reserva.FragmSeleccionHora
 import com.grupo3.clubdeportivo.ui.fragmentos.reserva.FragmVerificacionCliente
 
 
-class ReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, ListenerCompartido {
+class ReservaActivity : AppCompatActivity(), BarraEstadoPagoHost<EtapaReserva>, ListenerCompartido {
 
     private val viewModel: ReservaViewModel by viewModels()
     private lateinit var stepBar: CompBarraEstadoReserva

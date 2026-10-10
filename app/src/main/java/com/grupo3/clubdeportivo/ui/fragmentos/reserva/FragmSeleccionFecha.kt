@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaReserva
-import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
+import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoPagoHost
 import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 
 class FragmSeleccionFecha : Fragment(R.layout.fragment_seleccion_fecha) {
@@ -46,7 +46,7 @@ class FragmSeleccionFecha : Fragment(R.layout.fragment_seleccion_fecha) {
                 Toast.makeText(requireContext(), "Debe seleccionar una fecha", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
+            (requireActivity() as? BarraEstadoPagoHost<EtapaReserva>)?.irA(
                 FragmSeleccionHora(),
                 EtapaReserva.SELECCION_HORA
             )

@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaPago
-import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoPagoCuotaHost
+import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoPagoHost
 import com.grupo3.clubdeportivo.ui.pagoCuota.PagoCuotaViewModel
 
 class FragmBancoCuota : Fragment(R.layout.fragment_pago_banco_cuota_paso3) {
@@ -18,7 +18,7 @@ class FragmBancoCuota : Fragment(R.layout.fragment_pago_banco_cuota_paso3) {
         val btnContinuar = view.findViewById<Button>(R.id.btnPagar) ?: view.findViewById<Button>(R.id.btnEnviar)
         btnContinuar?.setOnClickListener {
             Toast.makeText(requireContext(), "Enviando comprobante de pago de cuota...", Toast.LENGTH_SHORT).show()
-            (requireActivity() as? BarraEstadoPagoCuotaHost)?.avanzarA(
+            (requireActivity() as? BarraEstadoPagoHost)?.avanzarA(
                 FragmComprobantePagoCuota(),
                 EtapaPago.COMPROBANTE_PAGO
             )

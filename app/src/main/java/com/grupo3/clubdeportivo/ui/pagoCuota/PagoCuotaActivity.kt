@@ -10,13 +10,13 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaPago
-import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoPagoCuotaHost
+import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoPagoHost
 import com.grupo3.clubdeportivo.ui.componentes.CompBarraEstadoPagoCuota
 import com.grupo3.clubdeportivo.ui.componentes.ListenerPagoCuota
 import com.grupo3.clubdeportivo.ui.fragmentos.pago.cuota.FragmBusquedaDniCuota
 import com.grupo3.clubdeportivo.ui.fragmentos.pago.cuota.FragmVerificacionCuota
 
-class PagoCuotaActivity : AppCompatActivity(), BarraEstadoPagoCuotaHost, ListenerPagoCuota {
+class PagoCuotaActivity : AppCompatActivity(), BarraEstadoPagoHost, ListenerPagoCuota {
 
     private val viewModel: PagoCuotaViewModel by viewModels()
     private lateinit var stepBar: CompBarraEstadoPagoCuota

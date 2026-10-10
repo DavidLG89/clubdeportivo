@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaPago
-import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoPagoCuotaHost
+import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoPagoHost
 import com.grupo3.clubdeportivo.ui.pagoCuota.PagoCuotaViewModel
 
 class FragmPagoEnCuotasCuota : Fragment(R.layout.fragment_pago_en_cuotas_cuota_paso3_1) {
@@ -41,7 +41,7 @@ class FragmPagoEnCuotasCuota : Fragment(R.layout.fragment_pago_en_cuotas_cuota_p
         val btnContinuar = view.findViewById<Button>(R.id.btnContinuar)
 
         btnVolver.setOnClickListener {
-            (requireActivity() as? BarraEstadoPagoCuotaHost)?.avanzarA(
+            (requireActivity() as? BarraEstadoPagoHost)?.avanzarA(
                 FragmMetodoPagoCuota(),
                 EtapaPago.METODO_PAGO
             )
@@ -54,7 +54,7 @@ class FragmPagoEnCuotasCuota : Fragment(R.layout.fragment_pago_en_cuotas_cuota_p
                 else -> Toast.makeText(requireContext(), "NO tiene descuento", Toast.LENGTH_SHORT).show()
             }
 
-            (requireActivity() as? BarraEstadoPagoCuotaHost)?.avanzarA(
+            (requireActivity() as? BarraEstadoPagoHost)?.avanzarA(
                 FragmComprobantePagoCuota(),
                 EtapaPago.COMPROBANTE_PAGO
             )

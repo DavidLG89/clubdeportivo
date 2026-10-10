@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaPago
-import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
+import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoPagoHost
 import com.grupo3.clubdeportivo.ui.pagoReserva.PagoResViewModel
 import com.grupo3.clubdeportivo.utils.formatoPeso
 
@@ -52,7 +52,7 @@ class FragmMetodoPago : Fragment(R.layout.fragment_metodo_pago) {
 
 
         btnVolver.setOnClickListener {
-            (requireActivity() as? BarraEstadoHost<EtapaPago>)?.irA(
+            (requireActivity() as? BarraEstadoPagoHost<EtapaPago>)?.irA(
                 FragmVerificacionReserva(),
                 EtapaPago.VERIFICACION
             )
@@ -65,12 +65,12 @@ class FragmMetodoPago : Fragment(R.layout.fragment_metodo_pago) {
             }
 
             if(metodoPagoSeleccionado == "Tarjeta Crédito" || metodoPagoSeleccionado == "MercadoPago") {
-                (requireActivity() as? BarraEstadoHost<EtapaPago>)?.irA(
+                (requireActivity() as? BarraEstadoPagoHost<EtapaPago>)?.irA(
                     FragmPagoEnCuotas(),
                     EtapaPago.PAGO_CUOTAS
                 )
             } else {
-                (requireActivity() as? BarraEstadoHost<EtapaPago>)?.irA(
+                (requireActivity() as? BarraEstadoPagoHost<EtapaPago>)?.irA(
                     FragmComprobantePago(),
                     EtapaPago.COMPROBANTE_PAGO
                 )
