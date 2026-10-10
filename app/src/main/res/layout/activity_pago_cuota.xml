@@ -34,7 +34,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.grupo3.clubdeportivo.ui.componentes.CompBarraEstadoPagoCuota
+    <com.grupo3.clubdeportivo.ui.componentes.CompBarraEstadoPago
         android:id="@+id/componentStepBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
