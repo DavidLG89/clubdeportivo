@@ -10,36 +10,21 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
-import com.grupo3.clubdeportivo.ui.pagoReserva.PagoResViewModel
-import com.grupo3.clubdeportivo.utils.formatoPeso
+import com.grupo3.clubdeportivo.ui.pagoCuota.PagoCuotaViewModel
 
-class FragmComprobantePago : Fragment(R.layout.fragment_comprobante_pago) {
-    private val viewModel: PagoResViewModel by activityViewModels()
+class FragmComprobantePago : Fragment(R.layout.fragment_comprobante_pago_cuota_paso4) {
+    private val viewModel: PagoCuotaViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        val tvPrintNumCuotas = view.findViewById<TextView>(R.id.tvPrintNumCuotas)
-        val tvNumCuotas = view.findViewById<TextView>(R.id.tvNumCuotas)
-
-        // Imprime en pantalla datos de la reserva
-        view.findViewById<TextView>(R.id.tvPrintDni).text = viewModel.dni
-        view.findViewById<TextView>(R.id.tvPrintNombre).text = viewModel.nombre
-        view.findViewById<TextView>(R.id.tvPrintActividad).text = viewModel.actividad
-        view.findViewById<TextView>(R.id.tvPrintMetodoPago).text = viewModel.metodoPago
-        view.findViewById<TextView>(R.id.tvPrintValor).text = viewModel.monto?.formatoPeso()
-        if(viewModel.metodoPago == "Tarjeta Crédito" || viewModel.metodoPago == "MercadoPago") {
-            tvPrintNumCuotas.visibility = View.VISIBLE
-            tvPrintNumCuotas.text = viewModel.cuota.toString()
-        } else {
-            tvNumCuotas.visibility = View.GONE
-            tvPrintNumCuotas.visibility = View.GONE
-        }
-
+        view.findViewById<TextView>(R.id.tvPrintDni)?.text = viewModel.dni
+        view.findViewById<TextView>(R.id.tvPrintNombre)?.text = viewModel.nombre
+        view.findViewById<TextView>(R.id.tvPrintActividad)?.text = viewModel.actividad
+        view.findViewById<TextView>(R.id.tvPrintMetodoPago)?.text = viewModel.metodoPago
+        view.findViewById<TextView>(R.id.tvPrintNumCuotas)?.text = viewModel.cuota?.toString() ?: "-"
 
         val btnContinuar = view.findViewById<Button>(R.id.btnEnviar)
-
-        btnContinuar.setOnClickListener {
-            Toast.makeText(requireContext(), "Enviando comprobante de reserva...", Toast.LENGTH_LONG).show()
+        btnContinuar?.setOnClickListener {
+            Toast.makeText(requireContext(), "Enviando comprobante de pago de cuota...", Toast.LENGTH_LONG).show()
             val intent = Intent(requireContext(), MenuPrincipalActivity::class.java)
             startActivity(intent)
         }

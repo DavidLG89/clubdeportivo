@@ -42,7 +42,7 @@ class FragmPagoEnCuotasCuota : Fragment(R.layout.fragment_pago_en_cuotas_cuota_p
 
         btnVolver.setOnClickListener {
             (requireActivity() as? BarraEstadoHost<EtapaPago>)?.irA(
-                FragmMetodoPagoCuota(),
+                FragmMetodoPago(),
                 EtapaPago.METODO_PAGO
             )
         }
@@ -55,7 +55,7 @@ class FragmPagoEnCuotasCuota : Fragment(R.layout.fragment_pago_en_cuotas_cuota_p
             }
 
             (requireActivity() as? BarraEstadoHost<EtapaPago>)?.irA(
-                FragmComprobantePagoCuota(),
+                FragmComprobantePago(),
                 EtapaPago.COMPROBANTE_PAGO
             )
         }

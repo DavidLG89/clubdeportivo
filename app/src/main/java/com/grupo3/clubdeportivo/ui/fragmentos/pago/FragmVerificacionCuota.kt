@@ -41,7 +41,7 @@ class FragmVerificacionCuota : Fragment(R.layout.fragment_verificacion_cuota_pas
 
         btnContinuar.setOnClickListener {
             (requireActivity() as? BarraEstadoHost<EtapaPago>)?.irA(
-                FragmMetodoPagoCuota(),
+                FragmMetodoPago(),
                 EtapaPago.METODO_PAGO
             )
         }

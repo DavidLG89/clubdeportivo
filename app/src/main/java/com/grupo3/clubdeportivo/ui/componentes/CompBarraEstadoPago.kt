@@ -29,7 +29,7 @@ class CompBarraEstadoPago @JvmOverloads constructor(
 
     fun setStep(etapa: EtapaPago) {
         val pasoActual = etapa.numero
-        val resActivo = (context as BarraEstadoHost<*>).colorBarraEstado ?: R.color.color_boton_principal2
+        val resActivo = (context as BarraEstadoHost<*>).colorBarraEstado
         val colorActivo = ContextCompat.getColor(context, resActivo)
         circles.forEachIndexed { index, circle ->
             circle.backgroundTintList =

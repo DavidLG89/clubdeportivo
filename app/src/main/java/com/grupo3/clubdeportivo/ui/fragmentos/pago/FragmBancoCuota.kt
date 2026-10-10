@@ -19,7 +19,7 @@ class FragmBancoCuota : Fragment(R.layout.fragment_pago_banco_cuota_paso3) {
         btnContinuar?.setOnClickListener {
             Toast.makeText(requireContext(), "Enviando comprobante de pago de cuota...", Toast.LENGTH_SHORT).show()
             (requireActivity() as? BarraEstadoHost<EtapaPago>)?.irA(
-                FragmComprobantePagoCuota(),
+                FragmComprobantePago(),
                 EtapaPago.COMPROBANTE_PAGO
             )
         }
