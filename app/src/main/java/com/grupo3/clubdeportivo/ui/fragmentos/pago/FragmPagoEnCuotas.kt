@@ -12,36 +12,29 @@ import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaPago
 import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
-import com.grupo3.clubdeportivo.ui.pagoReserva.PagoResViewModel
-import com.grupo3.clubdeportivo.utils.formatoPeso
+import com.grupo3.clubdeportivo.ui.pagoCuota.PagoCuotaViewModel
 
-
-class FragmPagoEnCuotas : Fragment(R.layout.fragment_pago_en_cuotas) {
-    private val viewModel: PagoResViewModel by activityViewModels()
+class FragmPagoEnCuotas : Fragment(R.layout.fragment_pago_en_cuotas_cuota_paso3_1) {
+    private val viewModel: PagoCuotaViewModel by activityViewModels()
 
     var cuota = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        // Imprime en pantalla datos de la reserva
         view.findViewById<TextView>(R.id.tvPrintDni).text = viewModel.dni
         view.findViewById<TextView>(R.id.tvPrintNombre).text = viewModel.nombre
         view.findViewById<TextView>(R.id.tvPrintActividad).text = viewModel.actividad
-        view.findViewById<TextView>(R.id.tvPrintValor).text = viewModel.monto?.formatoPeso()
+        view.findViewById<TextView>(R.id.tvPrintValor).text = viewModel.monto?.toString() ?: ""
         view.findViewById<TextView>(R.id.tvPrintMetodoPago).text = viewModel.metodoPago
 
         val cuotas = resources.getStringArray(R.array.cuotas)
         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, cuotas)
-
         val autoCompleteTextView = view.findViewById<AutoCompleteTextView>(R.id.tvAutoNCuotas)
 
         autoCompleteTextView.setAdapter(arrayAdapter)
 
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
-
-            cuota = cuotas[position].toIntOrNull()  ?: 0
+            cuota = cuotas[position].toIntOrNull() ?: 0
             viewModel.cuota = cuota
-
         }
 
         val btnVolver = view.findViewById<Button>(R.id.btnVolver)
@@ -49,24 +42,17 @@ class FragmPagoEnCuotas : Fragment(R.layout.fragment_pago_en_cuotas) {
 
         btnVolver.setOnClickListener {
             (requireActivity() as? BarraEstadoHost<EtapaPago>)?.irA(
-                FragmVerificacionReserva(),
+                FragmMetodoPago(),
                 EtapaPago.METODO_PAGO
             )
         }
 
         btnContinuar.setOnClickListener {
-            val cuotaSeleccionada = viewModel.cuota
-            if(cuotaSeleccionada == null ) {
-                Toast.makeText(requireContext(), "Debe seleccionar número de cuotas", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+            when (cuota) {
+                3 -> Toast.makeText(requireContext(), "Tiene 5% de descuento", Toast.LENGTH_SHORT).show()
+                6 -> Toast.makeText(requireContext(), "Tiene 10% de descuento", Toast.LENGTH_SHORT).show()
+                else -> Toast.makeText(requireContext(), "NO tiene descuento", Toast.LENGTH_SHORT).show()
             }
-            val mensaje = when (cuotaSeleccionada){
-                3 -> "Tiene 5% de descuento"
-                6 -> "Tiene 3% de descuento"
-                else -> "No tiene descuento"
-            }
-
-            Toast.makeText(requireContext(), mensaje, Toast.LENGTH_SHORT).show()
 
             (requireActivity() as? BarraEstadoHost<EtapaPago>)?.irA(
                 FragmComprobantePago(),

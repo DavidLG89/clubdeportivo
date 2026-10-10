@@ -52,7 +52,7 @@ class FragmMetodoPago : Fragment(R.layout.fragment_metodo_pago_cuota_paso3) {
 
             if (metodoPago == "Tarjeta Crédito" || metodoPago == "MercadoPago") {
                 (requireActivity() as? BarraEstadoHost<EtapaPago>)?.irA(
-                    FragmPagoEnCuotasCuota(),
+                    FragmPagoEnCuotas(),
                     EtapaPago.PAGO_CUOTAS
                 )
             } else {
