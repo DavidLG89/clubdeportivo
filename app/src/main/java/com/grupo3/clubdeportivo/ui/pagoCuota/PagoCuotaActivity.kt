@@ -9,7 +9,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.data.model.EtapaPagoCuota
+import com.grupo3.clubdeportivo.data.model.EtapaPago
 import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoPagoCuotaHost
 import com.grupo3.clubdeportivo.ui.componentes.CompBarraEstadoPagoCuota
 import com.grupo3.clubdeportivo.ui.componentes.ListenerPagoCuota
@@ -44,15 +44,15 @@ class PagoCuotaActivity : AppCompatActivity(), BarraEstadoPagoCuotaHost, Listene
         }
 
         if (savedInstanceState == null) {
-            avanzarA(FragmBusquedaDniCuota(), EtapaPagoCuota.BUSQUEDA_DNI)
+            avanzarA(FragmBusquedaDniCuota(), EtapaPago.BUSQUEDA_DNI)
         }
     }
 
-    override fun setStep(etapa: EtapaPagoCuota) {
+    override fun setStep(etapa: EtapaPago) {
         stepBar.setStep(etapa)
     }
 
-    override fun avanzarA(fragment: Fragment, etapa: EtapaPagoCuota) {
+    override fun avanzarA(fragment: Fragment, etapa: EtapaPago) {
         viewModel.irAPaso(etapa)
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, fragment)
@@ -62,6 +62,6 @@ class PagoCuotaActivity : AppCompatActivity(), BarraEstadoPagoCuotaHost, Listene
 
     override fun onDniValidado(dni: String) {
         viewModel.dni = dni
-        avanzarA(FragmVerificacionCuota(), EtapaPagoCuota.VERIFICACION)
+        avanzarA(FragmVerificacionCuota(), EtapaPago.VERIFICACION)
     }
 }

@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.data.model.EtapaPagoCuota
+import com.grupo3.clubdeportivo.data.model.EtapaPago
 import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoPagoCuotaHost
 import com.grupo3.clubdeportivo.ui.pagoCuota.PagoCuotaViewModel
 
@@ -43,7 +43,7 @@ class FragmPagoEnCuotasCuota : Fragment(R.layout.fragment_pago_en_cuotas_cuota_p
         btnVolver.setOnClickListener {
             (requireActivity() as? BarraEstadoPagoCuotaHost)?.avanzarA(
                 FragmMetodoPagoCuota(),
-                EtapaPagoCuota.METODO_PAGO
+                EtapaPago.METODO_PAGO
             )
         }
 
@@ -56,7 +56,7 @@ class FragmPagoEnCuotasCuota : Fragment(R.layout.fragment_pago_en_cuotas_cuota_p
 
             (requireActivity() as? BarraEstadoPagoCuotaHost)?.avanzarA(
                 FragmComprobantePagoCuota(),
-                EtapaPagoCuota.COMPROBANTE_PAGO
+                EtapaPago.COMPROBANTE_PAGO
             )
         }
     }

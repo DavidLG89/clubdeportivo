@@ -1,9 +1,9 @@
 package com.grupo3.clubdeportivo.ui.componentes
 
 import androidx.fragment.app.Fragment
-import com.grupo3.clubdeportivo.data.model.EtapaPagoCuota
+import com.grupo3.clubdeportivo.data.model.EtapaPago
 
 interface BarraEstadoPagoCuotaHost {
-    fun setStep(etapa: EtapaPagoCuota)
-    fun avanzarA(fragment: Fragment, etapa: EtapaPagoCuota)
+    fun setStep(etapa: EtapaPago)
+    fun avanzarA(fragment: Fragment, etapa: EtapaPago)
 }

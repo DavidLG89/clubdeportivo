@@ -3,11 +3,11 @@ package com.grupo3.clubdeportivo.ui.pagoCuota
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.grupo3.clubdeportivo.data.model.EtapaPagoCuota
+import com.grupo3.clubdeportivo.data.model.EtapaPago
 
 class PagoCuotaViewModel : ViewModel() {
-    private val _pasoActual = MutableLiveData(EtapaPagoCuota.BUSQUEDA_DNI)
-    val pasoActual: LiveData<EtapaPagoCuota> = _pasoActual
+    private val _pasoActual = MutableLiveData(EtapaPago.BUSQUEDA_DNI)
+    val pasoActual: LiveData<EtapaPago> = _pasoActual
 
     var dni: String? = null
     var nombre: String? = "Sofía Egaña J."
@@ -16,7 +16,7 @@ class PagoCuotaViewModel : ViewModel() {
     var metodoPago: String? = null
     var cuota: Int? = null
 
-    fun irAPaso(numero: EtapaPagoCuota) {
+    fun irAPaso(numero: EtapaPago) {
         _pasoActual.value = numero
     }
 }

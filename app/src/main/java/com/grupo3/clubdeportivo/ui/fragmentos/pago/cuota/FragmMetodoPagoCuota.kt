@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.data.model.EtapaPagoCuota
+import com.grupo3.clubdeportivo.data.model.EtapaPago
 import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoPagoCuotaHost
 import com.grupo3.clubdeportivo.ui.pagoCuota.PagoCuotaViewModel
 
@@ -41,7 +41,7 @@ class FragmMetodoPagoCuota : Fragment(R.layout.fragment_metodo_pago_cuota_paso3)
         btnVolver.setOnClickListener {
             (requireActivity() as? BarraEstadoPagoCuotaHost)?.avanzarA(
                 FragmVerificacionCuota(),
-                EtapaPagoCuota.VERIFICACION
+                EtapaPago.VERIFICACION
             )
         }
 
@@ -53,12 +53,12 @@ class FragmMetodoPagoCuota : Fragment(R.layout.fragment_metodo_pago_cuota_paso3)
             if (metodoPago == "Tarjeta Crédito" || metodoPago == "MercadoPago") {
                 (requireActivity() as? BarraEstadoPagoCuotaHost)?.avanzarA(
                     FragmPagoEnCuotasCuota(),
-                    EtapaPagoCuota.PAGO_CUOTAS
+                    EtapaPago.PAGO_CUOTAS
                 )
             } else {
                 (requireActivity() as? BarraEstadoPagoCuotaHost)?.avanzarA(
                     FragmComprobantePagoCuota(),
-                    EtapaPagoCuota.COMPROBANTE_PAGO
+                    EtapaPago.COMPROBANTE_PAGO
                 )
             }
         }

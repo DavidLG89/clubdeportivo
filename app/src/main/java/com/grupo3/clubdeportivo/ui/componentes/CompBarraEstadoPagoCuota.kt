@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.data.model.EtapaPagoCuota
+import com.grupo3.clubdeportivo.data.model.EtapaPago
 
 class CompBarraEstadoPagoCuota @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
@@ -23,7 +23,7 @@ class CompBarraEstadoPagoCuota @JvmOverloads constructor(
         )
     }
 
-    fun setStep(etapa: EtapaPagoCuota) {
+    fun setStep(etapa: EtapaPago) {
         circles.forEachIndexed { index, circle ->
             val pasoActual = etapa.numero
             val numeroPaso = index + 1
