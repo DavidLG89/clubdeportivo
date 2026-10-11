@@ -30,7 +30,7 @@ class FragmConfirmacionRegistro : Fragment(R.layout.fragment_registro_cliente_pa
 
         view.findViewById<Button>(R.id.btnContinuarConfirmacion)?.setOnClickListener {
             (requireActivity() as? BarraEstadoHost<EtapaRegistro>)?.irA(
-                FragmRegistroClientePaso2(),
+                DefinicionCuotaFragment(),
                 EtapaRegistro.CUOTA_SOCIO
             )
         }

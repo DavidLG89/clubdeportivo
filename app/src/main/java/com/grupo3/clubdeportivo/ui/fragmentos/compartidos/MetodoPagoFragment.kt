@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.ui.componentes.ListenerMetodoPago
 
-class FragmMetodoPago : Fragment(R.layout.fragment_metodo_pago) {
+class MetodoPagoFragment : Fragment(R.layout.fragment_metodo_pago) {
 
     private val listener get() = requireActivity() as ListenerMetodoPago
 

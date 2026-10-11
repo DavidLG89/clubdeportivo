@@ -19,10 +19,10 @@ import com.grupo3.clubdeportivo.ui.componentes.ListenerDni
 import com.grupo3.clubdeportivo.ui.componentes.CompBarraEstadoPago
 import com.grupo3.clubdeportivo.ui.componentes.ListenerMetodoPago
 import com.grupo3.clubdeportivo.ui.componentes.ListenerVerificacion
-import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmBusquedaDni
-import com.grupo3.clubdeportivo.ui.fragmentos.pago.FragmComprobantePago
-import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmMetodoPago
-import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmVerificacion
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.BusquedaDniFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.pago.ComprobantePagoFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.MetodoPagoFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.VerificacionFragment
 
 
 class PagoReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, ListenerDni, ListenerVerificacion, ListenerMetodoPago{
@@ -63,10 +63,10 @@ class PagoReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Lis
         // Reconoce el fragmento actual al volver con el botón del celular
         supportFragmentManager.addOnBackStackChangedListener {
             when(supportFragmentManager.findFragmentById(R.id.fragmentContainer)) {
-                is FragmBusquedaDni -> viewModel.irAPaso(EtapaPago.BUSQUEDA_DNI)
-                is FragmVerificacion -> viewModel.irAPaso(EtapaPago.VERIFICACION)
-                is FragmMetodoPago -> viewModel.irAPaso(EtapaPago.METODO_PAGO)
-                is FragmComprobantePago -> viewModel.irAPaso(EtapaPago.COMPROBANTE_PAGO)
+                is BusquedaDniFragment -> viewModel.irAPaso(EtapaPago.BUSQUEDA_DNI)
+                is VerificacionFragment -> viewModel.irAPaso(EtapaPago.VERIFICACION)
+                is MetodoPagoFragment -> viewModel.irAPaso(EtapaPago.METODO_PAGO)
+                is ComprobantePagoFragment -> viewModel.irAPaso(EtapaPago.COMPROBANTE_PAGO)
             }
         }
 
@@ -91,10 +91,10 @@ class PagoReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Lis
                 viewModel.nombre = nombre
                 viewModel.actividad = actividad
 
-                irA(FragmMetodoPago(), EtapaPago.METODO_PAGO)
+                irA(MetodoPagoFragment(), EtapaPago.METODO_PAGO)
 
             } else {
-                irA(FragmBusquedaDni(), EtapaPago.BUSQUEDA_DNI)
+                irA(BusquedaDniFragment(), EtapaPago.BUSQUEDA_DNI)
             }
         }
 
@@ -134,7 +134,7 @@ class PagoReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Lis
     override fun onDniValidado(dni: String) {
         viewModel.dni = dni
         irA(
-            FragmVerificacion(),
+            VerificacionFragment(),
             EtapaPago.VERIFICACION
         )
     }
@@ -154,14 +154,14 @@ class PagoReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Lis
 
     override fun onVerficiacionVolver() {
         irA(
-            FragmBusquedaDni(),
+            BusquedaDniFragment(),
             EtapaPago.BUSQUEDA_DNI
         )
     }
 
     override fun onVerificacionContinuar() {
         irA(
-            FragmMetodoPago(),
+            MetodoPagoFragment(),
             EtapaPago.METODO_PAGO
         )
     }
@@ -176,14 +176,14 @@ class PagoReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Lis
 
     override fun onMetodoPagoVolver() {
         irA(
-            FragmVerificacion(),
+            VerificacionFragment(),
             EtapaPago.VERIFICACION
         )
     }
 
     override fun onMetodoPagoContinuar() {
         irA(
-        FragmComprobantePago(),
+        ComprobantePagoFragment(),
         EtapaPago.COMPROBANTE_PAGO
         )
     }

@@ -4,19 +4,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.ui.componentes.ListenerDni
-import com.grupo3.clubdeportivo.ui.pagoCuota.PagoCuotaActivity
-import com.grupo3.clubdeportivo.ui.pagoReserva.PagoReservaActivity
-import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 
-class FragmBusquedaDni : Fragment(R.layout.fragment_busqueda_dni) {
+class BusquedaDniFragment : Fragment(R.layout.fragment_busqueda_dni) {
     private val listener get() = requireActivity() as ListenerDni
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

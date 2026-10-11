@@ -15,7 +15,7 @@ import com.grupo3.clubdeportivo.data.model.EtapaRegistro
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.componentes.CompBarraRegistroCliente
-import com.grupo3.clubdeportivo.ui.fragmentos.registroCliente.FragmRegistroClientePaso1
+import com.grupo3.clubdeportivo.ui.fragmentos.registroCliente.FormRegistroClienteFragment
 import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
 
 class RegistroClienteActivity : AppCompatActivity(), BarraEstadoHost<EtapaRegistro> {
@@ -53,7 +53,7 @@ class RegistroClienteActivity : AppCompatActivity(), BarraEstadoHost<EtapaRegist
         }
 
         if (savedInstanceState == null) {
-            irA(FragmRegistroClientePaso1(), EtapaRegistro.REGISTRO_DATOS_CLIENTE)
+            irA(FormRegistroClienteFragment(), EtapaRegistro.REGISTRO_DATOS_CLIENTE)
         }
 
         // Navegación en footer

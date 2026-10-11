@@ -12,9 +12,8 @@ import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.pagoCuota.PagoCuotaViewModel
 import com.grupo3.clubdeportivo.ui.pagoReserva.PagoResViewModel
-import com.grupo3.clubdeportivo.ui.pagoReserva.PagoReservaActivity
 
-class FragmComprobantePago : Fragment(R.layout.fragment_comprobante_pago) {
+class ComprobantePagoFragment : Fragment(R.layout.fragment_comprobante_pago) {
     private val viewModel: PagoCuotaViewModel by activityViewModels()
     private val vModel: PagoResViewModel by activityViewModels()
 

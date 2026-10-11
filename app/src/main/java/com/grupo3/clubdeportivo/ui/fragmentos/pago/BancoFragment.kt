@@ -11,7 +11,7 @@ import com.grupo3.clubdeportivo.data.model.EtapaPago
 import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.pagoCuota.PagoCuotaViewModel
 
-class FragmBanco : Fragment(R.layout.fragment_pago_banco) {
+class BancoFragment : Fragment(R.layout.fragment_pago_banco) {
     private val viewModel: PagoCuotaViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -19,7 +19,7 @@ class FragmBanco : Fragment(R.layout.fragment_pago_banco) {
         btnContinuar?.setOnClickListener {
             Toast.makeText(requireContext(), "Enviando comprobante de pago de cuota...", Toast.LENGTH_SHORT).show()
             (requireActivity() as? BarraEstadoHost<EtapaPago>)?.irA(
-                FragmComprobantePago(),
+                ComprobantePagoFragment(),
                 EtapaPago.COMPROBANTE_PAGO
             )
         }

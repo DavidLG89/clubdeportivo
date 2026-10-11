@@ -12,7 +12,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.ui.componentes.ListenerVerificacion
 
-class FragmVerificacion : Fragment(R.layout.fragment_verificacion) {
+class VerificacionFragment : Fragment(R.layout.fragment_verificacion) {
 
     private val listener get() = requireActivity() as ListenerVerificacion
 

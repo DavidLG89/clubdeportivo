@@ -15,10 +15,10 @@ import com.grupo3.clubdeportivo.ui.componentes.CompBarraEstadoPago
 import com.grupo3.clubdeportivo.ui.componentes.ListenerDni
 import com.grupo3.clubdeportivo.ui.componentes.ListenerMetodoPago
 import com.grupo3.clubdeportivo.ui.componentes.ListenerVerificacion
-import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmBusquedaDni
-import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmVerificacion
-import com.grupo3.clubdeportivo.ui.fragmentos.pago.FragmComprobantePago
-import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmMetodoPago
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.BusquedaDniFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.VerificacionFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.pago.ComprobantePagoFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.MetodoPagoFragment
 
 class PagoCuotaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, ListenerDni, ListenerVerificacion, ListenerMetodoPago {
 
@@ -48,7 +48,7 @@ class PagoCuotaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Liste
         }
 
         if (savedInstanceState == null) {
-            irA(FragmBusquedaDni(), EtapaPago.BUSQUEDA_DNI)
+            irA(BusquedaDniFragment(), EtapaPago.BUSQUEDA_DNI)
         }
     }
 
@@ -66,7 +66,7 @@ class PagoCuotaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Liste
 
     override fun onDniValidado(dni: String) {
         viewModel.dni = dni
-        irA(FragmVerificacion(), EtapaPago.VERIFICACION)
+        irA(VerificacionFragment(), EtapaPago.VERIFICACION)
     }
 
     // Define color de barra de estado y card del dni
@@ -84,14 +84,14 @@ class PagoCuotaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Liste
 
     override fun onVerficiacionVolver() {
         irA(
-            FragmBusquedaDni(),
+            BusquedaDniFragment(),
             EtapaPago.BUSQUEDA_DNI
         )
     }
 
     override fun onVerificacionContinuar() {
         irA(
-            FragmMetodoPago(),
+            MetodoPagoFragment(),
             EtapaPago.METODO_PAGO
         )
     }
@@ -106,14 +106,14 @@ class PagoCuotaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Liste
 
     override fun onMetodoPagoVolver() {
         irA(
-            FragmVerificacion(),
+            VerificacionFragment(),
             EtapaPago.VERIFICACION
         )
     }
 
     override fun onMetodoPagoContinuar() {
         irA(
-            FragmComprobantePago(),
+            ComprobantePagoFragment(),
             EtapaPago.COMPROBANTE_PAGO
         )
     }

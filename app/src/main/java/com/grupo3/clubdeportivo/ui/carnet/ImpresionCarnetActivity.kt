@@ -13,7 +13,7 @@ import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
 import com.grupo3.clubdeportivo.ui.componentes.ListenerDni
-import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmBusquedaDni
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.BusquedaDniFragment
 
 class ImpresionCarnetActivity : AppCompatActivity(), ListenerDni {
 
@@ -51,7 +51,7 @@ class ImpresionCarnetActivity : AppCompatActivity(), ListenerDni {
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, FragmBusquedaDni())
+                .replace(R.id.fragmentContainer, BusquedaDniFragment())
                 .commit()
         }
     }

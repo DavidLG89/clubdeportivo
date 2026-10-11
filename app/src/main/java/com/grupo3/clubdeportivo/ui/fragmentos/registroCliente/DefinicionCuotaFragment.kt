@@ -14,7 +14,7 @@ import com.grupo3.clubdeportivo.data.model.EtapaRegistro
 import com.grupo3.clubdeportivo.ui.registroCliente.RegistroClienteViewModel
 import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 
-class FragmRegistroClientePaso2 : Fragment(R.layout.fragment_registro_monto_cuota) {
+class DefinicionCuotaFragment : Fragment(R.layout.fragment_definicion_cuota) {
 
     private val viewModel: RegistroClienteViewModel by activityViewModels()
 
@@ -50,7 +50,7 @@ class FragmRegistroClientePaso2 : Fragment(R.layout.fragment_registro_monto_cuot
             } else {
                 viewModel.montoCuota = monto
                 (requireActivity() as? BarraEstadoHost<EtapaRegistro>)?.irA(
-                    FragmRegistroClientePaso3(),
+                    ContratoSocioFragment(),
                     EtapaRegistro.CONTRATO
                 )
             }

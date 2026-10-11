@@ -17,7 +17,7 @@ import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
 import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.componentes.ListenerDni
 import com.grupo3.clubdeportivo.ui.componentes.CompBarraEstadoReserva
-import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmBusquedaDni
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.BusquedaDniFragment
 import com.grupo3.clubdeportivo.ui.fragmentos.reserva.FragmCompReserva
 import com.grupo3.clubdeportivo.ui.fragmentos.reserva.FragmSeleccionActividad
 import com.grupo3.clubdeportivo.ui.fragmentos.reserva.FragmSeleccionFecha
@@ -50,7 +50,7 @@ class ReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, List
         // Reconoce el fragmento actual al volver con el botón del celular
         supportFragmentManager.addOnBackStackChangedListener {
             when (supportFragmentManager.findFragmentById(R.id.fragmentContainer)) {
-                is FragmBusquedaDni -> viewModel.irAPaso(EtapaReserva.BUSQUEDA_DNI)
+                is BusquedaDniFragment -> viewModel.irAPaso(EtapaReserva.BUSQUEDA_DNI)
                 is FragmVerificacionCliente -> viewModel.irAPaso(EtapaReserva.VERIFICACION)
                 is FragmSeleccionActividad -> viewModel.irAPaso(EtapaReserva.SELECCION_ACTIVIDAD)
                 is FragmSeleccionFecha -> viewModel.irAPaso(EtapaReserva.SELECCION_FECHA)
@@ -71,7 +71,7 @@ class ReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, List
 
         // Carga el primer fragmento al iniciar la activity
         if (savedInstanceState == null) {
-            irA(FragmBusquedaDni(), EtapaReserva.BUSQUEDA_DNI)
+            irA(BusquedaDniFragment(), EtapaReserva.BUSQUEDA_DNI)
         } // Navegación en footer
         findViewById<LinearLayout>(R.id.navInicio)?.setOnClickListener {
             val intent = Intent(this, MenuPrincipalActivity::class.java)
