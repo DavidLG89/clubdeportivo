@@ -125,7 +125,7 @@ class FormRegistroClienteFragment : Fragment(R.layout.fragment_form_registro_cli
 
 
                 (requireActivity() as? BarraEstadoHost<EtapaRegistro>)?.irA(
-                    FragmConfirmacionRegistro(),
+                    ConfirmacionRegistroFragment(),
                     EtapaRegistro.CONFIRMACION_REGISTRO
                 )
             }

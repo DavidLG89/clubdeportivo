@@ -11,7 +11,7 @@ import com.grupo3.clubdeportivo.data.model.EtapaRegistro
 import com.grupo3.clubdeportivo.ui.registroCliente.RegistroClienteViewModel
 import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 
-class FragmConfirmacionRegistro : Fragment(R.layout.fragment_confirmacion_registro) {
+class ConfirmacionRegistroFragment : Fragment(R.layout.fragment_confirmacion_registro) {
 
     private val viewModel: RegistroClienteViewModel by activityViewModels()
 

@@ -8,8 +8,8 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.ui.registroCliente.AceptacionContratoActivity
 import com.grupo3.clubdeportivo.ui.registroCliente.RegistroClienteViewModel
-import com.grupo3.clubdeportivo.ui.registroCliente.RegistroClienteMensajeAceptacionContrato
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -32,22 +32,30 @@ class ContratoSocioFragment : Fragment(R.layout.fragment_contrato_socio) {
         val fechaHoyStr = dateFormat.format(calendar.time)
         val diaMes = calendar.get(Calendar.DAY_OF_MONTH)
 
-        val montoStr = if (viewModel.montoCuota.isNotEmpty()) "$${viewModel.montoCuota}" else "$10.000"
+        val montoStr =
+            if (viewModel.montoCuota.isNotEmpty()) "$${viewModel.montoCuota}" else "$10.000"
 
         tvFecha?.text = "Fecha: $fechaHoyStr"
 
-        tvParrafo1?.text = "Se deja constancia que el cliente ${viewModel.nombre} ${viewModel.apellido}, DNI ${viewModel.dni}, ha solicitado su inscripción como socio en el Club Deportivo."
+        tvParrafo1?.text =
+            "Se deja constancia que el cliente ${viewModel.nombre} ${viewModel.apellido}, DNI ${viewModel.dni}, ha solicitado su inscripción como socio en el Club Deportivo."
 
-        tvParrafo2?.text = "El valor de la cuota mensual asciende a $montoStr.\nEl socio se compromete a pagar el monto de la cuota los días $diaMes de cada mes."
+        tvParrafo2?.text =
+            "El valor de la cuota mensual asciende a $montoStr.\nEl socio se compromete a pagar el monto de la cuota los días $diaMes de cada mes."
 
-        tvParrafo3?.text = "Si a la fecha de vencimiento no ha cancelado la cuota, quedará inactivo y no podrá acceder a ninguna actividad hasta pagar la cuota correspondiente."
+        tvParrafo3?.text =
+            "Si a la fecha de vencimiento no ha cancelado la cuota, quedará inactivo y no podrá acceder a ninguna actividad hasta pagar la cuota correspondiente."
 
         tvParrafo4?.text = "El socio declara conocer y aceptar el reglamento interno del club."
 
         // Botón IMPRIMIR (Avanza a mensaje de aceptación del contrato)
-        view.findViewById<Button>(R.id.btnImprimirContrato)?.setOnClickListener {
-            val intent = Intent(requireContext(), RegistroClienteMensajeAceptacionContrato::class.java)
+        view.findViewById<Button>(R.id.btnImprimirContrato).setOnClickListener {
+
+            val intent = Intent(requireContext(), AceptacionContratoActivity::class.java)
             startActivity(intent)
+
         }
+
     }
 }
+

@@ -40,15 +40,7 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.registroCliente.RegistroClienteMensajeAceptacionContrato"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".ui.registroCliente.RegistroClienteMensajeSi"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".ui.registroCliente.RegistroClienteMensajeNo"
+            android:name=".ui.registroCliente.AceptacionContratoActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity

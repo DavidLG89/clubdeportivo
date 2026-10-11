@@ -2,9 +2,12 @@ package com.grupo3.clubdeportivo.ui.registroCliente
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -13,12 +16,12 @@ import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
 
-class RegistroClienteMensajeNo : AppCompatActivity() {
+class AceptacionContratoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_registro_cliente_mensaje_no)
+        setContentView(R.layout.activity_aceptacion_contrato)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -31,23 +34,45 @@ class RegistroClienteMensajeNo : AppCompatActivity() {
             finish()
         }
 
-        // Botón VOLVER al menú principal
-        findViewById<Button>(R.id.btnVolverNo).setOnClickListener {
+        val btnSi = findViewById<Button>(R.id.btnSi)
+        val btnNo = findViewById<Button>(R.id.btnNo)
+        val mensaje = findViewById<TextView>(R.id.tvMensajeSi)
+        val cardDecision = findViewById<LinearLayout>(R.id.cardDecisionContrato)
+        val linearMensaje = findViewById<LinearLayout>(R.id.linearMensaje)
+        val iconoExito = findViewById<ImageView>(R.id.ivIconoExito)
+        val iconoRechazo = findViewById<ImageView>(R.id.ivIconoRechazo)
+        val btnVolver = findViewById<Button>(R.id.btnVolver)
+
+        // Botón ACEPTA contrato
+        btnSi.setOnClickListener {
+            cardDecision.visibility = View.GONE
+            linearMensaje.visibility = View.VISIBLE
+            mensaje.setText( R.string.contrato_aceptado_por_el_cliente)
+        }
+
+        // Botón ACEPTA contrato
+        btnNo.setOnClickListener {
+            cardDecision.visibility = View.GONE
+            linearMensaje.visibility = View.VISIBLE
+            mensaje.setText( R.string.contrato_no_aceptado_por_el_cliente)
+            iconoExito.visibility = View.GONE
+            iconoRechazo.visibility = View.VISIBLE
+        }
+
+        btnVolver.setOnClickListener {
             val intent = Intent(this, MenuPrincipalActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
             startActivity(intent)
-            finish()
         }
 
         // Navegación en footer
-        findViewById<LinearLayout>(R.id.navInicio)?.setOnClickListener {
+        findViewById<LinearLayout>(R.id.navInicio).setOnClickListener {
             val intent = Intent(this, MenuPrincipalActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
             startActivity(intent)
             finish()
         }
 
-        findViewById<LinearLayout>(R.id.navPerfil)?.setOnClickListener {
+        findViewById<LinearLayout>(R.id.navPerfil).setOnClickListener {
             val intent = Intent(this, PerfilAdminActivity::class.java)
             startActivity(intent)
         }

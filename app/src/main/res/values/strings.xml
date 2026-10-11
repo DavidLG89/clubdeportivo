@@ -81,6 +81,9 @@
     <string name="vencimiento">Vencimiento:</string>
     <string name="numero_cuotas">Número cuotas</string>
     <string name="forma_pago">Método pago</string>
+    <string name="aceptacion_cliente">¿Cliente acepta el contrato?</string>
+    <string name="cliente_acepta">Acepta contrato</string>
+    <string name="cliente_no_acepta">NO Acepta contrato</string>
 
     <string-array name="actividades">
         <item>Natación</item>
