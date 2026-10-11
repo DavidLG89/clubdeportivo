@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-class FragmRegistroClientePaso3 : Fragment(R.layout.fragment_registro_cliente_paso3) {
+class FragmRegistroClientePaso3 : Fragment(R.layout.fragment_registro_contrato) {
 
     private val viewModel: RegistroClienteViewModel by activityViewModels()
 

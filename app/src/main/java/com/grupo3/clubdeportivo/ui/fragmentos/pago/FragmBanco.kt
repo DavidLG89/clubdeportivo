@@ -11,7 +11,7 @@ import com.grupo3.clubdeportivo.data.model.EtapaPago
 import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.pagoCuota.PagoCuotaViewModel
 
-class FragmBanco : Fragment(R.layout.fragment_pago_banco_cuota_paso3) {
+class FragmBanco : Fragment(R.layout.fragment_pago_banco) {
     private val viewModel: PagoCuotaViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

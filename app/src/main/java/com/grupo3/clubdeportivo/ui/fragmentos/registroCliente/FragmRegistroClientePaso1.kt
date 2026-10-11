@@ -16,7 +16,7 @@ import com.grupo3.clubdeportivo.data.model.EtapaRegistro
 import com.grupo3.clubdeportivo.ui.registroCliente.RegistroClienteViewModel
 import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 
-class FragmRegistroClientePaso1 : Fragment(R.layout.fragment_registro_cliente_paso1) {
+class FragmRegistroClientePaso1 : Fragment(R.layout.fragment_form_registro_cliente) {
 
     private val viewModel: RegistroClienteViewModel by activityViewModels()
     private var esSocioSeleccionado: Boolean? = null

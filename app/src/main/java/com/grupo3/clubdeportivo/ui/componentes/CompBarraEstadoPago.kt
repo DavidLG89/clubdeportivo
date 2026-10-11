@@ -16,7 +16,7 @@ class CompBarraEstadoPago @JvmOverloads constructor(
     private lateinit var circles: List<TextView>
 
     init {
-        inflate(context, R.layout.component_step_bar_pago_cuota, this)
+        inflate(context, R.layout.component_step_bar_pago, this)
         circles = listOf(
             findViewById(R.id.step1),
             findViewById(R.id.step2),

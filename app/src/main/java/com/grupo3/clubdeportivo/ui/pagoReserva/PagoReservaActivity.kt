@@ -21,8 +21,7 @@ import com.grupo3.clubdeportivo.ui.componentes.ListenerMetodoPago
 import com.grupo3.clubdeportivo.ui.componentes.ListenerVerificacion
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmBusquedaDni
 import com.grupo3.clubdeportivo.ui.fragmentos.pago.FragmComprobantePago
-import com.grupo3.clubdeportivo.ui.fragmentos.pago.FragmMetodoPago
-import com.grupo3.clubdeportivo.ui.fragmentos.pago.FragmPagoEnCuotas
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmMetodoPago
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmVerificacion
 
 
@@ -67,7 +66,6 @@ class PagoReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Lis
                 is FragmBusquedaDni -> viewModel.irAPaso(EtapaPago.BUSQUEDA_DNI)
                 is FragmVerificacion -> viewModel.irAPaso(EtapaPago.VERIFICACION)
                 is FragmMetodoPago -> viewModel.irAPaso(EtapaPago.METODO_PAGO)
-                is FragmPagoEnCuotas -> viewModel.irAPaso(EtapaPago.PAGO_CUOTAS)
                 is FragmComprobantePago -> viewModel.irAPaso(EtapaPago.COMPROBANTE_PAGO)
             }
         }

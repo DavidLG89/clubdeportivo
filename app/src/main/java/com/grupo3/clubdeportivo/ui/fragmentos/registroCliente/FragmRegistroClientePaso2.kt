@@ -14,7 +14,7 @@ import com.grupo3.clubdeportivo.data.model.EtapaRegistro
 import com.grupo3.clubdeportivo.ui.registroCliente.RegistroClienteViewModel
 import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 
-class FragmRegistroClientePaso2 : Fragment(R.layout.fragment_registro_cliente_paso2) {
+class FragmRegistroClientePaso2 : Fragment(R.layout.fragment_registro_monto_cuota) {
 
     private val viewModel: RegistroClienteViewModel by activityViewModels()
 

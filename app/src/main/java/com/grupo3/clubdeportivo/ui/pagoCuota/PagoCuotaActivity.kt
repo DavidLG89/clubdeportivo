@@ -13,12 +13,14 @@ import com.grupo3.clubdeportivo.data.model.EtapaPago
 import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.componentes.CompBarraEstadoPago
 import com.grupo3.clubdeportivo.ui.componentes.ListenerDni
+import com.grupo3.clubdeportivo.ui.componentes.ListenerMetodoPago
 import com.grupo3.clubdeportivo.ui.componentes.ListenerVerificacion
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmBusquedaDni
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmVerificacion
-import com.grupo3.clubdeportivo.ui.fragmentos.pago.FragmMetodoPago
+import com.grupo3.clubdeportivo.ui.fragmentos.pago.FragmComprobantePago
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmMetodoPago
 
-class PagoCuotaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, ListenerDni, ListenerVerificacion {
+class PagoCuotaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, ListenerDni, ListenerVerificacion, ListenerMetodoPago {
 
     private val viewModel: PagoCuotaViewModel by viewModels()
     private lateinit var stepBar: CompBarraEstadoPago
@@ -91,6 +93,28 @@ class PagoCuotaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Liste
         irA(
             FragmMetodoPago(),
             EtapaPago.METODO_PAGO
+        )
+    }
+
+    override var seleccionMetodoPago: String?
+        get() = viewModel.metodoPago
+        set(value) { viewModel.metodoPago = value }
+
+    override var seleccionNumCuotas: Int?
+        get() = viewModel.cuota
+        set(value) { viewModel.cuota = value}
+
+    override fun onMetodoPagoVolver() {
+        irA(
+            FragmVerificacion(),
+            EtapaPago.VERIFICACION
+        )
+    }
+
+    override fun onMetodoPagoContinuar() {
+        irA(
+            FragmComprobantePago(),
+            EtapaPago.COMPROBANTE_PAGO
         )
     }
 }
