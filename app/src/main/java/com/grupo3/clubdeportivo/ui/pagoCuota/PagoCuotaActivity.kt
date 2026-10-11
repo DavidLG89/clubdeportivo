@@ -80,14 +80,14 @@ class PagoCuotaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Liste
         get() = viewModel.actividad
         set(value) { viewModel.actividad = value}
 
-    override fun onVolver() {
+    override fun onVerficiacionVolver() {
         irA(
             FragmBusquedaDni(),
             EtapaPago.BUSQUEDA_DNI
         )
     }
 
-    override fun onContinuar() {
+    override fun onVerificacionContinuar() {
         irA(
             FragmMetodoPago(),
             EtapaPago.METODO_PAGO

@@ -5,6 +5,6 @@ interface ListenerVerificacion {
     val opcionRes: Int
     val hintRes: Int
     var seleccion: String?
-    fun onVolver()
-    fun onContinuar()
+    fun onVerficiacionVolver()
+    fun onVerificacionContinuar()
 }

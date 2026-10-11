@@ -79,6 +79,8 @@
     <string name="gestion_vencimientos">GESTION VENCIMIENTOS</string>
     <string name="verificacion_cuota_pendiente">Verificación cuota pendiente</string>
     <string name="vencimiento">Vencimiento:</string>
+    <string name="numero_cuotas">Número cuotas</string>
+    <string name="forma_pago">Método pago</string>
 
     <string-array name="actividades">
         <item>Natación</item>

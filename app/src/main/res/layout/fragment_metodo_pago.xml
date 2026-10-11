@@ -168,10 +168,72 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/lMetodoPago"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tvMetodoPago"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginTop="6dp"
+                android:text="@string/metodo_pago"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvPrintMetodoPago"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginTop="6dp"
+                android:layout_marginStart="10dp"
+                android:text="Tarjeta de crédito"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearCuotas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tvCuotas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginTop="6dp"
+                android:text="@string/num_cuotas"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvPrintNumCuotas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginTop="6dp"
+                android:layout_marginStart="10dp"
+                android:text="3"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dropdownMetodo"
             android:layout_width="290dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:gravity="center">
+            android:gravity="center"
+            android:visibility="visible">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilMPago"
@@ -179,7 +241,7 @@
                 android:layout_width="260dp"
                 android:layout_height="50dp"
                 android:background="@color/background_app"
-                android:hint="Método pago"
+                android:hint="@string/forma_pago"
                 app:errorEnabled="false">
 
                 <AutoCompleteTextView
@@ -192,6 +254,37 @@
                     android:paddingTop="11dp"
                     android:paddingBottom="11dp"
                     android:saveEnabled="false"/>
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dropdownCuotas"
+            android:layout_width="290dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="40dp"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilNCuotas"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="260dp"
+                android:layout_height="50dp"
+                android:background="@color/background_app"
+                android:hint="@string/numero_cuotas"
+                app:errorEnabled="false">
+
+                <AutoCompleteTextView
+                    android:id="@+id/tvAutoNCuotas"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:inputType="none"
+                    android:paddingStart="20dp"
+                    android:paddingTop="11dp"
+                    android:paddingBottom="11dp"
+                    android:saveEnabled="false"/>
+
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
     </LinearLayout>

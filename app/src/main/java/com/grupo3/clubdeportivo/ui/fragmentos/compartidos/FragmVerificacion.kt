@@ -41,7 +41,7 @@ class FragmVerificacion : Fragment(R.layout.fragment_verificacion) {
         val btnContinuar = view.findViewById<Button>(R.id.btnContinuar)
 
         btnVolver.setOnClickListener {
-            listener.onVolver()
+            listener.onVerficiacionVolver()
         }
 
         btnContinuar.setOnClickListener {
@@ -49,7 +49,7 @@ class FragmVerificacion : Fragment(R.layout.fragment_verificacion) {
                 Toast.makeText(requireContext(), "Debe realizar una selecciónn", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             } else {
-                listener.onContinuar()
+                listener.onVerificacionContinuar()
             }
         }
     }
