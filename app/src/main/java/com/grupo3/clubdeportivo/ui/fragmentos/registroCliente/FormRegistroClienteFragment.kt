@@ -123,17 +123,11 @@ class FormRegistroClienteFragment : Fragment(R.layout.fragment_form_registro_cli
                 viewModel.esSocio = esSocioSeleccionado
                 viewModel.aptoFisico = cbAptoFisico.isChecked
 
-                if (esSocioSeleccionado == false) {
-                    (requireActivity() as? BarraEstadoHost<EtapaRegistro>)?.irA(
-                        FragmConfirmacionRegistroNoSocio(),
-                        EtapaRegistro.CONFIRMACION_REGISTRO
-                    )
-                } else {
-                    (requireActivity() as? BarraEstadoHost<EtapaRegistro>)?.irA(
-                        FragmConfirmacionRegistro(),
-                        EtapaRegistro.CONFIRMACION_REGISTRO
-                    )
-                }
+
+                (requireActivity() as? BarraEstadoHost<EtapaRegistro>)?.irA(
+                    FragmConfirmacionRegistro(),
+                    EtapaRegistro.CONFIRMACION_REGISTRO
+                )
             }
         }
     }

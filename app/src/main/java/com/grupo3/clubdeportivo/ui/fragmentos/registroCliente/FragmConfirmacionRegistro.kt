@@ -11,7 +11,7 @@ import com.grupo3.clubdeportivo.data.model.EtapaRegistro
 import com.grupo3.clubdeportivo.ui.registroCliente.RegistroClienteViewModel
 import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
 
-class FragmConfirmacionRegistro : Fragment(R.layout.fragment_registro_cliente_paso1_confirmacion_socio) {
+class FragmConfirmacionRegistro : Fragment(R.layout.fragment_confirmacion_registro) {
 
     private val viewModel: RegistroClienteViewModel by activityViewModels()
 
@@ -25,8 +25,14 @@ class FragmConfirmacionRegistro : Fragment(R.layout.fragment_registro_cliente_pa
         val tipoCliente = if (esSocio) "SOCIO" else "NO SOCIO"
         val numeroCliente = if (esSocio) "Nº 1: " else ": "
 
-        tvNombre?.text = "Registro exitoso de CLIENTE"
-        tvDetalle?.text = "$tipoCliente $numeroCliente${viewModel.nombre}, ${viewModel.apellido}"
+        if(esSocio) {
+            tvNombre?.text = "Registro exitoso de CLIENTE"
+            tvDetalle?.text = "$tipoCliente $numeroCliente${viewModel.nombre}, ${viewModel.apellido}"
+        } else {
+            tvNombre?.text = "Registro exitoso de\nCLIENTE"
+            tvDetalle?.text = "NO SOCIO Nº 1: ${viewModel.nombre} ${viewModel.apellido}"
+        }
+
 
         view.findViewById<Button>(R.id.btnContinuarConfirmacion)?.setOnClickListener {
             (requireActivity() as? BarraEstadoHost<EtapaRegistro>)?.irA(
