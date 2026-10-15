@@ -10,10 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaReserva
-import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
+import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 
-class FragmSeleccionActividad : Fragment(R.layout.fragment_seleccion_actividad) {
+class SeleccionActividadFragment : Fragment(R.layout.fragment_seleccion_actividad) {
     private val viewModel: ReservaViewModel by activityViewModels()
     var actividadSeleccionada: String? = ""
 
@@ -46,7 +46,7 @@ class FragmSeleccionActividad : Fragment(R.layout.fragment_seleccion_actividad) 
                 return@setOnClickListener
             }
             (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
-                FragmSeleccionFecha(),
+                SeleccionFechaFragment(),
                 EtapaReserva.SELECCION_FECHA
             )
         }

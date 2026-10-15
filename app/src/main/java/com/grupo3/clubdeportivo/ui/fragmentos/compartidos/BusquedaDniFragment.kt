@@ -9,7 +9,7 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.ui.componentes.ListenerDni
+import com.grupo3.clubdeportivo.ui.interfaces.ListenerDni
 
 class BusquedaDniFragment : Fragment(R.layout.fragment_busqueda_dni) {
     private val listener get() = requireActivity() as ListenerDni

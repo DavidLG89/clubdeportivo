@@ -15,7 +15,7 @@ import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 import com.grupo3.clubdeportivo.utils.formatoPeso
 import kotlin.getValue
 
-class FragmCompReserva : Fragment(R.layout.fragment_comprobante_reserva){
+class ComprobanteReservaFragment : Fragment(R.layout.fragment_comprobante_reserva){
     private val viewModel: ReservaViewModel by activityViewModels()
 
 

@@ -8,11 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaReserva
-import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
+import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.BusquedaDniFragment
 import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 
-class FragmVerificacionCliente : Fragment(R.layout.fragment_verificacion_cliente) {
+class VerificacionClienteFragment : Fragment(R.layout.fragment_verificacion_cliente) {
     private val viewModel: ReservaViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,7 +36,7 @@ class FragmVerificacionCliente : Fragment(R.layout.fragment_verificacion_cliente
 
         btnContinuar.setOnClickListener  {
             (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
-                FragmSeleccionActividad(),
+                SeleccionActividadFragment(),
                 EtapaReserva.SELECCION_ACTIVIDAD
             )
         }

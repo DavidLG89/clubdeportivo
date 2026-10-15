@@ -14,7 +14,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaRegistro
 import com.grupo3.clubdeportivo.ui.registroCliente.RegistroClienteViewModel
-import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
+import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
 
 class FormRegistroClienteFragment : Fragment(R.layout.fragment_form_registro_cliente) {
 

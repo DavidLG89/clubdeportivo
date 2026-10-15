@@ -30,7 +30,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class FragmCuotasSocio : Fragment(R.layout.fragment_cuotas_socio) {
+class CuotasSocioFragment : Fragment(R.layout.fragment_cuotas_socio) {
 
     private val viewModel: VencimientoDniViewModel by activityViewModels()
 

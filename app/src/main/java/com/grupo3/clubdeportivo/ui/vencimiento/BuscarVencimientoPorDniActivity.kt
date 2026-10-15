@@ -12,7 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
-import com.grupo3.clubdeportivo.ui.componentes.ListenerDni
+import com.grupo3.clubdeportivo.ui.interfaces.ListenerDni
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.BusquedaDniFragment
 
 class BuscarVencimientoPorDniActivity : AppCompatActivity(), ListenerDni {
@@ -59,7 +59,7 @@ class BuscarVencimientoPorDniActivity : AppCompatActivity(), ListenerDni {
     override fun onDniValidado(dni: String) {
         viewModel.dni = dni
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, FragmCuotasSocio())
+            .replace(R.id.fragmentContainer, CuotasSocioFragment())
             .addToBackStack(null)
             .commit()
     }

@@ -12,7 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
-import com.grupo3.clubdeportivo.ui.componentes.ListenerDni
+import com.grupo3.clubdeportivo.ui.interfaces.ListenerDni
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.BusquedaDniFragment
 
 class ImpresionCarnetActivity : AppCompatActivity(), ListenerDni {

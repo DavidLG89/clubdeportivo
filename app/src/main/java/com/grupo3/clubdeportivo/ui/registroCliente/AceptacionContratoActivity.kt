@@ -50,7 +50,7 @@ class AceptacionContratoActivity : AppCompatActivity() {
             mensaje.setText( R.string.contrato_aceptado_por_el_cliente)
         }
 
-        // Botón ACEPTA contrato
+        // Botón NO ACEPTA contrato
         btnNo.setOnClickListener {
             cardDecision.visibility = View.GONE
             linearMensaje.visibility = View.VISIBLE

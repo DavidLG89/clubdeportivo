@@ -9,7 +9,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.ui.componentes.ListenerMetodoPago
+import com.grupo3.clubdeportivo.ui.interfaces.ListenerMetodoPago
 
 class MetodoPagoFragment : Fragment(R.layout.fragment_metodo_pago) {
 

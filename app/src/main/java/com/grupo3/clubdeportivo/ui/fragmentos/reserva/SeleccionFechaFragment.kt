@@ -10,10 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaReserva
-import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
+import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 
-class FragmSeleccionFecha : Fragment(R.layout.fragment_seleccion_fecha) {
+class SeleccionFechaFragment : Fragment(R.layout.fragment_seleccion_fecha) {
     private val viewModel: ReservaViewModel by activityViewModels()
     private lateinit var edtDate: EditText
 
@@ -47,7 +47,7 @@ class FragmSeleccionFecha : Fragment(R.layout.fragment_seleccion_fecha) {
                 return@setOnClickListener
             }
             (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
-                FragmSeleccionHora(),
+                SeleccionHoraFragment(),
                 EtapaReserva.SELECCION_HORA
             )
         }
@@ -55,7 +55,7 @@ class FragmSeleccionFecha : Fragment(R.layout.fragment_seleccion_fecha) {
 
     private fun showDatePickerDialog() {
         val datePicker =
-            FragmDatePicker()
+            DatePickerFragment()
         datePicker.show(childFragmentManager, "datePicker")
     }
 

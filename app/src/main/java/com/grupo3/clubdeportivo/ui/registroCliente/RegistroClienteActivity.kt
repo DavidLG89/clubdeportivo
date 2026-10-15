@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaRegistro
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
-import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
+import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.componentes.CompBarraRegistroCliente
 import com.grupo3.clubdeportivo.ui.fragmentos.registroCliente.FormRegistroClienteFragment
 import com.grupo3.clubdeportivo.ui.PerfilAdminActivity

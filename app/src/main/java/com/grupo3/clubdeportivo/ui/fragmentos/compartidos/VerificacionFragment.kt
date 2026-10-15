@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputLayout
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.ui.componentes.ListenerVerificacion
+import com.grupo3.clubdeportivo.ui.interfaces.ListenerVerificacion
 
 class VerificacionFragment : Fragment(R.layout.fragment_verificacion) {
 

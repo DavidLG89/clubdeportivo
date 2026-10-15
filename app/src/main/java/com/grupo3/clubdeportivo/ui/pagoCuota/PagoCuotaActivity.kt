@@ -10,11 +10,11 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaPago
-import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
+import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.componentes.CompBarraEstadoPago
-import com.grupo3.clubdeportivo.ui.componentes.ListenerDni
-import com.grupo3.clubdeportivo.ui.componentes.ListenerMetodoPago
-import com.grupo3.clubdeportivo.ui.componentes.ListenerVerificacion
+import com.grupo3.clubdeportivo.ui.interfaces.ListenerDni
+import com.grupo3.clubdeportivo.ui.interfaces.ListenerMetodoPago
+import com.grupo3.clubdeportivo.ui.interfaces.ListenerVerificacion
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.BusquedaDniFragment
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.VerificacionFragment
 import com.grupo3.clubdeportivo.ui.fragmentos.pago.ComprobantePagoFragment

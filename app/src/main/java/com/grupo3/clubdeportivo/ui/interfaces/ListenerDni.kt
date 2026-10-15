@@ -1,4 +1,4 @@
-package com.grupo3.clubdeportivo.ui.componentes
+package com.grupo3.clubdeportivo.ui.interfaces
 
 interface ListenerDni {
     fun onDniValidado(dni: String)

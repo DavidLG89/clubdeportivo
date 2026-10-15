@@ -9,7 +9,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
 
-class FragmDatePicker :
+class DatePickerFragment :
     DialogFragment(),
     DatePickerDialog.OnDateSetListener {
 

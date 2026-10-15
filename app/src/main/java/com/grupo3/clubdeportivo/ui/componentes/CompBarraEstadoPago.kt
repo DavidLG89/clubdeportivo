@@ -8,6 +8,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaPago
+import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
 
 class CompBarraEstadoPago @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null

@@ -14,11 +14,11 @@ import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaPago
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
-import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
-import com.grupo3.clubdeportivo.ui.componentes.ListenerDni
+import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
+import com.grupo3.clubdeportivo.ui.interfaces.ListenerDni
 import com.grupo3.clubdeportivo.ui.componentes.CompBarraEstadoPago
-import com.grupo3.clubdeportivo.ui.componentes.ListenerMetodoPago
-import com.grupo3.clubdeportivo.ui.componentes.ListenerVerificacion
+import com.grupo3.clubdeportivo.ui.interfaces.ListenerMetodoPago
+import com.grupo3.clubdeportivo.ui.interfaces.ListenerVerificacion
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.BusquedaDniFragment
 import com.grupo3.clubdeportivo.ui.fragmentos.pago.ComprobantePagoFragment
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.MetodoPagoFragment

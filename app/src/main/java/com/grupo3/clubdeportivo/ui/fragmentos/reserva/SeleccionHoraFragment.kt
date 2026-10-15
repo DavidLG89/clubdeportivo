@@ -14,10 +14,10 @@ import androidx.fragment.app.activityViewModels
 import com.google.android.material.card.MaterialCardView
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaReserva
-import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
+import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 
-class FragmSeleccionHora : Fragment(R.layout.fragment_seleccion_hora) {
+class SeleccionHoraFragment : Fragment(R.layout.fragment_seleccion_hora) {
     private val viewModel: ReservaViewModel by activityViewModels()
     private var itemSeleccionado: View? = null
 
@@ -70,7 +70,7 @@ class FragmSeleccionHora : Fragment(R.layout.fragment_seleccion_hora) {
         btnVolver.setOnClickListener {
 
             (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
-                FragmSeleccionFecha(),
+                SeleccionFechaFragment(),
                 EtapaReserva.SELECCION_FECHA
             )
         }
@@ -89,7 +89,7 @@ class FragmSeleccionHora : Fragment(R.layout.fragment_seleccion_hora) {
 
 
             (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
-                FragmCompReserva(),
+                ComprobanteReservaFragment(),
                 EtapaReserva.CONFIRMACION_RESERVA
             )
         }
