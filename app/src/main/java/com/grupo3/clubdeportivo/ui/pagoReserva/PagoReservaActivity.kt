@@ -7,25 +7,32 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
 import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.data.model.DatosComprobante
 import com.grupo3.clubdeportivo.data.model.EtapaPago
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
-import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
-import com.grupo3.clubdeportivo.ui.interfaces.ListenerDni
 import com.grupo3.clubdeportivo.ui.componentes.CompBarraEstadoPago
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.BusquedaDniFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.MetodoPagoFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.PagoEnCuotasFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.VerificacionFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.pago.ComprobantePagoFragment
+import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
+import com.grupo3.clubdeportivo.ui.interfaces.ListenerComprobantePago
+import com.grupo3.clubdeportivo.ui.interfaces.ListenerDni
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerMetodoPago
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerVerificacion
-import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.BusquedaDniFragment
-import com.grupo3.clubdeportivo.ui.fragmentos.pago.ComprobantePagoFragment
-import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.MetodoPagoFragment
-import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.VerificacionFragment
 
-
-class PagoReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, ListenerDni, ListenerVerificacion, ListenerMetodoPago{
+class PagoReservaActivity : AppCompatActivity(),
+    BarraEstadoHost<EtapaPago>,
+    ListenerDni,
+    ListenerVerificacion,
+    ListenerMetodoPago,
+    ListenerComprobantePago {
 
     private val viewModel: PagoResViewModel by viewModels()
     private lateinit var stepBar: CompBarraEstadoPago
@@ -50,7 +57,6 @@ class PagoReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Lis
             insets
         }
 
-
         // Botón Volver regresa al fragmento anterior
         val btnBack = findViewById<ImageButton>(R.id.btnBack)
         btnBack.setOnClickListener {
@@ -62,10 +68,11 @@ class PagoReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Lis
 
         // Reconoce el fragmento actual al volver con el botón del celular
         supportFragmentManager.addOnBackStackChangedListener {
-            when(supportFragmentManager.findFragmentById(R.id.fragmentContainer)) {
+            when (supportFragmentManager.findFragmentById(R.id.fragmentContainer)) {
                 is BusquedaDniFragment -> viewModel.irAPaso(EtapaPago.BUSQUEDA_DNI)
                 is VerificacionFragment -> viewModel.irAPaso(EtapaPago.VERIFICACION)
                 is MetodoPagoFragment -> viewModel.irAPaso(EtapaPago.METODO_PAGO)
+                is PagoEnCuotasFragment -> viewModel.irAPaso(EtapaPago.FORMALIZACION_PAGO)
                 is ComprobantePagoFragment -> viewModel.irAPaso(EtapaPago.COMPROBANTE_PAGO)
             }
         }
@@ -76,7 +83,6 @@ class PagoReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Lis
         }
 
         // Carga el primer fragmento al iniciar la activity.
-        // Además obtiene y guarda en variables los datos de otra activity
         if (savedInstanceState == null) {
             val dni = intent.getStringExtra(EXTRA_DNI)
             val nombre = intent.getStringExtra(EXTRA_NOMBRE)
@@ -86,13 +92,12 @@ class PagoReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Lis
             }
 
             // Si recibe dni, guarda los datos en viewModel y continúa con la etapa método de pago
-            if(!dni.isNullOrEmpty()) {
+            if (!dni.isNullOrEmpty()) {
                 viewModel.dni = dni
                 viewModel.nombre = nombre
                 viewModel.actividad = actividad
 
                 irA(MetodoPagoFragment(), EtapaPago.METODO_PAGO)
-
             } else {
                 irA(BusquedaDniFragment(), EtapaPago.BUSQUEDA_DNI)
             }
@@ -112,12 +117,10 @@ class PagoReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Lis
         }
     }
 
-
     // Actualiza la barra de estado
     override fun setStep(etapa: EtapaPago) {
         stepBar.setStep(etapa)
     }
-
 
     // Navega en los distintos fragmentos de la activity
     override fun irA(fragment: Fragment, etapa: EtapaPago) {
@@ -182,9 +185,43 @@ class PagoReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Lis
     }
 
     override fun onMetodoPagoContinuar() {
-        irA(
-        ComprobantePagoFragment(),
-        EtapaPago.COMPROBANTE_PAGO
+        val metodo = viewModel.metodoPago
+        if (metodo == "Tarjeta Crédito" || metodo == "MercadoPago") {
+            irA(
+                PagoEnCuotasFragment(),
+                EtapaPago.FORMALIZACION_PAGO
+            )
+        } else {
+            irA(
+                ComprobantePagoFragment(),
+                EtapaPago.COMPROBANTE_PAGO
+            )
+        }
+    }
+
+    override fun datosComprobante(): DatosComprobante {
+        val seleccionAnterior = viewModel.actividad ?: ""
+        return DatosComprobante(
+            idPago = "0002",
+            dni = viewModel.dni,
+            nombre = viewModel.nombre,
+            idReserva = null, // En no socio se ocultan los campos "Id reserva:" y su valor relacionado
+            actividad = seleccionAnterior,
+            monto = viewModel.monto,
+            metodoPago = viewModel.metodoPago,
+            cuota = viewModel.cuota,
+            esNoSocio = true
         )
+    }
+
+    override fun onComprobanteVolver() {
+        finish()
+    }
+
+    override fun onComprobanteContinuar() {
+        val intent = Intent(this, MenuPrincipalActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        startActivity(intent)
+        finish()
     }
 }

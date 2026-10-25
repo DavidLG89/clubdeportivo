@@ -24,7 +24,7 @@
     <string name="tipo_cliente">Tipo cliente:</string>
     <string name="apto_fisico">Apto Físico:</string>
     <string name="seleccione_una_fecha">Seleccione una fecha</string>
-    <string name="actividad">Actividad:</string>
+    <string name="actividad">Actividad/cuota:</string>
     <string name="cuota_nro">Seleccione cuota:</string>
     <string name="registro_exitoso_cliente">Registro exitoso de CLIENTE</string>
     <string name="registro_exitoso">Registro Exitoso</string>

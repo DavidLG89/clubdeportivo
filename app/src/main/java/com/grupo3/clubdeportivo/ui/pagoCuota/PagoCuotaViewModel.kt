@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.grupo3.clubdeportivo.data.model.EtapaPago
 
-class PagoCuotaViewModel : ViewModel() {
+class   PagoCuotaViewModel : ViewModel() {
     private val _pasoActual = MutableLiveData(EtapaPago.BUSQUEDA_DNI)
     val pasoActual: LiveData<EtapaPago> = _pasoActual
 

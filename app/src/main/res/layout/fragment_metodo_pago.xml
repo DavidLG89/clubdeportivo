@@ -106,7 +106,7 @@
                 android:layout_gravity="left"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="6dp"
-                android:text="Fútbol"
+                android:text=""
                 android:textColor="@color/black"
                 android:textSize="14sp" />
         </LinearLayout>
