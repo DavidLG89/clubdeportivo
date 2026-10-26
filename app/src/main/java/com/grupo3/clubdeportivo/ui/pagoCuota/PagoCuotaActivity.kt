@@ -18,6 +18,7 @@ import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.BusquedaDniFragment
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.MetodoPagoFragment
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.PagoEnCuotasFragment
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.VerificacionFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.pago.BancoFragment
 import com.grupo3.clubdeportivo.ui.fragmentos.pago.ComprobantePagoFragment
 import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerComprobantePago
@@ -133,7 +134,12 @@ class PagoCuotaActivity : AppCompatActivity(),
 
     override fun onMetodoPagoContinuar() {
         val metodo = viewModel.metodoPago
-        if (metodo == "Tarjeta Crédito" || metodo == "MercadoPago") {
+        if (metodo == "Tarjeta Crédito" || metodo == "Tarjeta de Crédito" || metodo == "Tarjeta Débito" || metodo == "Tarjeta de Débito") {
+            irA(
+                BancoFragment(),
+                EtapaPago.FORMALIZACION_PAGO
+            )
+        } else if (metodo == "MercadoPago") {
             irA(
                 PagoEnCuotasFragment(),
                 EtapaPago.FORMALIZACION_PAGO

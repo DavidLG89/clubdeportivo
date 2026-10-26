@@ -98,7 +98,9 @@
         <item>Efectivo</item>
         <item>Transferencia</item>
         <item>Tarjeta Crédito</item>
+        <item>Tarjeta de Crédito</item>
         <item>Tarjeta Débito</item>
+        <item>Tarjeta de Débito</item>
         <item>MercadoPago</item>
     </string-array>
 
