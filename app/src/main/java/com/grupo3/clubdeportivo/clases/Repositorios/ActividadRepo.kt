@@ -1,31 +1,28 @@
 package com.grupo3.clubdeportivo.clases.Repositorios
 
-import com.grupo3.clubdeportivo.clases.BaseDatos.ConexionMySql
+import com.grupo3.clubdeportivo.clases.BaseDatos.conexionBDsqlite
 import com.grupo3.clubdeportivo.clases.Interfaces.IListado
 import com.grupo3.clubdeportivo.clases.Modelos.Actividad
 
-class ActividadRepo(private val conexionMysql: ConexionMySql) : IListado<Actividad> {
+class ActividadRepo(private val conexionBDsqlite: conexionBDsqlite) : IListado<Actividad> {
 
     override fun obtenerLista(): List<Actividad> {
         val actividades = mutableListOf<Actividad>()
-        val conn = conexionMysql.getMySqlConnection() ?: return actividades
+        val db = conexionBDsqlite.getConexionBDsqlite() ?: return actividades
 
         try {
             val query = "SELECT id, nombre, precio FROM actividades"
-            val stmt = conn.prepareStatement(query)
-            val reader = stmt.executeQuery()
+            val cursor = db.rawQuery(query, null)
 
-            while (reader.next()) {
+            while (cursor.moveToNext()) {
                 val actividad = Actividad().apply {
-                    id = reader.getInt("id")
-                    nombre = reader.getString("nombre")
-                    precio = reader.getDouble("precio")
+                    id = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
+                    nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre")) ?: ""
+                    precio = cursor.getDouble(cursor.getColumnIndexOrThrow("precio"))
                 }
                 actividades.add(actividad)
             }
-            reader.close()
-            stmt.close()
-            conn.close()
+            cursor.close()
         } catch (e: Exception) {
             e.printStackTrace()
         }

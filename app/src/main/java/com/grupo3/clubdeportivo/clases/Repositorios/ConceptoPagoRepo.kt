@@ -1,30 +1,27 @@
 package com.grupo3.clubdeportivo.clases.Repositorios
 
-import com.grupo3.clubdeportivo.clases.BaseDatos.ConexionMySql
+import com.grupo3.clubdeportivo.clases.BaseDatos.conexionBDsqlite
 import com.grupo3.clubdeportivo.clases.Interfaces.IListado
 import com.grupo3.clubdeportivo.clases.Modelos.ConceptoPago
 
-class ConceptoPagoRepo(private val conexionDatabase: ConexionMySql) : IListado<ConceptoPago> {
+class ConceptoPagoRepo(private val conexionDatabase: conexionBDsqlite) : IListado<ConceptoPago> {
 
     override fun obtenerLista(): List<ConceptoPago> {
         val lista = mutableListOf<ConceptoPago>()
-        val conn = conexionDatabase.getMySqlConnection() ?: return lista
+        val db = conexionDatabase.getConexionBDsqlite() ?: return lista
 
         try {
             val query = "SELECT id, nombre FROM conceptos_pago"
-            val stmt = conn.prepareStatement(query)
-            val dr = stmt.executeQuery()
+            val cursor = db.rawQuery(query, null)
 
-            while (dr.next()) {
+            while (cursor.moveToNext()) {
                 val concepto = ConceptoPago().apply {
-                    id = dr.getInt("id")
-                    nombre = dr.getString("nombre") ?: ""
+                    id = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
+                    nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre")) ?: ""
                 }
                 lista.add(concepto)
             }
-            dr.close()
-            stmt.close()
-            conn.close()
+            cursor.close()
         } catch (e: Exception) {
             e.printStackTrace()
         }

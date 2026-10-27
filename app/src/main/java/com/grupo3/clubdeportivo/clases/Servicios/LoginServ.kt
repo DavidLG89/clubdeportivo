@@ -6,13 +6,16 @@ import com.grupo3.clubdeportivo.clases.Repositorios.LoginRepo
 class LoginServ(private val repository: LoginRepo) {
 
     fun login(username: String?, password: String?): Usuario? {
-        if (username.isNullOrEmpty() || password.isNullOrEmpty()) {
+        val cleanUser = username?.trim()
+        val cleanPass = password?.trim()
+
+        if (cleanUser.isNullOrEmpty() || cleanPass.isNullOrEmpty()) {
             return null
         }
 
-        val usuario = repository.loguearUsuario(username, password) ?: return null
+        val usuario = repository.loguearUsuario(cleanUser, cleanPass) ?: return null
 
-        if (usuario.rol?.nombre != "admin") {
+        if (!usuario.rol?.nombre.equals("admin", ignoreCase = true)) {
             return null
         }
 

@@ -18,6 +18,10 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.clases.BaseDatos.conexionBDsqlite
+import com.grupo3.clubdeportivo.clases.Repositorios.LoginRepo
+import com.grupo3.clubdeportivo.clases.Servicios.LoginServ
+import com.grupo3.clubdeportivo.clases.base_datos_proced.InicializadorBD
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,20 +32,21 @@ class MainActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
 
-            // Sumamos el margen del teclado al padding inferior del ScrollView para que se reduzca su tamaño real.
-            // Si el teclado está abierto, usamos su tamaño; si no, el del sistema.
             val bottomPadding = if (ime.bottom > 0) ime.bottom else systemBars.bottom
 
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, bottomPadding)
             insets
         }
 
+        val conexionBDInit = conexionBDsqlite()
+        conexionBDInit.setContext(applicationContext)
+        InicializadorBD.inicializarSiNoExiste(conexionBDInit, applicationContext)
+
         val etUser = findViewById<TextInputEditText>(R.id.etUser)
         val etPass = findViewById<TextInputEditText>(R.id.etPass)
         val tilUser = findViewById<TextInputLayout>(R.id.tilUser)
         val tilPass = findViewById<TextInputLayout>(R.id.tilPass)
 
-        // Buscar el botón por su ID y configurar el evento click
         val btnIngresar = findViewById<Button>(R.id.btnIngresar)
         btnIngresar.setOnClickListener {
             val user = etUser.text?.toString()?.trim() ?: ""
@@ -54,6 +59,9 @@ class MainActivity : AppCompatActivity() {
                 if (user.isEmpty()) {
                     tilUser.error = "Complete usuario"
                 }
+                if (pass.isEmpty()) {
+                    tilPass.error = "Complete contraseña"
+                }
 
                 AlertDialog.Builder(this)
                     .setTitle("Error de inicio de sesión")
@@ -62,13 +70,32 @@ class MainActivity : AppCompatActivity() {
                     .setPositiveButton("Aceptar", null)
                     .show()
             } else {
-                Toast.makeText(this, "Login correcto", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, MenuPrincipalActivity::class.java)
-                startActivity(intent)
+                val conexionBD = conexionBDsqlite()
+                conexionBD.setContext(applicationContext)
+                InicializadorBD.inicializarSiNoExiste(conexionBD, applicationContext)
+
+                val loginRepo = LoginRepo(conexionBD)
+                val loginServ = LoginServ(loginRepo)
+                val usuario = loginServ.login(user, pass)
+
+                if (usuario != null) {
+                    Toast.makeText(this, "Login correcto", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, MenuPrincipalActivity::class.java)
+                    startActivity(intent)
+                } else {
+                    tilUser.error = "Usuario o contraseña incorrectos"
+                    tilPass.error = "Usuario o contraseña incorrectos"
+
+                    AlertDialog.Builder(this)
+                        .setTitle("Error de inicio de sesión")
+                        .setMessage("Usuario o contraseña incorrectos. Verifique sus credenciales.")
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton("Aceptar", null)
+                        .show()
+                }
             }
         }
 
-        // Dar formato de enlace a "ingresa aquí" y configurar el clic
         val tvOlvide = findViewById<TextView>(R.id.tvOlvideContrasenia)
         val text = "¿Olvidaste tu contraseña? ingresa aquí"
         val spannable = SpannableString(text)
@@ -81,10 +108,10 @@ class MainActivity : AppCompatActivity() {
             spannable.setSpan(UnderlineSpan(), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
         tvOlvide.text = spannable
+        tvOlvide.text = spannable
         tvOlvide.setOnClickListener {
             val intent = Intent(this, RecuperarContraseniaActivity::class.java)
             startActivity(intent)
         }
-
     }
 }
