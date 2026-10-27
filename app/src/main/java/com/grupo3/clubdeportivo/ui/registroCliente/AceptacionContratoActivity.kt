@@ -2,6 +2,7 @@ package com.grupo3.clubdeportivo.ui.registroCliente
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
@@ -64,34 +65,49 @@ class AceptacionContratoActivity : AppCompatActivity() {
             val aptoFisico = intent.getBooleanExtra("EXTRA_APTO_FISICO", false)
             val montoCuotaStr = intent.getStringExtra("EXTRA_MONTO_CUOTA") ?: "10000"
 
-            if (nombre.isNotEmpty() && dni.isNotEmpty()) {
+            Log.d("REGISTRO_CLIENTE", "AceptacionContrato: Nombre=$nombre, DNI=$dni, EsSocio=$esSocio")
+
+            if (dni.isNotEmpty()) {
                 val conexionBD = conexionBDsqlite()
                 conexionBD.setContext(applicationContext)
 
                 val clienteRepo = ClienteRepo(conexionBD)
                 val clienteServ = ClienteServ(clienteRepo)
 
-                val clienteNuevo = Cliente(0, nombre, apellido, dni, aptoFisico)
+                // 1. Buscar si el cliente ya fue guardado en el paso de FormRegistroCliente
+                var clienteTarget: Cliente? = clienteServ.buscarClientePorDni(dni)
 
-                val resultado = clienteServ.realizarRegistro(clienteNuevo, esSocio)
+                // 2. Si no fue guardado previamente, intentar registrarlo ahora
+                if (clienteTarget == null && nombre.isNotEmpty()) {
+                    val clienteNuevo = Cliente(0, nombre, apellido, dni, aptoFisico)
+                    val resReg = clienteServ.realizarRegistro(clienteNuevo, esSocio)
+                    if (resReg.ok) {
+                        clienteTarget = resReg.cliente
+                    }
+                }
 
-                if (resultado.ok && esSocio && resultado.cliente != null) {
+                // 3. Si es socio y tenemos el cliente guardado, formalizar su inscripción y cuota
+                if (esSocio && clienteTarget != null) {
                     val inscripcionRepo = InscripcionRepo(conexionBD)
                     val inscripcionServ = InscripcionSocioServ(inscripcionRepo)
                     val montoCuota = montoCuotaStr.toDoubleOrNull() ?: 10000.0
                     val cuota = Cuota(montoCuota = montoCuota)
 
-                    val resultadoInsc = inscripcionServ.formalizarSocio(resultado.cliente, cuota)
+                    val resultadoInsc = inscripcionServ.formalizarSocio(clienteTarget, cuota)
+                    Log.d("REGISTRO_CLIENTE", "Formalizar socio: ok=${resultadoInsc.ok}, msg=${resultadoInsc.mensaje}")
+
                     if (resultadoInsc.ok) {
-                        Toast.makeText(this, "Socio guardado con éxito en la base de datos", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Socio e inscripción guardados con éxito en la base de datos", Toast.LENGTH_LONG).show()
                     } else {
-                        Toast.makeText(this, resultadoInsc.mensaje, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Aviso inscripción: ${resultadoInsc.mensaje}", Toast.LENGTH_LONG).show()
                     }
-                } else if (resultado.ok) {
-                    Toast.makeText(this, "Cliente no socio guardado con éxito en la base de datos", Toast.LENGTH_SHORT).show()
+                } else if (clienteTarget != null) {
+                    Toast.makeText(this, "Cliente no socio guardado con éxito en la base de datos", Toast.LENGTH_LONG).show()
                 } else {
-                    Toast.makeText(this, resultado.mensaje, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Error al registrar cliente. Verifique si el DNI $dni ya existe.", Toast.LENGTH_LONG).show()
                 }
+            } else {
+                Toast.makeText(this, "Error: No se recibió DNI del cliente.", Toast.LENGTH_LONG).show()
             }
         }
 

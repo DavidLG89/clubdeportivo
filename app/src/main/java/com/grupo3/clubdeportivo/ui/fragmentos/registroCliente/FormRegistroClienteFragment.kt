@@ -6,15 +6,20 @@ import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.clases.BaseDatos.conexionBDsqlite
+import com.grupo3.clubdeportivo.clases.Modelos.Cliente
+import com.grupo3.clubdeportivo.clases.Repositorios.ClienteRepo
+import com.grupo3.clubdeportivo.clases.Servicios.ClienteServ
 import com.grupo3.clubdeportivo.data.model.EtapaRegistro
-import com.grupo3.clubdeportivo.ui.registroCliente.RegistroClienteViewModel
 import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
+import com.grupo3.clubdeportivo.ui.registroCliente.RegistroClienteViewModel
 
 class FormRegistroClienteFragment : Fragment(R.layout.fragment_form_registro_cliente) {
 
@@ -107,27 +112,52 @@ class FormRegistroClienteFragment : Fragment(R.layout.fragment_form_registro_cli
                 hayError = true
             }
 
-
             if (hayError) {
                 AlertDialog.Builder(requireContext())
                     .setTitle("Error de registro")
-                    .setMessage("No se pudo completar registro, revise errores, seleccione socio o no socio.")
+                    .setMessage("No se pudo completar el registro. Revise los errores y asegúrese de seleccionar Socio o No Socio.")
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setPositiveButton("Aceptar", null)
                     .show()
             } else {
-                viewModel.nombre = nombre
-                viewModel.apellido = apellido
-                viewModel.dni = dni
-                viewModel.email = email
-                viewModel.esSocio = esSocioSeleccionado
-                viewModel.aptoFisico = cbAptoFisico.isChecked
+                val esSocio = esSocioSeleccionado == true
+                val conexionBD = conexionBDsqlite()
+                conexionBD.setContext(requireContext().applicationContext)
 
+                val clienteRepo = ClienteRepo(conexionBD)
+                val clienteServ = ClienteServ(clienteRepo)
 
-                (requireActivity() as? BarraEstadoHost<EtapaRegistro>)?.irA(
-                    ConfirmacionRegistroFragment(),
-                    EtapaRegistro.CONFIRMACION_REGISTRO
-                )
+                val clienteNuevo = Cliente(0, nombre, apellido, dni, cbAptoFisico.isChecked)
+                val resultado = clienteServ.realizarRegistro(clienteNuevo, esSocio)
+
+                if (!resultado.ok) {
+                    AlertDialog.Builder(requireContext())
+                        .setTitle("DNI existente o error de registro")
+                        .setMessage("No se pudo registrar en la base de datos: ${resultado.mensaje}. Verifique si el DNI $dni ya se encuentra registrado.")
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton("Aceptar", null)
+                        .show()
+                } else {
+                    viewModel.nombre = nombre
+                    viewModel.apellido = apellido
+                    viewModel.dni = dni
+                    viewModel.email = email
+                    viewModel.esSocio = esSocio
+                    viewModel.aptoFisico = cbAptoFisico.isChecked
+                    viewModel.clienteGuardado = resultado.cliente
+
+                    val tipoTxt = if (esSocio) "Socio" else "No Socio"
+                    Toast.makeText(
+                        requireContext(),
+                        "¡Guardado en base de datos SQLite como $tipoTxt (ID: ${resultado.cliente?.idCliente})!",
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                    (requireActivity() as? BarraEstadoHost<EtapaRegistro>)?.irA(
+                        ConfirmacionRegistroFragment(),
+                        EtapaRegistro.CONFIRMACION_REGISTRO
+                    )
+                }
             }
         }
     }
