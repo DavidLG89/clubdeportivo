@@ -1,6 +1,7 @@
 package com.grupo3.clubdeportivo.ui.pagoCuota
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
 import androidx.activity.viewModels
@@ -9,18 +10,28 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.data.model.DatosComprobante
 import com.grupo3.clubdeportivo.data.model.EtapaPago
-import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
+import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.componentes.CompBarraEstadoPago
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.BusquedaDniFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.MetodoPagoFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.PagoEnCuotasFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.VerificacionFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.pago.BancoFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.pago.ComprobantePagoFragment
+import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
+import com.grupo3.clubdeportivo.ui.interfaces.ListenerComprobantePago
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerDni
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerMetodoPago
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerVerificacion
-import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.BusquedaDniFragment
-import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.VerificacionFragment
-import com.grupo3.clubdeportivo.ui.fragmentos.pago.ComprobantePagoFragment
-import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.MetodoPagoFragment
 
-class PagoCuotaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, ListenerDni, ListenerVerificacion, ListenerMetodoPago {
+class PagoCuotaActivity : AppCompatActivity(),
+    BarraEstadoHost<EtapaPago>,
+    ListenerDni,
+    ListenerVerificacion,
+    ListenerMetodoPago,
+    ListenerComprobantePago {
 
     private val viewModel: PagoCuotaViewModel by viewModels()
     private lateinit var stepBar: CompBarraEstadoPago
@@ -42,6 +53,16 @@ class PagoCuotaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Liste
         }
 
         stepBar = findViewById(R.id.componentStepBar)
+
+        supportFragmentManager.addOnBackStackChangedListener {
+            when (supportFragmentManager.findFragmentById(R.id.fragmentContainer)) {
+                is BusquedaDniFragment -> viewModel.irAPaso(EtapaPago.BUSQUEDA_DNI)
+                is VerificacionFragment -> viewModel.irAPaso(EtapaPago.VERIFICACION)
+                is MetodoPagoFragment -> viewModel.irAPaso(EtapaPago.METODO_PAGO)
+                is PagoEnCuotasFragment -> viewModel.irAPaso(EtapaPago.FORMALIZACION_PAGO)
+                is ComprobantePagoFragment -> viewModel.irAPaso(EtapaPago.COMPROBANTE_PAGO)
+            }
+        }
 
         viewModel.pasoActual.observe(this) { etapa ->
             setStep(etapa)
@@ -80,7 +101,7 @@ class PagoCuotaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Liste
 
     override var seleccion: String?
         get() = viewModel.actividad
-        set(value) { viewModel.actividad = value}
+        set(value) { viewModel.actividad = value }
 
     override fun onVerficiacionVolver() {
         irA(
@@ -102,7 +123,7 @@ class PagoCuotaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Liste
 
     override var seleccionNumCuotas: Int?
         get() = viewModel.cuota
-        set(value) { viewModel.cuota = value}
+        set(value) { viewModel.cuota = value }
 
     override fun onMetodoPagoVolver() {
         irA(
@@ -112,9 +133,48 @@ class PagoCuotaActivity : AppCompatActivity(), BarraEstadoHost<EtapaPago>, Liste
     }
 
     override fun onMetodoPagoContinuar() {
-        irA(
-            ComprobantePagoFragment(),
-            EtapaPago.COMPROBANTE_PAGO
+        val metodo = viewModel.metodoPago
+        if (metodo == "Tarjeta Crédito" || metodo == "Tarjeta de Crédito" || metodo == "Tarjeta Débito" || metodo == "Tarjeta de Débito") {
+            irA(
+                BancoFragment(),
+                EtapaPago.FORMALIZACION_PAGO
+            )
+        } else if (metodo == "MercadoPago") {
+            irA(
+                PagoEnCuotasFragment(),
+                EtapaPago.FORMALIZACION_PAGO
+            )
+        } else {
+            irA(
+                ComprobantePagoFragment(),
+                EtapaPago.COMPROBANTE_PAGO
+            )
+        }
+    }
+
+    override fun datosComprobante(): DatosComprobante {
+        val seleccionAnterior = viewModel.actividad ?: ""
+        return DatosComprobante(
+            idPago = "0001",
+            dni = viewModel.dni,
+            nombre = viewModel.nombre,
+            idReserva = null,
+            actividad = seleccionAnterior,
+            monto = viewModel.monto,
+            metodoPago = viewModel.metodoPago,
+            cuota = viewModel.cuota,
+            esNoSocio = false
         )
+    }
+
+    override fun onComprobanteVolver() {
+        finish()
+    }
+
+    override fun onComprobanteContinuar() {
+        val intent = Intent(this, MenuPrincipalActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        startActivity(intent)
+        finish()
     }
 }

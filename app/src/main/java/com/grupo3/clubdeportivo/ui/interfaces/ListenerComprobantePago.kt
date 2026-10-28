@@ -1,9 +1,9 @@
 package com.grupo3.clubdeportivo.ui.interfaces
 
-import java.util.Date
+import com.grupo3.clubdeportivo.data.model.DatosComprobante
 
 interface ListenerComprobantePago {
-    fun datosComprobante()
+    fun datosComprobante(): DatosComprobante
     fun onComprobanteVolver()
     fun onComprobanteContinuar()
 }

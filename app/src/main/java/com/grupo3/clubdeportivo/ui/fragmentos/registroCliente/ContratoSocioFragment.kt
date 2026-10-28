@@ -50,10 +50,15 @@ class ContratoSocioFragment : Fragment(R.layout.fragment_contrato_socio) {
 
         // Botón IMPRIMIR (Avanza a mensaje de aceptación del contrato)
         view.findViewById<Button>(R.id.btnImprimirContrato).setOnClickListener {
-
-            val intent = Intent(requireContext(), AceptacionContratoActivity::class.java)
+            val intent = Intent(requireContext(), AceptacionContratoActivity::class.java).apply {
+                putExtra("EXTRA_NOMBRE", viewModel.nombre)
+                putExtra("EXTRA_APELLIDO", viewModel.apellido)
+                putExtra("EXTRA_DNI", viewModel.dni)
+                putExtra("EXTRA_ES_SOCIO", viewModel.esSocio == true)
+                putExtra("EXTRA_APTO_FISICO", viewModel.aptoFisico)
+                putExtra("EXTRA_MONTO_CUOTA", viewModel.montoCuota)
+            }
             startActivity(intent)
-
         }
 
     }
