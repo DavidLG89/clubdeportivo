@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.data.model.Actividad
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerComprobantePago
 import com.grupo3.clubdeportivo.ui.pagoCuota.PagoCuotaViewModel
@@ -22,7 +23,7 @@ class ComprobantePagoFragment : Fragment(R.layout.fragment_comprobante_pago) {
 
         //view.findViewById<TextView>(R.id.tvPrintDni)?.text = dato.dni
         //view.findViewById<TextView>(R.id.tvPrintNombre)?.text = dato.nombre
-        //view.findViewById<TextView>(R.id.tvPrintActividad)?.text = dato.actividad
+        view.findViewById<TextView>(R.id.tvPrintActividad)?.text = Actividad.nombre
         //view.findViewById<TextView>(R.id.tvPrintMetodoPago)?.text = dato.metodoPago
         //view.findViewById<TextView>(R.id.tvPrintNumCuotas)?.text = dato.cuota?.toString() ?: "-"
 
