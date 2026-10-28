@@ -21,7 +21,6 @@ import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.clases.BaseDatos.conexionBDsqlite
 import com.grupo3.clubdeportivo.clases.Repositorios.LoginRepo
 import com.grupo3.clubdeportivo.clases.Servicios.LoginServ
-import com.grupo3.clubdeportivo.clases.base_datos_proced.InicializadorBD
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +39,7 @@ class MainActivity : AppCompatActivity() {
 
         val conexionBDInit = conexionBDsqlite()
         conexionBDInit.setContext(applicationContext)
-        InicializadorBD.inicializarSiNoExiste(conexionBDInit, applicationContext)
+        DbHelperObject.inicializarSiNoExiste(conexionBDInit, applicationContext)
 
         val etUser = findViewById<TextInputEditText>(R.id.etUser)
         val etPass = findViewById<TextInputEditText>(R.id.etPass)
@@ -72,7 +71,7 @@ class MainActivity : AppCompatActivity() {
             } else {
                 val conexionBD = conexionBDsqlite()
                 conexionBD.setContext(applicationContext)
-                InicializadorBD.inicializarSiNoExiste(conexionBD, applicationContext)
+                DbHelperObject.inicializarSiNoExiste(conexionBD, applicationContext)
 
                 val loginRepo = LoginRepo(conexionBD)
                 val loginServ = LoginServ(loginRepo)

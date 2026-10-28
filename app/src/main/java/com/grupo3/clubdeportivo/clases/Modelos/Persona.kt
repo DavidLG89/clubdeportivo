@@ -5,13 +5,15 @@ open class Persona {
     var nombre: String = ""
     var apellido: String = ""
     var dni: String = ""
+    var email: String = ""
 
     constructor()
 
-    constructor(nombre: String, apellido: String, dni: String) {
+    constructor(nombre: String, apellido: String, dni: String, email: String) {
         this.nombre = nombre
         this.apellido = apellido
         this.dni = dni
+        this.email = email
     }
 
     fun mostrarNombreCompleto(): String {

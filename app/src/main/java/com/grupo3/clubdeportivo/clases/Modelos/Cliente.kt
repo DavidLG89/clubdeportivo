@@ -6,11 +6,11 @@ open class Cliente : Persona {
 
     constructor() : super()
 
-    constructor(nombre: String, apellido: String, dni: String, aptoFisico: Boolean) : super(nombre, apellido, dni) {
+    constructor(nombre: String, apellido: String, dni: String, email:String, aptoFisico: Boolean) : super(nombre, apellido, dni, email) {
         this.aptoFisico = aptoFisico
     }
 
-    constructor(id: Int, nombre: String, apellido: String, dni: String, aptoFisico: Boolean) : super(nombre, apellido, dni) {
+    constructor(id: Int, nombre: String, apellido: String, dni: String, email:String, aptoFisico: Boolean) : super(nombre, apellido, dni) {
         this.idCliente = id
         this.aptoFisico = aptoFisico
     }
