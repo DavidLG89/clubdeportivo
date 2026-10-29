@@ -1,7 +1,6 @@
 package com.grupo3.clubdeportivo.clases.Servicios
 
 import com.grupo3.clubdeportivo.clases.Modelos.Actividad
-import com.grupo3.clubdeportivo.clases.Modelos.ConceptoPago
 import com.grupo3.clubdeportivo.clases.Modelos.MetodoPago
 import com.grupo3.clubdeportivo.clases.Repositorios.ActividadRepo
 import com.grupo3.clubdeportivo.clases.Repositorios.MetodoPagoRepo
