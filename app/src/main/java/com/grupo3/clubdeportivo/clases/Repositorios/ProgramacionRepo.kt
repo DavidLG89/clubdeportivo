@@ -1,16 +1,16 @@
 package com.grupo3.clubdeportivo.clases.Repositorios
 
-import com.grupo3.clubdeportivo.clases.BaseDatos.conexionBDsqlite
+import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelper
 import com.grupo3.clubdeportivo.clases.Modelos.Programacion
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class ProgramacionRepo(private val conexionDatabase: conexionBDsqlite) {
+class ProgramacionRepo(private val dbHelper: DbHelper) {
 
     fun buscarProgramacionPorActividad(idActividad: Int): List<Programacion> {
         val listaProgramacion = mutableListOf<Programacion>()
-        val db = conexionDatabase.getConexionBDsqlite() ?: return listaProgramacion
+        val db = dbHelper.readableDatabase
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
 
         val query = "SELECT a.id AS id_act, p.fecha_hora, p.id AS id_prog, p.cupos_disponibles" +

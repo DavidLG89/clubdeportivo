@@ -100,14 +100,14 @@ class ClienteRepo(private val dbHelper: DbHelper) {
                     "Socio" -> {
                         val idSocio = cursor.getInt(cursor.getColumnIndexOrThrow("id_socio"))
                         val estado = cursor.getInt(cursor.getColumnIndexOrThrow("estado_socio")) == 1
-                        Socio(idCliente, nombre, apellido, dniVal, aptoFisico, estado).apply {
+                        Socio(idCliente, nombre, apellido, dniVal, email, aptoFisico, estado).apply {
                             this.idSocio = idSocio
                         }
                     }
                     "NoSocio" -> {
                         val idNoSocio = cursor.getInt(cursor.getColumnIndexOrThrow("id_no_socio"))
                         val accesoDiario = cursor.getInt(cursor.getColumnIndexOrThrow("acceso_diario")) == 1
-                        NoSocio(idCliente, nombre, apellido, dniVal, aptoFisico).apply {
+                        NoSocio(idCliente, nombre, apellido, dniVal, email, aptoFisico).apply {
                             this.idNoSocio = idNoSocio
                             this.accesoDiario = accesoDiario
                         }

@@ -8,6 +8,7 @@ data class CuotaDTO(
     var nombre: String = "",
     var apellido: String = "",
     var dni: String = "",
+    var email: String = "",
     var estadoSocio: Boolean = false,
     var montoCuota: Double = 0.0,
     var fechaVencimiento: Date = Date(),
