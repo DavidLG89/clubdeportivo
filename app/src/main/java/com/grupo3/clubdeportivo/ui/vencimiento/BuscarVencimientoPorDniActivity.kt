@@ -12,10 +12,10 @@ import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
-import com.grupo3.clubdeportivo.ui.componentes.ListenerCompartido
-import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmBusquedaDni
+import com.grupo3.clubdeportivo.ui.interfaces.ListenerDni
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.BusquedaDniFragment
 
-class BuscarVencimientoPorDniActivity : AppCompatActivity(), ListenerCompartido {
+class BuscarVencimientoPorDniActivity : AppCompatActivity(), ListenerDni {
 
     private val viewModel: VencimientoDniViewModel by viewModels()
 
@@ -51,7 +51,7 @@ class BuscarVencimientoPorDniActivity : AppCompatActivity(), ListenerCompartido 
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, FragmBusquedaDni())
+                .replace(R.id.fragmentContainer, BusquedaDniFragment())
                 .commit()
         }
     }
@@ -59,8 +59,10 @@ class BuscarVencimientoPorDniActivity : AppCompatActivity(), ListenerCompartido 
     override fun onDniValidado(dni: String) {
         viewModel.dni = dni
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, FragmCuotasSocio())
+            .replace(R.id.fragmentContainer, CuotasSocioFragment())
             .addToBackStack(null)
             .commit()
     }
+
+    override val colorCard = R.color.color_boton_principal2
 }

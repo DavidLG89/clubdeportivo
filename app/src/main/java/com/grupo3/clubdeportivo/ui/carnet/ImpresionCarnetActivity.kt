@@ -12,10 +12,10 @@ import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
-import com.grupo3.clubdeportivo.ui.componentes.ListenerCompartido
-import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmBusquedaDni
+import com.grupo3.clubdeportivo.ui.interfaces.ListenerDni
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.BusquedaDniFragment
 
-class ImpresionCarnetActivity : AppCompatActivity(), ListenerCompartido {
+class ImpresionCarnetActivity : AppCompatActivity(), ListenerDni {
 
     private val viewModel: CarnetViewModel by viewModels()
 
@@ -51,7 +51,7 @@ class ImpresionCarnetActivity : AppCompatActivity(), ListenerCompartido {
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, FragmBusquedaDni())
+                .replace(R.id.fragmentContainer, BusquedaDniFragment())
                 .commit()
         }
     }
@@ -63,4 +63,6 @@ class ImpresionCarnetActivity : AppCompatActivity(), ListenerCompartido {
             .addToBackStack(null)
             .commit()
     }
+
+    override val colorCard = R.color.color_boton_principal2
 }

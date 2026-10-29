@@ -16,6 +16,7 @@ class RegistroClienteViewModel : ViewModel() {
     var esSocio: Boolean? = null
     var aptoFisico: Boolean = false
     var montoCuota: String = ""
+    var clienteGuardado: com.grupo3.clubdeportivo.clases.Modelos.Cliente? = null
 
     fun irAPaso(etapa: EtapaRegistro) {
         _pasoActual.value = etapa

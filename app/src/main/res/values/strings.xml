@@ -24,9 +24,9 @@
     <string name="tipo_cliente">Tipo cliente:</string>
     <string name="apto_fisico">Apto Físico:</string>
     <string name="seleccione_una_fecha">Seleccione una fecha</string>
-    <string name="actividad">Actividad:</string>
+    <string name="actividad">Actividad/cuota:</string>
     <string name="cuota_nro">Seleccione cuota:</string>
-    <string name="registro_exitoso_cliente">Registro exitoso de CLIENTE</string>
+    <string name="registro_exitoso_cliente">Registro exitoso de cliente:</string>
     <string name="registro_exitoso">Registro Exitoso</string>
 
     <string name="datos_socio">Datos socio</string>
@@ -72,11 +72,18 @@
     <string name="ingrese_titular">Ingrese titular</string>
     <string name="ingrese_tipo_cuenta">Ingrese tipo cuenta</string>
     <string name="seleccione_opcion">Seleccione opción</string>
-    <string name="id_pago">id_pago</string>
+    <string name="id_pago">ID Pago</string>
     <string name="cuotas_del_socio">CUOTAS DEL SOCIO</string>
     <string name="buscar_cuotas_por_dni">Buscar cuotas por DNI</string>
     <string name="vencimiento_diario">Vencimiento diario</string>
     <string name="gestion_vencimientos">GESTION VENCIMIENTOS</string>
+    <string name="verificacion_cuota_pendiente">Verificación cuota pendiente</string>
+    <string name="vencimiento">Vencimiento:</string>
+    <string name="numero_cuotas">Número cuotas</string>
+    <string name="forma_pago">Método pago</string>
+    <string name="aceptacion_cliente">¿Cliente acepta el contrato?</string>
+    <string name="cliente_acepta">Acepta contrato</string>
+    <string name="cliente_no_acepta">NO Acepta contrato</string>
 
     <string-array name="actividades">
         <item>Natación</item>
