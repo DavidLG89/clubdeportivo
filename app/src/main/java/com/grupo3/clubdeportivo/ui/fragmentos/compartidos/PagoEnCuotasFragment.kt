@@ -29,6 +29,7 @@ class PagoEnCuotasFragment : Fragment(R.layout.fragment_pago_en_cuotas) {
         view.findViewById<TextView>(R.id.tvPrintNombre)?.text = dato.nombre ?: ""
         view.findViewById<TextView>(R.id.tvPrintActividad)?.text = dato.actividad ?: ""
         view.findViewById<TextView>(R.id.tvPrintValor)?.text = dato.monto?.let { "$ $it" } ?: ""
+        view.findViewById<TextView>(R.id.tvPrintVenc)?.text = dato.fechaVencimiento ?: ""
         view.findViewById<TextView>(R.id.tvPrintMetodoPago)?.text = dato.metodoPago ?: ""
 
         val cuotas = resources.getStringArray(R.array.cuotas)
@@ -71,6 +72,8 @@ class PagoEnCuotasFragment : Fragment(R.layout.fragment_pago_en_cuotas) {
                 else -> "Sin descuento adicional"
             }
             Toast.makeText(requireContext(), mensaje, Toast.LENGTH_SHORT).show()
+
+            (requireActivity() as? com.grupo3.clubdeportivo.ui.pagoCuota.PagoCuotaActivity)?.procesarRegistroPagoBD()
 
             (requireActivity() as? BarraEstadoHost<EtapaPago>)?.irA(
                 ComprobantePagoFragment(),

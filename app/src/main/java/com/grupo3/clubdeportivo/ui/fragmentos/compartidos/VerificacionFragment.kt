@@ -21,8 +21,22 @@ class VerificacionFragment : Fragment(R.layout.fragment_verificacion) {
         view.findViewById<TextView>(R.id.tvTitulo).setText(listener.tituloRes)
         view.findViewById<TextInputLayout>(R.id.tilOpciones).hint = getString(listener.hintRes)
 
-        // Selecciona la reserva realizada por cliente no socio para pago
-        val opciones = resources.getStringArray(listener.opcionRes)
+        // Traer DNI y nombre del cliente buscados en el paso anterior
+        val tvPrintDni = view.findViewById<TextView>(R.id.tvPrintDni)
+        val tvPrintNombre = view.findViewById<TextView>(R.id.tvPrintNombre)
+
+        listener.dniCliente?.let { tvPrintDni?.text = it }
+        listener.nombreCliente?.let { tvPrintNombre?.text = it }
+
+        // Selecciona la reserva/cuota realizada
+        val opciones = listener.opcionesLista ?: run {
+            val opcionesRes = resources.getStringArray(listener.opcionRes)
+            if (!listener.seleccion.isNullOrEmpty()) {
+                arrayOf(listener.seleccion!!) + opcionesRes.filter { it != listener.seleccion }
+            } else {
+                opcionesRes
+            }
+        }
         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, opciones)
 
         val auto = view.findViewById<AutoCompleteTextView>(R.id.autoOpciones)

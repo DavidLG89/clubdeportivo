@@ -26,7 +26,7 @@
     <string name="seleccione_una_fecha">Seleccione una fecha</string>
     <string name="actividad">Actividad/cuota:</string>
     <string name="cuota_nro">Seleccione cuota:</string>
-    <string name="registro_exitoso_cliente">Registro exitoso de CLIENTE</string>
+    <string name="registro_exitoso_cliente">Registro exitoso de cliente:</string>
     <string name="registro_exitoso">Registro Exitoso</string>
 
     <string name="datos_socio">Datos socio</string>
@@ -98,9 +98,7 @@
         <item>Efectivo</item>
         <item>Transferencia</item>
         <item>Tarjeta Crédito</item>
-        <item>Tarjeta de Crédito</item>
         <item>Tarjeta Débito</item>
-        <item>Tarjeta de Débito</item>
         <item>MercadoPago</item>
     </string-array>
 
