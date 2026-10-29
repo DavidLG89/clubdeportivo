@@ -1,14 +1,14 @@
 package com.grupo3.clubdeportivo.clases.Repositorios
 
-import com.grupo3.clubdeportivo.clases.BaseDatos.conexionBDsqlite
+import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelper
 import com.grupo3.clubdeportivo.clases.Interfaces.IListado
 import com.grupo3.clubdeportivo.clases.Modelos.Actividad
 
-class ActividadRepo(private val conexionBDsqlite: conexionBDsqlite) : IListado<Actividad> {
+class ActividadRepo(private val dbHelper: DbHelper) : IListado<Actividad> {
 
     override fun obtenerLista(): List<Actividad> {
         val actividades = mutableListOf<Actividad>()
-        val db = conexionBDsqlite.getConexionBDsqlite() ?: return actividades
+        val db = dbHelper.readableDatabase
 
         try {
             val query = "SELECT id, nombre, precio FROM actividades"
