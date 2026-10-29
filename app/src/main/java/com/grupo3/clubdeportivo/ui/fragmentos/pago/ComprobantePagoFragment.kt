@@ -44,6 +44,7 @@ class ComprobantePagoFragment : Fragment(R.layout.fragment_comprobante_pago) {
 
         val btnContinuar = view.findViewById<Button>(R.id.btnEnviar)
         btnContinuar?.setOnClickListener {
+            android.widget.Toast.makeText(requireContext(), "Se envió comprobante al email", android.widget.Toast.LENGTH_SHORT).show()
             listener.onComprobanteContinuar()
         }
     }

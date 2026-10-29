@@ -32,6 +32,6 @@ class PagoCuotaServ(private val repo: PagosRepo) : IPago<CuotaDTO> {
             return ResultadoPago(false, "Error al realizar el registro de cuota", null)
         }
 
-        return ResultadoPago(true, "Pago registrado con éxito", entidad)
+        return ResultadoPago(true, "Pago registrado con éxito", entidad, resultId = result)
     }
 }

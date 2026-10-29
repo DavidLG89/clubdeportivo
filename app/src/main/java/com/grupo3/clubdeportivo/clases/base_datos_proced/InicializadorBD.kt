@@ -106,13 +106,6 @@ object InicializadorBD {
             """.trimIndent())
 
             db.execSQL("""
-                CREATE TABLE IF NOT EXISTS metodos_pago(
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    nombre TEXT NOT NULL
-                );
-            """.trimIndent())
-
-            db.execSQL("""
                 CREATE TABLE IF NOT EXISTS actividades(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     nombre TEXT NOT NULL,
@@ -154,7 +147,6 @@ object InicializadorBD {
                     FOREIGN KEY(cuota_id) REFERENCES cuotas(id),
                     FOREIGN KEY(reserva_id) REFERENCES reservas(id),
                     FOREIGN KEY(concepto_id) REFERENCES conceptos_pago(id),
-                    FOREIGN KEY(metodo_id) REFERENCES metodos_pago(id),
                     CHECK ((cuota_id IS NOT NULL AND reserva_id IS NULL) OR (cuota_id IS NULL AND reserva_id IS NOT NULL))
                 );
             """.trimIndent())
@@ -180,11 +172,6 @@ object InicializadorBD {
                     (1, 1, 'Andrea', '1234', 1, 1),
                     (2, 2, 'Alberto', '1234', 1, 1),
                     (3, 3, 'David', '1234', 1, 1);
-                """.trimIndent())
-
-                db.execSQL("""
-                    INSERT OR IGNORE INTO metodos_pago(id, nombre) VALUES
-                    (1, 'Efectivo'), (2, 'Cheque'), (3, 'Tarjeta crédito'), (4, 'Mercado Pago');
                 """.trimIndent())
 
                 db.execSQL("""

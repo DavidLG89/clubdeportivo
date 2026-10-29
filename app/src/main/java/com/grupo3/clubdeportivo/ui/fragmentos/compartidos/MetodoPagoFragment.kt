@@ -27,6 +27,7 @@ class MetodoPagoFragment : Fragment(R.layout.fragment_metodo_pago) {
             view.findViewById<TextView>(R.id.tvPrintNombre)?.text = dato.nombre ?: ""
             view.findViewById<TextView>(R.id.tvPrintActividad)?.text = dato.actividad ?: ""
             view.findViewById<TextView>(R.id.tvPrintValor)?.text = dato.monto?.let { "$ $it" } ?: ""
+            view.findViewById<TextView>(R.id.tvPrintVenc)?.text = dato.fechaVencimiento ?: ""
         }
 
         val metodosPago = resources.getStringArray(R.array.metodos_pago)

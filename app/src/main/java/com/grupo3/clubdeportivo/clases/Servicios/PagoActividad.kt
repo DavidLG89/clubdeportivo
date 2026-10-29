@@ -38,6 +38,6 @@ class PagoActividad(private val repo: PagosRepo) : IPago<ReservaDTO> {
 
         entidad.estadoReserva = "Pagada"
 
-        return ResultadoPago(true, "Pago realizado con éxito", entidad)
+        return ResultadoPago(true, "Pago realizado con éxito", entidad, resultId = result)
     }
 }

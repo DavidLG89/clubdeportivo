@@ -136,7 +136,14 @@ class PagoReservaActivity : AppCompatActivity(),
 
     // Si el dni está validado, continúa al paso siguiente y guarda el dato en viewModel
     override fun onDniValidado(dni: String) {
+        val conexionBD = com.grupo3.clubdeportivo.clases.BaseDatos.conexionBDsqlite()
+        conexionBD.setContext(applicationContext)
+        val clienteRepo = com.grupo3.clubdeportivo.clases.Repositorios.ClienteRepo(conexionBD)
+        val clienteServ = com.grupo3.clubdeportivo.clases.Servicios.ClienteServ(clienteRepo)
+        val clienteFound = clienteServ.buscarClientePorDni(dni)
+
         viewModel.dni = dni
+        viewModel.nombre = if (clienteFound != null) "${clienteFound.nombre} ${clienteFound.apellido}" else null
         irA(
             VerificacionFragment(),
             EtapaPago.VERIFICACION
@@ -151,6 +158,12 @@ class PagoReservaActivity : AppCompatActivity(),
     override val tituloRes = R.string.verificacion_reserva
     override val opcionRes = R.array.actividades
     override val hintRes = R.string.actividad
+
+    override val dniCliente: String?
+        get() = viewModel.dni
+
+    override val nombreCliente: String?
+        get() = viewModel.nombre
 
     override var seleccion: String?
         get() = viewModel.actividad
@@ -186,22 +199,26 @@ class PagoReservaActivity : AppCompatActivity(),
     }
 
     override fun onMetodoPagoContinuar() {
-        val metodo = viewModel.metodoPago
-        if (metodo == "Tarjeta Crédito" || metodo == "Tarjeta de Crédito" || metodo == "Tarjeta Débito" || metodo == "Tarjeta de Débito") {
-            irA(
-                BancoFragment(),
-                EtapaPago.FORMALIZACION_PAGO
-            )
-        } else if (metodo == "MercadoPago") {
-            irA(
-                PagoEnCuotasFragment(),
-                EtapaPago.FORMALIZACION_PAGO
-            )
-        } else {
-            irA(
-                ComprobantePagoFragment(),
-                EtapaPago.COMPROBANTE_PAGO
-            )
+        val metodo = viewModel.metodoPago ?: ""
+        when {
+            metodo.contains("Tarjeta", ignoreCase = true) -> {
+                irA(
+                    BancoFragment(),
+                    EtapaPago.FORMALIZACION_PAGO
+                )
+            }
+            metodo.contains("Mercado", ignoreCase = true) -> {
+                irA(
+                    PagoEnCuotasFragment(),
+                    EtapaPago.FORMALIZACION_PAGO
+                )
+            }
+            else -> {
+                irA(
+                    ComprobantePagoFragment(),
+                    EtapaPago.COMPROBANTE_PAGO
+                )
+            }
         }
     }
 

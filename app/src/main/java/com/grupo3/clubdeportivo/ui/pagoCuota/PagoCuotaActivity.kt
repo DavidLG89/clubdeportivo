@@ -4,12 +4,18 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.clases.BaseDatos.conexionBDsqlite
+import com.grupo3.clubdeportivo.clases.Repositorios.CuotaRepo
+import com.grupo3.clubdeportivo.clases.Repositorios.PagosRepo
+import com.grupo3.clubdeportivo.clases.Servicios.PagoCuotaServ
 import com.grupo3.clubdeportivo.data.model.DatosComprobante
 import com.grupo3.clubdeportivo.data.model.EtapaPago
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
@@ -25,6 +31,8 @@ import com.grupo3.clubdeportivo.ui.interfaces.ListenerComprobantePago
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerDni
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerMetodoPago
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerVerificacion
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class PagoCuotaActivity : AppCompatActivity(),
     BarraEstadoHost<EtapaPago>,
@@ -86,8 +94,33 @@ class PagoCuotaActivity : AppCompatActivity(),
     }
 
     override fun onDniValidado(dni: String) {
-        viewModel.dni = dni
-        irA(VerificacionFragment(), EtapaPago.VERIFICACION)
+        val conexionBD = conexionBDsqlite()
+        conexionBD.setContext(applicationContext)
+
+        val cuotaRepo = CuotaRepo(conexionBD)
+        val cuotasPendientes = cuotaRepo.obtenerCuotasRepo(dni).filter { it.estadoCuota == "Pendiente" }
+
+        if (cuotasPendientes.isEmpty()) {
+            AlertDialog.Builder(this)
+                .setTitle("Socio / Cuota no encontrada")
+                .setMessage("No se encontraron cuotas pendientes para el DNI $dni. Verifique que el cliente sea un socio registrado y posea cuotas pendientes.")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton("Aceptar", null)
+                .show()
+        } else {
+            val primeraCuota = cuotasPendientes[0]
+
+            viewModel.dni = dni
+            viewModel.listaCuotasPendientes = cuotasPendientes
+            viewModel.cuotaPendiente = primeraCuota
+            viewModel.idSocio = primeraCuota.idSocio
+            viewModel.nombre = "${primeraCuota.nombre} ${primeraCuota.apellido}"
+            viewModel.monto = primeraCuota.montoCuota.toInt()
+            viewModel.pagoRegistrado = false
+            viewModel.idPagoGenerado = null
+
+            irA(VerificacionFragment(), EtapaPago.VERIFICACION)
+        }
     }
 
     // Define color de barra de estado y card del dni
@@ -99,9 +132,32 @@ class PagoCuotaActivity : AppCompatActivity(),
     override val opcionRes = R.array.cuotas
     override val hintRes = R.string.cuota_nro
 
+    override val dniCliente: String?
+        get() = viewModel.dni
+
+    override val nombreCliente: String?
+        get() = viewModel.nombre
+
+    override val opcionesLista: Array<String>?
+        get() {
+            val lista = viewModel.listaCuotasPendientes
+            return if (lista.isNotEmpty()) {
+                lista.map { "Cuota ID: ${it.idCuota}" }.toTypedArray()
+            } else null
+        }
+
     override var seleccion: String?
-        get() = viewModel.actividad
-        set(value) { viewModel.actividad = value }
+        get() = viewModel.cuotaPendiente?.let { "Cuota ID: ${it.idCuota}" }
+        set(value) {
+            val idExtraido = value?.replace("Cuota ID: ", "")?.trim()?.toIntOrNull()
+            if (idExtraido != null) {
+                val encontrada = viewModel.listaCuotasPendientes.find { it.idCuota == idExtraido }
+                if (encontrada != null) {
+                    viewModel.cuotaPendiente = encontrada
+                    viewModel.monto = encontrada.montoCuota.toInt()
+                }
+            }
+        }
 
     override fun onVerficiacionVolver() {
         irA(
@@ -132,19 +188,58 @@ class PagoCuotaActivity : AppCompatActivity(),
         )
     }
 
+    fun procesarRegistroPagoBD(): Boolean {
+        if (!viewModel.pagoRegistrado && viewModel.cuotaPendiente != null) {
+            val conexionBD = conexionBDsqlite()
+            conexionBD.setContext(applicationContext)
+
+            val pagosRepo = PagosRepo(conexionBD)
+            val pagoCuotaServ = PagoCuotaServ(pagosRepo)
+
+            val cuotaObj = viewModel.cuotaPendiente!!
+            val montoAPagar = viewModel.monto?.toDouble() ?: cuotaObj.montoCuota
+
+            val metodoStr = viewModel.metodoPago ?: "Efectivo"
+            val idMetodo = when {
+                metodoStr.contains("Mercado", ignoreCase = true) -> 4
+                metodoStr.contains("Tarjeta", ignoreCase = true) -> 3
+                metodoStr.contains("Cheque", ignoreCase = true) -> 2
+                else -> 1 // Efectivo / Transferencia
+            }
+            val idConcepto = 2 // Concepto Cuota
+
+            val resPago = pagoCuotaServ.registrarPago(cuotaObj, montoAPagar, idConcepto, idMetodo)
+            if (resPago.ok && resPago.resultId > 0) {
+                viewModel.pagoRegistrado = true
+                viewModel.idPagoGenerado = String.format(Locale.getDefault(), "%04d", resPago.resultId)
+                Toast.makeText(this, "Pago guardado con éxito en BD (ID: ${resPago.resultId})", Toast.LENGTH_SHORT).show()
+                return true
+            } else {
+                Toast.makeText(this, "Aviso al registrar en BD: ${resPago.mensaje}", Toast.LENGTH_LONG).show()
+                return false
+            }
+        }
+        return true
+    }
+
     override fun onMetodoPagoContinuar() {
-        val metodo = viewModel.metodoPago
-        if (metodo == "Tarjeta Crédito" || metodo == "Tarjeta de Crédito" || metodo == "Tarjeta Débito" || metodo == "Tarjeta de Débito") {
+        val metodo = viewModel.metodoPago ?: ""
+        val esTarjeta = metodo.contains("Tarjeta", ignoreCase = true)
+        val esMercadoPago = metodo.contains("Mercado", ignoreCase = true)
+
+        if (esTarjeta) {
             irA(
                 BancoFragment(),
                 EtapaPago.FORMALIZACION_PAGO
             )
-        } else if (metodo == "MercadoPago") {
+        } else if (esMercadoPago) {
             irA(
                 PagoEnCuotasFragment(),
                 EtapaPago.FORMALIZACION_PAGO
             )
         } else {
+            // Efectivo, Transferencia u otros: registra RECIÉN el pago acá (NO ANTES)
+            procesarRegistroPagoBD()
             irA(
                 ComprobantePagoFragment(),
                 EtapaPago.COMPROBANTE_PAGO
@@ -153,17 +248,25 @@ class PagoCuotaActivity : AppCompatActivity(),
     }
 
     override fun datosComprobante(): DatosComprobante {
-        val seleccionAnterior = viewModel.actividad ?: ""
+        val idPago = viewModel.idPagoGenerado ?: "0001"
+        val idCuotaStr = viewModel.cuotaPendiente?.idCuota?.toString() ?: ""
+        val actividadDesc = if (idCuotaStr.isNotEmpty()) "Cuota ID: $idCuotaStr" else (viewModel.actividad ?: "")
+
+        val fechaVencStr = viewModel.cuotaPendiente?.fechaVencimiento?.let {
+            SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(it)
+        } ?: ""
+
         return DatosComprobante(
-            idPago = "0001",
+            idPago = idPago,
             dni = viewModel.dni,
             nombre = viewModel.nombre,
             idReserva = null,
-            actividad = seleccionAnterior,
+            actividad = actividadDesc,
             monto = viewModel.monto,
             metodoPago = viewModel.metodoPago,
             cuota = viewModel.cuota,
-            esNoSocio = false
+            esNoSocio = false,
+            fechaVencimiento = fechaVencStr
         )
     }
 

@@ -9,5 +9,6 @@ data class DatosComprobante(
     val monto: Int? = null,
     val metodoPago: String? = null,
     val cuota: Int? = null,
-    val esNoSocio: Boolean = false
+    val esNoSocio: Boolean = false,
+    val fechaVencimiento: String? = null
 )
