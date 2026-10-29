@@ -129,8 +129,8 @@ class ReservaRepo(private val dbHelper: DbHelper) {
             // Una sola consulta: programación + cupos + ¿ya reservó? + ¿es socio?
             val sql = """
                 SELECT p.id, p.cupos_disponibles,
-                       EXISTS(SELECT 1 FROM reservas WHERE programacion_id = p.id AND cliente_id = ?),
-                       EXISTS(SELECT 1 FROM socios WHERE cliente_id = ? AND estado = 1)
+                       EXISTS(SELECT 1 FROM reservas WHERE programacion_id = p.id AND id_cliente = ?),
+                       EXISTS(SELECT 1 FROM clientes WHERE id_cliente = ? AND estado = 1)
                 FROM programaciones p
                 WHERE p.actividad_id = ? AND p.fecha_hora = ?
                 LIMIT 1
