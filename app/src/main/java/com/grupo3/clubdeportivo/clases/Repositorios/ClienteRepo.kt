@@ -3,13 +3,12 @@ package com.grupo3.clubdeportivo.clases.Repositorios
 import android.content.ContentValues
 import android.util.Log
 import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelper
-import com.grupo3.clubdeportivo.clases.BaseDatos.conexionBDsqlite
 import com.grupo3.clubdeportivo.clases.Modelos.Cliente
 import com.grupo3.clubdeportivo.clases.Modelos.NoSocio
 import com.grupo3.clubdeportivo.clases.Modelos.Socio
-import com.grupo3.clubdeportivo.clases.base_datos_proced.ProcedimientosAlmacenados
+import androidx.core.database.sqlite.transaction
 
-    class ClienteRepo(private val dbHelper: DbHelper) {
+class ClienteRepo(private val dbHelper: DbHelper) {
 
         companion object {
             const val DNI_EXISTENTE = -1
@@ -25,44 +24,45 @@ import com.grupo3.clubdeportivo.clases.base_datos_proced.ProcedimientosAlmacenad
             esSocio: Boolean
         ): Int {
             val db = dbHelper.writableDatabase
-            try {
-                // El chequeo va DENTRO de la transacción
-                val existe = db.rawQuery("SELECT 1 FROM personas WHERE dni = ?", arrayOf(dni))
-                    .use { it.moveToFirst() }
-                if (existe) return DNI_EXISTENTE
+            db.transaction {
 
-                val cvPersona = ContentValues().apply {
-                    put("nombre", nombre)
-                    put("apellido", apellido)
-                    put("dni", dni)
-                    put("email", email)
-                }
-                val personaId = db.insert("personas", null, cvPersona)
-                if (personaId == -1L) throw Exception("Error al insertar persona")
+                try {
+                    // El chequeo va DENTRO de la transacción
+                    val existe = rawQuery("SELECT 1 FROM personas WHERE dni = ?", arrayOf(dni))
+                        .use { it.moveToFirst() }
+                    if (existe) return DNI_EXISTENTE
 
-                val cvCliente = ContentValues().apply {
-                    put("persona_id", personaId)
-                    put("apto_fisico", if (aptoFisico) 1 else 0)
-                }
-                val clienteId = db.insert("clientes", null, cvCliente)
-                if (clienteId == -1L) throw Exception("Error al insertar cliente")
-
-                if (!esSocio) {
-                    val cvNoSocio = ContentValues().apply {
-                        put("cliente_id", clienteId)
-                        put("acceso_diario", 1)
+                    val cvPersona = ContentValues().apply {
+                        put("nombre", nombre)
+                        put("apellido", apellido)
+                        put("dni", dni)
+                        put("email", email)
                     }
-                    if (db.insert("no_socios", null, cvNoSocio) == -1L)
-                        throw Exception("Error al insertar no socio")
-                }
+                    val personaId = insert("personas", null, cvPersona)
+                    if (personaId == -1L) throw Exception("Error al insertar persona")
 
-                db.setTransactionSuccessful()
-                return clienteId.toInt()
-            } catch (e: Exception) {
-                Log.e("ClienteRepo", "No se pudo registrar el cliente", e)
-                return ERROR
-            } finally {
-                db.endTransaction()
+                    val cvCliente = ContentValues().apply {
+                        put("persona_id", personaId)
+                        put("apto_fisico", if (aptoFisico) 1 else 0)
+                    }
+                    val clienteId = insert("clientes", null, cvCliente)
+                    if (clienteId == -1L) throw Exception("Error al insertar cliente")
+
+                    if (!esSocio) {
+                        val cvNoSocio = ContentValues().apply {
+                            put("cliente_id", clienteId)
+                            put("acceso_diario", 1)
+                        }
+                        if (insert("no_socios", null, cvNoSocio) == -1L)
+                            throw Exception("Error al insertar no socio")
+                    }
+
+                    return clienteId.toInt()
+                } catch (e: Exception) {
+                    Log.e("ClienteRepo", "No se pudo registrar el cliente", e)
+                    return ERROR
+                } finally {
+                }
             }
         }
 
@@ -139,24 +139,16 @@ import com.grupo3.clubdeportivo.clases.base_datos_proced.ProcedimientosAlmacenad
         return filasAfectadas > 0
     }
 
-   // fun asignarANoSocio(cliente: Cliente): Int {
-   //   val db = dbHelper.writableDatabase
-        //   val valores = ContentValues().apply {
-        //         put("cliente_id", cliente.idCliente)
-        //     }
+   fun asignarANoSocio(cliente: Cliente): Int {
+      val db = dbHelper.writableDatabase
+          val valores = ContentValues().apply {
+              put("cliente_id", cliente.idCliente)
+              put("acceso_diario", 1)
+          }
 
-
-        //        val query = "INSERT INTO no_socios(cliente_id, acceso_diario) VALUES(?, 1)"
-
-        //        val stmt = conn.compileStatement(query)
-        //  stmt.bindLong(1, cliente.idCliente.toLong())
-        //  val resultado = stmt.executeInsert()
-        //  stmt.close()
-        //  return resultado.toInt()
-        //} catch (e: Exception) {
-        //  e.printStackTrace()
-        //  return -1
-        //}
-        //}
+       return dbHelper.writableDatabase
+           .insertOrThrow("no_socios", null, valores)
+           .toInt()
+   }
 
 }

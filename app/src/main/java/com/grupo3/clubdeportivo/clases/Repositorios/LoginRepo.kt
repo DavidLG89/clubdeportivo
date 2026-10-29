@@ -1,10 +1,8 @@
 package com.grupo3.clubdeportivo.clases.Repositorios
 
 import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelper
-import com.grupo3.clubdeportivo.clases.BaseDatos.conexionBDsqlite
 import com.grupo3.clubdeportivo.clases.Modelos.Rol
 import com.grupo3.clubdeportivo.clases.Modelos.Usuario
-import com.grupo3.clubdeportivo.clases.base_datos_proced.ProcedimientosAlmacenados
 
 class LoginRepo(private val dbHelper: DbHelper) {
 

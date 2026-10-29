@@ -10,7 +10,7 @@ open class Cliente : Persona {
         this.aptoFisico = aptoFisico
     }
 
-    constructor(id: Int, nombre: String, apellido: String, dni: String, email:String, aptoFisico: Boolean) : super(nombre, apellido, dni) {
+    constructor(id: Int, nombre: String, apellido: String, dni: String, email:String, aptoFisico: Boolean) : super(nombre, apellido, dni, email) {
         this.idCliente = id
         this.aptoFisico = aptoFisico
     }
