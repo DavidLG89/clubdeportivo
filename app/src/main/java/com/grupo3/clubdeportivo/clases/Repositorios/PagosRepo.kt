@@ -28,7 +28,7 @@ class PagosRepo(private val dbHelper: DbHelper) {
             val fechaHoy = FechaDb.formatearFechaHora(Date())
 
             val pagos = ContentValues().apply {
-                put("cuota_id", fechaHoy.let { idCuota } )
+                put("cuota_id", idCuota )
                 put("fecha_pago", fechaHoy)
                 put("monto_pago", montoAPagar)
                 put("metodo_id", medioPago)
@@ -92,7 +92,7 @@ class PagosRepo(private val dbHelper: DbHelper) {
             val valores = ContentValues().apply {
                 put("reserva_id", idReserva)
                 put("fecha_pago", FechaDb.formatearFechaHora(Date()))
-                put("monto", montoAPagar)
+                put("monto_pago", montoAPagar)
                 put("metodo_id", medioPago)
             }
 

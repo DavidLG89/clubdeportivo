@@ -203,7 +203,6 @@ class PagoCuotaActivity : AppCompatActivity(),
                 metodoStr.contains("Cheque", ignoreCase = true) -> 2
                 else -> 1 // Efectivo / Transferencia
             }
-            val idConcepto = 2 // Concepto Cuota
 
             val resPago = pagoCuotaServ.registrarPago(cuotaObj, montoAPagar, idMetodo)
             if (resPago.ok && resPago.resultId > 0) {

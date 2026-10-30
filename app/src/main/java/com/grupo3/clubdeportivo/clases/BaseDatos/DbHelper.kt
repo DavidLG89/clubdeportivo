@@ -222,7 +222,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
 
         db.execSQL("""
                     INSERT OR IGNORE INTO clientes (persona_id, apto_fisico) 
-                    SELECT id, 1 FROM personas WHERE id > 4;
+                    SELECT id, 1 FROM personas WHERE id > 3;
                 """.trimIndent())
 
         db.execSQL("""
