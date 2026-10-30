@@ -17,8 +17,7 @@ class VerificacionClienteFragment : Fragment(R.layout.fragment_verificacion_clie
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        // Imprime en pantalla datos ingresados variables guardadas
-        // nombre - tipo cliente y apto físico están harcodeadas
+        // Imprime en pantalla datos de clientes encontrados en BD
         view.findViewById<TextView>(R.id.tvPrintDni).text = viewModel.dni
         view.findViewById<TextView>(R.id.tvPrintNombre).text = viewModel.nombre
         view.findViewById<TextView>(R.id.tvPrintTipoCliente).text = viewModel.tipoCliente

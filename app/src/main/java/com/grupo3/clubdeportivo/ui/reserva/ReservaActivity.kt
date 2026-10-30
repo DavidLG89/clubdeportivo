@@ -14,7 +14,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
-import com.grupo3.clubdeportivo.clases.Modelos.Cliente
 import com.grupo3.clubdeportivo.clases.Modelos.NoSocio
 import com.grupo3.clubdeportivo.clases.Modelos.Socio
 import com.grupo3.clubdeportivo.clases.Repositorios.ClienteRepo
