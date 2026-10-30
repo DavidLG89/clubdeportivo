@@ -28,7 +28,6 @@ class PagoActividad(private val repo: PagosRepo) : IPago<ReservaDTO> {
         val result = repo.registrarPagoActividad(
             entidad.idReserva,
             montoAPagar,
-            idConceptoPago,
             idMedioPago
         )
 

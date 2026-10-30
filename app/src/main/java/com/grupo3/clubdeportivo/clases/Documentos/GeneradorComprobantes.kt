@@ -50,9 +50,9 @@ object GeneradorComprobantes {
     fun mostrarComprobantePagoCuota(cuota: CuotaDTO, metodoPago: String): String {
         val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
         return """
-            Nombre: ${cuota.nombre}
-            Apellido: ${cuota.apellido}
-            DNI: ${cuota.dni}
+            Nombre: ${cuota.socio?.nombre}
+            Apellido: ${cuota.socio?.apellido}
+            DNI: ${cuota.socio?.dni}
             Monto Pagado: $ ${cuota.montoCuota}
             Método Pago: $metodoPago
             Fecha Pago: ${sdf.format(Date())}

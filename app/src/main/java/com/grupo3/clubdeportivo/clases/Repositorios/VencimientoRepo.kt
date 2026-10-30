@@ -28,10 +28,10 @@ class VencimientoRepo(private val dbHelper: DbHelper) {
             cursor.getString(cursor.getColumnIndexOrThrow("fecha_vencimiento"))
 
             val cuota = CuotaDTO().apply {
-                nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre")) ?: ""
-                apellido = cursor.getString(cursor.getColumnIndexOrThrow("apellido")) ?: ""
-                dni = cursor.getString(cursor.getColumnIndexOrThrow("dni")) ?: ""
-                email = cursor.getString(cursor.getColumnIndexOrThrow("email")) ?: ""
+                socio?.nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre")) ?: ""
+                socio?.apellido = cursor.getString(cursor.getColumnIndexOrThrow("apellido")) ?: ""
+                socio?.dni = cursor.getString(cursor.getColumnIndexOrThrow("dni")) ?: ""
+                socio?.email = cursor.getString(cursor.getColumnIndexOrThrow("email")) ?: ""
                 estadoSocio = cursor.getInt(cursor.getColumnIndexOrThrow("estado_socio")) == 1
                 montoCuota = cursor.getDouble(cursor.getColumnIndexOrThrow("monto_cuota"))
                 cursor.getString(cursor.getColumnIndexOrThrow("fecha_vencimiento"))

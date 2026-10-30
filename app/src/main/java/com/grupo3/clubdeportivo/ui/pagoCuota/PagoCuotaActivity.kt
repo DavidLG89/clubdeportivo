@@ -12,7 +12,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.clases.BaseDatos.conexionBDsqlite
+import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
 import com.grupo3.clubdeportivo.clases.Repositorios.CuotaRepo
 import com.grupo3.clubdeportivo.clases.Repositorios.PagosRepo
 import com.grupo3.clubdeportivo.clases.Servicios.PagoCuotaServ
@@ -43,6 +43,7 @@ class PagoCuotaActivity : AppCompatActivity(),
 
     private val viewModel: PagoCuotaViewModel by viewModels()
     private lateinit var stepBar: CompBarraEstadoPago
+    val dbHelper = DbHelperObject.get(this)
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,10 +95,9 @@ class PagoCuotaActivity : AppCompatActivity(),
     }
 
     override fun onDniValidado(dni: String) {
-        val conexionBD = conexionBDsqlite()
-        conexionBD.setContext(applicationContext)
 
-        val cuotaRepo = CuotaRepo(conexionBD)
+
+        val cuotaRepo = CuotaRepo(dbHelper)
         val cuotasPendientes = cuotaRepo.obtenerCuotasRepo(dni).filter { it.estadoCuota == "Pendiente" }
 
         if (cuotasPendientes.isEmpty()) {
@@ -113,8 +113,8 @@ class PagoCuotaActivity : AppCompatActivity(),
             viewModel.dni = dni
             viewModel.listaCuotasPendientes = cuotasPendientes
             viewModel.cuotaPendiente = primeraCuota
-            viewModel.idSocio = primeraCuota.idSocio
-            viewModel.nombre = "${primeraCuota.nombre} ${primeraCuota.apellido}"
+            viewModel.idSocio = primeraCuota.socio?.idSocio
+            viewModel.nombre = "${primeraCuota.socio?.nombre} ${primeraCuota.socio?.apellido}"
             viewModel.monto = primeraCuota.montoCuota.toInt()
             viewModel.pagoRegistrado = false
             viewModel.idPagoGenerado = null
@@ -190,10 +190,7 @@ class PagoCuotaActivity : AppCompatActivity(),
 
     fun procesarRegistroPagoBD(): Boolean {
         if (!viewModel.pagoRegistrado && viewModel.cuotaPendiente != null) {
-            val conexionBD = conexionBDsqlite()
-            conexionBD.setContext(applicationContext)
-
-            val pagosRepo = PagosRepo(conexionBD)
+            val pagosRepo = PagosRepo(dbHelper)
             val pagoCuotaServ = PagoCuotaServ(pagosRepo)
 
             val cuotaObj = viewModel.cuotaPendiente!!

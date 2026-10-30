@@ -18,7 +18,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.clases.BaseDatos.conexionBDsqlite
+import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
 import com.grupo3.clubdeportivo.clases.Repositorios.LoginRepo
 import com.grupo3.clubdeportivo.clases.Servicios.LoginServ
 
@@ -37,9 +37,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val conexionBDInit = conexionBDsqlite()
-        conexionBDInit.setContext(applicationContext)
-        DbHelperObject.inicializarSiNoExiste(conexionBDInit, applicationContext)
+        val dbHelper = DbHelperObject.get(this)
 
         val etUser = findViewById<TextInputEditText>(R.id.etUser)
         val etPass = findViewById<TextInputEditText>(R.id.etPass)
@@ -69,11 +67,7 @@ class MainActivity : AppCompatActivity() {
                     .setPositiveButton("Aceptar", null)
                     .show()
             } else {
-                val conexionBD = conexionBDsqlite()
-                conexionBD.setContext(applicationContext)
-                DbHelperObject.inicializarSiNoExiste(conexionBD, applicationContext)
-
-                val loginRepo = LoginRepo(conexionBD)
+                val loginRepo = LoginRepo(dbHelper)
                 val loginServ = LoginServ(loginRepo)
                 val usuario = loginServ.login(user, pass)
 

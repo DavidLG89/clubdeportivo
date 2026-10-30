@@ -1,5 +1,6 @@
 package com.grupo3.clubdeportivo.ui.fragmentos.registroCliente
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
@@ -13,7 +14,7 @@ import androidx.fragment.app.activityViewModels
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.clases.BaseDatos.conexionBDsqlite
+import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
 import com.grupo3.clubdeportivo.clases.Modelos.Cliente
 import com.grupo3.clubdeportivo.clases.Repositorios.ClienteRepo
 import com.grupo3.clubdeportivo.clases.Servicios.ClienteServ
@@ -121,13 +122,12 @@ class FormRegistroClienteFragment : Fragment(R.layout.fragment_form_registro_cli
                     .show()
             } else {
                 val esSocio = esSocioSeleccionado == true
-                val conexionBD = conexionBDsqlite()
-                conexionBD.setContext(requireContext().applicationContext)
+                val dbHelper = DbHelperObject.get(requireContext())
 
-                val clienteRepo = ClienteRepo(conexionBD)
+                val clienteRepo = ClienteRepo(dbHelper)
                 val clienteServ = ClienteServ(clienteRepo)
 
-                val clienteNuevo = Cliente(0, nombre, apellido, dni, cbAptoFisico.isChecked)
+                val clienteNuevo = Cliente(nombre, apellido, dni, email, cbAptoFisico.isChecked)
                 val resultado = clienteServ.realizarRegistro(clienteNuevo, esSocio)
 
                 if (!resultado.ok) {

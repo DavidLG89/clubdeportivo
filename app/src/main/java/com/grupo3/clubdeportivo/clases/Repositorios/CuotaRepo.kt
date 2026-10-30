@@ -30,10 +30,10 @@ class CuotaRepo(private val dbHelper: DbHelper) {
                 val fechaStr = cursor.getString(cursor.getColumnIndexOrThrow("fecha_vencimiento")) ?: ""
 
                 val cuota = CuotaDTO().apply {
-                    nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre")) ?: ""
-                    apellido = cursor.getString(cursor.getColumnIndexOrThrow("apellido")) ?: ""
-                    this.dni = cursor.getString(cursor.getColumnIndexOrThrow("dni")) ?: ""
-                    idSocio = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
+                    socio?.nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre")) ?: ""
+                    socio?.apellido = cursor.getString(cursor.getColumnIndexOrThrow("apellido")) ?: ""
+                    socio?.dni = cursor.getString(cursor.getColumnIndexOrThrow("dni")) ?: ""
+                    socio?.idSocio = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
                     estadoSocio = cursor.getInt(cursor.getColumnIndexOrThrow("estado_socio")) == 1
                     montoCuota = cursor.getDouble(cursor.getColumnIndexOrThrow("monto_cuota"))
                     fechaVencimiento = FechaDb.parsearFecha(fechaStr) ?: Date()

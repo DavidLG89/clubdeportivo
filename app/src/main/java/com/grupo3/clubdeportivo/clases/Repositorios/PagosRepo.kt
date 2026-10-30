@@ -9,7 +9,7 @@ import java.util.Date
 class PagosRepo(private val dbHelper: DbHelper) {
 
     fun registrarPagoCuota(
-        socio: Socio,
+        socio: Socio?,
         montoAPagar: Double,
         medioPago: Int
     ): Int {
@@ -17,7 +17,7 @@ class PagosRepo(private val dbHelper: DbHelper) {
 
         val idCuota = db.rawQuery(
             "SELECT id FROM cuotas WHERE socio_id = ? AND estado_pago = 'Pendiente' " +
-                    "ORDER BY fecha_vencimiento LIMIT 1", arrayOf(socio.idSocio.toString())
+                    "ORDER BY fecha_vencimiento LIMIT 1", arrayOf(socio?.idSocio.toString())
         )
             .use { c ->
                 if (c.moveToFirst()) c.getInt(0) else null
@@ -44,7 +44,7 @@ class PagosRepo(private val dbHelper: DbHelper) {
 
             db.update(
                 "socios", ContentValues().apply { put("estado_socio", 1) },
-                "id = ?", arrayOf(socio.idSocio.toString())
+                "id = ?", arrayOf(socio?.idSocio.toString())
             )
 
             db.setTransactionSuccessful()

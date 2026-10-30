@@ -15,17 +15,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.clases.BaseDatos.conexionBDsqlite
+import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
 import com.grupo3.clubdeportivo.clases.Modelos.Cliente
 import com.grupo3.clubdeportivo.clases.Modelos.Cuota
 import com.grupo3.clubdeportivo.clases.Repositorios.ClienteRepo
-import com.grupo3.clubdeportivo.clases.Repositorios.InscripcionRepo
 import com.grupo3.clubdeportivo.clases.Servicios.ClienteServ
-import com.grupo3.clubdeportivo.clases.Servicios.InscripcionSocioServ
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
 
 class AceptacionContratoActivity : AppCompatActivity() {
+    var dbHelper = DbHelperObject.get(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +60,7 @@ class AceptacionContratoActivity : AppCompatActivity() {
             val nombre = intent.getStringExtra("EXTRA_NOMBRE") ?: ""
             val apellido = intent.getStringExtra("EXTRA_APELLIDO") ?: ""
             val dni = intent.getStringExtra("EXTRA_DNI") ?: ""
+            val email = intent.getStringExtra("EXTRA_EMAIL") ?: ""
             val esSocio = intent.getBooleanExtra("EXTRA_ES_SOCIO", false)
             val aptoFisico = intent.getBooleanExtra("EXTRA_APTO_FISICO", false)
             val montoCuotaStr = intent.getStringExtra("EXTRA_MONTO_CUOTA") ?: "10000"
@@ -68,10 +68,7 @@ class AceptacionContratoActivity : AppCompatActivity() {
             Log.d("REGISTRO_CLIENTE", "AceptacionContrato: Nombre=$nombre, DNI=$dni, EsSocio=$esSocio")
 
             if (dni.isNotEmpty()) {
-                val conexionBD = conexionBDsqlite()
-                conexionBD.setContext(applicationContext)
-
-                val clienteRepo = ClienteRepo(conexionBD)
+                val clienteRepo = ClienteRepo(dbHelper)
                 val clienteServ = ClienteServ(clienteRepo)
 
                 // 1. Buscar si el cliente ya fue guardado en el paso de FormRegistroCliente
@@ -79,7 +76,7 @@ class AceptacionContratoActivity : AppCompatActivity() {
 
                 // 2. Si no fue guardado previamente, intentar registrarlo ahora
                 if (clienteTarget == null && nombre.isNotEmpty()) {
-                    val clienteNuevo = Cliente(0, nombre, apellido, dni, aptoFisico)
+                    val clienteNuevo = Cliente(0, nombre, apellido, dni, email, aptoFisico)
                     val resReg = clienteServ.realizarRegistro(clienteNuevo, esSocio)
                     if (resReg.ok) {
                         clienteTarget = resReg.cliente
@@ -88,19 +85,9 @@ class AceptacionContratoActivity : AppCompatActivity() {
 
                 // 3. Si es socio y tenemos el cliente guardado, formalizar su inscripción y cuota
                 if (esSocio && clienteTarget != null) {
-                    val inscripcionRepo = InscripcionRepo(conexionBD)
-                    val inscripcionServ = InscripcionSocioServ(inscripcionRepo)
                     val montoCuota = montoCuotaStr.toDoubleOrNull() ?: 10000.0
                     val cuota = Cuota(montoCuota = montoCuota)
 
-                    val resultadoInsc = inscripcionServ.formalizarSocio(clienteTarget, cuota)
-                    Log.d("REGISTRO_CLIENTE", "Formalizar socio: ok=${resultadoInsc.ok}, msg=${resultadoInsc.mensaje}")
-
-                    if (resultadoInsc.ok) {
-                        Toast.makeText(this, "Socio e inscripción guardados con éxito en la base de datos", Toast.LENGTH_LONG).show()
-                    } else {
-                        Toast.makeText(this, "Aviso inscripción: ${resultadoInsc.mensaje}", Toast.LENGTH_LONG).show()
-                    }
                 } else if (clienteTarget != null) {
                     Toast.makeText(this, "Cliente no socio guardado con éxito en la base de datos", Toast.LENGTH_LONG).show()
                 } else {
