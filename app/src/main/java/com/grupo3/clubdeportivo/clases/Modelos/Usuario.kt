@@ -8,7 +8,7 @@ class Usuario : Persona {
 
     constructor() : super()
 
-    constructor(nombre: String, apellido: String, dni: String) : super(nombre, apellido, dni)
+    constructor(nombre: String, apellido: String, dni: String, email: String) : super(nombre, apellido, dni, email)
 
     constructor(username: String, rol: Rol) {
         this.username = username

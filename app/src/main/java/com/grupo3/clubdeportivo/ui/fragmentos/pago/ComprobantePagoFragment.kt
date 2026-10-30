@@ -10,7 +10,6 @@ import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerComprobantePago
 
 class ComprobantePagoFragment : Fragment(R.layout.fragment_comprobante_pago) {
-
     private val listener get() = requireActivity() as ListenerComprobantePago
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

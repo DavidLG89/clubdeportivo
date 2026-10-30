@@ -11,7 +11,6 @@ interface IPago<T> {
     fun registrarPago(
         entidad: T,
         montoAPagar: Double,
-        idConceptoPago: Int,
         idMedioPago: Int
     ): ResultadoPago<T>
 }

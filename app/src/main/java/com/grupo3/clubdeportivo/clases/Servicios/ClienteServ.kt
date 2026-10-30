@@ -17,10 +17,11 @@ class ClienteServ(private val repo: ClienteRepo) {
             return ResultadoCliente(false, "No se puede realizar registro sin información", null)
         }
 
-        val idRegistrado = repo.registrarClienteRepo(
+        val idRegistrado = repo.registrarCliente(
             cliente.nombre,
             cliente.apellido,
             cliente.dni,
+            cliente.email,
             cliente.aptoFisico,
             esSocio
         )

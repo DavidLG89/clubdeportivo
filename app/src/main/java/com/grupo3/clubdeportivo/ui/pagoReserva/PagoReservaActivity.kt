@@ -11,6 +11,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
 import com.grupo3.clubdeportivo.data.model.DatosComprobante
 import com.grupo3.clubdeportivo.data.model.EtapaPago
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
@@ -37,6 +38,7 @@ class PagoReservaActivity : AppCompatActivity(),
 
     private val viewModel: PagoResViewModel by viewModels()
     private lateinit var stepBar: CompBarraEstadoPago
+    val dbHelper = DbHelperObject.get(this)
 
     companion object {
         const val EXTRA_DNI = "extra_dni"
@@ -136,9 +138,7 @@ class PagoReservaActivity : AppCompatActivity(),
 
     // Si el dni está validado, continúa al paso siguiente y guarda el dato en viewModel
     override fun onDniValidado(dni: String) {
-        val conexionBD = com.grupo3.clubdeportivo.clases.BaseDatos.conexionBDsqlite()
-        conexionBD.setContext(applicationContext)
-        val clienteRepo = com.grupo3.clubdeportivo.clases.Repositorios.ClienteRepo(conexionBD)
+               val clienteRepo = com.grupo3.clubdeportivo.clases.Repositorios.ClienteRepo(dbHelper)
         val clienteServ = com.grupo3.clubdeportivo.clases.Servicios.ClienteServ(clienteRepo)
         val clienteFound = clienteServ.buscarClientePorDni(dni)
 
