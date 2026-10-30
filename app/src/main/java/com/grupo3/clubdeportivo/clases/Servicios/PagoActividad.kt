@@ -10,7 +10,6 @@ class PagoActividad(private val repo: PagosRepo) : IPago<ReservaDTO> {
     override fun registrarPago(
         entidad: ReservaDTO,
         montoAPagar: Double,
-        idConceptoPago: Int,
         idMedioPago: Int
     ): ResultadoPago<ReservaDTO> {
         if (entidad.estadoReserva != "Pendiente de pago") {

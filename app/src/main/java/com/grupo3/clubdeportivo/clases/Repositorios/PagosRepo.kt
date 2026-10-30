@@ -16,7 +16,7 @@ class PagosRepo(private val dbHelper: DbHelper) {
         val db = dbHelper.writableDatabase
 
         val idCuota = db.rawQuery(
-            "SELECT id FROM cuotas WHERE socio_id = ? AND estado_pago = 'Pendiente' " +
+            "SELECT id FROM cuotas WHERE socio_id = ? AND estado_cuota = 'Pendiente' " +
                     "ORDER BY fecha_vencimiento LIMIT 1", arrayOf(socio?.idSocio.toString())
         )
             .use { c ->
@@ -28,22 +28,22 @@ class PagosRepo(private val dbHelper: DbHelper) {
             val fechaHoy = FechaDb.formatearFechaHora(Date())
 
             val pagos = ContentValues().apply {
-                put("id_cuota", idCuota)
+                put("cuota_id", fechaHoy.let { idCuota } )
                 put("fecha_pago", fechaHoy)
                 put("monto_pago", montoAPagar)
-                put("medio_pago", medioPago)
+                put("metodo_id", medioPago)
             }
 
             val pagoId = db.insert("pagos", null, pagos)
             if (pagoId == -1L) return -99
 
             db.update(
-                "cuotas", ContentValues().apply { put("estado_pago", "Pagado") },
+                "cuotas", ContentValues().apply { put("estado_cuota", "Pagada") },
                 "id = ?", arrayOf(idCuota.toString())
             )
 
             db.update(
-                "socios", ContentValues().apply { put("estado_socio", 1) },
+                "socios", ContentValues().apply { put("estado", 1) },
                 "id = ?", arrayOf(socio?.idSocio.toString())
             )
 
@@ -85,13 +85,15 @@ class PagosRepo(private val dbHelper: DbHelper) {
                 estado = c.getString(1)
 
                 if (c.getInt(2) <= 0) return -2
+
+                if (estado != "Pendiente de pago") return -2
             }
 
             val valores = ContentValues().apply {
-                put("id", idReserva)
+                put("reserva_id", idReserva)
                 put("fecha_pago", FechaDb.formatearFechaHora(Date()))
                 put("monto", montoAPagar)
-                put("medio", medioPago)
+                put("metodo_id", medioPago)
             }
 
             val pagoId = db.insert("pagos", null, valores)
@@ -99,8 +101,8 @@ class PagosRepo(private val dbHelper: DbHelper) {
             if (pagoId == -1L) return -99
 
             db.update(
-                "reservas", ContentValues().apply { put("estado", "Pagado") },
-                "id = ?", arrayOf(programacionId.toString())
+                "reservas", ContentValues().apply { put("estado", "Pagada") },
+                "id = ?", arrayOf(idReserva.toString())
             )
 
             db.execSQL(

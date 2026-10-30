@@ -10,7 +10,6 @@ class PagoCuotaServ(private val repo: PagosRepo) : IPago<CuotaDTO> {
     override fun registrarPago(
         entidad: CuotaDTO,
         montoAPagar: Double,
-        idConceptoPago: Int,
         idMedioPago: Int
     ): ResultadoPago<CuotaDTO> {
         if (montoAPagar < entidad.montoCuota) {

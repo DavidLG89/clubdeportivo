@@ -205,7 +205,7 @@ class PagoCuotaActivity : AppCompatActivity(),
             }
             val idConcepto = 2 // Concepto Cuota
 
-            val resPago = pagoCuotaServ.registrarPago(cuotaObj, montoAPagar, idConcepto, idMetodo)
+            val resPago = pagoCuotaServ.registrarPago(cuotaObj, montoAPagar, idMetodo)
             if (resPago.ok && resPago.resultId > 0) {
                 viewModel.pagoRegistrado = true
                 viewModel.idPagoGenerado = String.format(Locale.getDefault(), "%04d", resPago.resultId)
