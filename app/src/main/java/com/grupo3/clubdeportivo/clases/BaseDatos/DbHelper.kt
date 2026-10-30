@@ -77,22 +77,13 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
                 );
             """.trimIndent())
 
-        db.execSQL("""
-                CREATE TABLE inscripciones(
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    socio_id INTEGER NOT NULL,
-                    fecha_inscripcion TEXT NOT NULL,
-                    FOREIGN KEY(socio_id) REFERENCES socios(id)
-                );
-            """.trimIndent())
-
-        db.execSQL("""
+               db.execSQL("""
                 CREATE TABLE carnet(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    inscripcion_id INTEGER NOT NULL UNIQUE,
+                    socio_id INTEGER NOT NULL UNIQUE,
                     fecha_emision TEXT NOT NULL,
                     estado INTEGER DEFAULT 1,
-                    FOREIGN KEY(inscripcion_id) REFERENCES inscripciones(id)
+                    FOREIGN KEY(socio_id) REFERENCES socios(id)
                 );
             """.trimIndent())
 
@@ -151,11 +142,9 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
                     reserva_id INTEGER,
                     fecha_pago TEXT NOT NULL,
                     monto REAL NOT NULL,
-                    concepto_id INTEGER NOT NULL,
                     metodo_id INTEGER NOT NULL,
                     FOREIGN KEY(cuota_id) REFERENCES cuotas(id),
                     FOREIGN KEY(reserva_id) REFERENCES reservas(id),
-                    FOREIGN KEY(concepto_id) REFERENCES conceptos_pago(id),
                     FOREIGN KEY(metodo_id) REFERENCES metodos_pago(id),
                     CHECK ((cuota_id IS NOT NULL AND reserva_id IS NULL) OR (cuota_id IS NULL AND reserva_id IS NOT NULL))
                 );
