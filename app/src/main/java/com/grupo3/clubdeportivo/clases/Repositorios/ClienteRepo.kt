@@ -68,26 +68,30 @@ class ClienteRepo(private val dbHelper: DbHelper) {
 
     fun buscarClientePorDniRepo(dni: String): Cliente? {
         val query = """
-            SELECT cl.id AS id_cliente, p.nombre, p.apellido, p.dni, p.email, cl.apto_fisico,
-                   CASE 
-                       WHEN s.id IS NOT NULL THEN 'Socio'
-                       WHEN ns.id IS NOT NULL THEN 'NoSocio'
-                       ELSE 'Cliente'
-                   END AS tipo_cliente,
-                   s.id AS id_socio, s.estado AS estado_socio, ns.id AS id_no_socio, ns.acceso_diario
-            FROM clientes cl
-            JOIN personas p ON p.id = cl.persona_id
-            LEFT JOIN socios s ON s.cliente_id = cl.id
-            LEFT JOIN no_socios ns ON ns.cliente_id = cl.id
-            WHERE p.dni = ?
-        """.trimIndent()
+        SELECT cl.id AS id_cliente, p.nombre, p.apellido, p.dni, p.email, cl.apto_fisico,
+               CASE 
+                   WHEN s.id IS NOT NULL THEN 'Socio'
+                   WHEN ns.id IS NOT NULL THEN 'NoSocio'
+                   ELSE 'Cliente'
+               END AS tipo_cliente,
+               s.id AS id_socio, s.estado AS estado_socio,
+               ns.id AS id_no_socio, ns.acceso_diario
+        FROM clientes cl
+        JOIN personas p ON p.id = cl.persona_id
+        LEFT JOIN socios s ON s.cliente_id = cl.id
+        LEFT JOIN no_socios ns ON ns.cliente_id = cl.id
+        WHERE p.dni = ?
+    """.trimIndent()
 
         return try {
             val db = dbHelper.readableDatabase
-            val cursor = db.rawQuery(query, arrayOf(dni))
-            var cliente: Cliente? = null
 
-            if (cursor.moveToFirst()) {
+            db.rawQuery(query, arrayOf(dni)).use { cursor ->
+
+                if (!cursor.moveToFirst()) {
+                    return@use null
+                }
+
                 val idCliente = cursor.getInt(cursor.getColumnIndexOrThrow("id_cliente"))
                 val nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre")) ?: ""
                 val apellido = cursor.getString(cursor.getColumnIndexOrThrow("apellido")) ?: ""
@@ -96,29 +100,34 @@ class ClienteRepo(private val dbHelper: DbHelper) {
                 val aptoFisico = cursor.getInt(cursor.getColumnIndexOrThrow("apto_fisico")) == 1
                 val tipo = cursor.getString(cursor.getColumnIndexOrThrow("tipo_cliente")) ?: ""
 
-                cliente = when (tipo) {
+                val cliente = when (tipo) {
                     "Socio" -> {
                         val idSocio = cursor.getInt(cursor.getColumnIndexOrThrow("id_socio"))
                         val estado = cursor.getInt(cursor.getColumnIndexOrThrow("estado_socio")) == 1
+
                         Socio(idCliente, nombre, apellido, dniVal, email, aptoFisico, estado).apply {
                             this.idSocio = idSocio
                         }
                     }
+
                     "NoSocio" -> {
                         val idNoSocio = cursor.getInt(cursor.getColumnIndexOrThrow("id_no_socio"))
                         val accesoDiario = cursor.getInt(cursor.getColumnIndexOrThrow("acceso_diario")) == 1
+
                         NoSocio(idCliente, nombre, apellido, dniVal, email, aptoFisico).apply {
                             this.idNoSocio = idNoSocio
                             this.accesoDiario = accesoDiario
                         }
                     }
+
                     else -> Cliente(idCliente, nombre, apellido, dniVal, email, aptoFisico)
                 }
+
+                cliente
             }
-            cursor.close()
-            cliente
+
         } catch (e: Exception) {
-            e.printStackTrace()
+            Log.e("ClienteRepo", "Error al buscar cliente por DNI: $dni", e)
             null
         }
     }

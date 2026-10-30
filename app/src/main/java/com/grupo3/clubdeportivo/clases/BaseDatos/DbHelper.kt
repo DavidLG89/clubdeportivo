@@ -4,7 +4,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", null, 1){
+class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", null, 2) {
     override fun onCreate(db: SQLiteDatabase) {
 
         crearTablas(db)
@@ -12,22 +12,31 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
     }
 
     override fun onUpgrade(
-        db: SQLiteDatabase?,
+        db: SQLiteDatabase,
         oldVersion: Int,
         newVersion: Int
     ) {
-        TODO("Not yet implemented")
+        var tablas = listOf(
+            "pagos", "reservas", "programaciones", "actividades", "metodos_pago", "cuotas",
+            "carnet", "socios", "no_socios", "usuarios", "clientes", "personas", "roles"
+        )
+
+        tablas.forEach { tabla -> db.execSQL("DROP TABLE IF EXISTS $tabla") }
+        onCreate(db)
     }
 
     private fun crearTablas(db: SQLiteDatabase) {
-        db.execSQL("""
+        db.execSQL(
+            """
                 CREATE TABLE roles(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     nombre TEXT NOT NULL UNIQUE
                 );
-            """.trimIndent())
+            """.trimIndent()
+        )
 
-        db.execSQL("""
+        db.execSQL(
+            """
                 CREATE TABLE personas(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     nombre TEXT NOT NULL,
@@ -35,18 +44,22 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
                     dni TEXT NOT NULL UNIQUE,
                     email TEXT NOT NULL
                 );
-            """.trimIndent())
+            """.trimIndent()
+        )
 
-        db.execSQL("""
+        db.execSQL(
+            """
                 CREATE TABLE clientes(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     persona_id INTEGER NOT NULL UNIQUE,
                     apto_fisico INTEGER NOT NULL DEFAULT 1,
                     FOREIGN KEY(persona_id) REFERENCES personas(id)
                 );
-            """.trimIndent())
+            """.trimIndent()
+        )
 
-        db.execSQL("""
+        db.execSQL(
+            """
                 CREATE TABLE usuarios(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     persona_id INTEGER NOT NULL UNIQUE,
@@ -57,27 +70,33 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
                     FOREIGN KEY(persona_id) REFERENCES personas(id),
                     FOREIGN KEY(rol_id) REFERENCES roles(id)
                 );
-            """.trimIndent())
+            """.trimIndent()
+        )
 
-        db.execSQL("""
+        db.execSQL(
+            """
                 CREATE TABLE socios(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     cliente_id INTEGER NOT NULL UNIQUE,
                     estado INTEGER DEFAULT 0,
                     FOREIGN KEY(cliente_id) REFERENCES clientes(id)
                 );
-            """.trimIndent())
+            """.trimIndent()
+        )
 
-        db.execSQL("""
+        db.execSQL(
+            """
                 CREATE TABLE no_socios(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     cliente_id INTEGER NOT NULL UNIQUE,
                     acceso_diario INTEGER DEFAULT 0,
                     FOREIGN KEY(cliente_id) REFERENCES clientes(id)
                 );
-            """.trimIndent())
+            """.trimIndent()
+        )
 
-               db.execSQL("""
+        db.execSQL(
+            """
                 CREATE TABLE carnet(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     socio_id INTEGER NOT NULL UNIQUE,
@@ -85,9 +104,11 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
                     estado INTEGER DEFAULT 1,
                     FOREIGN KEY(socio_id) REFERENCES socios(id)
                 );
-            """.trimIndent())
+            """.trimIndent()
+        )
 
-        db.execSQL("""
+        db.execSQL(
+            """
                 CREATE TABLE cuotas(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     socio_id INTEGER NOT NULL,
@@ -96,24 +117,30 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
                     estado_cuota TEXT DEFAULT 'Pendiente',
                     FOREIGN KEY(socio_id) REFERENCES socios(id)
                 );
-            """.trimIndent())
+            """.trimIndent()
+        )
 
-        db.execSQL("""
+        db.execSQL(
+            """
                 CREATE TABLE metodos_pago(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     nombre TEXT NOT NULL
                 );
-            """.trimIndent())
+            """.trimIndent()
+        )
 
-        db.execSQL("""
+        db.execSQL(
+            """
                 CREATE TABLE IF NOT EXISTS actividades(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     nombre TEXT NOT NULL,
                     precio REAL
                 );
-            """.trimIndent())
+            """.trimIndent()
+        )
 
-        db.execSQL("""
+        db.execSQL(
+            """
                 CREATE TABLE programaciones(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     actividad_id INTEGER NOT NULL,
@@ -121,9 +148,11 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
                     cupos_disponibles INTEGER,
                     FOREIGN KEY(actividad_id) REFERENCES actividades(id)
                 );
-            """.trimIndent())
+            """.trimIndent()
+        )
 
-        db.execSQL("""
+        db.execSQL(
+            """
                 CREATE TABLE reservas(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     programacion_id INTEGER NOT NULL,
@@ -133,9 +162,11 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
                     FOREIGN KEY(programacion_id) REFERENCES programaciones(id),
                     FOREIGN KEY(cliente_id) REFERENCES clientes(id)
                 );
-            """.trimIndent())
+            """.trimIndent()
+        )
 
-        db.execSQL("""
+        db.execSQL(
+            """
                 CREATE TABLE pagos(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     cuota_id INTEGER,
@@ -148,40 +179,50 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
                     FOREIGN KEY(metodo_id) REFERENCES metodos_pago(id),
                     CHECK ((cuota_id IS NOT NULL AND reserva_id IS NULL) OR (cuota_id IS NULL AND reserva_id IS NOT NULL))
                 );
-            """.trimIndent())
+            """.trimIndent()
+        )
     }
 
     private fun sembrarCatalogos(db: SQLiteDatabase) {
-        db.execSQL("INSERT OR IGNORE INTO roles(id, nombre) VALUES (1, 'admin'), (2, 'user');")
+        db.execSQL("INSERT INTO roles(id, nombre) VALUES (1, 'admin'), (2, 'user');")
 
-        db.execSQL("""
+        db.execSQL(
+            """
             INSERT INTO personas(nombre, apellido, dni, email) VALUES
             ('Andrea', 'Jiménez', '24753731', 'andrea.jimenez@example.com'),
             ('Alberto', 'Campaner', '26333222', 'alberto.campaner@example.com'),
             ('David', 'Thomen', '12341234', 'david.thomen@example.com');
-        """.trimIndent())
+        """.trimIndent()
+        )
 
-        db.execSQL("""
-                    INSERT OR IGNORE INTO usuarios(id, persona_id, username, password, rol_id, activo) VALUES
+        db.execSQL(
+            """
+                    INSERT INTO usuarios(id, persona_id, username, password, rol_id, activo) VALUES
                     (1, 1, 'Andrea', '1234', 1, 1),
                     (2, 2, 'Alberto', '1234', 1, 1),
                     (3, 3, 'David', '1234', 1, 1);
-                """.trimIndent())
+                """.trimIndent()
+        )
 
-        db.execSQL("""
-                    INSERT OR IGNORE INTO metodos_pago(id, nombre) VALUES
+        db.execSQL(
+            """
+                    INSERT INTO metodos_pago(id, nombre) VALUES
                     (1, 'Efectivo'), (2, 'Cheque'), (3, 'Tarjeta crédito'), (4, 'Mercado Pago');
-                """.trimIndent())
+                """.trimIndent()
+        )
 
-        db.execSQL("""
-                    INSERT OR IGNORE INTO actividades(id, nombre, precio) VALUES
+        db.execSQL(
+            """
+                    INSERT INTO actividades(id, nombre, precio) VALUES
                     (1, 'Fútbol', 20000.0), (2, 'Básquet', 15000.0), (3, 'Vóley', 15000.0),
                     (4, 'Tenis', 25000.0), (5, 'Natación', 10000.0), (6, 'Karate', 8000.0),
                     (7, 'Taekwondo', 8000.0), (8, 'Gimnasio', 9000.0), (9, 'Musculación', 10000.0),
                     (10, 'Crossfit', 10000.0), (11, 'Yoga', 7000.0), (12, 'Pilates', 8500.0), (13, 'Zumba', 7500.0);
-                """.trimIndent())
+                """.trimIndent()
+        )
 
-        db.execSQL("""
+        db.execSQL(
+            """
             INSERT INTO personas (nombre, apellido, dni, email) VALUES
             ('María', 'González', '20123456', 'maria.gonzalez@example.com'), ('Carlos', 'Rodríguez', '20234567', 'carlos.rodriguez@example.com'), ('Ana', 'Fernández', '20345678', 'ana.fernandez@example.com'),
             ('Luis', 'Martínez', '20456789', 'luis.martinez@example.com'), ('Laura', 'Pérez', '20567890', 'laura.perez@example.com'), ('Jorge', 'López', '20678901', 'jorge.lopez@example.com'),
@@ -220,18 +261,23 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
         """.trimIndent()
         )
 
-        db.execSQL("""
-                    INSERT OR IGNORE INTO clientes (persona_id, apto_fisico) 
+        db.execSQL(
+            """
+                    INSERT INTO clientes (persona_id, apto_fisico) 
                     SELECT id, 1 FROM personas WHERE id > 3;
-                """.trimIndent())
+                """.trimIndent()
+        )
 
-        db.execSQL("""
-                    INSERT OR IGNORE INTO socios (cliente_id, estado) 
+        db.execSQL(
+            """
+                    INSERT INTO socios (cliente_id, estado) 
                     SELECT id, 1 FROM clientes;
-                """.trimIndent())
+                """.trimIndent()
+        )
 
-        db.execSQL("""
-                    INSERT OR IGNORE INTO programaciones (actividad_id, fecha_hora, cupos_disponibles) VALUES
+        db.execSQL(
+            """
+                    INSERT INTO programaciones (actividad_id, fecha_hora, cupos_disponibles) VALUES
                     (1,'2026-07-15 10:00:00',20), (1,'2026-07-15 18:00:00',20), (1,'2026-07-15 20:00:00',20),
                     (1,'2026-07-20 10:00:00',20), (1,'2026-07-20 18:00:00',20), (1,'2026-07-20 20:00:00',20),
                     (2,'2026-07-16 09:00:00',15), (2,'2026-07-16 17:00:00',15), (2,'2026-07-16 19:00:00',15),
@@ -246,11 +292,14 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
                     (11,'2026-07-16 09:00:00',20),(11,'2026-07-16 18:30:00',20),(11,'2026-07-16 20:00:00',20),
                     (12,'2026-07-15 09:00:00',18),(12,'2026-07-15 15:00:00',18),(12,'2026-07-15 18:00:00',18),
                     (13,'2026-07-16 10:00:00',25),(13,'2026-07-16 18:00:00',25),(13,'2026-07-16 20:00:00',25);
-                """.trimIndent())
+                """.trimIndent()
+        )
 
-        db.execSQL("""
-                    INSERT OR IGNORE INTO cuotas (socio_id, monto_cuota, fecha_vencimiento, estado_cuota)
+        db.execSQL(
+            """
+                    INSERT INTO cuotas (socio_id, monto_cuota, fecha_vencimiento, estado_cuota)
                     SELECT id, 1500.00, '2026-07-20', 'Pendiente' FROM socios;
-                """.trimIndent())
+                """.trimIndent()
+        )
     }
 }
