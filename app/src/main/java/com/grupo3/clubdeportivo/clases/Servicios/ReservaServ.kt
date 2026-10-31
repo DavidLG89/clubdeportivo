@@ -61,7 +61,7 @@ class ReservaServ(private val repo: ReservaRepo) {
     fun generarReserva(
         actividad: Actividad,
         cliente: Cliente,
-        programacion: Programacion?
+        fecha: String
     ): ResultadoReserva {
         if (cliente is Socio && !cliente.estaActivo()) {
             return ResultadoReserva(false, "El socio no está activo. Debe regularizar sus cuotas.", null)
@@ -71,15 +71,15 @@ class ReservaServ(private val repo: ReservaRepo) {
             return ResultadoReserva(false, "El cliente no tiene apto físico. No puede reservar.", null)
         }
 
-        if (programacion == null) {
+        if (fecha == "") {
             return ResultadoReserva(false, "No se encontró programación.", null)
         }
 
-        if (!programacion.estaVigente()) {
+        if (fecha == "") {
             return ResultadoReserva(false, "Actividad no está vigente.", null)
         }
 
-        if (!programacion.estaDisponible()) {
+        if (fecha == "") {
             return ResultadoReserva(false, "Actividad no tiene cupos disponibles.", null)
         }
 
@@ -89,7 +89,7 @@ class ReservaServ(private val repo: ReservaRepo) {
             return ResultadoReserva(false, "Reserva ya fue realizada por el cliente", null)
         }
 
-        val idReserva = repo.generarReservaRepo(actividad.id, cliente.idCliente, programacion.fechaHora)
+        val idReserva = repo.generarReservaRepo(actividad, cliente, fecha)
 
         if (idReserva <= 0) {
             return ResultadoReserva(false, "Error inesperado al crear la reserva.", null)
@@ -99,7 +99,7 @@ class ReservaServ(private val repo: ReservaRepo) {
             ?: return ResultadoReserva(false, "Error al intentar obtener la reserva", null)
 
         return if (cliente is Socio) {
-            programacion.descontarCupo()
+
             ResultadoReserva(true, "Reserva autorizada. El socio no debe abonar el servicio.", reserva)
         } else {
             ResultadoReserva(true, "Reserva creada. El cliente debe abonar el servicio.", reserva)

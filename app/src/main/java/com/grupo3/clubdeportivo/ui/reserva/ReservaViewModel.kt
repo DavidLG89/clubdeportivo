@@ -3,23 +3,24 @@ package com.grupo3.clubdeportivo.ui.reserva
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.grupo3.clubdeportivo.clases.Modelos.Actividad
+import com.grupo3.clubdeportivo.clases.Modelos.Cliente
 import com.grupo3.clubdeportivo.data.model.EtapaReserva
 
 class ReservaViewModel : ViewModel() {
     private val _pasoActual = MutableLiveData(EtapaReserva.BUSQUEDA_DNI)
     val pasoActual: LiveData<EtapaReserva> = _pasoActual
 
-    var dni: String = ""
-    var nombre: String = ""
+    var cliente = Cliente()
     var tipoCliente: String = ""
-    var aptoFisico: Boolean = false
-    var actividad: String? = null
-    var fecha: String? = null
-    var horaSeleccionada: String? = null
+    var actividad = Actividad()
+    var fecha: String = ""
+    var horaSeleccionada: String = ""
 
-    var monto: Int? = null
+    var monto: Int = 0
 
-
+    val nombreCompleto: String
+        get() = "${cliente.nombre} ${cliente.apellido}"
     fun irAPaso(numero: EtapaReserva) {
 
         _pasoActual.value = numero

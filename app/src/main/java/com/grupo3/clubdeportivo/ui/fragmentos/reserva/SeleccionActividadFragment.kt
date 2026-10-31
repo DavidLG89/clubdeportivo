@@ -41,14 +41,14 @@ class SeleccionActividadFragment : Fragment(R.layout.fragment_seleccion_activida
 
         autoCompleteTextView.setAdapter(arrayAdapter)
 
-        viewModel.actividad?.takeIf { it == "" }?.let {
-            actividadSeleccionada.nombre = it
-            autoCompleteTextView.setText(it, false)
+        viewModel.actividad?.let { actividad ->
+            actividadSeleccionada = actividad
+            autoCompleteTextView.setText(actividad.nombre, false)
         }
 
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
-            actividadSeleccionada.nombre = actividades[position].nombre
-            viewModel.actividad = actividadSeleccionada.nombre
+            actividadSeleccionada = actividades[position]
+            viewModel.actividad = actividadSeleccionada
         }
 
 

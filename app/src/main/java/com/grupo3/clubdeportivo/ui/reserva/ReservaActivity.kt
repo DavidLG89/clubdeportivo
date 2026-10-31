@@ -122,19 +122,13 @@ class ReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, List
             return
         }
 
-        viewModel.dni = cliente.dni
-        viewModel.nombre = "${cliente.nombre} ${cliente.apellido}"
-        viewModel.aptoFisico = cliente.tieneAptoFisico()
+        viewModel.cliente = cliente
 
         if(cliente is Socio) {
             viewModel.tipoCliente = "Socio"
         } else if(cliente is NoSocio) {
             viewModel.tipoCliente = "No Socio"
         }
-
-        Log.d("RESERVA", "Nombre: ${viewModel.nombre}")
-        Log.d("RESERVA", "Tipo: ${viewModel.tipoCliente}")
-
 
         irA(
             VerificacionClienteFragment(),

@@ -22,10 +22,10 @@ class ComprobanteReservaFragment : Fragment(R.layout.fragment_comprobante_reserv
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         // Imprime en pantalla datos de la reserva
-        view.findViewById<TextView>(R.id.tvPrintDni).text = viewModel.dni
-        view.findViewById<TextView>(R.id.tvPrintNombre).text = viewModel.nombre
+        view.findViewById<TextView>(R.id.tvPrintDni).text = viewModel.cliente.dni
+        view.findViewById<TextView>(R.id.tvPrintNombre).text = viewModel.nombreCompleto
         view.findViewById<TextView>(R.id.tvPrintTipoCliente).text = viewModel.tipoCliente
-        view.findViewById<TextView>(R.id.tvPrintActividad).text = viewModel.actividad
+        view.findViewById<TextView>(R.id.tvPrintActividad).text = viewModel.actividad.nombre
         view.findViewById<TextView>(R.id.tvPrintFecha).text = viewModel.fecha
         view.findViewById<TextView>(R.id.tvPrintHorario).text = viewModel.horaSeleccionada
         view.findViewById<TextView>(R.id.tvPrintValor).text = viewModel.monto?.formatoPeso()
@@ -59,9 +59,9 @@ class ComprobanteReservaFragment : Fragment(R.layout.fragment_comprobante_reserv
                 .setPositiveButton(resources.getString(R.string.paga)) { _, _ ->
                     Toast.makeText(requireContext(), "Redirigiendo a pago de reserva...", Toast.LENGTH_SHORT).show()
                     val intent = Intent(requireContext(), PagoReservaActivity::class.java).apply {
-                        putExtra(PagoReservaActivity.EXTRA_DNI, viewModel.dni)
-                        putExtra(PagoReservaActivity.EXTRA_NOMBRE, viewModel.nombre)
-                        putExtra(PagoReservaActivity.EXTRA_ACTIVIDAD, viewModel.actividad)
+                        putExtra(PagoReservaActivity.EXTRA_DNI, viewModel.cliente.dni)
+                        putExtra(PagoReservaActivity.EXTRA_NOMBRE, viewModel.nombreCompleto)
+                        putExtra(PagoReservaActivity.EXTRA_ACTIVIDAD, viewModel.actividad.nombre)
                         putExtra(PagoReservaActivity.EXTRA_MONTO, viewModel.monto)
                     }
                     startActivity(intent)
