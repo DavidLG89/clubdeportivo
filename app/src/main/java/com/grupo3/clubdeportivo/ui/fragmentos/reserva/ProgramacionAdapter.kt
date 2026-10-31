@@ -12,7 +12,7 @@ class ProgramacionAdapter(private val programacion: List<Programacion>) : Recycl
 
     class ProgramacionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val txtHora: TextView = itemView.findViewById(R.id.tvHorario)
-        val txtCupo: TextView = itemView.findViewById(R.id.tvCupo)
+        val txtCupo: TextView = itemView.findViewById(R.id.tvCupos)
     }
 
     override fun onCreateViewHolder(
