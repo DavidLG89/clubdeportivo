@@ -9,26 +9,41 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
+import com.grupo3.clubdeportivo.clases.Modelos.Actividad
+import com.grupo3.clubdeportivo.clases.Repositorios.ActividadRepo
+import com.grupo3.clubdeportivo.clases.Servicios.ListadosMaestrosServ
 import com.grupo3.clubdeportivo.data.model.EtapaReserva
 import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 
 class SeleccionActividadFragment : Fragment(R.layout.fragment_seleccion_actividad) {
     private val viewModel: ReservaViewModel by activityViewModels()
-    var actividadSeleccionada: String? = ""
+       var actividadSeleccionada = Actividad()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        // Se inicializa el servicio
+        val dbHelper = DbHelperObject.get(requireContext())
+        val repositorio = ActividadRepo(dbHelper)
+        val servicio = ListadosMaestrosServ(repositorio)
 
-        val actividades = resources.getStringArray(R.array.actividades)
-        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, actividades)
+        val actividades = servicio.obtenerActividades()
+        var listaActividades: MutableList<String> = mutableListOf()
+
+        actividades.forEach { actividad ->
+            listaActividades.add(actividad.nombre)
+        }
+
+
+        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, listaActividades)
 
         val autoCompleteTextView = view.findViewById<AutoCompleteTextView>(R.id.autoActividad)
 
         autoCompleteTextView.setAdapter(arrayAdapter)
 
-        viewModel.actividad?.takeIf { it.isEmpty() }?.let {
-            actividadSeleccionada = it
-            autoCompleteTextView.setText(it, false)
+        viewModel.actividad?.let { actividad ->
+            actividadSeleccionada = actividad
+            autoCompleteTextView.setText(actividad.nombre, false)
         }
 
         autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
@@ -41,7 +56,7 @@ class SeleccionActividadFragment : Fragment(R.layout.fragment_seleccion_activida
 
         btnBuscar.setOnClickListener {
 
-            if(actividadSeleccionada == "") {
+            if(actividadSeleccionada.nombre == "" ) {
                 Toast.makeText(requireContext(), "Debe seleccionar una actividad", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }

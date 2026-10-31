@@ -3,14 +3,20 @@ package com.grupo3.clubdeportivo.ui.reserva
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
+import com.grupo3.clubdeportivo.clases.Modelos.NoSocio
+import com.grupo3.clubdeportivo.clases.Modelos.Socio
+import com.grupo3.clubdeportivo.clases.Repositorios.ClienteRepo
 import com.grupo3.clubdeportivo.data.model.EtapaReserva
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
@@ -23,12 +29,16 @@ import com.grupo3.clubdeportivo.ui.fragmentos.reserva.SeleccionActividadFragment
 import com.grupo3.clubdeportivo.ui.fragmentos.reserva.SeleccionFechaFragment
 import com.grupo3.clubdeportivo.ui.fragmentos.reserva.SeleccionHoraFragment
 import com.grupo3.clubdeportivo.ui.fragmentos.reserva.VerificacionClienteFragment
-
+import com.grupo3.clubdeportivo.clases.Servicios.ClienteServ
 
 class ReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, ListenerDni {
 
     private val viewModel: ReservaViewModel by viewModels()
     private lateinit var stepBar: CompBarraEstadoReserva
+    private val dbHelper = DbHelperObject.get(this)
+    private val repositorio =  ClienteRepo(dbHelper)
+    private val servicio = ClienteServ(repositorio)
+
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -104,7 +114,22 @@ class ReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, List
 
     // Si el dni está validado, continúa al paso siguiente y guarda el dato en viewModel
     override fun onDniValidado(dni: String) {
-        viewModel.dni = dni
+
+        val cliente = servicio.buscarClientePorDni(dni)
+
+        if(cliente == null) {
+            Toast.makeText(this, "Cliente no encontrado", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        viewModel.cliente = cliente
+
+        if(cliente is Socio) {
+            viewModel.tipoCliente = "Socio"
+        } else if(cliente is NoSocio) {
+            viewModel.tipoCliente = "No Socio"
+        }
+
         irA(
             VerificacionClienteFragment(),
             EtapaReserva.VERIFICACION

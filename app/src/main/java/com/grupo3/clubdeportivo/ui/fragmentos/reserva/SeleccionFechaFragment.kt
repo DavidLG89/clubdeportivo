@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.clases.Helpers.FechaDb
 import com.grupo3.clubdeportivo.data.model.EtapaReserva
 import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
@@ -21,7 +22,7 @@ class SeleccionFechaFragment : Fragment(R.layout.fragment_seleccion_fecha) {
         super.onViewCreated(view, savedInstanceState)
 
         // Imprime actividad seleccionada en pantalla
-        view.findViewById<TextView>(R.id.tvPrintActividad).text = viewModel.actividad
+        view.findViewById<TextView>(R.id.tvPrintActividad).text = viewModel.actividad?.nombre
 
 
         // Mostrar date picker

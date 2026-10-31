@@ -4,6 +4,10 @@ import android.content.ContentValues
 import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelper
 import com.grupo3.clubdeportivo.clases.DTOS.ReservaDTO
 import com.grupo3.clubdeportivo.clases.Helpers.FechaDb
+import com.grupo3.clubdeportivo.clases.Modelos.Actividad
+import com.grupo3.clubdeportivo.clases.Modelos.Cliente
+import com.grupo3.clubdeportivo.clases.Modelos.Programacion
+import com.grupo3.clubdeportivo.clases.Modelos.Socio
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -121,40 +125,42 @@ class ReservaRepo(private val dbHelper: DbHelper) {
      * Devuelve: > 0 id de la reserva | -1 sin programación | -2 sin cupos
      *           -3 ya reservó | -99 error
      */
-    fun generarReservaRepo(idActividad: Int, clienteId: Int, fechaHora: Date): Int {
+    fun generarReservaRepo(actividad: Actividad, cliente: Cliente, fechaHora: String): Int {
         val db = dbHelper.writableDatabase
 
-        db.beginTransaction()   // exclusiva: nadie escribe hasta el final
+        db.beginTransaction()
         return try {
-            // Una sola consulta: programación + cupos + ¿ya reservó? + ¿es socio?
+
             val sql = """
                 SELECT p.id, p.cupos_disponibles,
-                       EXISTS(SELECT 1 FROM reservas WHERE programacion_id = p.id AND id_cliente = ?),
-                       EXISTS(SELECT 1 FROM clientes WHERE id_cliente = ? AND estado = 1)
+                       EXISTS(SELECT 1 FROM reservas WHERE programacion_id = p.id AND cliente_id = ?)
                 FROM programaciones p
                 WHERE p.actividad_id = ? AND p.fecha_hora = ?
                 LIMIT 1
             """
             val args = arrayOf(
-                clienteId.toString(), clienteId.toString(),
-                idActividad.toString(), FechaDb.formatearFechaHora(fechaHora)
+                cliente.id.toString(),
+                actividad.id.toString(), fechaHora
             )
 
             var programacionId = 0
-            var esSocio = false
+            var cuposDisponibles = 0
+
 
             db.rawQuery(sql, args).use { c ->
                 if (!c.moveToFirst()) return -1
                 programacionId = c.getInt(0)
-                if (c.getInt(1) <= 0) return -2
+                cuposDisponibles = c.getInt(1)
+                if (cuposDisponibles <= 0) return -2
                 if (c.getInt(2) == 1) return -3
-                esSocio = c.getInt(3) == 1
             }
+
+            val esSocio = cliente is Socio
 
             val cv = ContentValues().apply {
                 put("programacion_id", programacionId)
-                put("cliente_id", clienteId)
-                put("fecha_reserva", FechaDb.formatearFechaHora(Date()))
+                put("cliente_id", cliente.id)
+                put("fecha_hora", fechaHora)
                 put("estado", if (esSocio) "Autorizada" else "Pendiente de pago")
             }
             val reservaId = db.insert("reservas", null, cv)
