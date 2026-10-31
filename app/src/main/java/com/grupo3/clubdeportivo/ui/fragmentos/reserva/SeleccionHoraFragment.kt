@@ -1,6 +1,5 @@
 package com.grupo3.clubdeportivo.ui.fragmentos.reserva
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -15,6 +14,8 @@ import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelper
 import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
 import com.grupo3.clubdeportivo.clases.Modelos.Actividad
 import com.grupo3.clubdeportivo.clases.Modelos.Cliente
+import com.grupo3.clubdeportivo.clases.Modelos.Programacion
+import com.grupo3.clubdeportivo.clases.Modelos.Socio
 import com.grupo3.clubdeportivo.clases.Repositorios.ProgramacionRepo
 import com.grupo3.clubdeportivo.clases.Repositorios.ReservaRepo
 import com.grupo3.clubdeportivo.clases.Servicios.ProgramacionServ
@@ -35,10 +36,9 @@ class SeleccionHoraFragment : Fragment(R.layout.fragment_seleccion_hora) {
     private lateinit var rvProgramacion: RecyclerView
     private lateinit var txtSinProgramacion: TextView
     private lateinit var actividad: Actividad
-
     private lateinit var cliente: Cliente
-
     private lateinit var fecha: String
+    private var programacionSeleccionada: Programacion? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -72,16 +72,25 @@ class SeleccionHoraFragment : Fragment(R.layout.fragment_seleccion_hora) {
         }
 
         btnReservar.setOnClickListener {
+            if(programacionSeleccionada != null) {
+                viewModel.programacion = programacionSeleccionada
+            }
+
+            Toast.makeText(requireContext(), "Cupo disponible: ${viewModel.programacion?.cuposDisponibles}", Toast.LENGTH_SHORT).show()
+            servicio.generarReserva(actividad, cliente, fecha)
+
             (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
                 ComprobanteReservaFragment(),
                 EtapaReserva.CONFIRMACION_RESERVA
             )
         }
     }
+
     override fun onResume() {
         super.onResume()
         cargarProgramacion()
     }
+
     private fun cargarProgramacion() {
         dbHelper = DbHelperObject.get(requireContext())
         repoProgramacion = ProgramacionRepo(dbHelper)
@@ -91,15 +100,21 @@ class SeleccionHoraFragment : Fragment(R.layout.fragment_seleccion_hora) {
         val salida = SimpleDateFormat("yyyy-MM-dd", Locale.US)
         val fechaDb = entrada.parse(fecha)?.let { salida.format(it) } ?: return
         val programacion = servProgramacion.obtenerProgramacionPorActividad(actividad.id, fechaDb)
-        rvProgramacion.adapter = ProgramacionAdapter(programacion)
 
-        Toast.makeText(
-            requireContext(),
-            "Programaciones encontradas: ${programacion.size}",
-            Toast.LENGTH_LONG
-        ).show()
+        rvProgramacion.adapter = ProgramacionAdapter(programacion) {
+            seleccionada ->
+                programacionSeleccionada = seleccionada
 
-        if(programacion.isEmpty()) {
+            Toast.makeText(
+                requireContext(),
+                "Programación seleccionada: ${programacionSeleccionada?.cuposDisponibles}",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+
+
+
+        if (programacion.isEmpty()) {
             txtSinProgramacion.visibility = View.VISIBLE
             rvProgramacion.visibility = View.GONE
         } else {

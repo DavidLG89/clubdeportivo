@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.clases.Helpers.FechaDb
 import com.grupo3.clubdeportivo.ui.pagoReserva.PagoReservaActivity
 import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 import com.grupo3.clubdeportivo.utils.formatoPeso
@@ -21,15 +22,20 @@ class ComprobanteReservaFragment : Fragment(R.layout.fragment_comprobante_reserv
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        var fecha = viewModel.programacion?.fechaHora
+        var fechaFormateada = FechaDb.formatearHora(fecha)
+        var monto = viewModel.actividad.precio
+        var montoFormateado = monto.toInt().formatoPeso()
         // Imprime en pantalla datos de la reserva
         view.findViewById<TextView>(R.id.tvPrintDni).text = viewModel.cliente.dni
         view.findViewById<TextView>(R.id.tvPrintNombre).text = viewModel.nombreCompleto
         view.findViewById<TextView>(R.id.tvPrintTipoCliente).text = viewModel.tipoCliente
         view.findViewById<TextView>(R.id.tvPrintActividad).text = viewModel.actividad.nombre
         view.findViewById<TextView>(R.id.tvPrintFecha).text = viewModel.fecha
-        view.findViewById<TextView>(R.id.tvPrintHorario).text = viewModel.horaSeleccionada
-        view.findViewById<TextView>(R.id.tvPrintValor).text = viewModel.monto?.formatoPeso()
+        view.findViewById<TextView>(R.id.tvPrintHorario).text = fechaFormateada
+        view.findViewById<TextView>(R.id.tvPrintValor).text = montoFormateado
 
+        Toast.makeText(requireContext(), "Cupo restante: ${viewModel.programacion?.cuposDisponibles}", Toast.LENGTH_SHORT).show()
         val btnEnviar = view.findViewById<Button>(R.id.btnEnviar)
 
 
