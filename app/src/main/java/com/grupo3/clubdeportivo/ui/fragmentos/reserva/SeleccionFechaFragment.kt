@@ -22,7 +22,7 @@ class SeleccionFechaFragment : Fragment(R.layout.fragment_seleccion_fecha) {
         super.onViewCreated(view, savedInstanceState)
 
         // Imprime actividad seleccionada en pantalla
-        view.findViewById<TextView>(R.id.tvPrintActividad).text = viewModel.actividad?.nombre
+        view.findViewById<TextView>(R.id.tvPrintActividad).text = viewModel.actividad.nombre
 
 
         // Mostrar date picker
@@ -43,7 +43,7 @@ class SeleccionFechaFragment : Fragment(R.layout.fragment_seleccion_fecha) {
         val btnContinuar = view.findViewById<Button>(R.id.btnContinuar)
 
         btnContinuar.setOnClickListener {
-            if(viewModel.fecha.isNullOrEmpty()) {
+            if(viewModel.fecha.isEmpty()) {
                 Toast.makeText(requireContext(), "Debe seleccionar una fecha", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }

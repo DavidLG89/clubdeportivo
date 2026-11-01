@@ -22,17 +22,18 @@ class ComprobanteReservaFragment : Fragment(R.layout.fragment_comprobante_reserv
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        var fecha = viewModel.programacion?.fechaHora
-        var fechaFormateada = FechaDb.formatearHora(fecha)
-        var monto = viewModel.actividad.precio
-        var montoFormateado = monto.toInt().formatoPeso()
+        var fecha = viewModel.reserva?.fechaHora
+        var horaFormateada = FechaDb.formatearHora(fecha)
+        var fechaFormateada = FechaDb.formatearFecha(fecha)
+        var monto = viewModel.reserva?.actividad
+        var montoFormateado = monto?.toInt()?.formatoPeso()
         // Imprime en pantalla datos de la reserva
-        view.findViewById<TextView>(R.id.tvPrintDni).text = viewModel.cliente.dni
-        view.findViewById<TextView>(R.id.tvPrintNombre).text = viewModel.nombreCompleto
+        view.findViewById<TextView>(R.id.tvPrintDni).text = viewModel.reserva?.dni
+        view.findViewById<TextView>(R.id.tvPrintNombre).text = viewModel.nombreCompletoReserva
         view.findViewById<TextView>(R.id.tvPrintTipoCliente).text = viewModel.tipoCliente
-        view.findViewById<TextView>(R.id.tvPrintActividad).text = viewModel.actividad.nombre
-        view.findViewById<TextView>(R.id.tvPrintFecha).text = viewModel.fecha
-        view.findViewById<TextView>(R.id.tvPrintHorario).text = fechaFormateada
+        view.findViewById<TextView>(R.id.tvPrintActividad).text = viewModel.reserva?.actividad
+        view.findViewById<TextView>(R.id.tvPrintFecha).text = fechaFormateada
+        view.findViewById<TextView>(R.id.tvPrintHorario).text = horaFormateada
         view.findViewById<TextView>(R.id.tvPrintValor).text = montoFormateado
 
         Toast.makeText(requireContext(), "Cupo restante: ${viewModel.programacion?.cuposDisponibles}", Toast.LENGTH_SHORT).show()
@@ -65,10 +66,10 @@ class ComprobanteReservaFragment : Fragment(R.layout.fragment_comprobante_reserv
                 .setPositiveButton(resources.getString(R.string.paga)) { _, _ ->
                     Toast.makeText(requireContext(), "Redirigiendo a pago de reserva...", Toast.LENGTH_SHORT).show()
                     val intent = Intent(requireContext(), PagoReservaActivity::class.java).apply {
-                        putExtra(PagoReservaActivity.EXTRA_DNI, viewModel.cliente.dni)
-                        putExtra(PagoReservaActivity.EXTRA_NOMBRE, viewModel.nombreCompleto)
-                        putExtra(PagoReservaActivity.EXTRA_ACTIVIDAD, viewModel.actividad.nombre)
-                        putExtra(PagoReservaActivity.EXTRA_MONTO, viewModel.monto)
+                        putExtra(PagoReservaActivity.EXTRA_DNI, viewModel.reserva?.dni)
+                        putExtra(PagoReservaActivity.EXTRA_NOMBRE, viewModel.nombreCompletoReserva)
+                        putExtra(PagoReservaActivity.EXTRA_ACTIVIDAD, viewModel.reserva?.actividad)
+                        putExtra(PagoReservaActivity.EXTRA_MONTO, viewModel.reserva?.precio)
                     }
                     startActivity(intent)
                 }

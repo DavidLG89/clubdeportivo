@@ -15,9 +15,7 @@ import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
 import com.grupo3.clubdeportivo.clases.Modelos.Actividad
 import com.grupo3.clubdeportivo.clases.Modelos.Cliente
 import com.grupo3.clubdeportivo.clases.Modelos.Programacion
-import com.grupo3.clubdeportivo.clases.Modelos.Socio
 import com.grupo3.clubdeportivo.clases.Repositorios.ProgramacionRepo
-import com.grupo3.clubdeportivo.clases.Repositorios.ReservaRepo
 import com.grupo3.clubdeportivo.clases.Servicios.ProgramacionServ
 import com.grupo3.clubdeportivo.clases.Servicios.ReservaServ
 import com.grupo3.clubdeportivo.data.model.EtapaReserva
@@ -29,7 +27,6 @@ import java.util.Locale
 class SeleccionHoraFragment : Fragment(R.layout.fragment_seleccion_hora) {
     private val viewModel: ReservaViewModel by activityViewModels()
     private lateinit var dbHelper: DbHelper
-    private lateinit var repositorio: ReservaRepo
     private lateinit var servicio: ReservaServ
     private lateinit var repoProgramacion: ProgramacionRepo
     private lateinit var servProgramacion: ProgramacionServ
@@ -38,7 +35,7 @@ class SeleccionHoraFragment : Fragment(R.layout.fragment_seleccion_hora) {
     private lateinit var actividad: Actividad
     private lateinit var cliente: Cliente
     private lateinit var fecha: String
-    private var programacionSeleccionada: Programacion? = null
+    private var programacionSeleccionada = Programacion()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -72,12 +69,16 @@ class SeleccionHoraFragment : Fragment(R.layout.fragment_seleccion_hora) {
         }
 
         btnReservar.setOnClickListener {
-            if(programacionSeleccionada != null) {
-                viewModel.programacion = programacionSeleccionada
-            }
+
+            viewModel.programacion = programacionSeleccionada
+            Toast.makeText(requireContext(), "Actividad: ${programacionSeleccionada.actividad.nombre}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Actividad: ${programacionSeleccionada.fechaHora}", Toast.LENGTH_SHORT).show()
 
             Toast.makeText(requireContext(), "Cupo disponible: ${viewModel.programacion?.cuposDisponibles}", Toast.LENGTH_SHORT).show()
-            servicio.generarReserva(actividad, cliente, fecha)
+
+            val resultadoReserva = servicio.generarReserva(actividad, cliente, programacionSeleccionada.fechaHora)
+
+            viewModel.reserva = resultadoReserva.reserva
 
             (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
                 ComprobanteReservaFragment(),
@@ -101,18 +102,12 @@ class SeleccionHoraFragment : Fragment(R.layout.fragment_seleccion_hora) {
         val fechaDb = entrada.parse(fecha)?.let { salida.format(it) } ?: return
         val programacion = servProgramacion.obtenerProgramacionPorActividad(actividad.id, fechaDb)
 
+
+
         rvProgramacion.adapter = ProgramacionAdapter(programacion) {
             seleccionada ->
                 programacionSeleccionada = seleccionada
-
-            Toast.makeText(
-                requireContext(),
-                "Programación seleccionada: ${programacionSeleccionada?.cuposDisponibles}",
-                Toast.LENGTH_LONG
-            ).show()
         }
-
-
 
         if (programacion.isEmpty()) {
             txtSinProgramacion.visibility = View.VISIBLE
@@ -121,7 +116,5 @@ class SeleccionHoraFragment : Fragment(R.layout.fragment_seleccion_hora) {
             txtSinProgramacion.visibility = View.GONE
             rvProgramacion.visibility = View.VISIBLE
         }
-
-
     }
 }

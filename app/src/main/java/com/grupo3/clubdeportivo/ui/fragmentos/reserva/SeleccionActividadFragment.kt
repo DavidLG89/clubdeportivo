@@ -41,7 +41,7 @@ class SeleccionActividadFragment : Fragment(R.layout.fragment_seleccion_activida
 
         autoCompleteTextView.setAdapter(arrayAdapter)
 
-        viewModel.actividad?.let { actividad ->
+        viewModel.actividad.let { actividad ->
             actividadSeleccionada = actividad
             autoCompleteTextView.setText(actividad.nombre, false)
         }
@@ -55,7 +55,7 @@ class SeleccionActividadFragment : Fragment(R.layout.fragment_seleccion_activida
         val btnBuscar = view.findViewById<Button>(R.id.btnBuscar)
 
         btnBuscar.setOnClickListener {
-
+Toast.makeText(requireContext(), "Actividad seleccionada: ${actividadSeleccionada.nombre}", Toast.LENGTH_SHORT).show()
             if(actividadSeleccionada.nombre == "" ) {
                 Toast.makeText(requireContext(), "Debe seleccionar una actividad", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener

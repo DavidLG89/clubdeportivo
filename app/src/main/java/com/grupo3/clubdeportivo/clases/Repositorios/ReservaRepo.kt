@@ -125,21 +125,21 @@ class ReservaRepo(private val dbHelper: DbHelper) {
      * Devuelve: > 0 id de la reserva | -1 sin programación | -2 sin cupos
      *           -3 ya reservó | -99 error
      */
-    fun generarReservaRepo(actividad: Actividad, cliente: Cliente, fechaHora: String): Int {
+    fun generarReservaRepo(actividad: Actividad, cliente: Cliente, fechaHora: Date): Int {
         val db = dbHelper.writableDatabase
 
         db.beginTransaction()
         return try {
 
             val sql = """
-                SELECT p.id, p.cupos_disponibles,
-                       EXISTS(SELECT 1 FROM reservas WHERE programacion_id = p.id AND cliente_id = ?)
-                FROM programaciones p
-                WHERE p.actividad_id = ? AND p.fecha_hora = ?
-                LIMIT 1
+                 SELECT id, cupos_disponibles,
+                 EXISTS(SELECT 1 FROM reservas WHERE programacion_id = p.id AND cliente_id = ?)
+                    FROM programaciones
+                    WHERE actividad_id = ?
+                    AND fecha_hora = ?
+                    LIMIT 1;
             """
             val args = arrayOf(
-                cliente.id.toString(),
                 actividad.id.toString(), fechaHora
             )
 
@@ -147,7 +147,7 @@ class ReservaRepo(private val dbHelper: DbHelper) {
             var cuposDisponibles = 0
 
 
-            db.rawQuery(sql, args).use { c ->
+            db.rawQuery(sql, args as Array<out String?>?).use { c ->
                 if (!c.moveToFirst()) return -1
                 programacionId = c.getInt(0)
                 cuposDisponibles = c.getInt(1)
@@ -156,11 +156,12 @@ class ReservaRepo(private val dbHelper: DbHelper) {
             }
 
             val esSocio = cliente is Socio
+            val fechaHoraString = FechaDb.formatearFechaHora(fechaHora)
 
             val cv = ContentValues().apply {
                 put("programacion_id", programacionId)
                 put("cliente_id", cliente.id)
-                put("fecha_hora", fechaHora)
+                put("fecha_hora", fechaHoraString)
                 put("estado", if (esSocio) "Autorizada" else "Pendiente de pago")
             }
             val reservaId = db.insert("reservas", null, cv)
