@@ -21,7 +21,7 @@ class PagoCuotaServ(private val repo: PagosRepo) : IPago<CuotaDTO> {
         }
 
         val result = repo.registrarPagoCuota(
-            entidad.socio,
+            entidad,
             montoAPagar,
             idMedioPago
         )

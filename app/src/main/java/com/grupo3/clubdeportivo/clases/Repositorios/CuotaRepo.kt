@@ -27,17 +27,30 @@ class CuotaRepo(private val dbHelper: DbHelper) {
             val db = dbHelper.readableDatabase
             val cursor = db.rawQuery(query, arrayOf(dni))
             while (cursor.moveToNext()) {
+                val idCuotaVal = cursor.getInt(cursor.getColumnIndexOrThrow("id_cuota"))
+                val idSocioVal = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
+                val nombreVal = cursor.getString(cursor.getColumnIndexOrThrow("nombre")) ?: ""
+                val apellidoVal = cursor.getString(cursor.getColumnIndexOrThrow("apellido")) ?: ""
+                val dniVal = cursor.getString(cursor.getColumnIndexOrThrow("dni")) ?: ""
+                val estadoSocioVal = cursor.getInt(cursor.getColumnIndexOrThrow("estado_socio")) == 1
+                val montoVal = cursor.getDouble(cursor.getColumnIndexOrThrow("monto_cuota"))
                 val fechaStr = cursor.getString(cursor.getColumnIndexOrThrow("fecha_vencimiento")) ?: ""
+                val estadoCuotaVal = cursor.getString(cursor.getColumnIndexOrThrow("estado_cuota")) ?: ""
+
+                val socioObj = com.grupo3.clubdeportivo.clases.Modelos.Socio(
+                    nombreVal, apellidoVal, dniVal, "", true
+                ).apply {
+                    idSocio = idSocioVal
+                    estado = estadoSocioVal
+                }
 
                 val cuota = CuotaDTO().apply {
-                    socio?.nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre")) ?: ""
-                    socio?.apellido = cursor.getString(cursor.getColumnIndexOrThrow("apellido")) ?: ""
-                    socio?.dni = cursor.getString(cursor.getColumnIndexOrThrow("dni")) ?: ""
-                    socio?.idSocio = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
-                    estadoSocio = cursor.getInt(cursor.getColumnIndexOrThrow("estado_socio")) == 1
-                    montoCuota = cursor.getDouble(cursor.getColumnIndexOrThrow("monto_cuota"))
+                    idCuota = idCuotaVal
+                    socio = socioObj
+                    estadoSocio = estadoSocioVal
+                    montoCuota = montoVal
                     fechaVencimiento = FechaDb.parsearFecha(fechaStr) ?: Date()
-                    estadoCuota = cursor.getString(cursor.getColumnIndexOrThrow("estado_cuota")) ?: ""
+                    estadoCuota = estadoCuotaVal
                 }
                 list.add(cuota)
             }
@@ -46,6 +59,48 @@ class CuotaRepo(private val dbHelper: DbHelper) {
         } catch (e: Exception) {
             e.printStackTrace()
             list
+        }
+    }
+
+    fun registrarCuotasSocio(socioId: Int, montoCuota: Double): Boolean {
+        val db = dbHelper.writableDatabase
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        val calendar = java.util.Calendar.getInstance()
+
+        return try {
+            db.beginTransaction()
+            try {
+                // 1. Cuota de inscripción (vencimiento hoy)
+                val fechaInscripcion = sdf.format(calendar.time)
+                val cvInscripcion = android.content.ContentValues().apply {
+                    put("socio_id", socioId)
+                    put("monto_cuota", montoCuota)
+                    put("fecha_vencimiento", fechaInscripcion)
+                    put("estado_cuota", "Pendiente")
+                }
+                db.insert("cuotas", null, cvInscripcion)
+
+                // 2. 6 cuotas adicionales con vencimientos cada 30 días contados desde hoy
+                for (i in 1..6) {
+                    calendar.add(java.util.Calendar.DAY_OF_YEAR, 30)
+                    val fechaVenc = sdf.format(calendar.time)
+                    val cvMensual = android.content.ContentValues().apply {
+                        put("socio_id", socioId)
+                        put("monto_cuota", montoCuota)
+                        put("fecha_vencimiento", fechaVenc)
+                        put("estado_cuota", "Pendiente")
+                    }
+                    db.insert("cuotas", null, cvMensual)
+                }
+
+                db.setTransactionSuccessful()
+                true
+            } finally {
+                db.endTransaction()
+            }
+        } catch (e: Exception) {
+            android.util.Log.e("CuotaRepo", "Error al registrar cuotas de socio", e)
+            false
         }
     }
 }
