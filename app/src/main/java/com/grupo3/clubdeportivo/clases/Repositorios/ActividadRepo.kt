@@ -17,7 +17,7 @@ class ActividadRepo(private val dbHelper: DbHelper) : IListado<Actividad> {
             while (cursor.moveToNext()) {
                 val actividad = Actividad().apply {
                     id = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
-                    nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre")) ?: ""
+                    nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre"))
                     precio = cursor.getDouble(cursor.getColumnIndexOrThrow("precio"))
                 }
                 actividades.add(actividad)

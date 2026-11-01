@@ -61,7 +61,7 @@ class ReservaServ(private val repo: ReservaRepo) {
     fun generarReserva(
         actividad: Actividad,
         cliente: Cliente,
-        fecha: String
+        fecha: Date
     ): ResultadoReserva {
         if (cliente is Socio && !cliente.estaActivo()) {
             return ResultadoReserva(false, "El socio no está activo. Debe regularizar sus cuotas.", null)
@@ -71,17 +71,6 @@ class ReservaServ(private val repo: ReservaRepo) {
             return ResultadoReserva(false, "El cliente no tiene apto físico. No puede reservar.", null)
         }
 
-        if (fecha == "") {
-            return ResultadoReserva(false, "No se encontró programación.", null)
-        }
-
-        if (fecha == "") {
-            return ResultadoReserva(false, "Actividad no está vigente.", null)
-        }
-
-        if (fecha == "") {
-            return ResultadoReserva(false, "Actividad no tiene cupos disponibles.", null)
-        }
 
         val reservaBuscada = buscarReservaExistentePorDniYActividad(cliente.dni, actividad.id)
 

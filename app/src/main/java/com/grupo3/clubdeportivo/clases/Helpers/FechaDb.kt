@@ -6,9 +6,19 @@ import java.util.Locale
 
 object FechaDb {
     private const val PATRON = "yyyy-MM-dd HH:mm:ss"
+    private const val PATRONHORA = "HH:mm"
+    private const val PATRONFECHA = "dd/MM/yyyy"
 
-    fun formatearFechaHora(fecha: Date) : String {
+    fun formatearFechaHora(fecha: Date?) : String {
         return SimpleDateFormat(PATRON, Locale.US).format(fecha)
+    }
+
+    fun formatearHora(fecha: Date?) : String {
+        return SimpleDateFormat(PATRONHORA, Locale.US).format(fecha)
+    }
+
+    fun formatearFecha(fecha: Date?) : String {
+        return SimpleDateFormat(PATRONFECHA, Locale.US).format(fecha)
     }
 
     fun parsearFecha(texto: String) : Date? =

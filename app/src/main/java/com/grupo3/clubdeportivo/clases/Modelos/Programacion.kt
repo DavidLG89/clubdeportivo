@@ -6,7 +6,7 @@ import java.util.Locale
 
 class Programacion {
     var id: Int = 0
-    var actividad: Actividad? = null
+    var actividad = Actividad()
     var fechaHora: Date = Date()
     var cuposDisponibles: Int = 0
 

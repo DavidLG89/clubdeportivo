@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.grupo3.clubdeportivo.clases.DTOS.CuotaDTO
+import com.grupo3.clubdeportivo.clases.Modelos.Programacion
 import com.grupo3.clubdeportivo.data.model.EtapaPago
 
 class PagoCuotaViewModel : ViewModel() {

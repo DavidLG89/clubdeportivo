@@ -8,12 +8,12 @@ import java.util.Locale
 
 class ProgramacionRepo(private val dbHelper: DbHelper) {
 
-    fun buscarProgramacionPorActividad(idActividad: Int, fecha: String): List<Programacion> {
+    fun buscarProgramacionPorActividadYFecha(idActividad: Int, fecha: String): List<Programacion> {
         val listaProgramacion = mutableListOf<Programacion>()
         val db = dbHelper.readableDatabase
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
 
-        val query = "SELECT a.id AS id_act, p.fecha_hora, p.id AS id_prog, p.cupos_disponibles" +
+        val query = "SELECT a.id AS id_act, a.nombre, a.precio, p.fecha_hora, p.id AS id_prog, p.cupos_disponibles" +
                 " FROM programaciones p INNER JOIN actividades a ON a.id = p.actividad_id " +
                 " WHERE a.id = ? AND date(p.fecha_hora) = ?"+
                 " ORDER BY p.fecha_hora ASC"
@@ -27,6 +27,9 @@ class ProgramacionRepo(private val dbHelper: DbHelper) {
 
                 val programacion = Programacion().apply {
                     id = cursor.getInt(cursor.getColumnIndexOrThrow("id_prog"))
+                    actividad.id = cursor.getInt(cursor.getColumnIndexOrThrow("id_act"))
+                    actividad.nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre"))
+                    actividad.precio = cursor.getDouble(cursor.getColumnIndexOrThrow("precio"))
                     fechaHora = fechaDate
                     cuposDisponibles = cursor.getInt(cursor.getColumnIndexOrThrow("cupos_disponibles"))
                 }
