@@ -1,6 +1,7 @@
 package com.grupo3.clubdeportivo.clases.Repositorios
 
 import android.content.ContentValues
+import android.util.Log
 import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelper
 import com.grupo3.clubdeportivo.clases.DTOS.ReservaDTO
 import com.grupo3.clubdeportivo.clases.Helpers.FechaDb
@@ -132,22 +133,22 @@ class ReservaRepo(private val dbHelper: DbHelper) {
         return try {
 
             val sql = """
-                 SELECT id, cupos_disponibles,
-                 EXISTS(SELECT 1 FROM reservas WHERE programacion_id = p.id AND cliente_id = ?)
-                    FROM programaciones
-                    WHERE actividad_id = ?
-                    AND fecha_hora = ?
+                 SELECT p.id, p.cupos_disponibles,
+                 EXISTS(SELECT 1 FROM reservas r WHERE r.programacion_id = p.id AND cliente_id = ?)
+                    FROM programaciones p
+                    WHERE p.actividad_id = ?
+                    AND p.fecha_hora = ?
                     LIMIT 1;
             """
             val args = arrayOf(
-                actividad.id.toString(), fechaHora
+                cliente.idCliente.toString(), actividad.id.toString(), FechaDb.formatearFechaHora(fechaHora)
             )
 
             var programacionId = 0
             var cuposDisponibles = 0
 
 
-            db.rawQuery(sql, args as Array<out String?>?).use { c ->
+            db.rawQuery(sql, args).use { c ->
                 if (!c.moveToFirst()) return -1
                 programacionId = c.getInt(0)
                 cuposDisponibles = c.getInt(1)
@@ -156,12 +157,12 @@ class ReservaRepo(private val dbHelper: DbHelper) {
             }
 
             val esSocio = cliente is Socio
-            val fechaHoraString = FechaDb.formatearFechaHora(fechaHora)
+            val fechaHora = FechaDb.formatearFechaHora(Date())
 
             val cv = ContentValues().apply {
                 put("programacion_id", programacionId)
-                put("cliente_id", cliente.id)
-                put("fecha_hora", fechaHoraString)
+                put("cliente_id", cliente.idCliente)
+                put("fecha_reserva", fechaHora)
                 put("estado", if (esSocio) "Autorizada" else "Pendiente de pago")
             }
             val reservaId = db.insert("reservas", null, cv)
@@ -169,7 +170,7 @@ class ReservaRepo(private val dbHelper: DbHelper) {
 
             if (esSocio) {
                 db.execSQL(
-                    "UPDATE programaciones SET cupos_disponibles = cupos_disponibles - 1 WHERE id = ?",
+                    "UPDATE programaciones SET cupos_disponibles = (cupos_disponibles - 1) WHERE id = ?",
                     arrayOf(programacionId.toString())
                 )
             }
@@ -177,7 +178,7 @@ class ReservaRepo(private val dbHelper: DbHelper) {
             db.setTransactionSuccessful()
             reservaId.toInt()
         } catch (e: Exception) {
-            e.printStackTrace()
+            Log.e("Reserva", "Error al generar reserva: cliente=${cliente.idCliente} actividad=${actividad.id}", e)
             -99
         } finally {
             db.endTransaction()

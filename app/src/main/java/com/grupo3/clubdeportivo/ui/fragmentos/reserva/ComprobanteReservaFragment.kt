@@ -21,20 +21,24 @@ class ComprobanteReservaFragment : Fragment(R.layout.fragment_comprobante_reserv
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val reserva = viewModel.reserva ?: run {
+            Toast.makeText(requireContext(), "No hay reserva para mostrar", Toast.LENGTH_SHORT).show()
+            return
+        }
+        val fecha = reserva.fechaHora
+        val monto = if (reserva.estadoReserva == "Autorizada") "Sin cargo"
+        else reserva.precio.toInt().formatoPeso()
+        val idFormateado = "%03d".format(reserva.idReserva)
 
-        var fecha = viewModel.reserva?.fechaHora
-        var horaFormateada = FechaDb.formatearHora(fecha)
-        var fechaFormateada = FechaDb.formatearFecha(fecha)
-        var monto = viewModel.reserva?.actividad
-        var montoFormateado = monto?.toInt()?.formatoPeso()
         // Imprime en pantalla datos de la reserva
-        view.findViewById<TextView>(R.id.tvPrintDni).text = viewModel.reserva?.dni
+        view.findViewById<TextView>(R.id.tvEditIdReserva).text = idFormateado
+        view.findViewById<TextView>(R.id.tvPrintDni).text = reserva.dni
         view.findViewById<TextView>(R.id.tvPrintNombre).text = viewModel.nombreCompletoReserva
         view.findViewById<TextView>(R.id.tvPrintTipoCliente).text = viewModel.tipoCliente
-        view.findViewById<TextView>(R.id.tvPrintActividad).text = viewModel.reserva?.actividad
-        view.findViewById<TextView>(R.id.tvPrintFecha).text = fechaFormateada
-        view.findViewById<TextView>(R.id.tvPrintHorario).text = horaFormateada
-        view.findViewById<TextView>(R.id.tvPrintValor).text = montoFormateado
+        view.findViewById<TextView>(R.id.tvPrintActividad).text = reserva.actividad
+        view.findViewById<TextView>(R.id.tvPrintFecha).text = FechaDb.formatearFecha(fecha)
+        view.findViewById<TextView>(R.id.tvPrintHorario).text = FechaDb.formatearHora(fecha)
+        view.findViewById<TextView>(R.id.tvPrintValor).text = monto
 
         Toast.makeText(requireContext(), "Cupo restante: ${viewModel.programacion?.cuposDisponibles}", Toast.LENGTH_SHORT).show()
         val btnEnviar = view.findViewById<Button>(R.id.btnEnviar)
