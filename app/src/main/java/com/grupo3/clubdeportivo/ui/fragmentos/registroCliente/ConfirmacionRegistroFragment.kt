@@ -29,6 +29,7 @@ class ConfirmacionRegistroFragment : Fragment(R.layout.fragment_confirmacion_reg
         tvNombre?.text = getString(R.string.registro_exitoso_cliente)
 
         if (esSocio) {
+            tvNombre?.text = getString(R.string.registro_exitoso_cliente)
             tvDetalle?.text = "SOCIO: ${viewModel.apellido}, ${viewModel.nombre}"
             btnAccion?.text = getString(R.string.continuar)
             btnAccion?.setOnClickListener {
@@ -38,7 +39,8 @@ class ConfirmacionRegistroFragment : Fragment(R.layout.fragment_confirmacion_reg
                 )
             }
         } else {
-            tvDetalle?.text = "NO SOCIO: ${viewModel.apellido}, ${viewModel.nombre}"
+            tvNombre?.text = "Se registro como no socio"
+            tvDetalle?.text = "Cliente: ${viewModel.apellido}, ${viewModel.nombre}"
             btnAccion?.text = getString(R.string.volver)
             btnAccion?.setOnClickListener {
                 val intent = Intent(requireContext(), MenuPrincipalActivity::class.java)

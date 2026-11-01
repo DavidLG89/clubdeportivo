@@ -24,45 +24,45 @@ class ClienteRepo(private val dbHelper: DbHelper) {
             esSocio: Boolean
         ): Int {
             val db = dbHelper.writableDatabase
-            db.transaction {
+            db.beginTransaction()
+            try {
+                // El chequeo va DENTRO de la transacción
+                val existe = db.rawQuery("SELECT 1 FROM personas WHERE dni = ?", arrayOf(dni))
+                    .use { it.moveToFirst() }
+                if (existe) return DNI_EXISTENTE
 
-                try {
-                    // El chequeo va DENTRO de la transacción
-                    val existe = rawQuery("SELECT 1 FROM personas WHERE dni = ?", arrayOf(dni))
-                        .use { it.moveToFirst() }
-                    if (existe) return DNI_EXISTENTE
-
-                    val cvPersona = ContentValues().apply {
-                        put("nombre", nombre)
-                        put("apellido", apellido)
-                        put("dni", dni)
-                        put("email", email)
-                    }
-                    val personaId = insert("personas", null, cvPersona)
-                    if (personaId == -1L) throw Exception("Error al insertar persona")
-
-                    val cvCliente = ContentValues().apply {
-                        put("persona_id", personaId)
-                        put("apto_fisico", if (aptoFisico) 1 else 0)
-                    }
-                    val clienteId = insert("clientes", null, cvCliente)
-                    if (clienteId == -1L) throw Exception("Error al insertar cliente")
-
-                    if (!esSocio) {
-                        val cvNoSocio = ContentValues().apply {
-                            put("cliente_id", clienteId)
-                            put("acceso_diario", 1)
-                        }
-                        if (insert("no_socios", null, cvNoSocio) == -1L)
-                            throw Exception("Error al insertar no socio")
-                    }
-
-                    return clienteId.toInt()
-                } catch (e: Exception) {
-                    Log.e("ClienteRepo", "No se pudo registrar el cliente", e)
-                    return ERROR
-                } finally {
+                val cvPersona = ContentValues().apply {
+                    put("nombre", nombre)
+                    put("apellido", apellido)
+                    put("dni", dni)
+                    put("email", email)
                 }
+                val personaId = db.insert("personas", null, cvPersona)
+                if (personaId == -1L) throw Exception("Error al insertar persona")
+
+                val cvCliente = ContentValues().apply {
+                    put("persona_id", personaId)
+                    put("apto_fisico", if (aptoFisico) 1 else 0)
+                }
+                val clienteId = db.insert("clientes", null, cvCliente)
+                if (clienteId == -1L) throw Exception("Error al insertar cliente")
+
+                if (!esSocio) {
+                    val cvNoSocio = ContentValues().apply {
+                        put("cliente_id", clienteId)
+                        put("acceso_diario", 1)
+                    }
+                    if (db.insert("no_socios", null, cvNoSocio) == -1L)
+                        throw Exception("Error al insertar no socio")
+                }
+
+                db.setTransactionSuccessful()
+                return clienteId.toInt()
+            } catch (e: Exception) {
+                Log.e("ClienteRepo", "No se pudo registrar el cliente", e)
+                return ERROR
+            } finally {
+                db.endTransaction()
             }
         }
 
@@ -149,15 +149,53 @@ class ClienteRepo(private val dbHelper: DbHelper) {
     }
 
    fun asignarANoSocio(cliente: Cliente): Int {
-      val db = dbHelper.writableDatabase
-          val valores = ContentValues().apply {
-              put("cliente_id", cliente.idCliente)
-              put("acceso_diario", 1)
-          }
-
-       return dbHelper.writableDatabase
-           .insertOrThrow("no_socios", null, valores)
-           .toInt()
+      return registrarNoSocio(cliente.idCliente)
    }
+
+    fun registrarSocio(clienteId: Int): Int {
+        val db = dbHelper.writableDatabase
+        return try {
+            val query = "SELECT id FROM socios WHERE cliente_id = ?"
+            val cursor = db.rawQuery(query, arrayOf(clienteId.toString()))
+            if (cursor.moveToFirst()) {
+                val idSocio = cursor.getInt(0)
+                cursor.close()
+                return idSocio
+            }
+            cursor.close()
+
+            val valores = ContentValues().apply {
+                put("cliente_id", clienteId)
+                put("estado", 1)
+            }
+            db.insert("socios", null, valores).toInt()
+        } catch (e: Exception) {
+            Log.e("ClienteRepo", "Error al registrar socio para clienteId $clienteId", e)
+            -1
+        }
+    }
+
+    fun registrarNoSocio(clienteId: Int): Int {
+        val db = dbHelper.writableDatabase
+        return try {
+            val query = "SELECT id FROM no_socios WHERE cliente_id = ?"
+            val cursor = db.rawQuery(query, arrayOf(clienteId.toString()))
+            if (cursor.moveToFirst()) {
+                val idNoSocio = cursor.getInt(0)
+                cursor.close()
+                return idNoSocio
+            }
+            cursor.close()
+
+            val valores = ContentValues().apply {
+                put("cliente_id", clienteId)
+                put("acceso_diario", 1)
+            }
+            db.insert("no_socios", null, valores).toInt()
+        } catch (e: Exception) {
+            Log.e("ClienteRepo", "Error al registrar no socio para clienteId $clienteId", e)
+            -1
+        }
+    }
 
 }

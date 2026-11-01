@@ -9,7 +9,6 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -17,7 +16,6 @@ import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
 import com.grupo3.clubdeportivo.clases.Modelos.Cliente
-import com.grupo3.clubdeportivo.clases.Modelos.Cuota
 import com.grupo3.clubdeportivo.clases.Repositorios.ClienteRepo
 import com.grupo3.clubdeportivo.clases.Servicios.ClienteServ
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
@@ -55,46 +53,47 @@ class AceptacionContratoActivity : AppCompatActivity() {
         btnSi.setOnClickListener {
             cardDecision.visibility = View.GONE
             linearMensaje.visibility = View.VISIBLE
-            mensaje.setText(R.string.contrato_aceptado_por_el_cliente)
+            iconoExito.visibility = View.VISIBLE
+            iconoRechazo.visibility = View.GONE
 
             val nombre = intent.getStringExtra("EXTRA_NOMBRE") ?: ""
             val apellido = intent.getStringExtra("EXTRA_APELLIDO") ?: ""
             val dni = intent.getStringExtra("EXTRA_DNI") ?: ""
             val email = intent.getStringExtra("EXTRA_EMAIL") ?: ""
-            val esSocio = intent.getBooleanExtra("EXTRA_ES_SOCIO", false)
             val aptoFisico = intent.getBooleanExtra("EXTRA_APTO_FISICO", false)
             val montoCuotaStr = intent.getStringExtra("EXTRA_MONTO_CUOTA") ?: "10000"
 
-            Log.d("REGISTRO_CLIENTE", "AceptacionContrato: Nombre=$nombre, DNI=$dni, EsSocio=$esSocio")
+            Log.d("REGISTRO_CLIENTE", "AceptacionContrato Acepta: Nombre=$nombre, DNI=$dni")
 
             if (dni.isNotEmpty()) {
                 val clienteRepo = ClienteRepo(dbHelper)
                 val clienteServ = ClienteServ(clienteRepo)
+                val cuotaRepo = com.grupo3.clubdeportivo.clases.Repositorios.CuotaRepo(dbHelper)
 
-                // 1. Buscar si el cliente ya fue guardado en el paso de FormRegistroCliente
                 var clienteTarget: Cliente? = clienteServ.buscarClientePorDni(dni)
 
-                // 2. Si no fue guardado previamente, intentar registrarlo ahora
                 if (clienteTarget == null && nombre.isNotEmpty()) {
                     val clienteNuevo = Cliente(0, nombre, apellido, dni, email, aptoFisico)
-                    val resReg = clienteServ.realizarRegistro(clienteNuevo, esSocio)
+                    val resReg = clienteServ.realizarRegistro(clienteNuevo, true)
                     if (resReg.ok) {
                         clienteTarget = resReg.cliente
                     }
                 }
 
-                // 3. Si es socio y tenemos el cliente guardado, formalizar su inscripción y cuota
-                if (esSocio && clienteTarget != null) {
-                    val montoCuota = montoCuotaStr.toDoubleOrNull() ?: 10000.0
-                    val cuota = Cuota(montoCuota = montoCuota)
-
-                } else if (clienteTarget != null) {
-                    Toast.makeText(this, "Cliente no socio guardado con éxito en la base de datos", Toast.LENGTH_LONG).show()
+                if (clienteTarget != null) {
+                    val idSocio = clienteServ.registrarSocio(clienteTarget.idCliente)
+                    if (idSocio > 0) {
+                        val montoCuota = montoCuotaStr.toDoubleOrNull() ?: 10000.0
+                        cuotaRepo.registrarCuotasSocio(idSocio, montoCuota)
+                        mensaje.text = "Contrato aceptado por el cliente.\n\nSe registró como socio."
+                    } else {
+                        mensaje.text = "Ocurrió un error al registrar la condición de socio."
+                    }
                 } else {
-                    Toast.makeText(this, "Error al registrar cliente. Verifique si el DNI $dni ya existe.", Toast.LENGTH_LONG).show()
+                    mensaje.text = "Error al registrar cliente. Verifique si el DNI $dni ya existe."
                 }
             } else {
-                Toast.makeText(this, "Error: No se recibió DNI del cliente.", Toast.LENGTH_LONG).show()
+                mensaje.text = "Error: No se recibió DNI del cliente."
             }
         }
 
@@ -102,9 +101,40 @@ class AceptacionContratoActivity : AppCompatActivity() {
         btnNo.setOnClickListener {
             cardDecision.visibility = View.GONE
             linearMensaje.visibility = View.VISIBLE
-            mensaje.setText(R.string.contrato_no_aceptado_por_el_cliente)
             iconoExito.visibility = View.GONE
             iconoRechazo.visibility = View.VISIBLE
+
+            val nombre = intent.getStringExtra("EXTRA_NOMBRE") ?: ""
+            val apellido = intent.getStringExtra("EXTRA_APELLIDO") ?: ""
+            val dni = intent.getStringExtra("EXTRA_DNI") ?: ""
+            val email = intent.getStringExtra("EXTRA_EMAIL") ?: ""
+            val aptoFisico = intent.getBooleanExtra("EXTRA_APTO_FISICO", false)
+
+            Log.d("REGISTRO_CLIENTE", "AceptacionContrato Rechaza: Nombre=$nombre, DNI=$dni")
+
+            if (dni.isNotEmpty()) {
+                val clienteRepo = ClienteRepo(dbHelper)
+                val clienteServ = ClienteServ(clienteRepo)
+
+                var clienteTarget: Cliente? = clienteServ.buscarClientePorDni(dni)
+
+                if (clienteTarget == null && nombre.isNotEmpty()) {
+                    val clienteNuevo = Cliente(0, nombre, apellido, dni, email, aptoFisico)
+                    val resReg = clienteServ.realizarRegistro(clienteNuevo, false)
+                    if (resReg.ok) {
+                        clienteTarget = resReg.cliente
+                    }
+                }
+
+                if (clienteTarget != null) {
+                    clienteServ.registrarNoSocio(clienteTarget.idCliente)
+                    mensaje.text = "Contrato NO ha sido aceptado por el cliente.\n\nSe registró como no socio."
+                } else {
+                    mensaje.text = "Error al registrar cliente. Verifique si el DNI $dni ya existe."
+                }
+            } else {
+                mensaje.text = "Error: No se recibió DNI del cliente."
+            }
         }
 
         btnVolver.setOnClickListener {

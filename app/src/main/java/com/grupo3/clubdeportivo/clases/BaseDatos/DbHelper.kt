@@ -213,7 +213,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
         db.execSQL(
             """
                     INSERT INTO metodos_pago(id, nombre) VALUES
-                    (1, 'Efectivo'), (2, 'Cheque'), (3, 'Tarjeta crédito'), (4, 'Mercado Pago');
+                    (1, 'Efectivo'), (2, 'Transferencia'), (3, 'Tarjeta Crédito'), (4, 'Tarjeta Dédito'), (5, 'MercadoPago');
                 """.trimIndent()
         )
 
