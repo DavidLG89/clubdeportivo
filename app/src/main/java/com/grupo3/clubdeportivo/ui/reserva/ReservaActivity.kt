@@ -3,32 +3,42 @@ package com.grupo3.clubdeportivo.ui.reserva
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
+import com.grupo3.clubdeportivo.clases.Modelos.NoSocio
+import com.grupo3.clubdeportivo.clases.Modelos.Socio
+import com.grupo3.clubdeportivo.clases.Repositorios.ClienteRepo
 import com.grupo3.clubdeportivo.data.model.EtapaReserva
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
-import com.grupo3.clubdeportivo.ui.componentes.BarraEstadoHost
-import com.grupo3.clubdeportivo.ui.componentes.ListenerCompartido
+import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
+import com.grupo3.clubdeportivo.ui.interfaces.ListenerDni
 import com.grupo3.clubdeportivo.ui.componentes.CompBarraEstadoReserva
-import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.FragmBusquedaDni
-import com.grupo3.clubdeportivo.ui.fragmentos.reserva.FragmCompReserva
-import com.grupo3.clubdeportivo.ui.fragmentos.reserva.FragmSeleccionActividad
-import com.grupo3.clubdeportivo.ui.fragmentos.reserva.FragmSeleccionFecha
-import com.grupo3.clubdeportivo.ui.fragmentos.reserva.FragmSeleccionHora
-import com.grupo3.clubdeportivo.ui.fragmentos.reserva.FragmVerificacionCliente
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.BusquedaDniFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.reserva.ComprobanteReservaFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.reserva.SeleccionActividadFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.reserva.SeleccionFechaFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.reserva.SeleccionHoraFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.reserva.VerificacionClienteFragment
+import com.grupo3.clubdeportivo.clases.Servicios.ClienteServ
 
-
-class ReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, ListenerCompartido {
+class ReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, ListenerDni {
 
     private val viewModel: ReservaViewModel by viewModels()
     private lateinit var stepBar: CompBarraEstadoReserva
+    private val dbHelper = DbHelperObject.get(this)
+    private val repositorio =  ClienteRepo(dbHelper)
+    private val servicio = ClienteServ(repositorio)
+
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,12 +60,12 @@ class ReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, List
         // Reconoce el fragmento actual al volver con el botón del celular
         supportFragmentManager.addOnBackStackChangedListener {
             when (supportFragmentManager.findFragmentById(R.id.fragmentContainer)) {
-                is FragmBusquedaDni -> viewModel.irAPaso(EtapaReserva.BUSQUEDA_DNI)
-                is FragmVerificacionCliente -> viewModel.irAPaso(EtapaReserva.VERIFICACION)
-                is FragmSeleccionActividad -> viewModel.irAPaso(EtapaReserva.SELECCION_ACTIVIDAD)
-                is FragmSeleccionFecha -> viewModel.irAPaso(EtapaReserva.SELECCION_FECHA)
-                is FragmSeleccionHora -> viewModel.irAPaso(EtapaReserva.SELECCION_HORA)
-                is FragmCompReserva -> viewModel.irAPaso(EtapaReserva.CONFIRMACION_RESERVA)
+                is BusquedaDniFragment -> viewModel.irAPaso(EtapaReserva.BUSQUEDA_DNI)
+                is VerificacionClienteFragment -> viewModel.irAPaso(EtapaReserva.VERIFICACION)
+                is SeleccionActividadFragment -> viewModel.irAPaso(EtapaReserva.SELECCION_ACTIVIDAD)
+                is SeleccionFechaFragment -> viewModel.irAPaso(EtapaReserva.SELECCION_FECHA)
+                is SeleccionHoraFragment -> viewModel.irAPaso(EtapaReserva.SELECCION_HORA)
+                is ComprobanteReservaFragment -> viewModel.irAPaso(EtapaReserva.CONFIRMACION_RESERVA)
             }
         }
         // Botón Volver regresa al fragmento anterior
@@ -71,7 +81,7 @@ class ReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, List
 
         // Carga el primer fragmento al iniciar la activity
         if (savedInstanceState == null) {
-            irA(FragmBusquedaDni(), EtapaReserva.BUSQUEDA_DNI)
+            irA(BusquedaDniFragment(), EtapaReserva.BUSQUEDA_DNI)
         } // Navegación en footer
         findViewById<LinearLayout>(R.id.navInicio)?.setOnClickListener {
             val intent = Intent(this, MenuPrincipalActivity::class.java)
@@ -104,11 +114,29 @@ class ReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, List
 
     // Si el dni está validado, continúa al paso siguiente y guarda el dato en viewModel
     override fun onDniValidado(dni: String) {
-        viewModel.dni = dni
+
+        val cliente = servicio.buscarClientePorDni(dni)
+
+        if(cliente == null) {
+            Toast.makeText(this, "Cliente no encontrado", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        viewModel.cliente = cliente
+
+        if(cliente is Socio) {
+            viewModel.tipoCliente = "Socio"
+        } else if(cliente is NoSocio) {
+            viewModel.tipoCliente = "No Socio"
+        }
+
         irA(
-            FragmVerificacionCliente(),
+            VerificacionClienteFragment(),
             EtapaReserva.VERIFICACION
 
         )
     }
+
+    override val colorCard = R.color.color_boton_principal2
+    override val colorBarraEstado = R.color.color_boton_principal2
 }

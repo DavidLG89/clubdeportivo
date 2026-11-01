@@ -142,6 +142,7 @@
             android:background="@color/color_boton_principal" />
 
         <LinearLayout
+            android:id="@+id/layoutIdReserva"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp">
@@ -191,7 +192,7 @@
                 android:layout_gravity="left"
                 android:layout_marginTop="6dp"
                 android:layout_marginStart="10dp"
-                android:text="Fútbol"
+                android:text=""
                 android:textColor="@color/black"
                 android:textSize="14sp" />
         </LinearLayout>
