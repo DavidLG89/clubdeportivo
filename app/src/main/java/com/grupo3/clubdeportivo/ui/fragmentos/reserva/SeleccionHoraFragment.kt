@@ -16,6 +16,7 @@ import com.grupo3.clubdeportivo.clases.Modelos.Actividad
 import com.grupo3.clubdeportivo.clases.Modelos.Cliente
 import com.grupo3.clubdeportivo.clases.Modelos.Programacion
 import com.grupo3.clubdeportivo.clases.Repositorios.ProgramacionRepo
+import com.grupo3.clubdeportivo.clases.Repositorios.ReservaRepo
 import com.grupo3.clubdeportivo.clases.Servicios.ProgramacionServ
 import com.grupo3.clubdeportivo.clases.Servicios.ReservaServ
 import com.grupo3.clubdeportivo.data.model.EtapaReserva
@@ -27,6 +28,7 @@ import java.util.Locale
 class SeleccionHoraFragment : Fragment(R.layout.fragment_seleccion_hora) {
     private val viewModel: ReservaViewModel by activityViewModels()
     private lateinit var dbHelper: DbHelper
+    private lateinit var repositorio: ReservaRepo
     private lateinit var servicio: ReservaServ
     private lateinit var repoProgramacion: ProgramacionRepo
     private lateinit var servProgramacion: ProgramacionServ
@@ -69,6 +71,9 @@ class SeleccionHoraFragment : Fragment(R.layout.fragment_seleccion_hora) {
         }
 
         btnReservar.setOnClickListener {
+            dbHelper = DbHelperObject.get(requireContext())
+            repositorio = ReservaRepo(dbHelper)
+            servicio = ReservaServ(repositorio)
 
             viewModel.programacion = programacionSeleccionada
             Toast.makeText(requireContext(), "Actividad: ${programacionSeleccionada.actividad.nombre}", Toast.LENGTH_SHORT).show()

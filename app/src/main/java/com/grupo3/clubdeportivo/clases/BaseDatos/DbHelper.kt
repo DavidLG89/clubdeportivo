@@ -4,7 +4,13 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", null, 4) {
+class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", null, 5) {
+
+    override fun onConfigure(db: SQLiteDatabase) {
+        super.onConfigure(db)
+        db.setForeignKeyConstraintsEnabled(true)
+    }
+
     override fun onCreate(db: SQLiteDatabase) {
 
         crearTablas(db)
@@ -21,7 +27,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
             "carnet", "socios", "no_socios", "usuarios", "clientes", "personas", "roles"
         )
 
-        tablas.forEach { tabla -> db.execSQL("DROP TABLE IF EXISTS $tabla") }
+        tablas.forEach { tabla -> db.execSQL("DROP TABLE IF EXISTS ${tabla}") }
         onCreate(db)
     }
 
@@ -131,7 +137,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
 
         db.execSQL(
             """
-                CREATE TABLE IF NOT EXISTS actividades(
+                CREATE TABLE actividades(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     nombre TEXT NOT NULL,
                     precio REAL

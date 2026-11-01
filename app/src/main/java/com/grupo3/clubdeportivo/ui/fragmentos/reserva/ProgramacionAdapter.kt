@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.grupo3.clubdeportivo.clases.Helpers.FechaDb
 import com.grupo3.clubdeportivo.clases.Modelos.Programacion
 
 class ProgramacionAdapter(private val programaciones: List<Programacion>, private val onSeleccionar: (Programacion) -> Unit) : RecyclerView.Adapter<ProgramacionAdapter.ProgramacionViewHolder>() {
@@ -34,7 +35,8 @@ class ProgramacionAdapter(private val programaciones: List<Programacion>, privat
     ) {
         val programacion = programaciones[position]
 
-        holder.txtHora.text = programacion.fechaHora.toString()
+        val horaFormateada = FechaDb.formatearHora(programacion.fechaHora)
+        holder.txtHora.text = horaFormateada
         holder.txtCupo.text = programacion.cuposDisponibles.toString()
 
         val seleccionado = position == posicionSeleccionada
