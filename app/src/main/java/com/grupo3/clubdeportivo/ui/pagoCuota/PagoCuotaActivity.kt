@@ -13,11 +13,8 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
-import com.grupo3.clubdeportivo.clases.Modelos.MetodoPago
 import com.grupo3.clubdeportivo.clases.Repositorios.CuotaRepo
-import com.grupo3.clubdeportivo.clases.Repositorios.MetodoPagoRepo
 import com.grupo3.clubdeportivo.clases.Repositorios.PagosRepo
-import com.grupo3.clubdeportivo.clases.Servicios.ListadosMaestrosServ
 import com.grupo3.clubdeportivo.clases.Servicios.PagoCuotaServ
 import com.grupo3.clubdeportivo.data.model.DatosComprobante
 import com.grupo3.clubdeportivo.data.model.EtapaPago
@@ -48,7 +45,7 @@ class PagoCuotaActivity : AppCompatActivity(),
     private val viewModel: PagoCuotaViewModel by viewModels()
     private lateinit var stepBar: CompBarraEstadoPago
     private val dbHelper by lazy { DbHelperObject.get(this) }
-    private val metodoPagoServ by lazy { ListadosMaestrosServ(MetodoPagoRepo(dbHelper)) }
+
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -296,7 +293,7 @@ class PagoCuotaActivity : AppCompatActivity(),
             idReserva = null,
             actividad = actividadDesc,
             monto = viewModel.monto,
-            metodoPago = viewModel.metodoPago?.nombre,
+            metodoPago = viewModel.metodoNombre,
             cuota = viewModel.cuota,
             esNoSocio = false,
             fechaVencimiento = fechaVencStr
