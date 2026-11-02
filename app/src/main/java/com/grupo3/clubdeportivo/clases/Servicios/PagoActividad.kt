@@ -3,6 +3,7 @@ package com.grupo3.clubdeportivo.clases.Servicios
 import com.grupo3.clubdeportivo.clases.DTOS.ReservaDTO
 import com.grupo3.clubdeportivo.clases.Interfaces.IPago
 import com.grupo3.clubdeportivo.clases.Interfaces.ResultadoPago
+import com.grupo3.clubdeportivo.clases.Modelos.MetodoPago
 import com.grupo3.clubdeportivo.clases.Repositorios.PagosRepo
 
 class PagoActividad(private val repo: PagosRepo) : IPago<ReservaDTO> {
@@ -10,7 +11,7 @@ class PagoActividad(private val repo: PagosRepo) : IPago<ReservaDTO> {
     override fun registrarPago(
         entidad: ReservaDTO,
         montoAPagar: Double,
-        idMedioPago: Int
+        metodoPago: MetodoPago
     ): ResultadoPago<ReservaDTO> {
         if (entidad.estadoReserva != "Pendiente de pago") {
             return ResultadoPago(false, "No existe reserva pendiente de pago", null)
@@ -27,7 +28,7 @@ class PagoActividad(private val repo: PagosRepo) : IPago<ReservaDTO> {
         val result = repo.registrarPagoActividad(
             entidad.idReserva,
             montoAPagar,
-            idMedioPago
+            metodoPago.id
         )
 
         if (result <= 0) {

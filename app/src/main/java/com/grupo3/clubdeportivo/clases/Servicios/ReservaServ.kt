@@ -17,6 +17,9 @@ data class ResultadoReserva(
 
 class ReservaServ(private val repo: ReservaRepo) {
 
+    fun buscarReservasPorDni(dni: String) : List<ReservaDTO>? {
+        return repo.buscarReservasPorDni(dni)
+    }
     fun buscarReservaPorId(idReserva: Int): ReservaDTO? {
         return repo.buscarReservaPorId(idReserva)
     }

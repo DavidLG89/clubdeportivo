@@ -9,12 +9,18 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
+import com.grupo3.clubdeportivo.clases.Modelos.MetodoPago
+import com.grupo3.clubdeportivo.clases.Repositorios.MetodoPagoRepo
+import com.grupo3.clubdeportivo.clases.Servicios.ListadosMaestrosServ
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerComprobantePago
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerMetodoPago
 
 class MetodoPagoFragment : Fragment(R.layout.fragment_metodo_pago) {
 
     private val listener get() = requireActivity() as ListenerMetodoPago
+    private val dbHelper by lazy { DbHelperObject.get(requireContext()) }
+    private val metodoPagoServ by lazy { ListadosMaestrosServ(MetodoPagoRepo(dbHelper)) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,7 +36,13 @@ class MetodoPagoFragment : Fragment(R.layout.fragment_metodo_pago) {
             view.findViewById<TextView>(R.id.tvPrintVenc)?.text = dato.fechaVencimiento ?: ""
         }
 
-        val metodosPago = resources.getStringArray(R.array.metodos_pago)
+        val listaMetodoPago = metodoPagoServ.obtenerMetodosPago()
+        val listaMetodoPagoStr = mutableListOf<String>()
+
+        listaMetodoPago.forEach { metodo ->
+            listaMetodoPagoStr.add(metodo.nombre)
+        }
+        val metodosPago = listaMetodoPagoStr
         val dropdownMetodos = view.findViewById<LinearLayout>(R.id.dropdownMetodo)
         val dropdownCuotas = view.findViewById<LinearLayout>(R.id.dropdownCuotas)
         val linearMetodoPago = view.findViewById<LinearLayout>(R.id.lMetodoPago)

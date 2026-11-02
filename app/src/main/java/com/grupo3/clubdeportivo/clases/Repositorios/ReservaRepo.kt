@@ -8,6 +8,7 @@ import com.grupo3.clubdeportivo.clases.Helpers.FechaDb
 import com.grupo3.clubdeportivo.clases.Modelos.Actividad
 import com.grupo3.clubdeportivo.clases.Modelos.Cliente
 import com.grupo3.clubdeportivo.clases.Modelos.Programacion
+import com.grupo3.clubdeportivo.clases.Modelos.Reserva
 import com.grupo3.clubdeportivo.clases.Modelos.Socio
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -15,10 +16,50 @@ import java.util.Locale
 
 class ReservaRepo(private val dbHelper: DbHelper) {
 
+    fun buscarReservasPorDni(dni: String) : List<ReservaDTO> {
+
+        val reservasCliente = mutableListOf<ReservaDTO>()
+
+        val query = """
+            SELECT r.id AS id_reserva, pr.id AS id_progr, pr.cupos_disponibles, a.id AS id_actividad, a.nombre AS actividad, a.precio, r.estado, p.nombre AS nombre_cliente, p.apellido AS apellido_cliente, pr.fecha_hora
+            FROM reservas r
+            INNER JOIN programaciones pr ON r.programacion_id = pr.id
+            INNER JOIN actividades a ON pr.actividad_id = a.id
+            INNER JOIN clientes cl ON r.cliente_id = cl.id
+            INNER JOIN personas p ON cl.persona_id = p.id
+            WHERE p.dni = ?
+            AND r.estado = ?
+            ORDER BY pr.fecha_hora
+        """.trimIndent()
+
+        val db = dbHelper.readableDatabase
+
+        db.rawQuery(query, arrayOf(dni, "Pendiente de pago")).use { cursor ->
+            while(cursor.moveToNext()) {
+                val fechaStr = cursor.getString(cursor.getColumnIndexOrThrow("fecha_hora")) ?: ""
+                val fechaDate = FechaDb.parsearFecha(fechaStr) ?: Date()
+
+                var reserva = ReservaDTO().apply {
+                    idReserva = cursor.getInt(cursor.getColumnIndexOrThrow("id_reserva"))
+                    nombreCliente = cursor.getString(cursor.getColumnIndexOrThrow("nombre_cliente"))
+                    apellidoCliente = cursor.getString(cursor.getColumnIndexOrThrow("apellido_cliente"))
+                    idProgramacion = cursor.getInt(cursor.getColumnIndexOrThrow("id_progr"))
+                    cuposDisponibles = cursor.getInt(cursor.getColumnIndexOrThrow("cupos_disponibles"))
+                    idActividad = cursor.getInt(cursor.getColumnIndexOrThrow("id_actividad"))
+                    actividad = cursor.getString(cursor.getColumnIndexOrThrow("actividad"))
+                    fechaHora = fechaDate
+                    precio = cursor.getDouble(cursor.getColumnIndexOrThrow("precio"))
+                    estadoReserva = cursor.getString(cursor.getColumnIndexOrThrow("estado"))
+                }
+                reservasCliente.add(reserva)
+            }
+            return reservasCliente
+        }
+    }
     fun buscarReservaPorId(idReserva: Int): ReservaDTO? {
 
         val query = """
-            SELECT r.id AS id_reserva, r.estado, r.cliente_id AS id_cliente, p.nombre, p.apellido, p.dni, a.nombre AS actividad, a.precio, pr.fecha_hora
+            SELECT r.id AS id_reserva, r.estado, r.cliente_id AS id_cliente, p.nombre, p.apellido, p.dni, a.nombre AS actividad, a.precio, pr.id AS id_progr, pr.cupos_disponibles, pr.fecha_hora
             FROM reservas r
             INNER JOIN programaciones pr ON r.programacion_id = pr.id
             INNER JOIN actividades a ON pr.actividad_id = a.id
@@ -50,8 +91,10 @@ class ReservaRepo(private val dbHelper: DbHelper) {
                         apellidoCliente =
                             cursor.getString(cursor.getColumnIndexOrThrow("apellido")) ?: ""
                         dni = cursor.getString(cursor.getColumnIndexOrThrow("dni")) ?: ""
+                        idProgramacion = cursor.getInt(cursor.getColumnIndexOrThrow("id_progr"))
+                        cuposDisponibles = cursor.getInt(cursor.getColumnIndexOrThrow("cupos_disponibles"))
                         actividad =
-                            cursor.getString(cursor.getColumnIndexOrThrow("actividad")) ?: ""
+                            cursor.getString(cursor.getColumnIndexOrThrow("nombre")) ?: ""
                         precio = cursor.getDouble(cursor.getColumnIndexOrThrow("precio"))
                         fechaHora = fhDate
                         estadoReserva =

@@ -26,6 +26,7 @@ import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.PagoEnCuotasFragment
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.VerificacionFragment
 import com.grupo3.clubdeportivo.ui.fragmentos.pago.BancoFragment
 import com.grupo3.clubdeportivo.ui.fragmentos.pago.ComprobantePagoFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.pago.PagoEfectivoFragment
 import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerComprobantePago
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerDni
@@ -43,7 +44,8 @@ class PagoCuotaActivity : AppCompatActivity(),
 
     private val viewModel: PagoCuotaViewModel by viewModels()
     private lateinit var stepBar: CompBarraEstadoPago
-    val dbHelper = DbHelperObject.get(this)
+    private val dbHelper by lazy { DbHelperObject.get(this) }
+
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -183,8 +185,8 @@ class PagoCuotaActivity : AppCompatActivity(),
     }
 
     override var seleccionMetodoPago: String?
-        get() = viewModel.metodoPago
-        set(value) { viewModel.metodoPago = value }
+        get() = viewModel.metodoNombre
+        set(value) { viewModel.metodoNombre = value }
 
     override var seleccionNumCuotas: Int?
         get() = viewModel.cuota
@@ -205,51 +207,73 @@ class PagoCuotaActivity : AppCompatActivity(),
             val cuotaObj = viewModel.cuotaPendiente!!
             val montoAPagar = viewModel.monto?.toDouble() ?: cuotaObj.montoCuota
 
-            val metodoStr = viewModel.metodoPago ?: "Efectivo"
-            val idMetodo = when {
-                metodoStr.contains("Mercado", ignoreCase = true) -> 5
-                metodoStr.contains("Tarjeta Cébito", ignoreCase = true) -> 3
-                metodoStr.contains("Tarjeta Débito", ignoreCase = true) -> 4
-                metodoStr.contains("Transferencia", ignoreCase = true) -> 2
-                else -> 1 // Efectivo
-            }
+            val metodoPago = viewModel.metodoPago
+            if (metodoPago != null) {
+                Toast.makeText(this, "Requiere método de pago", Toast.LENGTH_SHORT).show()
 
-            val resPago = pagoCuotaServ.registrarPago(cuotaObj, montoAPagar, idMetodo)
-            if (resPago.ok && resPago.resultId > 0) {
-                viewModel.pagoRegistrado = true
-                viewModel.idPagoGenerado = String.format(Locale.getDefault(), "%04d", resPago.resultId)
-                Toast.makeText(this, "Pago guardado con éxito en BD (ID: ${resPago.resultId})", Toast.LENGTH_SHORT).show()
-                return true
-            } else {
-                Toast.makeText(this, "Aviso al registrar en BD: ${resPago.mensaje}", Toast.LENGTH_LONG).show()
-                return false
+                //val idMetodo = when {
+                //    metodoStr.contains("Mercado", ignoreCase = true) -> 4
+                //    metodoStr.contains("Tarjeta", ignoreCase = true) -> 3
+                //    metodoStr.contains("Cheque", ignoreCase = true) -> 2
+                //    else -> 1 // Efectivo / Transferencia
+                //}
+
+                val resPago = pagoCuotaServ.registrarPago(cuotaObj, montoAPagar, metodoPago)
+
+                if (resPago.ok && resPago.resultId > 0) {
+                    viewModel.pagoRegistrado = true
+                    viewModel.idPagoGenerado =
+                        String.format(Locale.getDefault(), "%04d", resPago.resultId)
+                    Toast.makeText(
+                        this,
+                        "Pago guardado con éxito en BD (ID: ${resPago.resultId})",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return true
+                } else {
+                    Toast.makeText(
+                        this,
+                        "Aviso al registrar en BD: ${resPago.mensaje}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    return false
+                }
             }
-        }
-        return true
+            }
+            return true
+
     }
 
     override fun onMetodoPagoContinuar() {
-        val metodo = viewModel.metodoPago ?: ""
-        val esTarjeta = metodo.contains("Tarjeta", ignoreCase = true)
-        val esMercadoPago = metodo.contains("Mercado", ignoreCase = true)
+        var nombreMetodo = viewModel.metodoNombre ?: return
+        when {
+            nombreMetodo.contains("Tarjeta", ignoreCase = true) -> {
+                irA(
+                    BancoFragment(),
+                    EtapaPago.FORMALIZACION_PAGO
+                )
+            }
 
-        if (esTarjeta) {
-            irA(
-                BancoFragment(),
-                EtapaPago.FORMALIZACION_PAGO
-            )
-        } else if (esMercadoPago) {
-            irA(
-                PagoEnCuotasFragment(),
-                EtapaPago.FORMALIZACION_PAGO
-            )
-        } else {
-            // Efectivo, Transferencia u otros: registra RECIÉN el pago acá (NO ANTES)
-            procesarRegistroPagoBD()
-            irA(
-                ComprobantePagoFragment(),
-                EtapaPago.COMPROBANTE_PAGO
-            )
+            nombreMetodo.contains("Mercado", ignoreCase = true) -> {
+                irA(
+                    PagoEnCuotasFragment(),
+                    EtapaPago.FORMALIZACION_PAGO
+                )
+            }
+
+            nombreMetodo.contains("Efectivo", ignoreCase = true) -> {
+                irA(
+                    PagoEfectivoFragment(),
+                    EtapaPago.FORMALIZACION_PAGO
+                )
+            }
+
+            else -> {
+                irA(
+                    ComprobantePagoFragment(),
+                    EtapaPago.COMPROBANTE_PAGO
+                )
+            }
         }
     }
 
@@ -269,7 +293,7 @@ class PagoCuotaActivity : AppCompatActivity(),
             idReserva = null,
             actividad = actividadDesc,
             monto = viewModel.monto,
-            metodoPago = viewModel.metodoPago,
+            metodoPago = viewModel.metodoNombre,
             cuota = viewModel.cuota,
             esNoSocio = false,
             fechaVencimiento = fechaVencStr
