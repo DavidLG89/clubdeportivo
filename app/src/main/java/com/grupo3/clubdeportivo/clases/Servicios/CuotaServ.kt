@@ -22,4 +22,8 @@ class CuotaServ(private val socioRepo: CuotaRepo) {
 
         return ResultadoCuota(true, "Cuota pendiente obtenida con éxito", cuota)
     }
+
+    fun registrarCuotasSocio(socioId: Int, montoCuota: Double): Boolean {
+        return socioRepo.registrarCuotasSocio(socioId, montoCuota)
+    }
 }

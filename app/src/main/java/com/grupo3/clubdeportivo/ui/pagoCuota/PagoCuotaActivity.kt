@@ -61,7 +61,6 @@ class PagoCuotaActivity : AppCompatActivity(),
             insets
         }
 
-
         val btnBack = findViewById<ImageButton>(R.id.btnBack)
         btnBack.setOnClickListener {
             finish()
@@ -120,7 +119,7 @@ class PagoCuotaActivity : AppCompatActivity(),
             viewModel.listaCuotasPendientes = cuotasPendientes
             viewModel.cuotaPendiente = primeraCuota
             viewModel.idSocio = primeraCuota.socio?.idSocio
-            viewModel.nombre = "${primeraCuota.socio?.nombre} ${primeraCuota.socio?.apellido}"
+            viewModel.nombre = "${primeraCuota.socio?.apellido}, ${primeraCuota.socio?.nombre}"
             viewModel.monto = primeraCuota.montoCuota.toInt()
             viewModel.pagoRegistrado = false
             viewModel.idPagoGenerado = null
@@ -148,19 +147,28 @@ class PagoCuotaActivity : AppCompatActivity(),
         get() {
             val lista = viewModel.listaCuotasPendientes
             return if (lista.isNotEmpty()) {
-                lista.map { "Cuota ID: ${it.idCuota}" }.toTypedArray()
+                lista.map { cuota ->
+                    val fechaFormatted = com.grupo3.clubdeportivo.clases.Helpers.FechaDb.formatearFecha(cuota.fechaVencimiento)
+                    "Cuota ID: ${cuota.idCuota} - Venc: $fechaFormatted"
+                }.toTypedArray()
             } else null
         }
 
     override var seleccion: String?
-        get() = viewModel.cuotaPendiente?.let { "Cuota ID: ${it.idCuota}" }
+        get() = viewModel.cuotaPendiente?.let {
+            val fechaFormatted = com.grupo3.clubdeportivo.clases.Helpers.FechaDb.formatearFecha(it.fechaVencimiento)
+            "Cuota ID: ${it.idCuota} - Venc: $fechaFormatted"
+        }
         set(value) {
-            val idExtraido = value?.replace("Cuota ID: ", "")?.trim()?.toIntOrNull()
-            if (idExtraido != null) {
-                val encontrada = viewModel.listaCuotasPendientes.find { it.idCuota == idExtraido }
-                if (encontrada != null) {
-                    viewModel.cuotaPendiente = encontrada
-                    viewModel.monto = encontrada.montoCuota.toInt()
+            if (value != null) {
+                val match = Regex("Cuota ID:\\s*(\\d+)").find(value)
+                val idExtraido = match?.groupValues?.get(1)?.toIntOrNull()
+                if (idExtraido != null) {
+                    val encontrada = viewModel.listaCuotasPendientes.find { it.idCuota == idExtraido }
+                    if (encontrada != null) {
+                        viewModel.cuotaPendiente = encontrada
+                        viewModel.monto = encontrada.montoCuota.toInt()
+                    }
                 }
             }
         }
