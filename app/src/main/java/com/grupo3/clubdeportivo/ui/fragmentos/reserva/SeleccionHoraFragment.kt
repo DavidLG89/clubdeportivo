@@ -20,6 +20,7 @@ import com.grupo3.clubdeportivo.clases.Repositorios.ReservaRepo
 import com.grupo3.clubdeportivo.clases.Servicios.ProgramacionServ
 import com.grupo3.clubdeportivo.clases.Servicios.ReservaServ
 import com.grupo3.clubdeportivo.data.model.EtapaReserva
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.BusquedaDniFragment
 import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 import java.text.SimpleDateFormat
@@ -76,19 +77,23 @@ class SeleccionHoraFragment : Fragment(R.layout.fragment_seleccion_hora) {
             servicio = ReservaServ(repositorio)
 
             viewModel.programacion = programacionSeleccionada
-            Toast.makeText(requireContext(), "Actividad: ${programacionSeleccionada.actividad.nombre}", Toast.LENGTH_SHORT).show()
-            Toast.makeText(requireContext(), "Actividad: ${programacionSeleccionada.fechaHora}", Toast.LENGTH_SHORT).show()
-
-            Toast.makeText(requireContext(), "Cupo disponible: ${viewModel.programacion?.cuposDisponibles}", Toast.LENGTH_SHORT).show()
 
             val resultadoReserva = servicio.generarReserva(actividad, cliente, programacionSeleccionada.fechaHora)
+            if(!resultadoReserva.ok) {
+                Toast.makeText(requireContext(), "Mensaje: ${resultadoReserva.mensaje}", Toast.LENGTH_SHORT).show()
+                (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
+                    BusquedaDniFragment(),
+                    EtapaReserva.BUSQUEDA_DNI
+                )
+            }
 
-            viewModel.reserva = resultadoReserva.reserva
-
-            (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
-                ComprobanteReservaFragment(),
-                EtapaReserva.CONFIRMACION_RESERVA
-            )
+            if(resultadoReserva.ok) {
+                viewModel.reserva = resultadoReserva.reserva
+                (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
+                    ComprobanteReservaFragment(),
+                    EtapaReserva.CONFIRMACION_RESERVA
+                )
+            }
         }
     }
 

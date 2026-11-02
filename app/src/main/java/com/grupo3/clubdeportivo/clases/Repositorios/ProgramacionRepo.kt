@@ -1,6 +1,7 @@
 package com.grupo3.clubdeportivo.clases.Repositorios
 
 import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelper
+import com.grupo3.clubdeportivo.clases.Helpers.FechaDb
 import com.grupo3.clubdeportivo.clases.Modelos.Programacion
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -23,7 +24,7 @@ class ProgramacionRepo(private val dbHelper: DbHelper) {
 
             while (cursor.moveToNext()) {
                 val fechaStr = cursor.getString(cursor.getColumnIndexOrThrow("fecha_hora")) ?: ""
-                val fechaDate = try { sdf.parse(fechaStr) ?: Date() } catch (_: Exception) { Date() }
+                val fechaDate = FechaDb.parsearFecha(fechaStr) ?: Date()
 
                 val programacion = Programacion().apply {
                     id = cursor.getInt(cursor.getColumnIndexOrThrow("id_prog"))

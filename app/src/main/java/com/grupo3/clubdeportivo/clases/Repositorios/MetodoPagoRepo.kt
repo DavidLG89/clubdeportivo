@@ -11,7 +11,7 @@ class MetodoPagoRepo(private val dbHelper: DbHelper) : IListado<MetodoPago> {
         val metodosPago = mutableListOf<MetodoPago>()
         val db = dbHelper.readableDatabase
 
-        val query = "SELECT id, nombre FROM metodo_pago"
+        val query = "SELECT id, nombre FROM metodos_pago"
         val cursor = db.rawQuery(query, null)
 
         while (cursor.moveToNext()) {
@@ -20,9 +20,7 @@ class MetodoPagoRepo(private val dbHelper: DbHelper) : IListado<MetodoPago> {
                 nombre = cursor.getString(1)
             }
             metodosPago.add(metodoPago)
-            cursor.close()
         }
-
         return metodosPago
     }
 }

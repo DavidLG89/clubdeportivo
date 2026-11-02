@@ -3,6 +3,7 @@ package com.grupo3.clubdeportivo.clases.Servicios
 import com.grupo3.clubdeportivo.clases.DTOS.CuotaDTO
 import com.grupo3.clubdeportivo.clases.Interfaces.IPago
 import com.grupo3.clubdeportivo.clases.Interfaces.ResultadoPago
+import com.grupo3.clubdeportivo.clases.Modelos.MetodoPago
 import com.grupo3.clubdeportivo.clases.Repositorios.PagosRepo
 
 class PagoCuotaServ(private val repo: PagosRepo) : IPago<CuotaDTO> {
@@ -10,7 +11,7 @@ class PagoCuotaServ(private val repo: PagosRepo) : IPago<CuotaDTO> {
     override fun registrarPago(
         entidad: CuotaDTO,
         montoAPagar: Double,
-        idMedioPago: Int
+        metodoPago: MetodoPago
     ): ResultadoPago<CuotaDTO> {
         if (montoAPagar < entidad.montoCuota) {
             return ResultadoPago(false, "Monto debe ser igual a la cuota", null)
@@ -23,7 +24,7 @@ class PagoCuotaServ(private val repo: PagosRepo) : IPago<CuotaDTO> {
         val result = repo.registrarPagoCuota(
             entidad.socio,
             montoAPagar,
-            idMedioPago
+            metodoPago.id
         )
 
         if (result <= 0) {

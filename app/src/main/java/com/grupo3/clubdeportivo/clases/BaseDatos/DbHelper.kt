@@ -4,7 +4,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", null, 5) {
+class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", null, 6) {
 
     override fun onConfigure(db: SQLiteDatabase) {
         super.onConfigure(db)
@@ -276,10 +276,22 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
 
         db.execSQL(
             """
-                    INSERT INTO socios (cliente_id, estado) 
-                    SELECT id, 1 FROM clientes;
-                """.trimIndent()
-        )
+            INSERT INTO no_socios (cliente_id, acceso_diario)
+            SELECT cl.id, 0
+            FROM clientes cl
+            INNER JOIN personas p ON cl.persona_id = p.id
+            WHERE p.dni IN ('20123456', '20234567', '20345678');
+        """.trimIndent()
+            )
+
+
+        db.execSQL(
+            """
+            INSERT INTO socios (cliente_id, estado)
+            SELECT id, 1 FROM clientes
+            WHERE id NOT IN (SELECT cliente_id FROM no_socios);
+        """.trimIndent()
+            )
 
         db.execSQL(
             """
