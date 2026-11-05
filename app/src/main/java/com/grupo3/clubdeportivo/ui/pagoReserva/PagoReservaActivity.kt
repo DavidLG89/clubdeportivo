@@ -3,6 +3,7 @@ package com.grupo3.clubdeportivo.ui.pagoReserva
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -54,6 +55,7 @@ class PagoReservaActivity : AppCompatActivity(),
         const val EXTRA_NOMBRE = "extra_nombre"
         const val EXTRA_ACTIVIDAD = "extra_actividad"
         const val EXTRA_MONTO = "extra_monto"
+        const val EXTRA_ID_RESERVA = "extra_id_reserva"
     }
 
     // Dependencias
@@ -64,7 +66,6 @@ class PagoReservaActivity : AppCompatActivity(),
     private val reservaServ by lazy { ReservaServ(ReservaRepo(dbHelper)) }
     private val pagoServ by lazy { PagoReservaServ(PagosRepo(dbHelper)) }
     var cliente = Cliente()
-    val reserva = ReservaDTO()
 
 
     // Ciclo de vida: onCreate
@@ -110,18 +111,35 @@ class PagoReservaActivity : AppCompatActivity(),
     // Si llega con DNI (desde otra pantalla), salta directo al méthodo de pago
 
     private fun iniciarFlujo() {
-        val dni = intent.getStringExtra(EXTRA_DNI)
+
+        val dni = viewModel.dni ?: intent.getStringExtra(EXTRA_DNI)
+        val nombre = viewModel.nombreCompleto ?: intent.getStringExtra(EXTRA_NOMBRE)
+        val actividad = viewModel.actividad ?: intent.getStringExtra(EXTRA_ACTIVIDAD)
+
+
 
         if (intent.hasExtra(EXTRA_MONTO)) {
             viewModel.monto = intent.getDoubleExtra(EXTRA_MONTO, 0.0)
         }
 
+        if(intent.hasExtra(EXTRA_ID_RESERVA)) {
+            viewModel.idReserva = intent.getIntExtra(EXTRA_ID_RESERVA, -1)
+        }
+
+        val idReserva = viewModel.idReserva
+
+        if(idReserva != null && idReserva > 0) {
+            viewModel.reservaSeleccionada = reservaServ.buscarReservaPorId(idReserva)
+        }
+
         if (dni.isNullOrEmpty()) {
+
             irA(BusquedaDniFragment(), EtapaPago.BUSQUEDA_DNI)
         } else {
             viewModel.dni = dni
-            viewModel.nombre = intent.getStringExtra(EXTRA_NOMBRE)
-            viewModel.actividad = intent.getStringExtra(EXTRA_ACTIVIDAD)
+            viewModel.nombreCompleto = nombre
+            viewModel.actividad = actividad
+
             irA(MetodoPagoFragment(), EtapaPago.METODO_PAGO)
         }
     }
@@ -188,9 +206,9 @@ class PagoReservaActivity : AppCompatActivity(),
             Toast.makeText(this, "Cliente no tiene reservas", Toast.LENGTH_SHORT).show()
         }
 
-        viewModel.dni = dni
-        viewModel.nombre =
-            if (cliente != null) "${cliente.nombre} ${cliente.apellido}" else null
+        viewModel.dni = cliente?.dni
+        viewModel.nombreCompleto =
+            cliente?.mostrarNombreCompleto()
         viewModel.reservas = reservas
         viewModel.reservaSeleccionada = null
         viewModel.actividad = null
@@ -207,7 +225,7 @@ class PagoReservaActivity : AppCompatActivity(),
     override val hintRes = R.string.actividad
 
     override val dniCliente: String? get() = viewModel.dni
-    override val nombreCliente: String? get() = viewModel.nombre
+    override val nombreCliente: String? get() = viewModel.nombreCompleto
     override val opcionesLista: Array<String>?
         get() = viewModel.reservas?.map { textoReserva(it) }?.toTypedArray()
 
@@ -305,14 +323,15 @@ class PagoReservaActivity : AppCompatActivity(),
 
     // Paso Comprobante de Pago (ListenerComprobantePago)
     override fun datosComprobante(): DatosComprobante {
-        val seleccionAnterior = viewModel.actividad ?: ""
+        val reserva = viewModel.reservaSeleccionada
+
         return DatosComprobante(
             idPago = viewModel.idPago.toString(),
-            dni = viewModel.reservaSeleccionada?.dni,
-            nombre = viewModel.reservaSeleccionada?.nombreCliente,
-            idReserva = viewModel.reservaSeleccionada?.idReserva.toString(),
-            actividad = seleccionAnterior,
-            monto = viewModel.reservaSeleccionada?.precio,
+            dni = reserva?.dni ?: viewModel.dni,
+            nombre = reserva?.nombreCliente ?: viewModel.nombreCompleto,
+            idReserva = (reserva?.idReserva ?: viewModel.idReserva).toString(),
+            actividad = reserva?.actividad ?: viewModel.actividad,
+            monto = reserva?.precio ?: viewModel.monto,
             metodoPago = viewModel.metodoPago?.nombre,
             cuota = null, // No es cuota (no socio)
             esNoSocio = true
@@ -337,16 +356,20 @@ class PagoReservaActivity : AppCompatActivity(),
         }
 
     override fun registrarPago(efectivo: Double): Boolean {
-        val reserva = viewModel.reservaSeleccionada
-        val metodoPago = viewModel.metodoPago
-        if(montoAPagar > 0.0) {
-            val pago = pagoServ.registrarPago(reserva!!, montoAPagar, metodoPago!!)
+        val reserva = viewModel.reservaSeleccionada ?: return false
+        val metodoPago = viewModel.metodoPago ?: return false
 
-           if(pago.ok) {
-               viewModel.idPago = pago.resultId
-           }
+        if (montoAPagar <= 0.0) return false
+
+        val pago = pagoServ.registrarPago(reserva, montoAPagar, metodoPago)
+
+        if (pago.ok) {
+            viewModel.idPago = pago.resultId
+            return true
         }
-        return true
+
+        Log.e("PAGO", "Error al registrar pago: ${pago.mensaje}")
+        return false
     }
 
     override fun onPagoEfectivoVolver() {

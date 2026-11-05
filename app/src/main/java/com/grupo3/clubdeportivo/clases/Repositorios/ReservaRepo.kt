@@ -94,7 +94,7 @@ class ReservaRepo(private val dbHelper: DbHelper) {
                         idProgramacion = cursor.getInt(cursor.getColumnIndexOrThrow("id_progr"))
                         cuposDisponibles = cursor.getInt(cursor.getColumnIndexOrThrow("cupos_disponibles"))
                         actividad =
-                            cursor.getString(cursor.getColumnIndexOrThrow("nombre")) ?: ""
+                            cursor.getString(cursor.getColumnIndexOrThrow("actividad")) ?: ""
                         precio = cursor.getDouble(cursor.getColumnIndexOrThrow("precio"))
                         fechaHora = fhDate
                         estadoReserva =

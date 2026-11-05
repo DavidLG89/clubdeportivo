@@ -30,14 +30,14 @@ import com.grupo3.clubdeportivo.ui.fragmentos.reserva.SeleccionFechaFragment
 import com.grupo3.clubdeportivo.ui.fragmentos.reserva.SeleccionHoraFragment
 import com.grupo3.clubdeportivo.ui.fragmentos.reserva.VerificacionClienteFragment
 import com.grupo3.clubdeportivo.clases.Servicios.ClienteServ
+import kotlin.collections.get
 
 class ReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, ListenerDni {
 
     private val viewModel: ReservaViewModel by viewModels()
     private lateinit var stepBar: CompBarraEstadoReserva
-    private val dbHelper = DbHelperObject.get(this)
-    private val repositorio =  ClienteRepo(dbHelper)
-    private val servicio = ClienteServ(repositorio)
+    private val dbHelper by lazy { DbHelperObject.get(this) }
+    private val servicio by lazy {ClienteServ(ClienteRepo(dbHelper))}
 
 
     @SuppressLint("MissingInflatedId")
@@ -70,6 +70,7 @@ class ReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, List
         }
         // Botón Volver regresa al fragmento anterior
         val btnBack = findViewById<ImageButton>(R.id.btnBack)
+
         btnBack.setOnClickListener {
             supportFragmentManager.popBackStack()
         }
@@ -82,7 +83,9 @@ class ReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, List
         // Carga el primer fragmento al iniciar la activity
         if (savedInstanceState == null) {
             irA(BusquedaDniFragment(), EtapaReserva.BUSQUEDA_DNI)
-        } // Navegación en footer
+        }
+
+        // Navegación en footer
         findViewById<LinearLayout>(R.id.navInicio)?.setOnClickListener {
             val intent = Intent(this, MenuPrincipalActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)

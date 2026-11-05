@@ -49,7 +49,7 @@ class PagoEfectivoFragment : Fragment(R.layout.fragment_pago_efectivo) {
                 return@setOnClickListener
             }
 
-            if (efectivo < montoAPagar) {
+            if (efectivo <= montoAPagar) {
                 Toast.makeText(
                     requireContext(), "Efectivo debe ser igual o superior al monto a pagar",
                     Toast.LENGTH_SHORT
