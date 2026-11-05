@@ -15,7 +15,6 @@ import com.grupo3.clubdeportivo.clases.Repositorios.MetodoPagoRepo
 import com.grupo3.clubdeportivo.clases.Servicios.ListadosMaestrosServ
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerComprobantePago
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerMetodoPago
-
 class MetodoPagoFragment : Fragment(R.layout.fragment_metodo_pago) {
 
     private val listener get() = requireActivity() as ListenerMetodoPago
@@ -37,30 +36,29 @@ class MetodoPagoFragment : Fragment(R.layout.fragment_metodo_pago) {
         }
 
         val listaMetodoPago = metodoPagoServ.obtenerMetodosPago()
-        val listaMetodoPagoStr = mutableListOf<String>()
-
-        listaMetodoPago.forEach { metodo ->
-            listaMetodoPagoStr.add(metodo.nombre)
-        }
-        val metodosPago = listaMetodoPagoStr
         val dropdownMetodos = view.findViewById<LinearLayout>(R.id.dropdownMetodo)
         val dropdownCuotas = view.findViewById<LinearLayout>(R.id.dropdownCuotas)
         val linearMetodoPago = view.findViewById<LinearLayout>(R.id.lMetodoPago)
         val textMetodo = view.findViewById<TextView>(R.id.tvPrintMetodoPago)
 
-        // Ocultar sección de cuotas en este fragmento ya que se seleccionan en PagoEnCuotasFragment
         dropdownCuotas?.visibility = View.GONE
 
-        val adapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, metodosPago)
+        val adapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, listaMetodoPago.map { it.nombre })
         val autoCompletMetodos = view.findViewById<AutoCompleteTextView>(R.id.tvAutoMPago)
         autoCompletMetodos.setAdapter(adapter)
 
-        listener.seleccionMetodoPago?.let { autoCompletMetodos.setText(it, false) }
+        // CAMBIO 1: .nombre
+        listener.seleccionMetodoPago?.let { autoCompletMetodos.setText(it.nombre, false) }
 
-        autoCompletMetodos.setOnItemClickListener { _, _, position, _ ->
-            listener.seleccionMetodoPago = metodosPago[position]
+        autoCompletMetodos.setOnItemClickListener { parent, _, position, _ ->
+            val nombreElegido = parent.getItemAtPosition(position) as String
+            val metodoElegido = listaMetodoPago.first { it.nombre == nombreElegido }
+
+            listener.seleccionMetodoPago = metodoElegido
+
             dropdownMetodos.visibility = View.GONE
-            textMetodo.text = listener.seleccionMetodoPago
+
+            textMetodo.text = metodoElegido.nombre
             linearMetodoPago.visibility = View.VISIBLE
         }
 
@@ -71,12 +69,10 @@ class MetodoPagoFragment : Fragment(R.layout.fragment_metodo_pago) {
             listener.onMetodoPagoVolver()
         }
 
+        // CAMBIO 3: == null en vez de isNullOrEmpty()
         btnContinuar.setOnClickListener {
-            if (listener.seleccionMetodoPago.isNullOrEmpty()) {
-                return@setOnClickListener
-            } else {
-                listener.onMetodoPagoContinuar()
-            }
+            if (listener.seleccionMetodoPago == null) return@setOnClickListener
+            listener.onMetodoPagoContinuar()
         }
     }
 }

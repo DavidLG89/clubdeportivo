@@ -18,7 +18,7 @@ class PagoCuotaViewModel : ViewModel() {
     var cuotaPendiente: CuotaDTO? = null
     var listaCuotasPendientes: List<CuotaDTO> = emptyList()
     var actividad: String? = null
-    var monto: Int? = null
+    var monto: Double = 0.0
     var metodoPago: MetodoPago? = null
     var metodoNombre: String? = null
     var cuota: Int? = null

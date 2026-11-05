@@ -14,14 +14,13 @@ class PagoResViewModel : ViewModel() {
     var dni: String? = null
     var nombre: String? = ""
     var actividad: String? = null
-    var monto: Int? = 0
+    var monto: Double = 0.0
     var metodoPago: MetodoPago? = null
-    var metodoNombre: String? = null
-    var efectivo: Double? = 0.0
     var numCuotas: Int? = 0
     var reservas: List<ReservaDTO>? = emptyList()
 
     var reservaSeleccionada: ReservaDTO? = null
+    var idPago: Int? = null
     fun irAPaso(numero: EtapaPago) {
         _pasoActual.value = numero
     }

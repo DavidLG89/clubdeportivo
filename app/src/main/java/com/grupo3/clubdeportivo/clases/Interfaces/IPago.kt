@@ -1,5 +1,6 @@
 package com.grupo3.clubdeportivo.clases.Interfaces
 
+import com.grupo3.clubdeportivo.clases.DTOS.ReservaDTO
 import com.grupo3.clubdeportivo.clases.Modelos.MetodoPago
 
 data class ResultadoPago<T>(
@@ -15,4 +16,5 @@ interface IPago<T> {
         montoAPagar: Double,
         metodoPago: MetodoPago
     ): ResultadoPago<T>
+
 }

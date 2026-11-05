@@ -6,7 +6,7 @@ data class DatosComprobante(
     val nombre: String? = null,
     val idReserva: String? = null,
     val actividad: String? = null,
-    val monto: Int? = null,
+    val monto: Double? = null,
     val metodoPago: String? = null,
     val cuota: Int? = null,
     val esNoSocio: Boolean = false,

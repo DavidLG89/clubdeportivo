@@ -161,7 +161,7 @@
         android:minHeight="58dp"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
-        android:text="@string/pagar"
+        android:text="Validar"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold"
