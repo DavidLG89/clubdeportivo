@@ -3,7 +3,9 @@ package com.grupo3.clubdeportivo.ui.pagoCuota
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -13,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
+import com.grupo3.clubdeportivo.clases.Modelos.MetodoPago
 import com.grupo3.clubdeportivo.clases.Repositorios.CuotaRepo
 import com.grupo3.clubdeportivo.clases.Repositorios.PagosRepo
 import com.grupo3.clubdeportivo.clases.Servicios.PagoCuotaServ
@@ -31,6 +34,7 @@ import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerComprobantePago
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerDni
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerMetodoPago
+import com.grupo3.clubdeportivo.ui.interfaces.ListenerPagoEfectivo
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerVerificacion
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -40,11 +44,13 @@ class PagoCuotaActivity : AppCompatActivity(),
     ListenerDni,
     ListenerVerificacion,
     ListenerMetodoPago,
+    ListenerPagoEfectivo,
     ListenerComprobantePago {
 
     private val viewModel: PagoCuotaViewModel by viewModels()
     private lateinit var stepBar: CompBarraEstadoPago
     private val dbHelper by lazy { DbHelperObject.get(this) }
+    private val pagoServ by lazy { PagoCuotaServ(PagosRepo(dbHelper)) }
 
 
     @SuppressLint("MissingInflatedId")
@@ -117,7 +123,7 @@ class PagoCuotaActivity : AppCompatActivity(),
             viewModel.cuotaPendiente = primeraCuota
             viewModel.idSocio = primeraCuota.socio?.idSocio
             viewModel.nombre = "${primeraCuota.socio?.apellido}, ${primeraCuota.socio?.nombre}"
-            viewModel.monto = primeraCuota.montoCuota.toInt()
+            viewModel.monto = primeraCuota.montoCuota
             viewModel.pagoRegistrado = false
             viewModel.idPagoGenerado = null
 
@@ -164,7 +170,7 @@ class PagoCuotaActivity : AppCompatActivity(),
                     val encontrada = viewModel.listaCuotasPendientes.find { it.idCuota == idExtraido }
                     if (encontrada != null) {
                         viewModel.cuotaPendiente = encontrada
-                        viewModel.monto = encontrada.montoCuota.toInt()
+                        viewModel.monto = encontrada.montoCuota
                     }
                 }
             }
@@ -184,9 +190,10 @@ class PagoCuotaActivity : AppCompatActivity(),
         )
     }
 
-    override var seleccionMetodoPago: String?
-        get() = viewModel.metodoNombre
-        set(value) { viewModel.metodoNombre = value }
+    override var seleccionMetodoPago: MetodoPago?
+        get() = viewModel.metodoPago
+        set(value) {
+            viewModel.metodoPago = value }
 
     override var seleccionNumCuotas: Int?
         get() = viewModel.cuota
@@ -245,7 +252,7 @@ class PagoCuotaActivity : AppCompatActivity(),
     }
 
     override fun onMetodoPagoContinuar() {
-        var nombreMetodo = viewModel.metodoNombre ?: return
+        val nombreMetodo = viewModel.metodoPago?.nombre ?: return
         when {
             nombreMetodo.contains("Tarjeta", ignoreCase = true) -> {
                 irA(
@@ -293,7 +300,7 @@ class PagoCuotaActivity : AppCompatActivity(),
             idReserva = null,
             actividad = actividadDesc,
             monto = viewModel.monto,
-            metodoPago = viewModel.metodoNombre,
+            metodoPago = viewModel.metodoPago?.nombre,
             cuota = viewModel.cuota,
             esNoSocio = false,
             fechaVencimiento = fechaVencStr
@@ -309,5 +316,33 @@ class PagoCuotaActivity : AppCompatActivity(),
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
         startActivity(intent)
         finish()
+    }
+
+    override var montoAPagar: Double
+        get() = viewModel.monto
+        set(value) {
+            viewModel.monto = value
+        }
+
+    override fun registrarPago(efectivo: Double): Boolean {
+        val cuota = viewModel.cuotaPendiente
+        val metodoPago = viewModel.metodoPago
+        if(montoAPagar > 0.0) {
+            val pago = pagoServ.registrarPago(cuota!!, montoAPagar, metodoPago!!)
+        }
+        return true
+    }
+
+    override fun onPagoEfectivoVolver() {
+        irA(
+            MetodoPagoFragment(),
+            EtapaPago.METODO_PAGO
+        )
+    }
+    override fun onPagoEfectivoContinuar() {
+        irA(
+            ComprobantePagoFragment(),
+            EtapaPago.COMPROBANTE_PAGO
+        )
     }
 }

@@ -23,13 +23,12 @@ class ReservaViewModel : ViewModel() {
     var programacion: Programacion? = null
     var reserva: ReservaDTO? = null
     val nombreCompleto: String
-       get() = "${cliente.nombre} ${cliente.apellido}"
+       get() = cliente.mostrarNombreCompleto()
 
     val nombreCompletoReserva: String
-        get() = reserva?.let { "${it.nombreCliente} ${it.apellidoCliente}" } ?: ""
+        get() = reserva?.let { cliente.mostrarNombreCompleto() } ?: ""
 
     fun irAPaso(numero: EtapaReserva) {
-
         _pasoActual.value = numero
     }
 }

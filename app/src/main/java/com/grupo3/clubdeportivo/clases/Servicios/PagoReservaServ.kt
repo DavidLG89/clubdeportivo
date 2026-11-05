@@ -6,14 +6,14 @@ import com.grupo3.clubdeportivo.clases.Interfaces.ResultadoPago
 import com.grupo3.clubdeportivo.clases.Modelos.MetodoPago
 import com.grupo3.clubdeportivo.clases.Repositorios.PagosRepo
 
-class PagoActividad(private val repo: PagosRepo) : IPago<ReservaDTO> {
+class PagoReservaServ(private val repo: PagosRepo) : IPago<ReservaDTO> {
 
     override fun registrarPago(
         entidad: ReservaDTO,
         montoAPagar: Double,
         metodoPago: MetodoPago
     ): ResultadoPago<ReservaDTO> {
-        if (entidad.estadoReserva != "Pendiente de pago") {
+        if (entidad?.estadoReserva != "Pendiente de pago") {
             return ResultadoPago(false, "No existe reserva pendiente de pago", null)
         }
 
@@ -39,4 +39,4 @@ class PagoActividad(private val repo: PagosRepo) : IPago<ReservaDTO> {
 
         return ResultadoPago(true, "Pago realizado con éxito", entidad, resultId = result)
     }
-}
+    }
