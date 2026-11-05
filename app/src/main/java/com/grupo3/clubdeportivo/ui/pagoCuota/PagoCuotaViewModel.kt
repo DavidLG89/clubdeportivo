@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.grupo3.clubdeportivo.clases.DTOS.CuotaDTO
+import com.grupo3.clubdeportivo.clases.Modelos.MetodoPago
 import com.grupo3.clubdeportivo.clases.Modelos.Programacion
 import com.grupo3.clubdeportivo.data.model.EtapaPago
 
@@ -17,8 +18,9 @@ class PagoCuotaViewModel : ViewModel() {
     var cuotaPendiente: CuotaDTO? = null
     var listaCuotasPendientes: List<CuotaDTO> = emptyList()
     var actividad: String? = null
-    var monto: Int? = null
-    var metodoPago: String? = null
+    var monto: Double = 0.0
+    var metodoPago: MetodoPago? = null
+    var metodoNombre: String? = null
     var cuota: Int? = null
     var pagoRegistrado: Boolean = false
     var idPagoGenerado: String? = null

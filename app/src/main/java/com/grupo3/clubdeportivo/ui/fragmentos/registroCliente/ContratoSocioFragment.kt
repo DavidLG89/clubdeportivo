@@ -54,6 +54,7 @@ class ContratoSocioFragment : Fragment(R.layout.fragment_contrato_socio) {
                 putExtra("EXTRA_NOMBRE", viewModel.nombre)
                 putExtra("EXTRA_APELLIDO", viewModel.apellido)
                 putExtra("EXTRA_DNI", viewModel.dni)
+                putExtra("EXTRA_EMAIL", viewModel.email)
                 putExtra("EXTRA_ES_SOCIO", viewModel.esSocio == true)
                 putExtra("EXTRA_APTO_FISICO", viewModel.aptoFisico)
                 putExtra("EXTRA_MONTO_CUOTA", viewModel.montoCuota)

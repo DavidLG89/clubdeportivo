@@ -3,7 +3,9 @@ package com.grupo3.clubdeportivo.ui.pagoCuota
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -13,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
+import com.grupo3.clubdeportivo.clases.Modelos.MetodoPago
 import com.grupo3.clubdeportivo.clases.Repositorios.CuotaRepo
 import com.grupo3.clubdeportivo.clases.Repositorios.PagosRepo
 import com.grupo3.clubdeportivo.clases.Servicios.PagoCuotaServ
@@ -26,10 +29,12 @@ import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.PagoEnCuotasFragment
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.VerificacionFragment
 import com.grupo3.clubdeportivo.ui.fragmentos.pago.BancoFragment
 import com.grupo3.clubdeportivo.ui.fragmentos.pago.ComprobantePagoFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.pago.PagoEfectivoFragment
 import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerComprobantePago
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerDni
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerMetodoPago
+import com.grupo3.clubdeportivo.ui.interfaces.ListenerPagoEfectivo
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerVerificacion
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -39,11 +44,14 @@ class PagoCuotaActivity : AppCompatActivity(),
     ListenerDni,
     ListenerVerificacion,
     ListenerMetodoPago,
+    ListenerPagoEfectivo,
     ListenerComprobantePago {
 
     private val viewModel: PagoCuotaViewModel by viewModels()
     private lateinit var stepBar: CompBarraEstadoPago
-    val dbHelper = DbHelperObject.get(this)
+    private val dbHelper by lazy { DbHelperObject.get(this) }
+    private val pagoServ by lazy { PagoCuotaServ(PagosRepo(dbHelper)) }
+
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -114,8 +122,8 @@ class PagoCuotaActivity : AppCompatActivity(),
             viewModel.listaCuotasPendientes = cuotasPendientes
             viewModel.cuotaPendiente = primeraCuota
             viewModel.idSocio = primeraCuota.socio?.idSocio
-            viewModel.nombre = "${primeraCuota.socio?.nombre} ${primeraCuota.socio?.apellido}"
-            viewModel.monto = primeraCuota.montoCuota.toInt()
+            viewModel.nombre = "${primeraCuota.socio?.apellido}, ${primeraCuota.socio?.nombre}"
+            viewModel.monto = primeraCuota.montoCuota
             viewModel.pagoRegistrado = false
             viewModel.idPagoGenerado = null
 
@@ -142,19 +150,28 @@ class PagoCuotaActivity : AppCompatActivity(),
         get() {
             val lista = viewModel.listaCuotasPendientes
             return if (lista.isNotEmpty()) {
-                lista.map { "Cuota ID: ${it.idCuota}" }.toTypedArray()
+                lista.map { cuota ->
+                    val fechaFormatted = com.grupo3.clubdeportivo.clases.Helpers.FechaDb.formatearFecha(cuota.fechaVencimiento)
+                    "Cuota ID: ${cuota.idCuota} - Venc: $fechaFormatted"
+                }.toTypedArray()
             } else null
         }
 
     override var seleccion: String?
-        get() = viewModel.cuotaPendiente?.let { "Cuota ID: ${it.idCuota}" }
+        get() = viewModel.cuotaPendiente?.let {
+            val fechaFormatted = com.grupo3.clubdeportivo.clases.Helpers.FechaDb.formatearFecha(it.fechaVencimiento)
+            "Cuota ID: ${it.idCuota} - Venc: $fechaFormatted"
+        }
         set(value) {
-            val idExtraido = value?.replace("Cuota ID: ", "")?.trim()?.toIntOrNull()
-            if (idExtraido != null) {
-                val encontrada = viewModel.listaCuotasPendientes.find { it.idCuota == idExtraido }
-                if (encontrada != null) {
-                    viewModel.cuotaPendiente = encontrada
-                    viewModel.monto = encontrada.montoCuota.toInt()
+            if (value != null) {
+                val match = Regex("Cuota ID:\\s*(\\d+)").find(value)
+                val idExtraido = match?.groupValues?.get(1)?.toIntOrNull()
+                if (idExtraido != null) {
+                    val encontrada = viewModel.listaCuotasPendientes.find { it.idCuota == idExtraido }
+                    if (encontrada != null) {
+                        viewModel.cuotaPendiente = encontrada
+                        viewModel.monto = encontrada.montoCuota
+                    }
                 }
             }
         }
@@ -173,9 +190,10 @@ class PagoCuotaActivity : AppCompatActivity(),
         )
     }
 
-    override var seleccionMetodoPago: String?
+    override var seleccionMetodoPago: MetodoPago?
         get() = viewModel.metodoPago
-        set(value) { viewModel.metodoPago = value }
+        set(value) {
+            viewModel.metodoPago = value }
 
     override var seleccionNumCuotas: Int?
         get() = viewModel.cuota
@@ -196,50 +214,73 @@ class PagoCuotaActivity : AppCompatActivity(),
             val cuotaObj = viewModel.cuotaPendiente!!
             val montoAPagar = viewModel.monto?.toDouble() ?: cuotaObj.montoCuota
 
-            val metodoStr = viewModel.metodoPago ?: "Efectivo"
-            val idMetodo = when {
-                metodoStr.contains("Mercado", ignoreCase = true) -> 4
-                metodoStr.contains("Tarjeta", ignoreCase = true) -> 3
-                metodoStr.contains("Cheque", ignoreCase = true) -> 2
-                else -> 1 // Efectivo / Transferencia
-            }
+            val metodoPago = viewModel.metodoPago
+            if (metodoPago != null) {
+                Toast.makeText(this, "Requiere método de pago", Toast.LENGTH_SHORT).show()
 
-            val resPago = pagoCuotaServ.registrarPago(cuotaObj, montoAPagar, idMetodo)
-            if (resPago.ok && resPago.resultId > 0) {
-                viewModel.pagoRegistrado = true
-                viewModel.idPagoGenerado = String.format(Locale.getDefault(), "%04d", resPago.resultId)
-                Toast.makeText(this, "Pago guardado con éxito en BD (ID: ${resPago.resultId})", Toast.LENGTH_SHORT).show()
-                return true
-            } else {
-                Toast.makeText(this, "Aviso al registrar en BD: ${resPago.mensaje}", Toast.LENGTH_LONG).show()
-                return false
+                //val idMetodo = when {
+                //    metodoStr.contains("Mercado", ignoreCase = true) -> 4
+                //    metodoStr.contains("Tarjeta", ignoreCase = true) -> 3
+                //    metodoStr.contains("Cheque", ignoreCase = true) -> 2
+                //    else -> 1 // Efectivo / Transferencia
+                //}
+
+                val resPago = pagoCuotaServ.registrarPago(cuotaObj, montoAPagar, metodoPago)
+
+                if (resPago.ok && resPago.resultId > 0) {
+                    viewModel.pagoRegistrado = true
+                    viewModel.idPagoGenerado =
+                        String.format(Locale.getDefault(), "%04d", resPago.resultId)
+                    Toast.makeText(
+                        this,
+                        "Pago guardado con éxito en BD (ID: ${resPago.resultId})",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return true
+                } else {
+                    Toast.makeText(
+                        this,
+                        "Aviso al registrar en BD: ${resPago.mensaje}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    return false
+                }
             }
-        }
-        return true
+            }
+            return true
+
     }
 
     override fun onMetodoPagoContinuar() {
-        val metodo = viewModel.metodoPago ?: ""
-        val esTarjeta = metodo.contains("Tarjeta", ignoreCase = true)
-        val esMercadoPago = metodo.contains("Mercado", ignoreCase = true)
+        val nombreMetodo = viewModel.metodoPago?.nombre ?: return
+        when {
+            nombreMetodo.contains("Tarjeta", ignoreCase = true) -> {
+                irA(
+                    BancoFragment(),
+                    EtapaPago.FORMALIZACION_PAGO
+                )
+            }
 
-        if (esTarjeta) {
-            irA(
-                BancoFragment(),
-                EtapaPago.FORMALIZACION_PAGO
-            )
-        } else if (esMercadoPago) {
-            irA(
-                PagoEnCuotasFragment(),
-                EtapaPago.FORMALIZACION_PAGO
-            )
-        } else {
-            // Efectivo, Transferencia u otros: registra RECIÉN el pago acá (NO ANTES)
-            procesarRegistroPagoBD()
-            irA(
-                ComprobantePagoFragment(),
-                EtapaPago.COMPROBANTE_PAGO
-            )
+            nombreMetodo.contains("Mercado", ignoreCase = true) -> {
+                irA(
+                    PagoEnCuotasFragment(),
+                    EtapaPago.FORMALIZACION_PAGO
+                )
+            }
+
+            nombreMetodo.contains("Efectivo", ignoreCase = true) -> {
+                irA(
+                    PagoEfectivoFragment(),
+                    EtapaPago.FORMALIZACION_PAGO
+                )
+            }
+
+            else -> {
+                irA(
+                    ComprobantePagoFragment(),
+                    EtapaPago.COMPROBANTE_PAGO
+                )
+            }
         }
     }
 
@@ -259,7 +300,7 @@ class PagoCuotaActivity : AppCompatActivity(),
             idReserva = null,
             actividad = actividadDesc,
             monto = viewModel.monto,
-            metodoPago = viewModel.metodoPago,
+            metodoPago = viewModel.metodoPago?.nombre,
             cuota = viewModel.cuota,
             esNoSocio = false,
             fechaVencimiento = fechaVencStr
@@ -275,5 +316,33 @@ class PagoCuotaActivity : AppCompatActivity(),
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
         startActivity(intent)
         finish()
+    }
+
+    override var montoAPagar: Double
+        get() = viewModel.monto
+        set(value) {
+            viewModel.monto = value
+        }
+
+    override fun registrarPago(efectivo: Double): Boolean {
+        val cuota = viewModel.cuotaPendiente
+        val metodoPago = viewModel.metodoPago
+        if(montoAPagar > 0.0) {
+            val pago = pagoServ.registrarPago(cuota!!, montoAPagar, metodoPago!!)
+        }
+        return true
+    }
+
+    override fun onPagoEfectivoVolver() {
+        irA(
+            MetodoPagoFragment(),
+            EtapaPago.METODO_PAGO
+        )
+    }
+    override fun onPagoEfectivoContinuar() {
+        irA(
+            ComprobantePagoFragment(),
+            EtapaPago.COMPROBANTE_PAGO
+        )
     }
 }

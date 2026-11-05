@@ -9,6 +9,54 @@ import java.util.Date
 class PagosRepo(private val dbHelper: DbHelper) {
 
     fun registrarPagoCuota(
+        cuota: com.grupo3.clubdeportivo.clases.DTOS.CuotaDTO?,
+        montoAPagar: Double,
+        medioPago: Int
+    ): Int {
+        if (cuota == null) return -2
+        val db = dbHelper.writableDatabase
+
+        val idCuota = cuota.idCuota
+        val idSocio = cuota.socio?.idSocio ?: -1
+
+        db.beginTransaction()
+        return try {
+            val fechaHoy = FechaDb.formatearFechaHora(Date())
+
+            val pagos = ContentValues().apply {
+                put("cuota_id", idCuota)
+                put("fecha_pago", fechaHoy)
+                put("monto", montoAPagar)
+                put("metodo_id", medioPago)
+            }
+
+            val pagoId = db.insert("pagos", null, pagos)
+            if (pagoId == -1L) return -99
+
+            db.update(
+                "cuotas", ContentValues().apply { put("estado_cuota", "Pagada") },
+                "id = ?", arrayOf(idCuota.toString())
+            )
+
+            if (idSocio > 0) {
+                db.update(
+                    "socios", ContentValues().apply { put("estado", 1) },
+                    "id = ?", arrayOf(idSocio.toString())
+                )
+            }
+
+            db.setTransactionSuccessful()
+            pagoId.toInt()
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            -99
+        } finally {
+            db.endTransaction()
+        }
+    }
+
+    fun registrarPagoCuota(
         socio: Socio?,
         montoAPagar: Double,
         medioPago: Int
@@ -23,39 +71,11 @@ class PagosRepo(private val dbHelper: DbHelper) {
                 if (c.moveToFirst()) c.getInt(0) else null
             } ?: return -2
 
-        db.beginTransaction()
-        return try {
-            val fechaHoy = FechaDb.formatearFechaHora(Date())
-
-            val pagos = ContentValues().apply {
-                put("cuota_id", idCuota )
-                put("fecha_pago", fechaHoy)
-                put("monto_pago", montoAPagar)
-                put("metodo_id", medioPago)
-            }
-
-            val pagoId = db.insert("pagos", null, pagos)
-            if (pagoId == -1L) return -99
-
-            db.update(
-                "cuotas", ContentValues().apply { put("estado_cuota", "Pagada") },
-                "id = ?", arrayOf(idCuota.toString())
-            )
-
-            db.update(
-                "socios", ContentValues().apply { put("estado", 1) },
-                "id = ?", arrayOf(socio?.idSocio.toString())
-            )
-
-            db.setTransactionSuccessful()
-            pagoId.toInt()
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-            -99
-        } finally {
-            db.endTransaction()
-        }
+        val dummyCuota = com.grupo3.clubdeportivo.clases.DTOS.CuotaDTO(
+            idCuota = idCuota,
+            socio = socio
+        )
+        return registrarPagoCuota(dummyCuota, montoAPagar, medioPago)
     }
 
     fun registrarPagoActividad(
@@ -92,7 +112,7 @@ class PagosRepo(private val dbHelper: DbHelper) {
             val valores = ContentValues().apply {
                 put("reserva_id", idReserva)
                 put("fecha_pago", FechaDb.formatearFechaHora(Date()))
-                put("monto_pago", montoAPagar)
+                put("monto", montoAPagar)
                 put("metodo_id", medioPago)
             }
 

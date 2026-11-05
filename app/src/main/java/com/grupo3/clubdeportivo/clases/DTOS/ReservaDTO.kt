@@ -8,9 +8,11 @@ data class ReservaDTO(
     var nombreCliente: String = "",
     var apellidoCliente: String = "",
     var dni: String = "",
+    var idProgramacion: Int = 0,
     var idActividad: Int = 0,
     var actividad: String = "",
     var precio: Double = 0.0,
     var fechaHora: Date = Date(),
-    var estadoReserva: String = ""
+    var estadoReserva: String = "",
+    var cuposDisponibles: Int = 0
 )

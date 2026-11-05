@@ -50,4 +50,12 @@ class ClienteServ(private val repo: ClienteRepo) {
     fun asignarANoSocio(cliente: Cliente): Int {
         return repo.asignarANoSocio(cliente)
     }
+
+    fun registrarSocio(clienteId: Int): Int {
+        return repo.registrarSocio(clienteId)
+    }
+
+    fun registrarNoSocio(clienteId: Int): Int {
+        return repo.registrarNoSocio(clienteId)
+    }
 }

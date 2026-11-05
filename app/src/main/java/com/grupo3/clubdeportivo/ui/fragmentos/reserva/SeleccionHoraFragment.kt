@@ -16,9 +16,11 @@ import com.grupo3.clubdeportivo.clases.Modelos.Actividad
 import com.grupo3.clubdeportivo.clases.Modelos.Cliente
 import com.grupo3.clubdeportivo.clases.Modelos.Programacion
 import com.grupo3.clubdeportivo.clases.Repositorios.ProgramacionRepo
+import com.grupo3.clubdeportivo.clases.Repositorios.ReservaRepo
 import com.grupo3.clubdeportivo.clases.Servicios.ProgramacionServ
 import com.grupo3.clubdeportivo.clases.Servicios.ReservaServ
 import com.grupo3.clubdeportivo.data.model.EtapaReserva
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.BusquedaDniFragment
 import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 import java.text.SimpleDateFormat
@@ -27,6 +29,7 @@ import java.util.Locale
 class SeleccionHoraFragment : Fragment(R.layout.fragment_seleccion_hora) {
     private val viewModel: ReservaViewModel by activityViewModels()
     private lateinit var dbHelper: DbHelper
+    private lateinit var repositorio: ReservaRepo
     private lateinit var servicio: ReservaServ
     private lateinit var repoProgramacion: ProgramacionRepo
     private lateinit var servProgramacion: ProgramacionServ
@@ -69,21 +72,28 @@ class SeleccionHoraFragment : Fragment(R.layout.fragment_seleccion_hora) {
         }
 
         btnReservar.setOnClickListener {
+            dbHelper = DbHelperObject.get(requireContext())
+            repositorio = ReservaRepo(dbHelper)
+            servicio = ReservaServ(repositorio)
 
             viewModel.programacion = programacionSeleccionada
-            Toast.makeText(requireContext(), "Actividad: ${programacionSeleccionada.actividad.nombre}", Toast.LENGTH_SHORT).show()
-            Toast.makeText(requireContext(), "Actividad: ${programacionSeleccionada.fechaHora}", Toast.LENGTH_SHORT).show()
-
-            Toast.makeText(requireContext(), "Cupo disponible: ${viewModel.programacion?.cuposDisponibles}", Toast.LENGTH_SHORT).show()
 
             val resultadoReserva = servicio.generarReserva(actividad, cliente, programacionSeleccionada.fechaHora)
+            if(!resultadoReserva.ok) {
+                Toast.makeText(requireContext(), "Mensaje: ${resultadoReserva.mensaje}", Toast.LENGTH_SHORT).show()
+                (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
+                    BusquedaDniFragment(),
+                    EtapaReserva.BUSQUEDA_DNI
+                )
+            }
 
-            viewModel.reserva = resultadoReserva.reserva
-
-            (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
-                ComprobanteReservaFragment(),
-                EtapaReserva.CONFIRMACION_RESERVA
-            )
+            if(resultadoReserva.ok) {
+                viewModel.reserva = resultadoReserva.reserva
+                (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
+                    ComprobanteReservaFragment(),
+                    EtapaReserva.CONFIRMACION_RESERVA
+                )
+            }
         }
     }
 
