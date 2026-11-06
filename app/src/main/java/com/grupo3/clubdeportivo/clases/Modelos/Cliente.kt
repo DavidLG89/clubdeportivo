@@ -22,8 +22,4 @@ open class Cliente : Persona {
     fun tieneAptoFisico(): Boolean {
         return aptoFisico
     }
-
-    fun puedeReservar(): Boolean {
-        return aptoFisico
-    }
 }

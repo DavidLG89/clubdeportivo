@@ -27,7 +27,7 @@ object GeneradorComprobantes {
             Apellido: ${reserva.apellidoCliente}
             DNI: ${reserva.dni}
             Actividad: ${reserva.actividad}
-            Fecha y Hora: ${sdf.format(reserva.fechaHora)}
+            Fecha y Hora: ${sdf.format(reserva.fechaHoraReserva)}
             $datoPago
         """.trimIndent()
     }
@@ -40,7 +40,7 @@ object GeneradorComprobantes {
             Apellido: ${reserva.apellidoCliente}
             DNI: ${reserva.dni}
             Actividad: ${reserva.actividad}
-            Fecha y Hora: ${sdf.format(reserva.fechaHora)}
+            Fecha y Hora: ${sdf.format(reserva.fechaHoraReserva)}
             Monto Pagado: $ ${reserva.precio}
             Método Pago: $metodoPago
             Fecha Pago: ${sdf.format(Date())}

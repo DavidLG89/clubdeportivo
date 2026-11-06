@@ -12,7 +12,7 @@ data class ReservaDTO(
     var idActividad: Int = 0,
     var actividad: String = "",
     var precio: Double = 0.0,
-    var fechaHora: Date = Date(),
+    var fechaHoraReserva: Date = Date(),
     var estadoReserva: String = "",
     var cuposDisponibles: Int = 0
 )

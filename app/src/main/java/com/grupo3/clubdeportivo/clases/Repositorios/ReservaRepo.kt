@@ -7,8 +7,6 @@ import com.grupo3.clubdeportivo.clases.DTOS.ReservaDTO
 import com.grupo3.clubdeportivo.clases.Helpers.FechaDb
 import com.grupo3.clubdeportivo.clases.Modelos.Actividad
 import com.grupo3.clubdeportivo.clases.Modelos.Cliente
-import com.grupo3.clubdeportivo.clases.Modelos.Programacion
-import com.grupo3.clubdeportivo.clases.Modelos.Reserva
 import com.grupo3.clubdeportivo.clases.Modelos.Socio
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -47,7 +45,7 @@ class ReservaRepo(private val dbHelper: DbHelper) {
                     cuposDisponibles = cursor.getInt(cursor.getColumnIndexOrThrow("cupos_disponibles"))
                     idActividad = cursor.getInt(cursor.getColumnIndexOrThrow("id_actividad"))
                     actividad = cursor.getString(cursor.getColumnIndexOrThrow("actividad"))
-                    fechaHora = fechaDate
+                    fechaHoraReserva = fechaDate
                     precio = cursor.getDouble(cursor.getColumnIndexOrThrow("precio"))
                     estadoReserva = cursor.getString(cursor.getColumnIndexOrThrow("estado"))
                 }
@@ -96,7 +94,7 @@ class ReservaRepo(private val dbHelper: DbHelper) {
                         actividad =
                             cursor.getString(cursor.getColumnIndexOrThrow("actividad")) ?: ""
                         precio = cursor.getDouble(cursor.getColumnIndexOrThrow("precio"))
-                        fechaHora = fhDate
+                        fechaHoraReserva = fhDate
                         estadoReserva =
                             cursor.getString(cursor.getColumnIndexOrThrow("estado")) ?: ""
                     }
@@ -150,7 +148,7 @@ class ReservaRepo(private val dbHelper: DbHelper) {
                         actividad =
                             cursor.getString(cursor.getColumnIndexOrThrow("actividad")) ?: ""
                         precio = cursor.getDouble(cursor.getColumnIndexOrThrow("precio"))
-                        fechaHora = fhDate
+                        fechaHoraReserva = fhDate
                         estadoReserva =
                             cursor.getString(cursor.getColumnIndexOrThrow("estado")) ?: ""
                     }

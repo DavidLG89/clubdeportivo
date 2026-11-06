@@ -26,6 +26,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
+import com.grupo3.clubdeportivo.clases.Repositorios.CuotaRepo
+import com.grupo3.clubdeportivo.clases.Servicios.CuotaServ
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
 import java.io.FileOutputStream
@@ -37,6 +40,8 @@ class VencimientoDiarioActivity : AppCompatActivity() {
 
     private lateinit var tableLayout: TableLayout
     private lateinit var fechaHoyActual: String
+    private val dbHelper by lazy { DbHelperObject.get(this) }
+    private val cuotaServ by lazy { CuotaServ(CuotaRepo(dbHelper)) }
 
     // ==========================
     // DATOS DE PRUEBA

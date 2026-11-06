@@ -11,7 +11,6 @@ import androidx.fragment.app.activityViewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.clases.Helpers.FechaDb
-import com.grupo3.clubdeportivo.clases.Modelos.Pago
 import com.grupo3.clubdeportivo.clases.Modelos.Socio
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.pagoReserva.PagoReservaActivity
@@ -30,7 +29,7 @@ class ComprobanteReservaFragment : Fragment(R.layout.fragment_comprobante_reserv
         }
 
         val cliente = viewModel.cliente
-        val fecha = reserva.fechaHora
+        val fecha = reserva.fechaHoraReserva
         val monto = if (reserva.estadoReserva == "Autorizada") "Sin cargo"
         else reserva.precio.toInt().formatoPeso()
 
@@ -44,8 +43,9 @@ class ComprobanteReservaFragment : Fragment(R.layout.fragment_comprobante_reserv
         view.findViewById<TextView>(R.id.tvPrintFecha).text = FechaDb.formatearFecha(fecha)
         view.findViewById<TextView>(R.id.tvPrintHorario).text = FechaDb.formatearHora(fecha)
         view.findViewById<TextView>(R.id.tvPrintValor).text = monto
+        view.findViewById<TextView>(R.id.tvPrintFechaReserva).text = FechaDb.formatearFecha(viewModel.reserva!!.fechaHoraReserva)
 
-        Toast.makeText(requireContext(), "Cupo restante: ${viewModel.programacion?.cuposDisponibles}", Toast.LENGTH_SHORT).show()
+
         val btnEnviar = view.findViewById<Button>(R.id.btnEnviar)
 
 
