@@ -70,6 +70,7 @@
     </LinearLayout>
     <!-- Título -->
     <TextView
+        android:id="@+id/txtSinProgramacion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
@@ -78,17 +79,18 @@
         android:text="@string/seleccione_una_hora"
         android:textColor="@color/black"
         android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="visible"/>
 
     <TextView
-        android:id="@+id/txtSinProgramacion"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Todavía no hay socios"
         android:textSize="12sp"
         android:visibility="gone"/>
 
-    <!-- Listado de cards hora y cupo -->
+<!-- Listado de cards hora y cupo -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvProgramacion"
         android:layout_width="match_parent"
