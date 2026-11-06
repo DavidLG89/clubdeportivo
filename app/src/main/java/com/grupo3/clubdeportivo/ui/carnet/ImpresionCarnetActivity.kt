@@ -12,8 +12,8 @@ import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
-import com.grupo3.clubdeportivo.ui.interfaces.ListenerDni
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.BusquedaDniFragment
+import com.grupo3.clubdeportivo.ui.interfaces.ListenerDni
 
 class ImpresionCarnetActivity : AppCompatActivity(), ListenerDni {
 
@@ -57,11 +57,23 @@ class ImpresionCarnetActivity : AppCompatActivity(), ListenerDni {
     }
 
     override fun onDniValidado(dni: String) {
-        viewModel.dni = dni
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, FragmConfirmacionCarnet())
-            .addToBackStack(null)
-            .commit()
+        val resultado = viewModel.buscarYProcesarCarnet(dni, this)
+        when (resultado) {
+            is ResultadoBusquedaCarnet.SocioNoExiste -> {
+                val fragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer) as? BusquedaDniFragment
+                fragment?.mostrarError("El socio con DNI $dni no existe.")
+            }
+            is ResultadoBusquedaCarnet.Error -> {
+                val fragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer) as? BusquedaDniFragment
+                fragment?.mostrarError(resultado.mensaje)
+            }
+            is ResultadoBusquedaCarnet.Exito -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainer, FragmConfirmacionCarnet())
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
     }
 
     override val colorCard = R.color.color_boton_principal2
