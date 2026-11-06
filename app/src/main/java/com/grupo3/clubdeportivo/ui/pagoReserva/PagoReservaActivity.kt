@@ -326,7 +326,7 @@ class PagoReservaActivity : AppCompatActivity(),
         val reserva = viewModel.reservaSeleccionada
 
         return DatosComprobante(
-            idPago = viewModel.idPago.toString(),
+            idPago = viewModel.idPago.toString().padStart(4, '0'),
             dni = reserva?.dni ?: viewModel.dni,
             nombre = reserva?.nombreCliente ?: viewModel.nombreCompleto,
             idReserva = (reserva?.idReserva ?: viewModel.idReserva).toString(),
@@ -365,10 +365,11 @@ class PagoReservaActivity : AppCompatActivity(),
 
         if (pago.ok) {
             viewModel.idPago = pago.resultId
+            Log.e("PAGO", "ID guardado en ViewModel: ${viewModel.idPago}")
             return true
         }
 
-        Log.e("PAGO", "Error al registrar pago: ${pago.mensaje}")
+        Log.d("PAGO", "ID guardado en ViewModel: ${viewModel.idPago}")
         return false
     }
 
