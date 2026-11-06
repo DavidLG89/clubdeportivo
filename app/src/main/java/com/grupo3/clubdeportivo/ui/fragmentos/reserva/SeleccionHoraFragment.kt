@@ -73,7 +73,9 @@ class SeleccionHoraFragment : Fragment(R.layout.fragment_seleccion_hora) {
 
             val resultadoReserva = reservaServ.generarReserva(actividad, cliente, programacionSeleccionada.fechaHora)
             if(!resultadoReserva.ok) {
+
                 Toast.makeText(requireContext(), "Mensaje: ${resultadoReserva.mensaje}", Toast.LENGTH_SHORT).show()
+
                 (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
                     BusquedaDniFragment(),
                     EtapaReserva.BUSQUEDA_DNI

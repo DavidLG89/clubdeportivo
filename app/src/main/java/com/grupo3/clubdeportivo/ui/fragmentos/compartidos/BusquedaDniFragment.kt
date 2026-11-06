@@ -31,13 +31,15 @@ class BusquedaDniFragment : Fragment(R.layout.fragment_busqueda_dni) {
             when {
                 dni.isEmpty() -> {
                     tvError.text = "Debe ingresar un DNI"
+                    tvError.visibility = View.VISIBLE
                 }
                 !dni.matches((Regex("^\\d{8}$"))) -> {
                     tvError.text = "El DNI debe tener 8 dígitos"
+                    tvError.visibility = View.VISIBLE
                 }
                 else -> {
-                   listener.onDniValidado(dni)
-                    tvError.visibility = View.GONE
+                   tvError.visibility = View.GONE
+                    listener.onDniValidado(dni)
                 }
             }
         }

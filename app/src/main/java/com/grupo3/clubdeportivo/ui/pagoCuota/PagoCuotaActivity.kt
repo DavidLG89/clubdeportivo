@@ -218,24 +218,12 @@ class PagoCuotaActivity : AppCompatActivity(),
             if (metodoPago != null) {
                 Toast.makeText(this, "Requiere método de pago", Toast.LENGTH_SHORT).show()
 
-                //val idMetodo = when {
-                //    metodoStr.contains("Mercado", ignoreCase = true) -> 4
-                //    metodoStr.contains("Tarjeta", ignoreCase = true) -> 3
-                //    metodoStr.contains("Cheque", ignoreCase = true) -> 2
-                //    else -> 1 // Efectivo / Transferencia
-                //}
-
                 val resPago = pagoCuotaServ.registrarPago(cuotaObj, montoAPagar, metodoPago)
 
                 if (resPago.ok && resPago.resultId > 0) {
                     viewModel.pagoRegistrado = true
-                    viewModel.idPagoGenerado =
-                        String.format(Locale.getDefault(), "%04d", resPago.resultId)
-                    Toast.makeText(
-                        this,
-                        "Pago guardado con éxito en BD (ID: ${resPago.resultId})",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    viewModel.idPagoGenerado = String.format(Locale.getDefault(), "%04d", resPago.resultId)
+
                     return true
                 } else {
                     Toast.makeText(
