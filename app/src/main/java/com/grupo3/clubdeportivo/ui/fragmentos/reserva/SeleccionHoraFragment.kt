@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
+import com.grupo3.clubdeportivo.clases.Helpers.FechaDb
 import com.grupo3.clubdeportivo.clases.Modelos.Actividad
 import com.grupo3.clubdeportivo.clases.Modelos.Cliente
 import com.grupo3.clubdeportivo.clases.Modelos.Programacion
@@ -69,26 +70,29 @@ class SeleccionHoraFragment : Fragment(R.layout.fragment_seleccion_hora) {
         }
 
         btnReservar.setOnClickListener {
-           viewModel.programacion = programacionSeleccionada
+            viewModel.programacion = programacionSeleccionada
+            val txtError = view.findViewById<TextView>(R.id.tvError)
+            txtError.visibility = View.GONE
 
-            val resultadoReserva = reservaServ.generarReserva(actividad, cliente, programacionSeleccionada.fechaHora)
-            if(!resultadoReserva.ok) {
-
-                Toast.makeText(requireContext(), "Mensaje: ${resultadoReserva.mensaje}", Toast.LENGTH_SHORT).show()
-
-                (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
-                    BusquedaDniFragment(),
-                    EtapaReserva.BUSQUEDA_DNI
-                )
+            fun mostrarError(mensaje: String) {
+                txtError.text = mensaje
+                txtError.visibility = View.VISIBLE
             }
 
-            if(resultadoReserva.ok) {
-                viewModel.reserva = resultadoReserva.reserva
-                (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
-                    ComprobanteReservaFragment(),
-                    EtapaReserva.CONFIRMACION_RESERVA
-                )
+            val resultadoReserva =
+                reservaServ.generarReserva(actividad, cliente, programacionSeleccionada.fechaHora)
+
+            if (!resultadoReserva.ok) {
+                mostrarError(resultadoReserva.mensaje)
+                return@setOnClickListener
             }
+
+
+            viewModel.reserva = resultadoReserva.reserva
+            (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
+                ComprobanteReservaFragment(),
+                EtapaReserva.CONFIRMACION_RESERVA
+            )
         }
     }
 
@@ -105,9 +109,8 @@ class SeleccionHoraFragment : Fragment(R.layout.fragment_seleccion_hora) {
 
 
 
-        rvProgramacion.adapter = ProgramacionAdapter(programacion) {
-            seleccionada ->
-                programacionSeleccionada = seleccionada
+        rvProgramacion.adapter = ProgramacionAdapter(programacion) { seleccionada ->
+            programacionSeleccionada = seleccionada
         }
 
         if (programacion.isEmpty()) {
