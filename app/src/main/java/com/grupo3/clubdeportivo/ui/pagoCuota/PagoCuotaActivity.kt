@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
-import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -16,8 +16,12 @@ import androidx.fragment.app.Fragment
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
 import com.grupo3.clubdeportivo.clases.Modelos.MetodoPago
+import com.grupo3.clubdeportivo.clases.Modelos.NoSocio
+import com.grupo3.clubdeportivo.clases.Repositorios.ClienteRepo
 import com.grupo3.clubdeportivo.clases.Repositorios.CuotaRepo
 import com.grupo3.clubdeportivo.clases.Repositorios.PagosRepo
+import com.grupo3.clubdeportivo.clases.Servicios.ClienteServ
+import com.grupo3.clubdeportivo.clases.Servicios.CuotaServ
 import com.grupo3.clubdeportivo.clases.Servicios.PagoCuotaServ
 import com.grupo3.clubdeportivo.data.model.DatosComprobante
 import com.grupo3.clubdeportivo.data.model.EtapaPago
@@ -51,6 +55,8 @@ class PagoCuotaActivity : AppCompatActivity(),
     private lateinit var stepBar: CompBarraEstadoPago
     private val dbHelper by lazy { DbHelperObject.get(this) }
     private val pagoServ by lazy { PagoCuotaServ(PagosRepo(dbHelper)) }
+    private val clienteServ by lazy { ClienteServ(ClienteRepo(dbHelper)) }
+    private val cuotaServ by lazy { CuotaServ(CuotaRepo(dbHelper)) }
 
 
     @SuppressLint("MissingInflatedId")
@@ -104,22 +110,34 @@ class PagoCuotaActivity : AppCompatActivity(),
 
     override fun onDniValidado(dni: String) {
 
+        val cuotasPendientes = cuotaServ.obtenerCuotasServ(dni)
+        val cuota = cuotasPendientes.cuotas.filter { it.estadoCuota == "Pendiente" }
 
-        val cuotaRepo = CuotaRepo(dbHelper)
-        val cuotasPendientes = cuotaRepo.obtenerCuotasRepo(dni).filter { it.estadoCuota == "Pendiente" }
+        val cliente = clienteServ.buscarClientePorDni(dni)
+        android.util.Log.d("CUOTA", "cliente=$cliente clase=${cliente?.javaClass?.simpleName} dni=${cliente?.dni}")
+        if(cliente == null) {
+            val tvError = findViewById<TextView>(R.id.tvError)
+            tvError.visibility = View.VISIBLE
+            tvError.text = "Cliente no encontrado"
+            return
+        }
 
-        if (cuotasPendientes.isEmpty()) {
-            AlertDialog.Builder(this)
-                .setTitle("Socio / Cuota no encontrada")
-                .setMessage("No se encontraron cuotas pendientes para el DNI $dni. Verifique que el cliente sea un socio registrado y posea cuotas pendientes.")
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setPositiveButton("Aceptar", null)
-                .show()
+        if(cliente is NoSocio) {
+            val tvError = findViewById<TextView>(R.id.tvError)
+            tvError.visibility = View.VISIBLE
+            tvError.text = "Cliente es no socio y no paga cuotas"
+            return
+        }
+        if (cuota.isEmpty()) {
+            val tvError = findViewById<TextView>(R.id.tvError)
+            tvError.visibility = View.VISIBLE
+            tvError.text = "Cliente no tiene cuotas pendientes"
+            return
         } else {
-            val primeraCuota = cuotasPendientes[0]
+            val primeraCuota = cuotasPendientes.cuotas[0]
 
             viewModel.dni = dni
-            viewModel.listaCuotasPendientes = cuotasPendientes
+            viewModel.listaCuotasPendientes = cuotasPendientes.cuotas
             viewModel.cuotaPendiente = primeraCuota
             viewModel.idSocio = primeraCuota.socio?.idSocio
             viewModel.nombre = "${primeraCuota.socio?.apellido}, ${primeraCuota.socio?.nombre}"
