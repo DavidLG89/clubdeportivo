@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
+import com.grupo3.clubdeportivo.clases.Modelos.Socio
 import com.grupo3.clubdeportivo.clases.Repositorios.ClienteRepo
 import com.grupo3.clubdeportivo.clases.Servicios.ClienteServ
 import com.grupo3.clubdeportivo.data.model.EtapaReserva
@@ -36,13 +37,22 @@ class VerificacionClienteFragment : Fragment(R.layout.fragment_verificacion_clie
         val btnContinuar = view.findViewById<Button>(R.id.btnContinuar)
 
         btnVolver.setOnClickListener {
-            (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
-                BusquedaDniFragment(),
-                EtapaReserva.BUSQUEDA_DNI
-            )
+            irABusquedaDNI()
         }
 
         btnContinuar.setOnClickListener {
+            val txtError = view.findViewById<TextView>(R.id.tvError)
+
+
+            if(viewModel.cliente is Socio && !(viewModel.cliente as Socio).estaActivo()) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Cliente no se encuentra activo por cuotas vencidas",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    irABusquedaDNI()
+                    return@setOnClickListener
+            }
 
             if (!viewModel.cliente.tieneAptoFisico()) {
                 MaterialAlertDialogBuilder(
@@ -57,28 +67,31 @@ class VerificacionClienteFragment : Fragment(R.layout.fragment_verificacion_clie
                             "Finalizando reserva de cliente...",
                             Toast.LENGTH_SHORT
                         ).show()
-                        (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
-                            BusquedaDniFragment(),
-                            EtapaReserva.BUSQUEDA_DNI
-                        )
+                        irABusquedaDNI()
                     }
                     .setPositiveButton("Sí presenta apto físico") { _, _ ->
                         if(clienteServ.actualizarAptoFisico(viewModel.cliente)) {
                             viewModel.cliente.aptoFisico = true
                         }
-                        (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
-                            SeleccionActividadFragment(),
-                            EtapaReserva.SELECCION_ACTIVIDAD
-                        )
+                        irASeleccionActividad()
                     }
                     .show()
-            } else {
-
-                (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
-                    SeleccionActividadFragment(),
-                    EtapaReserva.SELECCION_ACTIVIDAD
-                )
+                return@setOnClickListener
             }
+            irASeleccionActividad()
         }
+    }
+
+    private fun irASeleccionActividad() {
+        (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
+            SeleccionActividadFragment(),
+            EtapaReserva.SELECCION_ACTIVIDAD
+        )
+    }
+    private fun irABusquedaDNI() {
+        (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
+            BusquedaDniFragment(),
+            EtapaReserva.BUSQUEDA_DNI
+        )
     }
 }

@@ -226,8 +226,6 @@ class PagoCuotaActivity : AppCompatActivity(),
 
     fun procesarRegistroPagoBD(): Boolean {
         if (!viewModel.pagoRegistrado && viewModel.cuotaPendiente != null) {
-            val pagosRepo = PagosRepo(dbHelper)
-            val pagoCuotaServ = PagoCuotaServ(pagosRepo)
 
             val cuotaObj = viewModel.cuotaPendiente!!
             val montoAPagar = viewModel.monto?.toDouble() ?: cuotaObj.montoCuota
@@ -236,7 +234,7 @@ class PagoCuotaActivity : AppCompatActivity(),
             if (metodoPago != null) {
                 Toast.makeText(this, "Requiere método de pago", Toast.LENGTH_SHORT).show()
 
-                val resPago = pagoCuotaServ.registrarPago(cuotaObj, montoAPagar, metodoPago)
+                val resPago = pagoServ.registrarPago(cuotaObj, montoAPagar, metodoPago)
 
                 if (resPago.ok && resPago.resultId > 0) {
                     viewModel.pagoRegistrado = true
