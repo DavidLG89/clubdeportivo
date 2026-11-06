@@ -20,7 +20,6 @@ class PagoCuotaViewModel : ViewModel() {
     var actividad: String? = null
     var monto: Double = 0.0
     var metodoPago: MetodoPago? = null
-    var metodoNombre: String? = null
     var cuota: Int? = null
     var pagoRegistrado: Boolean = false
     var idPagoGenerado: String? = null

@@ -329,6 +329,8 @@ class PagoCuotaActivity : AppCompatActivity(),
         val metodoPago = viewModel.metodoPago
         if(montoAPagar > 0.0) {
             val pago = pagoServ.registrarPago(cuota!!, montoAPagar, metodoPago!!)
+
+            viewModel.idPagoGenerado = pago.resultId.toString()
         }
         return true
     }

@@ -365,11 +365,8 @@ class PagoReservaActivity : AppCompatActivity(),
 
         if (pago.ok) {
             viewModel.idPago = pago.resultId
-            Log.e("PAGO", "ID guardado en ViewModel: ${viewModel.idPago}")
             return true
         }
-
-        Log.d("PAGO", "ID guardado en ViewModel: ${viewModel.idPago}")
         return false
     }
 
