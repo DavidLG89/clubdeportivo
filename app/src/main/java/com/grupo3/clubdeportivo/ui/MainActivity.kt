@@ -56,9 +56,9 @@ class MainActivity : AppCompatActivity() {
                 if (user.isEmpty()) {
                     tilUser.error = "Complete usuario"
                 }
-                if (pass.isEmpty()) {
-                    tilPass.error = "Complete contraseña"
-                }
+                //if (pass.isEmpty()) {
+                  //  tilPass.error = "Complete contraseña"
+                //}
 
                 AlertDialog.Builder(this)
                     .setTitle("Error de inicio de sesión")
@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                 } else {
                     tilUser.error = "Usuario o contraseña incorrectos"
-                    tilPass.error = "Usuario o contraseña incorrectos"
+                    //tilPass.error = "Usuario o contraseña incorrectos"
 
                     AlertDialog.Builder(this)
                         .setTitle("Error de inicio de sesión")

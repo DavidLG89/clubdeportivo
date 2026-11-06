@@ -153,10 +153,25 @@ class FormRegistroClienteFragment : Fragment(R.layout.fragment_form_registro_cli
                         Toast.LENGTH_LONG
                     ).show()
 
-                    (requireActivity() as? BarraEstadoHost<EtapaRegistro>)?.irA(
-                        ConfirmacionRegistroFragment(),
-                        EtapaRegistro.CONFIRMACION_REGISTRO
-                    )
+                    fun irASiguientePaso() {
+                        (requireActivity() as? BarraEstadoHost<EtapaRegistro>)?.irA(
+                            ConfirmacionRegistroFragment(),
+                            EtapaRegistro.CONFIRMACION_REGISTRO
+                        )
+                    }
+
+                    if (!cbAptoFisico.isChecked) {
+                        AlertDialog.Builder(requireContext())
+                            .setTitle("Aviso Apto Físico")
+                            .setMessage("Recuerde que el apto físico es obligatorio para inscribirse en actividades. Podrá presentarlo luego.")
+                            .setPositiveButton("Aceptar") { _, _ ->
+                                irASiguientePaso()
+                            }
+                            .setCancelable(false)
+                            .show()
+                    } else {
+                        irASiguientePaso()
+                    }
                 }
             }
         }
