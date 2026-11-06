@@ -123,7 +123,9 @@ class ReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, List
         val cliente = servicio.buscarClientePorDni(dni)
 
         if(cliente == null) {
-            Toast.makeText(this, "Cliente no encontrado", Toast.LENGTH_SHORT).show()
+            val tvError = findViewById<TextView>(R.id.tvError)
+            tvError.visibility = View.VISIBLE
+            tvError.text = "Cliente no encontrado"
             return
         }
 
