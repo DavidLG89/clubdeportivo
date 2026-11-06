@@ -8,10 +8,13 @@ class Socio : Cliente {
             : super(nombre, apellido, dni, email, aptoFisico)
 
     constructor(id: Int, nombre: String, apellido: String, dni: String, email: String, aptoFisico: Boolean)
-            : super(id, nombre, apellido, dni, email, aptoFisico)
+            : super(id, nombre, apellido, dni, email, aptoFisico) {
+        this.idSocio = id
+    }
 
     constructor(id: Int, nombre: String, apellido: String, dni: String, email: String, aptoFisico: Boolean, estado: Boolean)
             : super(id, nombre, apellido, dni, email, aptoFisico) {
+        this.idSocio = id
         this.estado = estado
     }
 

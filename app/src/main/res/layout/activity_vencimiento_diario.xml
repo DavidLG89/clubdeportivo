@@ -49,6 +49,24 @@
         app:layout_constraintTop_toBottomOf="@+id/tvTitle"
         tools:text="Fecha: 01/03/2025" />
 
+    <!-- Texto de Aviso cuando no hay cuotas -->
+    <TextView
+        android:id="@+id/tvError"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:gravity="center"
+        android:textColor="@color/red"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvFechaHoy"
+        tools:text="No se encontraron cuotas vencidas el día de hoy" />
+
     <!-- Contenedor Scrollable para la tabla -->
     <ScrollView
         android:id="@+id/scrollViewTable"
