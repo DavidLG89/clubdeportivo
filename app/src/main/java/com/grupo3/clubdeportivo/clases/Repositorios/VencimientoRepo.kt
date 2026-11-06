@@ -1,5 +1,6 @@
 package com.grupo3.clubdeportivo.clases.Repositorios
 
+import android.util.Log
 import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelper
 import com.grupo3.clubdeportivo.clases.DTOS.CuotaDTO
 import com.grupo3.clubdeportivo.clases.Helpers.FechaDb
@@ -9,10 +10,8 @@ import java.util.Date
 class VencimientoRepo(private val dbHelper: DbHelper) {
 
     fun obtenerVencimientosPorFecha(fecha: Date): List<CuotaDTO> {
-
         val listaCuotas = mutableListOf<CuotaDTO>()
-        val db = dbHelper.readableDatabase
-        var fechaVencimiento = FechaDb.formatearFechaHora(fecha)
+        val fechaVencimiento = FechaDb.formatearFechaHora(fecha)
 
         val query = """
             SELECT p.nombre, p.apellido, p.dni, p.email, 
@@ -25,32 +24,39 @@ class VencimientoRepo(private val dbHelper: DbHelper) {
             WHERE date(c.fecha_vencimiento) = date(?)
         """.trimIndent()
 
-        db.rawQuery(query, arrayOf(fechaVencimiento)).use { cursor ->
+        return try {
+            val db = dbHelper.readableDatabase
+            val cursor = db.rawQuery(query, arrayOf(fechaVencimiento))
 
             while (cursor.moveToNext()) {
-                cursor.getString(cursor.getColumnIndexOrThrow("fecha_vencimiento"))
-                val nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre")) ?: ""
-                val apellido = cursor.getString(cursor.getColumnIndexOrThrow("apellido")) ?: ""
-                val dni = cursor.getString(cursor.getColumnIndexOrThrow("dni")) ?: ""
-                val email = cursor.getString(cursor.getColumnIndexOrThrow("email")) ?: ""
                 val idSocioVal = cursor.getInt(cursor.getColumnIndexOrThrow("id_socio"))
-                val estadoSocioVal =
-                    cursor.getInt(cursor.getColumnIndexOrThrow("estado_socio")) == 1
+                val nombreVal = cursor.getString(cursor.getColumnIndexOrThrow("nombre")) ?: ""
+                val apellidoVal = cursor.getString(cursor.getColumnIndexOrThrow("apellido")) ?: ""
+                val dniVal = cursor.getString(cursor.getColumnIndexOrThrow("dni")) ?: ""
+                val emailVal = cursor.getString(cursor.getColumnIndexOrThrow("email")) ?: ""
+                val estadoSocioVal = cursor.getInt(cursor.getColumnIndexOrThrow("estado_socio")) == 1
+                val idCuotaVal = cursor.getInt(cursor.getColumnIndexOrThrow("id_cuota"))
+                val montoVal = cursor.getDouble(cursor.getColumnIndexOrThrow("monto_cuota"))
+                val estadoCuotaVal = cursor.getString(cursor.getColumnIndexOrThrow("estado_cuota")) ?: ""
 
-                val socioObj = Socio(nombre, apellido, dni, email, true).apply {
+                val socioObj = Socio(idSocioVal, nombreVal, apellidoVal, dniVal, emailVal, true, estadoSocioVal).apply {
                     idSocio = idSocioVal
-                    estado = estadoSocioVal
                 }
 
                 val cuota = CuotaDTO().apply {
-                    idCuota = cursor.getInt(cursor.getColumnIndexOrThrow("id_cuota"))
+                    idCuota = idCuotaVal
                     socio = socioObj
                     estadoSocio = estadoSocioVal
-                    montoCuota = cursor.getDouble(cursor.getColumnIndexOrThrow("monto_cuota"))
-                    estadoCuota = cursor.getString(cursor.getColumnIndexOrThrow("estado_cuota"))
+                    montoCuota = montoVal
+                    estadoCuota = estadoCuotaVal
                 }
                 listaCuotas.add(cuota)
             }
+            cursor.close()
+            listaCuotas
+        } catch (e: Exception) {
+            Log.e("VencimientoRepo", "Error al obtener vencimientos por fecha", e)
+            listaCuotas
         }
         return listaCuotas
     }
