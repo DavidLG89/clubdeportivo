@@ -28,12 +28,12 @@ class ComprobanteReservaFragment : Fragment(R.layout.fragment_comprobante_reserv
             Toast.makeText(requireContext(), "No hay reserva para mostrar", Toast.LENGTH_SHORT).show()
             return
         }
+
         val cliente = viewModel.cliente
         val fecha = reserva.fechaHora
         val monto = if (reserva.estadoReserva == "Autorizada") "Sin cargo"
         else reserva.precio.toInt().formatoPeso()
-        val actividad = reserva.actividad
-        Toast.makeText(requireContext(), "Actividad de reserva $actividad", Toast.LENGTH_SHORT).show()
+
 
         // Imprime en pantalla datos de la reserva
         view.findViewById<TextView>(R.id.tvEditIdReserva).text = reserva.idReserva.toString().padStart(4, '0')
@@ -50,16 +50,17 @@ class ComprobanteReservaFragment : Fragment(R.layout.fragment_comprobante_reserv
 
 
         btnEnviar.setOnClickListener {
-
             Toast.makeText(
                 requireContext(),
                 "Enviando comprobante de reserva...",
                 Toast.LENGTH_SHORT
             ).show()
+
             if (cliente is Socio) {
                 val intent =
                     Intent(requireContext(), MenuPrincipalActivity::class.java)
                 startActivity(intent)
+
             } else {
                 MaterialAlertDialogBuilder(
                     requireContext(),
@@ -73,6 +74,10 @@ class ComprobanteReservaFragment : Fragment(R.layout.fragment_comprobante_reserv
                             "Finalizando reserva de cliente...",
                             Toast.LENGTH_SHORT
                         ).show()
+
+                        val intent = Intent(requireContext(), MenuPrincipalActivity::class.java)
+                        startActivity(intent)
+
                         MaterialAlertDialogBuilder(
                             requireContext(),
                             R.style.ThemeOverlay_App_MaterialAlertDialog_FullWidthButtons
@@ -111,7 +116,7 @@ class ComprobanteReservaFragment : Fragment(R.layout.fragment_comprobante_reserv
                                 putExtra(PagoReservaActivity.EXTRA_MONTO, reserva.precio)
                                 putExtra(PagoReservaActivity.EXTRA_ID_RESERVA, reserva.idReserva)
                             }
-                        android.util.Log.d("PAGO", "Enviando: dni=${reserva.dni} id=${reserva.idReserva} precio=${reserva.precio}")
+
                         startActivity(intent)
                     }
                     .show()

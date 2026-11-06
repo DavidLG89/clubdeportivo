@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -129,7 +131,9 @@ class ReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, List
 
         if(cliente is Socio) {
             viewModel.tipoCliente = "Socio"
+            return
         } else if(cliente is NoSocio) {
+
             viewModel.tipoCliente = "No Socio"
         }
 

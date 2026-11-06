@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +20,7 @@ import com.grupo3.clubdeportivo.clases.DTOS.ReservaDTO
 import com.grupo3.clubdeportivo.clases.Helpers.FechaDb
 import com.grupo3.clubdeportivo.clases.Modelos.Cliente
 import com.grupo3.clubdeportivo.clases.Modelos.MetodoPago
+import com.grupo3.clubdeportivo.clases.Modelos.NoSocio
 import com.grupo3.clubdeportivo.clases.Repositorios.ClienteRepo
 import com.grupo3.clubdeportivo.clases.Repositorios.PagosRepo
 import com.grupo3.clubdeportivo.clases.Repositorios.ReservaRepo
@@ -65,6 +68,7 @@ class PagoReservaActivity : AppCompatActivity(),
     private val clienteServ by lazy { ClienteServ(ClienteRepo(dbHelper)) }
     private val reservaServ by lazy { ReservaServ(ReservaRepo(dbHelper)) }
     private val pagoServ by lazy { PagoReservaServ(PagosRepo(dbHelper)) }
+
     var cliente = Cliente()
 
 
@@ -109,7 +113,6 @@ class PagoReservaActivity : AppCompatActivity(),
     }
 
     // Si llega con DNI (desde otra pantalla), salta directo al méthodo de pago
-
     private fun iniciarFlujo() {
 
         val dni = viewModel.dni ?: intent.getStringExtra(EXTRA_DNI)
@@ -155,7 +158,6 @@ class PagoReservaActivity : AppCompatActivity(),
         }
     }
 
-
     private fun irAMenuPrincipal() {
         val intent = Intent(this, MenuPrincipalActivity::class.java)
             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
@@ -196,14 +198,28 @@ class PagoReservaActivity : AppCompatActivity(),
     // Si el dni está validado, continúa al paso siguiente y guarda el dato en viewModel
     override fun onDniValidado(dni: String) {
 
-
         val cliente = clienteServ.buscarClientePorDni(dni)
 
+        if(cliente == null) {
+            val tvError = findViewById<TextView>(R.id.tvError)
+            tvError.visibility = View.VISIBLE
+            tvError.text = "Cliente no encontrado"
+            return
+        }
+        if(cliente !is NoSocio) {
+            val tvError = findViewById<TextView>(R.id.tvError)
+            tvError.visibility = View.VISIBLE
+            tvError.text = "Cliente es socio y no paga reservas"
+            return
+        }
 
         val reservas = reservaServ.buscarReservasPorDni(dni)
 
         if (reservas.isNullOrEmpty()) {
-            Toast.makeText(this, "Cliente no tiene reservas", Toast.LENGTH_SHORT).show()
+            val tvError = findViewById<TextView>(R.id.tvError)
+            tvError.visibility = View.VISIBLE
+            tvError.text = "Cliente no tiene reservas"
+            return
         }
 
         viewModel.dni = cliente?.dni

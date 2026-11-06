@@ -22,8 +22,8 @@ class VerificacionClienteFragment : Fragment(R.layout.fragment_verificacion_clie
     private val dbHelper by lazy { DbHelperObject.get(requireContext()) }
     private val clienteServ by lazy { ClienteServ(ClienteRepo(dbHelper)) }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         // Imprime en pantalla datos de clientes encontrados en BD
         view.findViewById<TextView>(R.id.tvPrintDni).text = viewModel.cliente.dni
