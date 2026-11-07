@@ -12,7 +12,7 @@ import java.util.Date
  * Administra el esquema relacional para personas, clientes, socios, no socios, actividades,
  * reservas, cuotas de pago y usuarios del sistema.
  */
-class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", null, 11) {
+class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", null, 12) {
 
     /**
      * Habilita las restricciones de claves foráneas en la base de datos SQLite.
@@ -217,7 +217,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
                     FOREIGN KEY(cuota_id) REFERENCES cuotas(id),
                     FOREIGN KEY(reserva_id) REFERENCES reservas(id),
                     FOREIGN KEY(metodo_id) REFERENCES metodos_pago(id),
-                    CHECK ((cuota_id IS NOT NULL AND reserva_id IS NULL) OR (cuota_id IS NULL AND reserva_id IS NOT NULL))
+                    CHECK ((cuota_id IS NOT NULL AND reserva_id IS NULL) OR (cuota_id IS NULL AND reserva_id NOT NULL))
                 );
             """.trimIndent()
         )
@@ -350,20 +350,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
             """.trimIndent()
         )
 
-        // 11. Socio activo con cuota pagada
-        db.execSQL(
-            """
-            UPDATE cuotas SET estado_cuota = 'Pagada', fecha_vencimiento = '2026-12-20'
-            WHERE socio_id IN (
-                SELECT s.id FROM socios s
-                INNER JOIN clientes cl ON s.cliente_id = cl.id
-                INNER JOIN personas p ON cl.persona_id = p.id
-                WHERE p.dni = '20789012'
-            );
-            """.trimIndent()
-        )
-
-        // 12. Programaciones semanales de actividades
+        // 11. Programaciones semanales de actividades
         db.execSQL(
             """
             INSERT INTO programaciones (actividad_id, fecha_hora, cupos_disponibles) VALUES
@@ -474,8 +461,31 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
         """.trimIndent()
         )
 
-        // 13. Sembrado de cuotas del día
+        // 12. Sembrado de cuotas del día para todos los socios
         sembrarCuotasVencidasHoy(db)
+
+        // 13. Inserción de cuotas pagadas de prueba para la socia Marta García (DNI: 20789012)
+        db.execSQL(
+            """
+            INSERT INTO cuotas (socio_id, monto_cuota, fecha_vencimiento, estado_cuota)
+            SELECT s.id, 15000.00, '2025-01-15', 'Pagada'
+            FROM socios s
+            INNER JOIN clientes cl ON s.cliente_id = cl.id
+            INNER JOIN personas p ON cl.persona_id = p.id
+            WHERE p.dni = '20789012';
+            """.trimIndent()
+        )
+
+        db.execSQL(
+            """
+            INSERT INTO cuotas (socio_id, monto_cuota, fecha_vencimiento, estado_cuota)
+            SELECT s.id, 15000.00, '2025-02-15', 'Pagada'
+            FROM socios s
+            INNER JOIN clientes cl ON s.cliente_id = cl.id
+            INNER JOIN personas p ON cl.persona_id = p.id
+            WHERE p.dni = '20789012';
+            """.trimIndent()
+        )
     }
 
     /**

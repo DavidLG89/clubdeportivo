@@ -11,18 +11,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelper
 import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
 import com.grupo3.clubdeportivo.clases.DTOS.CuotaDTO
 import com.grupo3.clubdeportivo.clases.Helpers.FechaDb
-import com.grupo3.clubdeportivo.clases.Modelos.Cliente
 import com.grupo3.clubdeportivo.clases.Repositorios.ClienteRepo
 import com.grupo3.clubdeportivo.clases.Repositorios.CuotaRepo
 import com.grupo3.clubdeportivo.clases.Servicios.CuotaServ
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
-import com.grupo3.clubdeportivo.ui.interfaces.ListenerDni
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.BusquedaDniFragment
+import com.grupo3.clubdeportivo.ui.interfaces.ListenerDni
 import java.util.Locale
 
 class BuscarVencimientoPorDniActivity : AppCompatActivity(), ListenerDni {
@@ -85,7 +83,7 @@ class BuscarVencimientoPorDniActivity : AppCompatActivity(), ListenerDni {
     }
 
     private fun cargarViewModel(dni: String, cuotas: List<CuotaDTO>) {
-        val socio = cuotas.first().socio
+        val socio = cuotas.firstOrNull()?.socio
 
         viewModel.dni = dni
         viewModel.nombreSocio = "${socio?.nombre ?: ""} ${socio?.apellido ?: ""}".trim()
@@ -97,6 +95,7 @@ class BuscarVencimientoPorDniActivity : AppCompatActivity(), ListenerDni {
                     c.idCuota.toString(),
                     FechaDb.formatearFecha(c.fechaVencimiento),
                     "$${"%,.0f".format(Locale("es", "AR"), c.montoCuota)}",
+                    c.estadoCuota
                 )
             }
     }
