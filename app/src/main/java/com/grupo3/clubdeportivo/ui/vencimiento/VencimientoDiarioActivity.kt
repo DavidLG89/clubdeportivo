@@ -28,7 +28,9 @@ import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
 import com.grupo3.clubdeportivo.clases.Repositorios.CuotaRepo
+import com.grupo3.clubdeportivo.clases.Repositorios.VencimientoRepo
 import com.grupo3.clubdeportivo.clases.Servicios.CuotaServ
+import com.grupo3.clubdeportivo.clases.Servicios.VencimientoServ
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
 import java.io.FileOutputStream
@@ -41,21 +43,9 @@ class VencimientoDiarioActivity : AppCompatActivity() {
     private lateinit var tableLayout: TableLayout
     private lateinit var fechaHoyActual: String
     private val dbHelper by lazy { DbHelperObject.get(this) }
-    private val cuotaServ by lazy { CuotaServ(CuotaRepo(dbHelper)) }
+    private val vencimientoServ by lazy { VencimientoServ(VencimientoRepo(dbHelper)) }
+    private var cuotas: List<List<String>> = emptyList()
 
-    // ==========================
-    // DATOS DE PRUEBA
-    // ==========================
-
-    val cuotas: List<List<String>> = listOf(
-        listOf("1", "14", "Roberto Gomez", "$30.000"),
-        listOf("22", "55", "Juan Amarilla", "$30.000"),
-        listOf("13", "10", "David Sanchez", "$30.000"),
-        listOf("4", "3", "Sergio Gon", "$30.000"),
-        listOf("60", "17", "Pablo Leguizamon", "$30.000"),
-        listOf("45", "4", "Maximo Perez", "$30.000"),
-        listOf("8", "78", "Delfina Cabañas", "$30.000")
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,6 +71,8 @@ class VencimientoDiarioActivity : AppCompatActivity() {
 
         // Referencia a la tabla
         tableLayout = findViewById(R.id.tableLayout)
+
+        cargarCuotas()
 
         // Crear la tabla
         setupTable()
@@ -140,6 +132,18 @@ class VencimientoDiarioActivity : AppCompatActivity() {
         }
     }
 
+    private fun cargarCuotas() {
+        val lista = vencimientoServ.obtenerPendientesPorFecha(Date())
+
+        cuotas = lista.map { c ->
+            listOf(
+                c.idCuota.toString(),
+                c.socio?.idSocio.toString(),
+                "${c.socio?.nombre} ${c.socio?.apellido}",
+                "$${"%,.0f".format(Locale("es", "AR"), c.montoCuota)}"
+            )
+        }
+    }
     private fun imprimirCuotas() {
         val printManager = getSystemService(PRINT_SERVICE) as PrintManager
         val nombreDocumento = "Cuotas_vencidas_del_dia_$fechaHoyActual"

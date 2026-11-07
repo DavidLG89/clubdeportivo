@@ -4,7 +4,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", null, 9) {
+class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", null, 10) {
 
     override fun onConfigure(db: SQLiteDatabase) {
         super.onConfigure(db)
@@ -437,11 +437,31 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
         """.trimIndent()
 )
 
+        // Cuotas de prueba para la pantalla de vencimientos del día
         db.execSQL(
             """
-                    INSERT INTO cuotas (socio_id, monto_cuota, fecha_vencimiento, estado_cuota)
-                    SELECT id, 1500.00, '2026-07-20', 'Pendiente' FROM socios;
-                """.trimIndent()
+    INSERT INTO cuotas (socio_id, monto_cuota, fecha_vencimiento, estado_cuota)
+    SELECT id, 30000.00, date('now','localtime'), 'Pendiente'
+    FROM socios LIMIT 5;
+    """.trimIndent()
+        )
+
+// Una pagada hoy, para comprobar que "todos los del día" mezcla estados
+        db.execSQL(
+            """
+    INSERT INTO cuotas (socio_id, monto_cuota, fecha_vencimiento, estado_cuota)
+    SELECT id, 30000.00, date('now','localtime'), 'Pagada'
+    FROM socios LIMIT 2 OFFSET 5;
+    """.trimIndent()
+        )
+
+// Una de mañana, que NO debería aparecer en la pantalla
+        db.execSQL(
+            """
+    INSERT INTO cuotas (socio_id, monto_cuota, fecha_vencimiento, estado_cuota)
+    SELECT id, 30000.00, date('now','localtime','+1 day'), 'Pendiente'
+    FROM socios LIMIT 1 OFFSET 7;
+    """.trimIndent()
         )
     }
 }
