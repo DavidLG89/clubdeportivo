@@ -136,7 +136,7 @@ class VencimientoDiarioActivity : AppCompatActivity() {
     private fun cargarCuotas() {
         val lista = vencimientoServ.obtenerPendientesPorFecha(Date())
 
-        cuotas = lista.map { c ->
+        cuotas = lista.cuotas.map { c ->
             listOf(
                 c.idCuota.toString(),
                 c.socio?.dni.toString(),
