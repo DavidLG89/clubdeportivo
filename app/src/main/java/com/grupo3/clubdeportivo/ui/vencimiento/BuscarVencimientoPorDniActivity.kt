@@ -89,7 +89,7 @@ class BuscarVencimientoPorDniActivity : AppCompatActivity(), ListenerDni {
 
         viewModel.dni = dni
         viewModel.nombreSocio = "${socio?.nombre ?: ""} ${socio?.apellido ?: ""}".trim()
-        viewModel.numeroSocio = socio?.idSocio?.toString() ?: ""
+        viewModel.numeroSocio = "Id socio: ${socio?.idSocio?.toString()}" ?: ""
         viewModel.cuotasSocio = cuotas
             .sortedBy { it.fechaVencimiento }
             .map { c ->
