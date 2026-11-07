@@ -18,15 +18,7 @@ class PagoEfectivoFragment : Fragment(R.layout.fragment_pago_efectivo) {
 
         val montoAPagar = listener.montoAPagar
 
-        if (montoAPagar == null) {
-            Toast.makeText(
-                requireContext(), "No existe monto asociado",
-                Toast.LENGTH_SHORT
-            ).show()
-            return
-        }
         view.findViewById<TextView>(R.id.tvMontoPago).text = montoAPagar.toString()
-
 
         var pagado = false
 

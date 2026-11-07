@@ -97,11 +97,6 @@ class ComprobanteReservaFragment : Fragment(R.layout.fragment_comprobante_reserv
                             Toast.LENGTH_SHORT
                         ).show()
 
-                        android.util.Log.d("PAGO", "Reserva actividad: ${reserva.actividad}")
-                        android.util.Log.d("PAGO", "ViewModel actividad: ${viewModel.actividad.nombre}")
-                        android.util.Log.d("PAGO", "Reserva DNI: ${reserva.dni}")
-                        android.util.Log.d("PAGO", "Reserva apellido: ${reserva.apellidoCliente}")
-
                         val intent =
                             Intent(requireContext(), PagoReservaActivity::class.java).apply {
                                 putExtra(PagoReservaActivity.EXTRA_DNI, reserva.dni)
