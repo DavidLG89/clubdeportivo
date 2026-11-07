@@ -3,10 +3,8 @@ package com.grupo3.clubdeportivo.clases.BaseDatos
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.grupo3.clubdeportivo.clases.Helpers.FechaDb
-import java.util.Date
 
-class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", null, 14) {
+class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", null, 11) {
 
     override fun onConfigure(db: SQLiteDatabase) {
         super.onConfigure(db)
@@ -307,6 +305,15 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
     """.trimIndent()
         )
 
+// ... INSERT INTO programaciones (sin cambios) ...
+
+        db.execSQL(
+            """
+    INSERT INTO cuotas (socio_id, monto_cuota, fecha_vencimiento, estado_cuota)
+    SELECT id, 1500.00, '2026-07-20', 'Pendiente' FROM socios;
+    """.trimIndent()
+        )
+
 // NUEVO: socio activo con cuota paga
         db.execSQL(
             """
@@ -430,18 +437,11 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
         """.trimIndent()
 )
 
-        sembrarCuotasVencidasHoy(db)
-    }
-
-    fun sembrarCuotasVencidasHoy(db: SQLiteDatabase? = null) {
-        val database = db ?: writableDatabase
-        val fechaHoyIso = FechaDb.formatearFechaIso(Date())
-        database.execSQL("DELETE FROM cuotas WHERE date(fecha_vencimiento) = date('$fechaHoyIso');")
-        database.execSQL(
+        db.execSQL(
             """
-            INSERT INTO cuotas (socio_id, monto_cuota, fecha_vencimiento, estado_cuota)
-            SELECT id, 15000.00, '$fechaHoyIso', 'Pendiente' FROM socios;
-            """.trimIndent()
+                    INSERT INTO cuotas (socio_id, monto_cuota, fecha_vencimiento, estado_cuota)
+                    SELECT id, 1500.00, '2026-07-20', 'Pendiente' FROM socios;
+                """.trimIndent()
         )
     }
 }

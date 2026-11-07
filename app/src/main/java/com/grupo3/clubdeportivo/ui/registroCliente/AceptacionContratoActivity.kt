@@ -17,12 +17,16 @@ import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
 import com.grupo3.clubdeportivo.clases.Modelos.Cliente
 import com.grupo3.clubdeportivo.clases.Repositorios.ClienteRepo
+import com.grupo3.clubdeportivo.clases.Repositorios.CuotaRepo
 import com.grupo3.clubdeportivo.clases.Servicios.ClienteServ
+import com.grupo3.clubdeportivo.clases.Servicios.CuotaServ
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
 
 class AceptacionContratoActivity : AppCompatActivity() {
-    var dbHelper = DbHelperObject.get(this)
+    private val dbHelper  by lazy { DbHelperObject.get(this) }
+    private val clienteServ by lazy { ClienteServ(ClienteRepo(dbHelper)) }
+    private val cuotaServ by lazy { CuotaServ(CuotaRepo(dbHelper), ClienteRepo(dbHelper)) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,9 +70,6 @@ class AceptacionContratoActivity : AppCompatActivity() {
             Log.d("REGISTRO_CLIENTE", "AceptacionContrato Acepta: Nombre=$nombre, DNI=$dni")
 
             if (dni.isNotEmpty()) {
-                val clienteRepo = ClienteRepo(dbHelper)
-                val clienteServ = ClienteServ(clienteRepo)
-                val cuotaRepo = com.grupo3.clubdeportivo.clases.Repositorios.CuotaRepo(dbHelper)
 
                 var clienteTarget: Cliente? = clienteServ.buscarClientePorDni(dni)
 
@@ -82,9 +83,10 @@ class AceptacionContratoActivity : AppCompatActivity() {
 
                 if (clienteTarget != null) {
                     val idSocio = clienteServ.registrarSocio(clienteTarget.idCliente)
+
                     if (idSocio > 0) {
                         val montoCuota = montoCuotaStr.toDoubleOrNull() ?: 10000.0
-                        cuotaRepo.registrarCuotasSocio(idSocio, montoCuota)
+                        cuotaServ.registrarCuotasSocio(idSocio, montoCuota)
                         mensaje.text = "Contrato aceptado por el cliente.\n\nSe registró como socio."
                     } else {
                         mensaje.text = "Ocurrió un error al registrar la condición de socio."

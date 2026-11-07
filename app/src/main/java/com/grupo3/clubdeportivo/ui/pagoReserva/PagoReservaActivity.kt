@@ -3,7 +3,6 @@ package com.grupo3.clubdeportivo.ui.pagoReserva
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.LinearLayout
@@ -254,7 +253,7 @@ class PagoReservaActivity : AppCompatActivity(),
         }
 
     private fun textoReserva(r: ReservaDTO): String {
-        val fecha = FechaDb.formatearFecha(r.fechaHora)
+        val fecha = FechaDb.formatearFecha(r.fechaHoraReserva)
         val sufijo = if (r.cuposDisponibles <= 0) " (sin cupo)" else ""
         return "${r.actividad} ~ $fecha$sufijo"
     }

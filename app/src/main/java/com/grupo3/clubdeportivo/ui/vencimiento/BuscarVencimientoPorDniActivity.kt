@@ -4,20 +4,32 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelper
+import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
+import com.grupo3.clubdeportivo.clases.DTOS.CuotaDTO
+import com.grupo3.clubdeportivo.clases.Helpers.FechaDb
+import com.grupo3.clubdeportivo.clases.Modelos.Cliente
+import com.grupo3.clubdeportivo.clases.Repositorios.ClienteRepo
+import com.grupo3.clubdeportivo.clases.Repositorios.CuotaRepo
+import com.grupo3.clubdeportivo.clases.Servicios.CuotaServ
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerDni
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.BusquedaDniFragment
+import java.util.Locale
 
 class BuscarVencimientoPorDniActivity : AppCompatActivity(), ListenerDni {
 
     private val viewModel: VencimientoDniViewModel by viewModels()
+    private val dbHelper by lazy { DbHelperObject.get(this) }
+    private val cuotaServ by lazy { CuotaServ(CuotaRepo(dbHelper), ClienteRepo(dbHelper)) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,12 +69,38 @@ class BuscarVencimientoPorDniActivity : AppCompatActivity(), ListenerDni {
     }
 
     override fun onDniValidado(dni: String) {
-        viewModel.dni = dni
+        val resultado = cuotaServ.obtenerCuotasSocioServ(dni)
+
+        if (!resultado.ok) {
+            Toast.makeText(this, resultado.mensaje, Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        cargarViewModel(dni, resultado.cuotas)
+
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, CuotasSocioFragment())
             .addToBackStack(null)
             .commit()
     }
 
-    override val colorCard = R.color.color_boton_principal2
+    private fun cargarViewModel(dni: String, cuotas: List<CuotaDTO>) {
+        val socio = cuotas.first().socio
+
+        viewModel.dni = dni
+        viewModel.nombreSocio = "${socio?.nombre ?: ""} ${socio?.apellido ?: ""}".trim()
+        viewModel.numeroSocio = socio?.idSocio?.toString() ?: ""
+        viewModel.cuotasSocio = cuotas
+            .sortedBy { it.fechaVencimiento }
+            .map { c ->
+                listOf(
+                    c.idCuota.toString(),
+                    FechaDb.formatearFecha(c.fechaVencimiento),
+                    "$${"%,.0f".format(Locale("es", "AR"), c.montoCuota)}",
+                )
+            }
+    }
+
+    override val colorCard: Int
+        get() = R.color.color_boton_principal2
 }

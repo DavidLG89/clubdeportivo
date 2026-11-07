@@ -29,12 +29,13 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
-import com.grupo3.clubdeportivo.clases.Helpers.FechaDb
 import com.grupo3.clubdeportivo.clases.Repositorios.VencimientoRepo
 import com.grupo3.clubdeportivo.clases.Servicios.VencimientoServ
+import com.grupo3.clubdeportivo.clases.Helpers.FechaDb
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
 import java.io.FileOutputStream
+import java.util.Locale
 import java.util.Date
 import kotlin.math.ceil
 
@@ -42,7 +43,10 @@ class VencimientoDiarioActivity : AppCompatActivity() {
 
     private lateinit var tableLayout: TableLayout
     private lateinit var fechaHoyActual: String
+    private val dbHelper by lazy { DbHelperObject.get(this) }
+    private val vencimientoServ by lazy { VencimientoServ(VencimientoRepo(dbHelper)) }
     private var cuotas: List<List<String>> = emptyList()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,36 +71,13 @@ class VencimientoDiarioActivity : AppCompatActivity() {
 
         // Referencia a vistas
         tableLayout = findViewById(R.id.tableLayout)
-        val scrollViewTable = findViewById<ScrollView>(R.id.scrollViewTable)
+
+        cargarCuotas()
+
+        // Crear la tabla
+        setupTable()
+
         val btnImprimir = findViewById<Button>(R.id.btnImprimir)
-        val tvError = findViewById<TextView>(R.id.tvError)
-
-        // Cargar cuotas mediante el servicio VencimientoServ
-        val dbHelper = DbHelperObject.get(this)
-        val vencimientoRepo = VencimientoRepo(dbHelper)
-        val vencimientoServ = VencimientoServ(vencimientoRepo)
-
-        val resultado = vencimientoServ.obtenerVencimientosPorFecha(Date())
-
-        if (resultado.ok && resultado.cuotas.isNotEmpty()) {
-            cuotas = resultado.cuotas.map { item ->
-                val idStr = item.idCuota.toString()
-                val nroSocioStr = item.socio?.idSocio?.toString() ?: "-"
-                val nombreCompleto = "${item.socio?.nombre} ${item.socio?.apellido}".trim()
-                val montoStr = "$${item.montoCuota.toInt()}"
-                listOf(idStr, nroSocioStr, nombreCompleto, montoStr)
-            }
-            tvError.visibility = View.GONE
-            scrollViewTable.visibility = View.VISIBLE
-            btnImprimir.visibility = View.VISIBLE
-            setupTable()
-        } else {
-            cuotas = emptyList()
-            scrollViewTable.visibility = View.GONE
-            btnImprimir.visibility = View.GONE
-            tvError.visibility = View.VISIBLE
-            tvError.text = "No se encontraron cuotas vencidas el día de hoy ($fechaHoyActual)"
-        }
 
         btnImprimir.setOnClickListener {
             imprimirCuotas()
@@ -120,7 +101,7 @@ class VencimientoDiarioActivity : AppCompatActivity() {
     private fun setupTable() {
         tableLayout.removeAllViews()
         val headerRow = TableRow(this)
-        val headers = listOf("Id", "Nro Socio", "Nombre y Apellido", "Monto")
+        val headers = listOf("Id", "Dni Socio", "Nombre y Apellido", "Monto")
 
         for (texto in headers) {
             val textView = TextView(this).apply {
@@ -152,6 +133,18 @@ class VencimientoDiarioActivity : AppCompatActivity() {
         }
     }
 
+    private fun cargarCuotas() {
+        val lista = vencimientoServ.obtenerPendientesPorFecha(Date())
+
+        cuotas = lista.cuotas.map { c ->
+            listOf(
+                c.idCuota.toString(),
+                c.socio?.dni.toString(),
+                "${c.socio?.nombre} ${c.socio?.apellido}",
+                "$${"%,.0f".format(Locale("es", "AR"), c.montoCuota)}"
+            )
+        }
+    }
     private fun imprimirCuotas() {
         val printManager = getSystemService(PRINT_SERVICE) as PrintManager
         val nombreDocumento = "Cuotas_vencidas_del_dia_$fechaHoyActual"

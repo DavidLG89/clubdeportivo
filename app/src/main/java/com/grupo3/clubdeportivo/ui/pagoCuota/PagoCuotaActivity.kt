@@ -8,7 +8,6 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -56,7 +55,7 @@ class PagoCuotaActivity : AppCompatActivity(),
     private val dbHelper by lazy { DbHelperObject.get(this) }
     private val pagoServ by lazy { PagoCuotaServ(PagosRepo(dbHelper)) }
     private val clienteServ by lazy { ClienteServ(ClienteRepo(dbHelper)) }
-    private val cuotaServ by lazy { CuotaServ(CuotaRepo(dbHelper)) }
+    private val cuotaServ by lazy { CuotaServ(CuotaRepo(dbHelper), ClienteRepo(dbHelper)) }
 
 
     @SuppressLint("MissingInflatedId")
@@ -110,7 +109,7 @@ class PagoCuotaActivity : AppCompatActivity(),
 
     override fun onDniValidado(dni: String) {
 
-        val cuotasPendientes = cuotaServ.obtenerCuotasServ(dni)
+        val cuotasPendientes = cuotaServ.obtenerCuotasSocioServ(dni)
         val cuota = cuotasPendientes.cuotas.filter { it.estadoCuota == "Pendiente" }
 
         val cliente = clienteServ.buscarClientePorDni(dni)
