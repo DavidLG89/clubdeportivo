@@ -38,6 +38,12 @@ import java.io.FileOutputStream
 import java.util.Date
 import kotlin.math.ceil
 
+/**
+ * Actividad que muestra y gestiona la lista de cuotas de socios que vencen en el día de hoy.
+ *
+ * Utiliza [VencimientoServ] para consultar las cuotas vencidas, ofreciendo visualización
+ * en tabla con scrollbar e impresión en PDF multipágina con numeración.
+ */
 class VencimientoDiarioActivity : AppCompatActivity() {
 
     private lateinit var tableLayout: TableLayout
@@ -48,12 +54,14 @@ class VencimientoDiarioActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_vencimiento_diario)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
+        // Configuración del botón de retroceso
         val btnBack = findViewById<ImageButton>(R.id.btnBack)
         btnBack.setOnClickListener {
             finish()
@@ -65,13 +73,13 @@ class VencimientoDiarioActivity : AppCompatActivity() {
         val tvFechaHoy = findViewById<TextView>(R.id.tvFechaHoy)
         tvFechaHoy.text = "Fecha: $fechaHoyActual"
 
-        // Referencia a la tabla
+        // Referencias a vistas
         tableLayout = findViewById(R.id.tableLayout)
         val scrollViewTable = findViewById<ScrollView>(R.id.scrollViewTable)
         val btnImprimir = findViewById<Button>(R.id.btnImprimir)
         val tvError = findViewById<TextView>(R.id.tvError)
 
-        // Cargar cuotas mediante el servicio VencimientoServ
+        // Cargar cuotas vencidas mediante la capa de servicios VencimientoServ
         val dbHelper = DbHelperObject.get(this)
         val vencimientoRepo = VencimientoRepo(dbHelper)
         val vencimientoServ = VencimientoServ(vencimientoRepo)
@@ -117,6 +125,9 @@ class VencimientoDiarioActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Construye las filas y celdas de la tabla en pantalla con los datos de las cuotas vencidas.
+     */
     private fun setupTable() {
         tableLayout.removeAllViews()
         val headerRow = TableRow(this)
@@ -152,6 +163,9 @@ class VencimientoDiarioActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Inicia la impresión en PDF de las cuotas vencidas del día utilizando [PrintManager].
+     */
     private fun imprimirCuotas() {
         val printManager = getSystemService(PRINT_SERVICE) as PrintManager
         val nombreDocumento = "Cuotas_vencidas_del_dia_$fechaHoyActual"
@@ -167,6 +181,9 @@ class VencimientoDiarioActivity : AppCompatActivity() {
         )
     }
 
+    /**
+     * Muestra un diálogo emergente al finalizar la impresión ofreciendo regresar al Inicio o permanecer.
+     */
     private fun mostrarDialogoOpciones() {
         AlertDialog.Builder(this)
             .setTitle("Impresión finalizada")
@@ -181,6 +198,9 @@ class VencimientoDiarioActivity : AppCompatActivity() {
             .show()
     }
 
+    /**
+     * Adaptador para renderizar el reporte PDF multipágina de cuotas vencidas del día.
+     */
     private inner class CuotasPrintAdapter : PrintDocumentAdapter() {
 
         private val rowsPerPage = 15
@@ -192,6 +212,9 @@ class VencimientoDiarioActivity : AppCompatActivity() {
             }
         }
 
+        /**
+         * Notifica a la API de impresión la cantidad total de páginas calculadas dinámicamente.
+         */
         override fun onLayout(
             oldAttributes: PrintAttributes?,
             newAttributes: PrintAttributes,
@@ -214,6 +237,9 @@ class VencimientoDiarioActivity : AppCompatActivity() {
             callback.onLayoutFinished(info, true)
         }
 
+        /**
+         * Dibuja los elementos visuales, tabla, registros y numeración de página en el canvas del PDF.
+         */
         override fun onWrite(
             pages: Array<out PageRange>,
             destination: ParcelFileDescriptor,
@@ -258,7 +284,7 @@ class VencimientoDiarioActivity : AppCompatActivity() {
 
                     var y = 50f
 
-                    // TÍTULO
+                    // TÍTULOS
                     paint.textSize = 22f
                     paint.typeface = Typeface.DEFAULT_BOLD
                     paint.textAlign = Paint.Align.CENTER

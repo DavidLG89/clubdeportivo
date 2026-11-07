@@ -23,6 +23,12 @@ import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.BusquedaDniFragment
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerDni
 import java.util.Locale
 
+/**
+ * Actividad que gestiona la búsqueda del historial de cuotas de un socio mediante su DNI.
+ *
+ * Alberga el fragmento de búsqueda por DNI [BusquedaDniFragment] y navega hacia
+ * [CuotasSocioFragment] al validar un DNI existente de socio en la base de datos.
+ */
 class BuscarVencimientoPorDniActivity : AppCompatActivity(), ListenerDni {
 
     private val viewModel: VencimientoDniViewModel by viewModels()
@@ -40,6 +46,7 @@ class BuscarVencimientoPorDniActivity : AppCompatActivity(), ListenerDni {
             insets
         }
 
+        // Configuración del botón de retroceso
         val btnBack = findViewById<ImageButton>(R.id.btnBack)
         btnBack.setOnClickListener {
             finish()
@@ -59,6 +66,7 @@ class BuscarVencimientoPorDniActivity : AppCompatActivity(), ListenerDni {
             finish()
         }
 
+        // Carga inicial del fragmento de búsqueda por DNI
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, BusquedaDniFragment())
@@ -66,6 +74,11 @@ class BuscarVencimientoPorDniActivity : AppCompatActivity(), ListenerDni {
         }
     }
 
+    /**
+     * Callback invocado cuando el DNI ha sido ingresado y validado en el fragmento de búsqueda.
+     *
+     * @param dni El número de documento de identidad ingresado.
+     */
     override fun onDniValidado(dni: String) {
         val resultado = cuotaServ.obtenerCuotasSocioServ(dni)
 
@@ -76,12 +89,19 @@ class BuscarVencimientoPorDniActivity : AppCompatActivity(), ListenerDni {
 
         cargarViewModel(dni, resultado.cuotas)
 
+        // Reemplazo del contenedor con el fragmento de tabla de cuotas del socio
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, CuotasSocioFragment())
             .addToBackStack(null)
             .commit()
     }
 
+    /**
+     * Carga los datos del socio y sus cuotas en el ViewModel compartido [VencimientoDniViewModel].
+     *
+     * @param dni Número de DNI validado.
+     * @param cuotas Lista de objetos [CuotaDTO] obtenidos del servicio.
+     */
     private fun cargarViewModel(dni: String, cuotas: List<CuotaDTO>) {
         val socio = cuotas.firstOrNull()?.socio
 
@@ -100,6 +120,9 @@ class BuscarVencimientoPorDniActivity : AppCompatActivity(), ListenerDni {
             }
     }
 
+    /**
+     * Color personalizado para la tarjeta del fragmento de búsqueda por DNI.
+     */
     override val colorCard: Int
         get() = R.color.color_boton_principal2
 }
