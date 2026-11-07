@@ -22,12 +22,12 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
         oldVersion: Int,
         newVersion: Int
     ) {
-        var tablas = listOf(
+        val tablas = listOf(
             "pagos", "reservas", "programaciones", "actividades", "metodos_pago", "cuotas",
             "carnet", "socios", "no_socios", "usuarios", "clientes", "personas", "roles"
         )
 
-        tablas.forEach { tabla -> db.execSQL("DROP TABLE IF EXISTS ${tabla}") }
+        tablas.forEach { tabla -> db.execSQL("DROP TABLE IF EXISTS $tabla") }
         onCreate(db)
     }
 
@@ -437,31 +437,11 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
         """.trimIndent()
 )
 
-        // Cuotas de prueba para la pantalla de vencimientos del día
         db.execSQL(
             """
-    INSERT INTO cuotas (socio_id, monto_cuota, fecha_vencimiento, estado_cuota)
-    SELECT id, 30000.00, date('now','localtime'), 'Pendiente'
-    FROM socios LIMIT 5;
-    """.trimIndent()
-        )
-
-// Una pagada hoy, para comprobar que "todos los del día" mezcla estados
-        db.execSQL(
-            """
-    INSERT INTO cuotas (socio_id, monto_cuota, fecha_vencimiento, estado_cuota)
-    SELECT id, 30000.00, date('now','localtime'), 'Pagada'
-    FROM socios LIMIT 2 OFFSET 5;
-    """.trimIndent()
-        )
-
-// Una de mañana, que NO debería aparecer en la pantalla
-        db.execSQL(
-            """
-    INSERT INTO cuotas (socio_id, monto_cuota, fecha_vencimiento, estado_cuota)
-    SELECT id, 30000.00, date('now','localtime','+1 day'), 'Pendiente'
-    FROM socios LIMIT 1 OFFSET 7;
-    """.trimIndent()
+                    INSERT INTO cuotas (socio_id, monto_cuota, fecha_vencimiento, estado_cuota)
+                    SELECT id, 1500.00, '2026-07-20', 'Pendiente' FROM socios;
+                """.trimIndent()
         )
     }
 }

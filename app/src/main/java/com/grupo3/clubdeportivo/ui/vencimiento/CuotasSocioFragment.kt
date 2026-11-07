@@ -24,11 +24,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.clases.Helpers.FechaDb
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import java.io.FileOutputStream
-import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
+import kotlin.math.ceil
 
 class CuotasSocioFragment : Fragment(R.layout.fragment_cuotas_socio) {
 
@@ -131,6 +131,8 @@ class CuotasSocioFragment : Fragment(R.layout.fragment_cuotas_socio) {
 
     private inner class CuotasSocioPrintAdapter : PrintDocumentAdapter() {
 
+        private val rowsPerPage = 14
+
         override fun onFinish() {
             super.onFinish()
             activity?.runOnUiThread {
@@ -150,9 +152,11 @@ class CuotasSocioFragment : Fragment(R.layout.fragment_cuotas_socio) {
                 return
             }
 
+            val totalPages = ceil(viewModel.cuotasSocio.size.toDouble() / rowsPerPage).toInt().coerceAtLeast(1)
+
             val info = PrintDocumentInfo.Builder("cuotas_socio_${viewModel.dni}.pdf")
                 .setContentType(PrintDocumentInfo.CONTENT_TYPE_DOCUMENT)
-                .setPageCount(1)
+                .setPageCount(totalPages)
                 .build()
 
             callback.onLayoutFinished(info, true)
@@ -168,57 +172,10 @@ class CuotasSocioFragment : Fragment(R.layout.fragment_cuotas_socio) {
                 val pdfDocument = PdfDocument()
                 val pageWidth = 595
                 val pageHeight = 842
-
-                val pageInfo = PdfDocument.PageInfo.Builder(
-                    pageWidth,
-                    pageHeight,
-                    1
-                ).create()
-
-                val page = pdfDocument.startPage(pageInfo)
-                val canvas = page.canvas
-
-                val paint = Paint().apply {
-                    isAntiAlias = true
-                    color = Color.BLACK
-                }
+                val totalPages = ceil(viewModel.cuotasSocio.size.toDouble() / rowsPerPage).toInt().coerceAtLeast(1)
 
                 val margenIzquierdo = 40f
                 val margenDerecho = 40f
-                var y = 50f
-
-                // TÍTULO
-                paint.textSize = 22f
-                paint.typeface = Typeface.DEFAULT_BOLD
-                paint.textAlign = Paint.Align.CENTER
-                canvas.drawText("CLUB DEPORTIVO", pageWidth / 2f, y, paint)
-
-                y += 32f
-                paint.textSize = 18f
-                canvas.drawText("ESTADO DE CUOTAS DEL SOCIO", pageWidth / 2f, y, paint)
-
-                y += 24f
-                paint.textSize = 12f
-                paint.typeface = Typeface.DEFAULT
-                val fechaActual = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
-                canvas.drawText("Fecha de emisión: $fechaActual", pageWidth / 2f, y, paint)
-
-                y += 20f
-                paint.strokeWidth = 1f
-                canvas.drawLine(margenIzquierdo, y, pageWidth - margenDerecho, y, paint)
-
-                y += 25f
-                // DATOS DEL SOCIO
-                paint.textAlign = Paint.Align.LEFT
-                paint.textSize = 13f
-                paint.typeface = Typeface.DEFAULT_BOLD
-                canvas.drawText("Socio: ${viewModel.nombreSocio} (Nº ${viewModel.numeroSocio})", margenIzquierdo, y, paint)
-                y += 20f
-                canvas.drawText("DNI: ${viewModel.dni}", margenIzquierdo, y, paint)
-
-                y += 25f
-
-                // TABLA DE CUOTAS PDF
                 val anchoTabla = pageWidth - margenIzquierdo - margenDerecho
                 val anchoId = 55f
                 val anchoVencimiento = 130f
@@ -232,71 +189,127 @@ class CuotasSocioFragment : Fragment(R.layout.fragment_cuotas_socio) {
                 val x4 = x3 + anchoMonto
                 val x5 = x4 + anchoEstado
 
-                // ENCABEZADOS DE TABLA PDF
-                paint.style = Paint.Style.FILL
-                paint.color = Color.rgb(169, 212, 244)
-                canvas.drawRect(x1, y, x5, y + altoFila, paint)
+                for (pageIndex in 0 until totalPages) {
+                    if (cancellationSignal?.isCanceled == true) {
+                        callback.onWriteFailed("Cancelado")
+                        return
+                    }
 
-                paint.color = Color.BLACK
-                paint.style = Paint.Style.STROKE
-                paint.strokeWidth = 1f
-                canvas.drawRect(x1, y, x5, y + altoFila, paint)
+                    val pageInfo = PdfDocument.PageInfo.Builder(pageWidth, pageHeight, pageIndex + 1).create()
+                    val page = pdfDocument.startPage(pageInfo)
+                    val canvas = page.canvas
 
-                canvas.drawLine(x2, y, x2, y + altoFila, paint)
-                canvas.drawLine(x3, y, x3, y + altoFila, paint)
-                canvas.drawLine(x4, y, x4, y + altoFila, paint)
+                    val paint = Paint().apply {
+                        isAntiAlias = true
+                        color = Color.BLACK
+                    }
 
-                paint.style = Paint.Style.FILL
-                paint.textSize = 12f
-                paint.typeface = Typeface.DEFAULT_BOLD
-                paint.textAlign = Paint.Align.CENTER
+                    var y = 50f
 
-                val centroY = y + 23f
-                canvas.drawText("Id", (x1 + x2) / 2, centroY, paint)
-                canvas.drawText("Vencimiento", (x2 + x3) / 2, centroY, paint)
-                canvas.drawText("Monto", (x3 + x4) / 2, centroY, paint)
-                canvas.drawText("Estado", (x4 + x5) / 2, centroY, paint)
+                    // TÍTULO
+                    paint.textSize = 22f
+                    paint.typeface = Typeface.DEFAULT_BOLD
+                    paint.textAlign = Paint.Align.CENTER
+                    canvas.drawText("CLUB DEPORTIVO", pageWidth / 2f, y, paint)
 
-                y += altoFila
+                    y += 32f
+                    paint.textSize = 18f
+                    canvas.drawText("ESTADO DE CUOTAS DEL SOCIO", pageWidth / 2f, y, paint)
 
-                // FILAS DE DATOS EN PDF
-                paint.typeface = Typeface.DEFAULT
-                paint.textSize = 12f
+                    y += 24f
+                    paint.textSize = 12f
+                    paint.typeface = Typeface.DEFAULT
+                    val fechaActual = FechaDb.formatearFecha(Date())
+                    canvas.drawText("Fecha de emisión: $fechaActual", pageWidth / 2f, y, paint)
 
-                for (cuota in viewModel.cuotasSocio) {
-                    paint.color = Color.rgb(239, 247, 252)
+                    y += 20f
+                    paint.strokeWidth = 1f
+                    canvas.drawLine(margenIzquierdo, y, pageWidth - margenDerecho, y, paint)
+
+                    y += 25f
+                    // DATOS DEL SOCIO
+                    paint.textAlign = Paint.Align.LEFT
+                    paint.textSize = 13f
+                    paint.typeface = Typeface.DEFAULT_BOLD
+                    canvas.drawText("Socio: ${viewModel.nombreSocio} (Nº ${viewModel.numeroSocio})", margenIzquierdo, y, paint)
+                    y += 20f
+                    canvas.drawText("DNI: ${viewModel.dni}", margenIzquierdo, y, paint)
+
+                    y += 25f
+
+                    // ENCABEZADOS DE TABLA PDF
+                    paint.style = Paint.Style.FILL
+                    paint.color = Color.rgb(169, 212, 244)
                     canvas.drawRect(x1, y, x5, y + altoFila, paint)
 
-                    paint.color = Color.rgb(139, 200, 250)
+                    paint.color = Color.BLACK
                     paint.style = Paint.Style.STROKE
                     paint.strokeWidth = 1f
-
                     canvas.drawRect(x1, y, x5, y + altoFila, paint)
+
                     canvas.drawLine(x2, y, x2, y + altoFila, paint)
                     canvas.drawLine(x3, y, x3, y + altoFila, paint)
                     canvas.drawLine(x4, y, x4, y + altoFila, paint)
 
                     paint.style = Paint.Style.FILL
-                    paint.color = Color.BLACK
+                    paint.textSize = 12f
+                    paint.typeface = Typeface.DEFAULT_BOLD
                     paint.textAlign = Paint.Align.CENTER
 
-                    val textoY = y + 23f
-                    canvas.drawText(cuota[0], (x1 + x2) / 2, textoY, paint)
-                    canvas.drawText(cuota[1], (x2 + x3) / 2, textoY, paint)
-                    canvas.drawText(cuota[2], (x3 + x4) / 2, textoY, paint)
-                    canvas.drawText(cuota[3], (x4 + x5) / 2, textoY, paint)
+                    val centroY = y + 23f
+                    canvas.drawText("Id", (x1 + x2) / 2, centroY, paint)
+                    canvas.drawText("Vencimiento", (x2 + x3) / 2, centroY, paint)
+                    canvas.drawText("Monto", (x3 + x4) / 2, centroY, paint)
+                    canvas.drawText("Estado", (x4 + x5) / 2, centroY, paint)
 
                     y += altoFila
+
+                    // FILAS CORRESPONDIENTES A LA PÁGINA ACTUAL
+                    val startRow = pageIndex * rowsPerPage
+                    val endRow = minOf((pageIndex + 1) * rowsPerPage, viewModel.cuotasSocio.size)
+
+                    paint.typeface = Typeface.DEFAULT
+                    paint.textSize = 12f
+
+                    for (i in startRow until endRow) {
+                        val cuota = viewModel.cuotasSocio[i]
+
+                        paint.color = Color.rgb(239, 247, 252)
+                        canvas.drawRect(x1, y, x5, y + altoFila, paint)
+
+                        paint.color = Color.rgb(139, 200, 250)
+                        paint.style = Paint.Style.STROKE
+                        paint.strokeWidth = 1f
+
+                        canvas.drawRect(x1, y, x5, y + altoFila, paint)
+                        canvas.drawLine(x2, y, x2, y + altoFila, paint)
+                        canvas.drawLine(x3, y, x3, y + altoFila, paint)
+                        canvas.drawLine(x4, y, x4, y + altoFila, paint)
+
+                        paint.style = Paint.Style.FILL
+                        paint.color = Color.BLACK
+                        paint.textAlign = Paint.Align.CENTER
+
+                        val textoY = y + 23f
+                        canvas.drawText(cuota[0], (x1 + x2) / 2, textoY, paint)
+                        canvas.drawText(cuota[1], (x2 + x3) / 2, textoY, paint)
+                        canvas.drawText(cuota[2], (x3 + x4) / 2, textoY, paint)
+                        canvas.drawText(cuota[3], (x4 + x5) / 2, textoY, paint)
+
+                        y += altoFila
+                    }
+
+                    // PIE DE PÁGINA CON NUMERACIÓN DE PÁGINA
+                    paint.textAlign = Paint.Align.LEFT
+                    paint.textSize = 10f
+                    paint.color = Color.GRAY
+                    canvas.drawText("Reporte de cuotas generado por el sistema - Club Deportivo", margenIzquierdo, 800f, paint)
+
+                    paint.textAlign = Paint.Align.RIGHT
+                    canvas.drawText("Página ${pageIndex + 1} de $totalPages", pageWidth - margenDerecho, 800f, paint)
+
+                    pdfDocument.finishPage(page)
                 }
-
-                // PIE DE PÁGINA
-                y += 30f
-                paint.textAlign = Paint.Align.LEFT
-                paint.textSize = 10f
-                paint.color = Color.GRAY
-                canvas.drawText("Reporte de cuotas generado por el sistema - Club Deportivo", margenIzquierdo, y, paint)
-
-                pdfDocument.finishPage(page)
 
                 pdfDocument.writeTo(FileOutputStream(destination.fileDescriptor))
                 pdfDocument.close()
