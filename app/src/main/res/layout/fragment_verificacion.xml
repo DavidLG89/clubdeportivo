@@ -104,6 +104,10 @@
                 android:layout_height="50dp"
                 android:background="@color/background_app"
                 android:hint="@string/actividad"
+                app:boxBackgroundColor="@color/dropdown_background"
+                app:boxStrokeColor="@color/dropdown_border"
+                app:endIconTint="@color/dropdown_icon"
+                app:hintTextColor="@color/dropdown_hint_focused"
                 app:errorEnabled="false">
 
                 <AutoCompleteTextView
@@ -115,6 +119,9 @@
                     android:paddingStart="20dp"
                     android:paddingTop="11dp"
                     android:paddingBottom="11dp"
+                    android:textColor="@color/black"
+                    android:backgroundTint="@color/background_app"
+                    android:popupBackground="@color/background_app"
                     android:saveEnabled="false"/>
 
             </com.google.android.material.textfield.TextInputLayout>

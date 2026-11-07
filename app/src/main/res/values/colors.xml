@@ -12,7 +12,7 @@
     <color name="edittext_border">#084081</color>
     <color name="text_grey">#555555</color>
     <color name="text_grey2">#424242</color>
-    <color name="color_hint_oscuro">#757575</color>
+    <color name="color_hint_oscuro">#000000</color>
     <color name="color_boton_principal2">#2CB5B2</color>
     <color name="step_grey">#E0E0E0</color>
     <color name="btn_no_socio_bg">#D4ECEB</color>
@@ -33,4 +33,12 @@
 
     <color name="blanco_tabla">#FFFFFF</color>
 
+    <!-- Colores del ComboBox / Dropdown -->
+    <color name="dropdown_background">#E8ECFB</color>
+    <color name="dropdown_border">#084081</color>
+    <color name="dropdown_border_focused">#084081</color>
+    <color name="dropdown_icon">#084081</color>
+    <color name="dropdown_hint">#000000</color>
+    <color name="dropdown_hint_focused">#000000</color>
+    <color name="dropdown_text">#000000</color>
 </resources>

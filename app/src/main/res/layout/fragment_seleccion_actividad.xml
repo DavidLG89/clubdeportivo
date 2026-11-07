@@ -16,7 +16,7 @@
         android:textSize="16sp"
         android:textStyle="bold" />
 
-    <!-- Tarjeta del Actividades -->
+    <!-- Tarjeta de Actividades -->
     <LinearLayout
         android:id="@+id/cardContainer"
         android:layout_width="300dp"
@@ -41,6 +41,12 @@
                 android:layout_height="50dp"
                 android:background="@color/background_app"
                 android:hint="Actividad"
+                android:textColorHint="@color/black"
+                app:boxBackgroundColor="@color/dropdown_background"
+                app:boxStrokeColor="@color/dropdown_border"
+                app:endIconTint="@color/dropdown_icon"
+                app:hintTextColor="@color/black"
+                app:dropDownBackgroundTint="@color/white"
                 app:errorEnabled="false">
 
                 <AutoCompleteTextView
@@ -52,6 +58,7 @@
                     android:paddingStart="20dp"
                     android:paddingTop="11dp"
                     android:paddingBottom="11dp"
+                    android:textColor="@color/black"
                     android:saveEnabled="false"/>
 
             </com.google.android.material.textfield.TextInputLayout>

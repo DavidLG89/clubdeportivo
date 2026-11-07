@@ -53,6 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="40dp"
         android:hint="@string/seleccione_un_dia"
+        android:textColor="@color/black"
         android:clickable="false"
         android:focusable="false" />
 
