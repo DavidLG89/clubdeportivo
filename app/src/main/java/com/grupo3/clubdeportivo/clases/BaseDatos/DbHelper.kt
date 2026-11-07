@@ -4,7 +4,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", null, 10) {
+class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", null, 11) {
 
     override fun onConfigure(db: SQLiteDatabase) {
         super.onConfigure(db)

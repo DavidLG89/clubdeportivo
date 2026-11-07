@@ -26,7 +26,7 @@ import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
 class AceptacionContratoActivity : AppCompatActivity() {
     private val dbHelper  by lazy { DbHelperObject.get(this) }
     private val clienteServ by lazy { ClienteServ(ClienteRepo(dbHelper)) }
-    private val cuotaServ by lazy { CuotaServ(CuotaRepo(dbHelper)) }
+    private val cuotaServ by lazy { CuotaServ(CuotaRepo(dbHelper), ClienteRepo(dbHelper)) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
