@@ -29,18 +29,12 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
-import com.grupo3.clubdeportivo.clases.Repositorios.CuotaRepo
 import com.grupo3.clubdeportivo.clases.Repositorios.VencimientoRepo
-import com.grupo3.clubdeportivo.clases.Servicios.CuotaServ
 import com.grupo3.clubdeportivo.clases.Servicios.VencimientoServ
-import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
 import com.grupo3.clubdeportivo.clases.Helpers.FechaDb
-import com.grupo3.clubdeportivo.clases.Repositorios.VencimientoRepo
-import com.grupo3.clubdeportivo.clases.Servicios.VencimientoServ
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
 import java.io.FileOutputStream
-import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.Date
 import kotlin.math.ceil
@@ -107,7 +101,7 @@ class VencimientoDiarioActivity : AppCompatActivity() {
     private fun setupTable() {
         tableLayout.removeAllViews()
         val headerRow = TableRow(this)
-        val headers = listOf("Id", "Nro Socio", "Nombre y Apellido", "Monto")
+        val headers = listOf("Id", "Dni Socio", "Nombre y Apellido", "Monto")
 
         for (texto in headers) {
             val textView = TextView(this).apply {
@@ -145,7 +139,7 @@ class VencimientoDiarioActivity : AppCompatActivity() {
         cuotas = lista.map { c ->
             listOf(
                 c.idCuota.toString(),
-                c.socio?.idSocio.toString(),
+                c.socio?.dni.toString(),
                 "${c.socio?.nombre} ${c.socio?.apellido}",
                 "$${"%,.0f".format(Locale("es", "AR"), c.montoCuota)}"
             )
