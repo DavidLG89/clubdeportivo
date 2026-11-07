@@ -7,6 +7,7 @@ import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
@@ -32,7 +33,14 @@ class MetodoPagoFragment : Fragment(R.layout.fragment_metodo_pago) {
             view.findViewById<TextView>(R.id.tvPrintNombre)?.text = dato.nombre ?: ""
             view.findViewById<TextView>(R.id.tvPrintActividad)?.text = dato.actividad ?: ""
             view.findViewById<TextView>(R.id.tvPrintValor)?.text = dato.monto?.let { "$ $it" } ?: ""
-            view.findViewById<TextView>(R.id.tvPrintVenc)?.text = dato.fechaVencimiento ?: ""
+
+            val venc = dato.fechaVencimiento
+
+            view.findViewById<View>(R.id.tvVenc)?.isVisible = !venc.isNullOrEmpty()
+            view.findViewById<TextView>(R.id.tvPrintVenc)?.apply {
+                isVisible = !venc.isNullOrEmpty()
+                text = venc ?: ""
+            }
         }
 
         val listaMetodoPago = metodoPagoServ.obtenerMetodosPago()

@@ -56,28 +56,6 @@ class PagosRepo(private val dbHelper: DbHelper) {
         }
     }
 
-    fun registrarPagoCuota(
-        socio: Socio?,
-        montoAPagar: Double,
-        medioPago: Int
-    ): Int {
-        val db = dbHelper.writableDatabase
-
-        val idCuota = db.rawQuery(
-            "SELECT id FROM cuotas WHERE socio_id = ? AND estado_cuota = 'Pendiente' " +
-                    "ORDER BY fecha_vencimiento LIMIT 1", arrayOf(socio?.idSocio.toString())
-        )
-            .use { c ->
-                if (c.moveToFirst()) c.getInt(0) else null
-            } ?: return -2
-
-        val dummyCuota = com.grupo3.clubdeportivo.clases.DTOS.CuotaDTO(
-            idCuota = idCuota,
-            socio = socio
-        )
-        return registrarPagoCuota(dummyCuota, montoAPagar, medioPago)
-    }
-
     fun registrarPagoActividad(
         idReserva: Int,
         montoAPagar: Double,

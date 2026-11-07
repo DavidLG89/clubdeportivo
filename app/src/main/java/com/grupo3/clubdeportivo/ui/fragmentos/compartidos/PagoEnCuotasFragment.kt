@@ -68,7 +68,7 @@ class PagoEnCuotasFragment : Fragment(R.layout.fragment_pago_en_cuotas) {
 
             val mensaje = when (cuotaSeleccionada) {
                 3 -> "Tiene 5% de descuento"
-                6 -> "Tiene 10% de descuento"
+                6 -> "Tiene 3% de descuento"
                 else -> "Sin descuento adicional"
             }
             Toast.makeText(requireContext(), mensaje, Toast.LENGTH_SHORT).show()

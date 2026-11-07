@@ -17,7 +17,7 @@ class ComprobantePagoFragment : Fragment(R.layout.fragment_comprobante_pago) {
 
         val dato = listener.datosComprobante()
 
-        view.findViewById<TextView>(R.id.tvEditIdPago)?.text = dato.idPago
+        view.findViewById<TextView>(R.id.tvEditIdPago)?.text = dato.idPago.padStart(4, '0')
         view.findViewById<TextView>(R.id.tvPrintValor)?.text = dato.monto?.let { "$ $it" } ?: ""
         view.findViewById<TextView>(R.id.tvPrintDni)?.text = dato.dni ?: ""
         view.findViewById<TextView>(R.id.tvPrintNombre)?.text = dato.nombre ?: ""

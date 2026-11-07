@@ -10,8 +10,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelper
 import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
+import com.grupo3.clubdeportivo.clases.Helpers.FechaDb
 import com.grupo3.clubdeportivo.clases.Modelos.Actividad
 import com.grupo3.clubdeportivo.clases.Modelos.Cliente
 import com.grupo3.clubdeportivo.clases.Modelos.Programacion
@@ -28,11 +28,9 @@ import java.util.Locale
 
 class SeleccionHoraFragment : Fragment(R.layout.fragment_seleccion_hora) {
     private val viewModel: ReservaViewModel by activityViewModels()
-    private lateinit var dbHelper: DbHelper
-    private lateinit var repositorio: ReservaRepo
-    private lateinit var servicio: ReservaServ
-    private lateinit var repoProgramacion: ProgramacionRepo
-    private lateinit var servProgramacion: ProgramacionServ
+    private val dbHelper by lazy { DbHelperObject.get(requireContext()) }
+    private val reservaServ by lazy { ReservaServ(ReservaRepo(dbHelper)) }
+    private val progServ by lazy { ProgramacionServ(ProgramacionRepo(dbHelper)) }
     private lateinit var rvProgramacion: RecyclerView
     private lateinit var txtSinProgramacion: TextView
     private lateinit var actividad: Actividad
@@ -72,28 +70,29 @@ class SeleccionHoraFragment : Fragment(R.layout.fragment_seleccion_hora) {
         }
 
         btnReservar.setOnClickListener {
-            dbHelper = DbHelperObject.get(requireContext())
-            repositorio = ReservaRepo(dbHelper)
-            servicio = ReservaServ(repositorio)
-
             viewModel.programacion = programacionSeleccionada
+            val txtError = view.findViewById<TextView>(R.id.tvError)
+            txtError.visibility = View.GONE
 
-            val resultadoReserva = servicio.generarReserva(actividad, cliente, programacionSeleccionada.fechaHora)
-            if(!resultadoReserva.ok) {
-                Toast.makeText(requireContext(), "Mensaje: ${resultadoReserva.mensaje}", Toast.LENGTH_SHORT).show()
-                (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
-                    BusquedaDniFragment(),
-                    EtapaReserva.BUSQUEDA_DNI
-                )
+            fun mostrarError(mensaje: String) {
+                txtError.text = mensaje
+                txtError.visibility = View.VISIBLE
             }
 
-            if(resultadoReserva.ok) {
-                viewModel.reserva = resultadoReserva.reserva
-                (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
-                    ComprobanteReservaFragment(),
-                    EtapaReserva.CONFIRMACION_RESERVA
-                )
+            val resultadoReserva =
+                reservaServ.generarReserva(actividad, cliente, programacionSeleccionada.fechaHora)
+
+            if (!resultadoReserva.ok) {
+                mostrarError(resultadoReserva.mensaje)
+                return@setOnClickListener
             }
+
+
+            viewModel.reserva = resultadoReserva.reserva
+            (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
+                ComprobanteReservaFragment(),
+                EtapaReserva.CONFIRMACION_RESERVA
+            )
         }
     }
 
@@ -103,27 +102,22 @@ class SeleccionHoraFragment : Fragment(R.layout.fragment_seleccion_hora) {
     }
 
     private fun cargarProgramacion() {
-        dbHelper = DbHelperObject.get(requireContext())
-        repoProgramacion = ProgramacionRepo(dbHelper)
-        servProgramacion = ProgramacionServ(repoProgramacion)
-
         val entrada = SimpleDateFormat("dd/MM/yyyy", Locale.US)
         val salida = SimpleDateFormat("yyyy-MM-dd", Locale.US)
         val fechaDb = entrada.parse(fecha)?.let { salida.format(it) } ?: return
-        val programacion = servProgramacion.obtenerProgramacionPorActividad(actividad.id, fechaDb)
+        val programacion = progServ.obtenerProgramacionPorActividad(actividad.id, fechaDb)
 
 
 
-        rvProgramacion.adapter = ProgramacionAdapter(programacion) {
-            seleccionada ->
-                programacionSeleccionada = seleccionada
+        rvProgramacion.adapter = ProgramacionAdapter(programacion) { seleccionada ->
+            programacionSeleccionada = seleccionada
         }
 
         if (programacion.isEmpty()) {
-            txtSinProgramacion.visibility = View.VISIBLE
+            txtSinProgramacion.text = "Actividad sin horarios disponibles"
             rvProgramacion.visibility = View.GONE
+            return
         } else {
-            txtSinProgramacion.visibility = View.GONE
             rvProgramacion.visibility = View.VISIBLE
         }
     }

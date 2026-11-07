@@ -6,8 +6,4 @@ class NoSocio : Cliente {
 
     constructor(id: Int, nombre: String, apellido: String, dni: String, email: String, aptoFisico: Boolean)
             : super(id, nombre, apellido, dni, email, aptoFisico)
-
-    fun debePagar(): Boolean {
-        return true
-    }
 }

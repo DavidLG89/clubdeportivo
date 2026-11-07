@@ -3,7 +3,6 @@ package com.grupo3.clubdeportivo.clases.Servicios
 import com.grupo3.clubdeportivo.clases.DTOS.ReservaDTO
 import com.grupo3.clubdeportivo.clases.Modelos.Actividad
 import com.grupo3.clubdeportivo.clases.Modelos.Cliente
-import com.grupo3.clubdeportivo.clases.Modelos.Programacion
 import com.grupo3.clubdeportivo.clases.Modelos.Socio
 import com.grupo3.clubdeportivo.clases.Repositorios.ReservaRepo
 import java.util.Calendar
@@ -32,7 +31,7 @@ class ReservaServ(private val repo: ReservaRepo) {
             return ResultadoReserva(false, "Reserva se encuentra pagada", null)
         }
 
-        if (esAnteriorAHoy(reserva.fechaHora)) {
+        if (esAnteriorAHoy(reserva.fechaHoraReserva)) {
             return ResultadoReserva(false, "Reserva no vigente", null)
         }
 
@@ -54,7 +53,7 @@ class ReservaServ(private val repo: ReservaRepo) {
             return ResultadoReserva(false, "Reserva se encuentra pagada", null)
         }
 
-        if (esAnteriorAHoy(reserva.fechaHora)) {
+        if (esAnteriorAHoy(reserva.fechaHoraReserva)) {
             return ResultadoReserva(false, "Reserva no vigente", null)
         }
 
@@ -74,11 +73,16 @@ class ReservaServ(private val repo: ReservaRepo) {
             return ResultadoReserva(false, "El cliente no tiene apto físico. No puede reservar.", null)
         }
 
+        val reservasCliente = buscarReservasPorDni(cliente.dni) ?: emptyList()
 
-        val reservaBuscada = buscarReservaExistentePorDniYActividad(cliente.dni, actividad.id)
+        val reservasMismoHorario = reservasCliente.filter { it.fechaHoraReserva == fecha }
 
-        if (reservaBuscada.reserva != null) {
-            return ResultadoReserva(false, "Reserva ya fue realizada por el cliente", null)
+        if (reservasMismoHorario.any { it.idActividad == actividad.id }) {
+            return ResultadoReserva(false, "El cliente ya tiene reservada esta actividad en ese horario.", null)
+        }
+
+        if (reservasMismoHorario.isNotEmpty()) {
+            return ResultadoReserva(false, "El cliente tiene otra actividad reservada en ese mismo horario.", null)
         }
 
         val idReserva = repo.generarReservaRepo(actividad, cliente, fecha)

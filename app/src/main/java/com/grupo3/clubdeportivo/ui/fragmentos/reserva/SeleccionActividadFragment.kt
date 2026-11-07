@@ -19,15 +19,13 @@ import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 
 class SeleccionActividadFragment : Fragment(R.layout.fragment_seleccion_actividad) {
     private val viewModel: ReservaViewModel by activityViewModels()
+    private val dbHelper by lazy { DbHelperObject.get(requireContext()) }
+    private val actividadesServ by lazy { ListadosMaestrosServ(ActividadRepo(dbHelper)) }
        var actividadSeleccionada = Actividad()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // Se inicializa el servicio
-        val dbHelper = DbHelperObject.get(requireContext())
-        val repositorio = ActividadRepo(dbHelper)
-        val servicio = ListadosMaestrosServ(repositorio)
 
-        val actividades = servicio.obtenerActividades()
+        val actividades = actividadesServ.obtenerActividades()
         var listaActividades: MutableList<String> = mutableListOf()
 
         actividades.forEach { actividad ->
@@ -55,7 +53,7 @@ class SeleccionActividadFragment : Fragment(R.layout.fragment_seleccion_activida
         val btnBuscar = view.findViewById<Button>(R.id.btnBuscar)
 
         btnBuscar.setOnClickListener {
-Toast.makeText(requireContext(), "Actividad seleccionada: ${actividadSeleccionada.nombre}", Toast.LENGTH_SHORT).show()
+
             if(actividadSeleccionada.nombre == "" ) {
                 Toast.makeText(requireContext(), "Debe seleccionar una actividad", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener

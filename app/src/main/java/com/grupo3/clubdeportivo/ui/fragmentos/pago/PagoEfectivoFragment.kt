@@ -61,7 +61,8 @@ class PagoEfectivoFragment : Fragment(R.layout.fragment_pago_efectivo) {
 
                 val vuelto = efectivo - montoAPagar
 
-                if(vuelto > 0.0) {
+
+                if(vuelto >= 0.0) {
                     view.findViewById<TextView>(R.id.tvVuelto).visibility = View.VISIBLE
 
                     view.findViewById<TextView>(R.id.tvVuelto).text = "%.2f".format(vuelto)

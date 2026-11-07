@@ -4,7 +4,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", null, 8) {
+class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", null, 10) {
 
     override fun onConfigure(db: SQLiteDatabase) {
         super.onConfigure(db)
@@ -22,12 +22,12 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
         oldVersion: Int,
         newVersion: Int
     ) {
-        var tablas = listOf(
+        val tablas = listOf(
             "pagos", "reservas", "programaciones", "actividades", "metodos_pago", "cuotas",
             "carnet", "socios", "no_socios", "usuarios", "clientes", "personas", "roles"
         )
 
-        tablas.forEach { tabla -> db.execSQL("DROP TABLE IF EXISTS ${tabla}") }
+        tablas.forEach { tabla -> db.execSQL("DROP TABLE IF EXISTS $tabla") }
         onCreate(db)
     }
 
@@ -287,11 +287,45 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
 
         db.execSQL(
             """
-            INSERT INTO socios (cliente_id, estado)
-            SELECT id, 1 FROM clientes
-            WHERE id NOT IN (SELECT cliente_id FROM no_socios);
-        """.trimIndent()
-            )
+    INSERT INTO socios (cliente_id, estado)
+    SELECT id, 1 FROM clientes
+    WHERE id NOT IN (SELECT cliente_id FROM no_socios);
+    """.trimIndent()
+        )
+
+// NUEVO: socios inactivos
+        db.execSQL(
+            """
+    UPDATE socios SET estado = 0
+    WHERE cliente_id IN (
+        SELECT cl.id FROM clientes cl
+        INNER JOIN personas p ON cl.persona_id = p.id
+        WHERE p.dni IN ('20456789', '20567890', '20678901')
+    );
+    """.trimIndent()
+        )
+
+// ... INSERT INTO programaciones (sin cambios) ...
+
+        db.execSQL(
+            """
+    INSERT INTO cuotas (socio_id, monto_cuota, fecha_vencimiento, estado_cuota)
+    SELECT id, 1500.00, '2026-07-20', 'Pendiente' FROM socios;
+    """.trimIndent()
+        )
+
+// NUEVO: socio activo con cuota paga
+        db.execSQL(
+            """
+    UPDATE cuotas SET estado_cuota = 'Pagada', fecha_vencimiento = '2026-12-20'
+    WHERE socio_id IN (
+        SELECT s.id FROM socios s
+        INNER JOIN clientes cl ON s.cliente_id = cl.id
+        INNER JOIN personas p ON cl.persona_id = p.id
+        WHERE p.dni = '20789012'
+    );
+    """.trimIndent()
+        )
 
         db.execSQL(
     """

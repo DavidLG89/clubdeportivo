@@ -17,7 +17,7 @@ class BusquedaDniFragment : Fragment(R.layout.fragment_busqueda_dni) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         // Validar campo dni
-        var edtDni = view.findViewById<EditText>(R.id.edtDni)
+        val edtDni = view.findViewById<EditText>(R.id.edtDni)
         val btnBuscar = view.findViewById<Button>(R.id.btnBuscar)
         val tvError = view.findViewById<TextView>(R.id.tvError)
 
@@ -31,15 +31,23 @@ class BusquedaDniFragment : Fragment(R.layout.fragment_busqueda_dni) {
             when {
                 dni.isEmpty() -> {
                     tvError.text = "Debe ingresar un DNI"
+                    tvError.visibility = View.VISIBLE
                 }
                 !dni.matches((Regex("^\\d{8}$"))) -> {
                     tvError.text = "El DNI debe tener 8 dígitos"
+                    tvError.visibility = View.VISIBLE
                 }
                 else -> {
-                   listener.onDniValidado(dni)
                     tvError.visibility = View.GONE
+                    listener.onDniValidado(dni)
                 }
             }
         }
+    }
+
+    fun mostrarError(mensaje: String) {
+        val tvError = view?.findViewById<TextView>(R.id.tvError)
+        tvError?.text = mensaje
+        tvError?.visibility = View.VISIBLE
     }
 }

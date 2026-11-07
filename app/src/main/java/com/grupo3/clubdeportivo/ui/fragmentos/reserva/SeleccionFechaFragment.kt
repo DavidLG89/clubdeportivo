@@ -9,13 +9,18 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
 import com.grupo3.clubdeportivo.clases.Helpers.FechaDb
+import com.grupo3.clubdeportivo.clases.Repositorios.ReservaRepo
+import com.grupo3.clubdeportivo.clases.Servicios.ReservaServ
 import com.grupo3.clubdeportivo.data.model.EtapaReserva
 import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.reserva.ReservaViewModel
 
 class SeleccionFechaFragment : Fragment(R.layout.fragment_seleccion_fecha) {
     private val viewModel: ReservaViewModel by activityViewModels()
+    private val dbHelper by lazy { DbHelperObject.get(requireContext()) }
+    private val reservaSer by lazy { ReservaServ(ReservaRepo(dbHelper)) }
     private lateinit var edtDate: EditText
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -47,6 +52,8 @@ class SeleccionFechaFragment : Fragment(R.layout.fragment_seleccion_fecha) {
                 Toast.makeText(requireContext(), "Debe seleccionar una fecha", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+
+
             (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
                 SeleccionHoraFragment(),
                 EtapaReserva.SELECCION_HORA
