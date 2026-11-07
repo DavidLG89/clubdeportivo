@@ -58,6 +58,5 @@ class VencimientoRepo(private val dbHelper: DbHelper) {
             Log.e("VencimientoRepo", "Error al obtener vencimientos por fecha", e)
             listaCuotas
         }
-        return listaCuotas
     }
 }
