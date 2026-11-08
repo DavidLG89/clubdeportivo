@@ -36,4 +36,6 @@ object FechaDb {
         }
         return null
     }
+
+    fun mismoMinuto(a: Date, b: Date): Boolean = a.time / 60_000 == b.time / 60_000
 }

@@ -71,13 +71,6 @@ class SeleccionHoraFragment : Fragment(R.layout.fragment_seleccion_hora) {
 
         btnReservar.setOnClickListener {
             viewModel.programacion = programacionSeleccionada
-            val txtError = view.findViewById<TextView>(R.id.tvError)
-            txtError.visibility = View.GONE
-
-            fun mostrarError(mensaje: String) {
-                txtError.text = mensaje
-                txtError.visibility = View.VISIBLE
-            }
 
             val resultadoReserva =
                 reservaServ.generarReserva(actividad, cliente, programacionSeleccionada.fechaHora)
@@ -87,13 +80,22 @@ class SeleccionHoraFragment : Fragment(R.layout.fragment_seleccion_hora) {
                 return@setOnClickListener
             }
 
-
             viewModel.reserva = resultadoReserva.reserva
             (requireActivity() as? BarraEstadoHost<EtapaReserva>)?.irA(
                 ComprobanteReservaFragment(),
                 EtapaReserva.CONFIRMACION_RESERVA
             )
         }
+    }
+
+    private fun mostrarError(mensaje: String) {
+        val tv = view?.findViewById<TextView>(R.id.tvError) ?: return
+        tv.text = mensaje
+        tv.visibility = View.VISIBLE
+    }
+
+    private fun ocultarError() {
+        view?.findViewById<TextView>(R.id.tvError)?.visibility = View.GONE
     }
 
     override fun onResume() {
@@ -111,6 +113,7 @@ class SeleccionHoraFragment : Fragment(R.layout.fragment_seleccion_hora) {
 
         rvProgramacion.adapter = ProgramacionAdapter(programacion) { seleccionada ->
             programacionSeleccionada = seleccionada
+            ocultarError()
         }
 
         if (programacion.isEmpty()) {

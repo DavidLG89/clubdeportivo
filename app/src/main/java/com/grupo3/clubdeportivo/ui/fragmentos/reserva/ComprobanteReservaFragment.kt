@@ -31,7 +31,7 @@ class ComprobanteReservaFragment : Fragment(R.layout.fragment_comprobante_reserv
         val cliente = viewModel.cliente
         val fecha = reserva.fechaHoraReserva
         val monto = if (reserva.estadoReserva == "Autorizada") "Sin cargo"
-        else reserva.precio.toInt().formatoPeso()
+        else reserva.precio.formatoPeso()
 
 
         // Imprime en pantalla datos de la reserva
@@ -96,11 +96,6 @@ class ComprobanteReservaFragment : Fragment(R.layout.fragment_comprobante_reserv
                             "Redirigiendo a pago de reserva...",
                             Toast.LENGTH_SHORT
                         ).show()
-
-                        android.util.Log.d("PAGO", "Reserva actividad: ${reserva.actividad}")
-                        android.util.Log.d("PAGO", "ViewModel actividad: ${viewModel.actividad.nombre}")
-                        android.util.Log.d("PAGO", "Reserva DNI: ${reserva.dni}")
-                        android.util.Log.d("PAGO", "Reserva apellido: ${reserva.apellidoCliente}")
 
                         val intent =
                             Intent(requireContext(), PagoReservaActivity::class.java).apply {

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.clases.Helpers.ValidacionDatos
 import com.grupo3.clubdeportivo.data.model.EtapaPago
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.PagoEnCuotasFragment
 import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
@@ -59,7 +60,7 @@ class BancoFragment : Fragment(R.layout.fragment_pago_banco) {
                 isValid = false
             }
 
-            if (dni.length != 8 || !dni.all { it.isDigit() }) {
+            if (ValidacionDatos.validarDni(dni).esValido) {
                 tilDni?.error = "El DNI debe tener exactamente 8 dígitos"
                 isValid = false
             }
