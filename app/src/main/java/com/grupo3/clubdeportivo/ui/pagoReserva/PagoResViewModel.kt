@@ -19,7 +19,7 @@ class PagoResViewModel : ViewModel() {
     var actividad: String? = null
     var monto: Double = 0.0
     var metodoPago: MetodoPago? = null
-    var numCuotas: Int? = 0
+    var numCuotas: Int? = 1
     var reservas: List<ReservaDTO>? = emptyList()
     var reservaSeleccionada: ReservaDTO? = null
     var idReserva: Int? = null

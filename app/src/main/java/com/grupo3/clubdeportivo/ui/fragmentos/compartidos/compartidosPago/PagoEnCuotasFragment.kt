@@ -1,4 +1,4 @@
-package com.grupo3.clubdeportivo.ui.fragmentos.compartidos
+package com.grupo3.clubdeportivo.ui.fragmentos.compartidos.compartidosPago
 
 import android.os.Bundle
 import android.view.View
@@ -10,11 +10,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.data.model.EtapaPago
-import com.grupo3.clubdeportivo.ui.fragmentos.pago.ComprobantePagoFragment
 import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerComprobantePago
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerMetodoPago
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerPagoEfectivo
+import com.grupo3.clubdeportivo.ui.pagoCuota.PagoCuotaActivity
 
 class PagoEnCuotasFragment : Fragment(R.layout.fragment_pago_en_cuotas) {
 
@@ -69,7 +69,7 @@ class PagoEnCuotasFragment : Fragment(R.layout.fragment_pago_en_cuotas) {
 
             val activity = requireActivity()
 
-            if (activity is com.grupo3.clubdeportivo.ui.pagoCuota.PagoCuotaActivity) {
+            if (activity is PagoCuotaActivity) {
                 // Flujo de cuota de socio
                 activity.procesarRegistroPagoBD()
             } else if (activity is ListenerPagoEfectivo) {
