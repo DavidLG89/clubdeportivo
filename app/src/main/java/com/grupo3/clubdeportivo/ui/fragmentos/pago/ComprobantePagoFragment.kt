@@ -7,7 +7,10 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.clases.Helpers.FechaDb
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerComprobantePago
+import com.grupo3.clubdeportivo.utils.formatoPeso
+import java.util.Date
 
 class ComprobantePagoFragment : Fragment(R.layout.fragment_comprobante_pago) {
     private val listener get() = requireActivity() as ListenerComprobantePago
@@ -18,9 +21,10 @@ class ComprobantePagoFragment : Fragment(R.layout.fragment_comprobante_pago) {
         val dato = listener.datosComprobante()
 
         view.findViewById<TextView>(R.id.tvEditIdPago)?.text = dato.idPago.padStart(4, '0')
-        view.findViewById<TextView>(R.id.tvPrintValor)?.text = dato.monto?.let { "$ $it" } ?: ""
+        view.findViewById<TextView>(R.id.tvPrintValor)?.text = dato.monto!!.formatoPeso()
         view.findViewById<TextView>(R.id.tvPrintDni)?.text = dato.dni ?: ""
         view.findViewById<TextView>(R.id.tvPrintNombre)?.text = dato.nombre ?: ""
+        view.findViewById<TextView>(R.id.tvPrintFechaPago).text = FechaDb.formatearFecha(Date())
 
         val layoutIdReserva = view.findViewById<LinearLayout>(R.id.layoutIdReserva)
         val tvIdReserva = view.findViewById<TextView>(R.id.tvIdReserva)

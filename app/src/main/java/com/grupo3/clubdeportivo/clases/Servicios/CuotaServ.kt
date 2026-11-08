@@ -11,20 +11,22 @@ data class ResultadoCuota(
     val cuotas: List<CuotaDTO>
 )
 
-class CuotaServ(private val cuotaRepo: CuotaRepo, private val clienteRepo : ClienteRepo) {
+class CuotaServ(private val cuotaRepo: CuotaRepo, private val clienteRepo: ClienteRepo) {
 
     fun obtenerCuotasSocioServ(dni: String): ResultadoCuota {
         val cliente = clienteRepo.buscarClientePorDniRepo(dni)
 
-        if(cliente !is Socio) {
+        if (cliente !is Socio) {
             return ResultadoCuota(false, "DNI no corresponde a un socio", emptyList())
         }
-        val cuotasPendientes = cuotaRepo.obtenerCuotasRepo(dni).filter { it.estadoCuota == "Pendiente" }
 
-        if(cuotasPendientes.isEmpty()) {
-            return ResultadoCuota(false, "Socio no tiene cuotas pendientes", emptyList())
+        val cuotas = cuotaRepo.obtenerCuotasRepo(dni)
+
+        if (cuotas.isEmpty()) {
+            return ResultadoCuota(false, "El socio no posee cuotas registradas", emptyList())
         }
-        return ResultadoCuota(true, "Cuota pendiente obtenida con éxito", cuotasPendientes)
+
+        return ResultadoCuota(true, "Cuotas obtenidas con éxito", cuotas)
     }
 
     fun registrarCuotasSocio(socioId: Int, montoCuota: Double): Boolean {

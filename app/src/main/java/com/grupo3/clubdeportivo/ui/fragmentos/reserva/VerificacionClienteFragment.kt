@@ -41,8 +41,6 @@ class VerificacionClienteFragment : Fragment(R.layout.fragment_verificacion_clie
         }
 
         btnContinuar.setOnClickListener {
-            val txtError = view.findViewById<TextView>(R.id.tvError)
-
 
             if(viewModel.cliente is Socio && !(viewModel.cliente as Socio).estaActivo()) {
                     Toast.makeText(

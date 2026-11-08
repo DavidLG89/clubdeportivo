@@ -213,8 +213,8 @@ class PagoCuotaActivity : AppCompatActivity(),
             viewModel.metodoPago = value }
 
     override var seleccionNumCuotas: Int?
-        get() = viewModel.cuota
-        set(value) { viewModel.cuota = value }
+        get() = viewModel.numCuotas
+        set(value) { viewModel.numCuotas = value }
 
     override fun onMetodoPagoVolver() {
         irA(
@@ -304,7 +304,7 @@ class PagoCuotaActivity : AppCompatActivity(),
             actividad = actividadDesc,
             monto = viewModel.monto,
             metodoPago = viewModel.metodoPago?.nombre,
-            cuota = viewModel.cuota,
+            cuota = viewModel.numCuotas,
             esNoSocio = false,
             fechaVencimiento = fechaVencStr
         )

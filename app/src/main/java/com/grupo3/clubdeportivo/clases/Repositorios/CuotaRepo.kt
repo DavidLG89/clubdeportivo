@@ -21,7 +21,6 @@ class CuotaRepo(private val dbHelper: DbHelper) {
         """.trimIndent()
 
         val list = mutableListOf<CuotaDTO>()
-        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
         return try {
             val db = dbHelper.readableDatabase

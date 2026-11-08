@@ -131,8 +131,17 @@ class PagoReservaActivity : AppCompatActivity(),
         val idReserva = viewModel.idReserva
 
         if(idReserva != null && idReserva > 0) {
-            viewModel.reservaSeleccionada = reservaServ.buscarReservaPorId(idReserva)
+            val reservaBuscada = reservaServ.buscarReservaPendientePagoPorId(idReserva)
+
+            if (!reservaBuscada.ok) {
+                Toast.makeText(this, reservaBuscada.mensaje, Toast.LENGTH_LONG).show()
+                finish()
+                return
+            }
+            viewModel.reservaSeleccionada = reservaBuscada.reserva
         }
+
+
 
         if (dni.isNullOrEmpty()) {
 
@@ -342,13 +351,14 @@ class PagoReservaActivity : AppCompatActivity(),
 
         return DatosComprobante(
             idPago = viewModel.idPago.toString().padStart(4, '0'),
-            dni = reserva?.dni ?: viewModel.dni,
-            nombre = reserva?.nombreCliente ?: viewModel.nombreCompleto,
+            dni = viewModel.dni ?: reserva?.dni,
+            nombre = viewModel.nombreCompleto
+                ?: reserva?.let { "${it.nombreCliente} ${it.apellidoCliente}".trim() },
             idReserva = (reserva?.idReserva ?: viewModel.idReserva).toString(),
             actividad = reserva?.actividad ?: viewModel.actividad,
             monto = reserva?.precio ?: viewModel.monto,
             metodoPago = viewModel.metodoPago?.nombre,
-            cuota = null, // No es cuota (no socio)
+            cuota = viewModel.numCuotas,
             esNoSocio = true
         )
     }

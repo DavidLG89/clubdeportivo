@@ -29,55 +29,82 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
+import com.grupo3.clubdeportivo.clases.Helpers.FechaDb
 import com.grupo3.clubdeportivo.clases.Repositorios.VencimientoRepo
 import com.grupo3.clubdeportivo.clases.Servicios.VencimientoServ
-import com.grupo3.clubdeportivo.clases.Helpers.FechaDb
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
 import java.io.FileOutputStream
-import java.util.Locale
 import java.util.Date
+import kotlin.collections.get
 import kotlin.math.ceil
 
+/**
+ * Actividad que muestra y gestiona la lista de cuotas de socios que vencen en el día de hoy.
+ *
+ * Utiliza [VencimientoServ] para consultar las cuotas vencidas, ofreciendo visualización
+ * en tabla con scrollbar e impresión en PDF multipágina con numeración.
+ */
 class VencimientoDiarioActivity : AppCompatActivity() {
 
     private lateinit var tableLayout: TableLayout
     private lateinit var fechaHoyActual: String
     private val dbHelper by lazy { DbHelperObject.get(this) }
     private val vencimientoServ by lazy { VencimientoServ(VencimientoRepo(dbHelper)) }
-    private var cuotas: List<List<String>> = emptyList()
-
+   private var cuotas: List<List<String>> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_vencimiento_diario)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
+        // Configuración del botón de retroceso
         val btnBack = findViewById<ImageButton>(R.id.btnBack)
         btnBack.setOnClickListener {
             finish()
         }
 
-        // Obtener fecha actual dinámicamente usando el Helper FechaDb
+        // Obtener fecha actual usando el Helper FechaDb
         fechaHoyActual = FechaDb.formatearFecha(Date())
 
         val tvFechaHoy = findViewById<TextView>(R.id.tvFechaHoy)
         tvFechaHoy.text = "Fecha: $fechaHoyActual"
 
-        // Referencia a vistas
+        // Referencias a vistas
         tableLayout = findViewById(R.id.tableLayout)
-
-        cargarCuotas()
-
-        // Crear la tabla
-        setupTable()
-
+        val scrollViewTable = findViewById<ScrollView>(R.id.scrollViewTable)
         val btnImprimir = findViewById<Button>(R.id.btnImprimir)
+        val tvError = findViewById<TextView>(R.id.tvError)
+
+
+
+        val resultado = vencimientoServ.obtenerVencimientosPorFecha(Date())
+
+        if (resultado.ok && resultado.cuotas.isNotEmpty()) {
+            cuotas = resultado.cuotas.map { item ->
+                val idStr = item.idCuota.toString()
+                val nroSocioStr = item.socio?.idSocio?.toString() ?: "-"
+                val nombreCompleto = "${item.socio?.nombre} ${item.socio?.apellido}".trim()
+                val montoStr = "$${item.montoCuota.toInt()}"
+                listOf(idStr, nroSocioStr, nombreCompleto, montoStr)
+            }
+            tvError.visibility = View.GONE
+            scrollViewTable.visibility = View.VISIBLE
+            btnImprimir.visibility = View.VISIBLE
+            setupTable()
+        } else {
+            cuotas = emptyList()
+            scrollViewTable.visibility = View.GONE
+            btnImprimir.visibility = View.GONE
+            tvError.visibility = View.VISIBLE
+            tvError.text = "No se encontraron cuotas vencidas el día de hoy ($fechaHoyActual)"
+        }
 
         btnImprimir.setOnClickListener {
             imprimirCuotas()
@@ -98,10 +125,13 @@ class VencimientoDiarioActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Construye las filas y celdas de la tabla en pantalla con los datos de las cuotas vencidas.
+     */
     private fun setupTable() {
         tableLayout.removeAllViews()
         val headerRow = TableRow(this)
-        val headers = listOf("Id", "Dni Socio", "Nombre y Apellido", "Monto")
+        val headers = listOf("Id", "Nro Socio", "Nombre y Apellido", "Monto")
 
         for (texto in headers) {
             val textView = TextView(this).apply {
@@ -133,18 +163,9 @@ class VencimientoDiarioActivity : AppCompatActivity() {
         }
     }
 
-    private fun cargarCuotas() {
-        val lista = vencimientoServ.obtenerPendientesPorFecha(Date())
-
-        cuotas = lista.cuotas.map { c ->
-            listOf(
-                c.idCuota.toString(),
-                c.socio?.dni.toString(),
-                "${c.socio?.nombre} ${c.socio?.apellido}",
-                "$${"%,.0f".format(Locale("es", "AR"), c.montoCuota)}"
-            )
-        }
-    }
+    /**
+     * Inicia la impresión en PDF de las cuotas vencidas del día utilizando [PrintManager].
+     */
     private fun imprimirCuotas() {
         val printManager = getSystemService(PRINT_SERVICE) as PrintManager
         val nombreDocumento = "Cuotas_vencidas_del_dia_$fechaHoyActual"
@@ -160,6 +181,9 @@ class VencimientoDiarioActivity : AppCompatActivity() {
         )
     }
 
+    /**
+     * Muestra un diálogo emergente al finalizar la impresión ofreciendo regresar al Inicio o permanecer.
+     */
     private fun mostrarDialogoOpciones() {
         AlertDialog.Builder(this)
             .setTitle("Impresión finalizada")
@@ -174,6 +198,9 @@ class VencimientoDiarioActivity : AppCompatActivity() {
             .show()
     }
 
+    /**
+     * Adaptador para renderizar el reporte PDF multipágina de cuotas vencidas del día.
+     */
     private inner class CuotasPrintAdapter : PrintDocumentAdapter() {
 
         private val rowsPerPage = 15
@@ -185,6 +212,9 @@ class VencimientoDiarioActivity : AppCompatActivity() {
             }
         }
 
+        /**
+         * Notifica a la API de impresión la cantidad total de páginas calculadas dinámicamente.
+         */
         override fun onLayout(
             oldAttributes: PrintAttributes?,
             newAttributes: PrintAttributes,
@@ -207,6 +237,9 @@ class VencimientoDiarioActivity : AppCompatActivity() {
             callback.onLayoutFinished(info, true)
         }
 
+        /**
+         * Dibuja los elementos visuales, tabla, registros y numeración de página en el canvas del PDF.
+         */
         override fun onWrite(
             pages: Array<out PageRange>,
             destination: ParcelFileDescriptor,
@@ -251,7 +284,7 @@ class VencimientoDiarioActivity : AppCompatActivity() {
 
                     var y = 50f
 
-                    // TÍTULO
+                    // TÍTULOS
                     paint.textSize = 22f
                     paint.typeface = Typeface.DEFAULT_BOLD
                     paint.textAlign = Paint.Align.CENTER

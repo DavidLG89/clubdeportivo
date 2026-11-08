@@ -1,6 +1,7 @@
 package com.grupo3.clubdeportivo.clases.Servicios
 
 import com.grupo3.clubdeportivo.clases.DTOS.ReservaDTO
+import com.grupo3.clubdeportivo.clases.Helpers.FechaDb
 import com.grupo3.clubdeportivo.clases.Modelos.Actividad
 import com.grupo3.clubdeportivo.clases.Modelos.Cliente
 import com.grupo3.clubdeportivo.clases.Modelos.Socio
@@ -73,26 +74,38 @@ class ReservaServ(private val repo: ReservaRepo) {
             return ResultadoReserva(false, "El cliente no tiene apto físico. No puede reservar.", null)
         }
 
-        val reservasCliente = buscarReservasPorDni(cliente.dni) ?: emptyList()
+        val reservasCliente = repo.buscarReservasPorDni(cliente.dni)
 
-        val reservasMismoHorario = reservasCliente.filter { it.fechaHoraReserva == fecha }
+        val reservasMismoHorario = reservasCliente.filter {
+            FechaDb.mismoMinuto(it.fechaHoraReserva, fecha)
+        }
 
         if (reservasMismoHorario.any { it.idActividad == actividad.id }) {
-            return ResultadoReserva(false, "El cliente ya tiene reservada esta actividad en ese horario.", null)
+            return ResultadoReserva(false, "Ya tiene una reserva para esta actividad en ese horario.", null)
         }
 
         if (reservasMismoHorario.isNotEmpty()) {
-            return ResultadoReserva(false, "El cliente tiene otra actividad reservada en ese mismo horario.", null)
+            return ResultadoReserva(false, "Tiene otra actividad reservada en ese mismo horario.", null)
         }
 
         val idReserva = repo.generarReservaRepo(actividad, cliente, fecha)
 
         if (idReserva <= 0) {
-            return ResultadoReserva(false, "Error inesperado al crear la reserva.", null)
+            val mensaje = when (idReserva) {
+                ReservaRepo.CodigoReserva.SIN_PROGRAMACION -> "No existe una clase programada para ese horario."
+                ReservaRepo.CodigoReserva.SIN_CUPOS -> "No hay cupos disponibles para ese horario."
+                ReservaRepo.CodigoReserva.YA_RESERVADA -> "Ya tiene una reserva para esta actividad en ese horario."
+                else -> "No se pudo registrar la reserva. Intente nuevamente; si el problema continúa, contacte al administrador."
+            }
+            return ResultadoReserva(false, mensaje, null)
         }
 
         val reserva = buscarReservaPorId(idReserva)
-            ?: return ResultadoReserva(false, "Error al intentar obtener la reserva", null)
+            ?: return ResultadoReserva(
+                false,
+                "La reserva fue registrada (N° $idReserva) pero no se pudo mostrar. Consúltela en el listado de reservas.",
+                null
+            )
 
         return if (cliente is Socio) {
 

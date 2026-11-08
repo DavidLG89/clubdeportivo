@@ -1,9 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.ClubDeportivo" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
+    <style name="Base.Theme.ClubDeportivo" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Font -->
         <item name="android:fontFamily">@font/inter</item>
         <item name="fontFamily">@font/inter</item>
+
+        <!-- Colores base para legibilidad -->
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorSecondary">@color/text_grey2</item>
+        <item name="android:textColorHint">@color/black</item>
+
+        <!-- Fondo para menús emergentes y desplegables -->
+        <item name="android:colorBackground">@color/white</item>
+        <item name="colorSurface">@color/white</item>
     </style>
 
     <style name="Theme.ClubDeportivo" parent="Base.Theme.ClubDeportivo" />

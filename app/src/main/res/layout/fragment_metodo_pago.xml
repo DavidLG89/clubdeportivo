@@ -38,7 +38,7 @@
                 android:id="@+id/tvDni"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:layout_marginTop="6dp"
                 android:text="@string/numero_dni"
                 android:textColor="@color/black"
@@ -239,30 +239,39 @@
                 android:id="@+id/tilMPago"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="260dp"
-                android:layout_height="50dp"
-                android:background="@color/background_app"
+                android:layout_height="wrap_content"
                 android:hint="@string/forma_pago"
+                android:textColorHint="@color/black"
+                app:boxBackgroundColor="@color/dropdown_background"
+                app:boxStrokeColor="@color/dropdown_border"
+                app:endIconTint="@color/dropdown_icon"
+                app:hintTextColor="@color/black"
+                app:dropDownBackgroundTint="@color/white"
                 app:errorEnabled="false">
 
                 <AutoCompleteTextView
                     android:id="@+id/tvAutoMPago"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
                     android:inputType="none"
                     android:paddingStart="20dp"
                     android:paddingTop="11dp"
                     android:paddingBottom="11dp"
+                    android:textColor="@color/black"
                     android:saveEnabled="false"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/dropdownCuotas"
-            android:layout_width="290dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:layout_marginTop="40dp"
+            android:inputType="none"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:textSize="14sp"
+            android:textColor="@color/black"
             android:visibility="gone">
 
             <com.google.android.material.textfield.TextInputLayout
@@ -272,6 +281,9 @@
                 android:layout_height="50dp"
                 android:background="@color/background_app"
                 android:hint="@string/numero_cuotas"
+                android:textColorHint="@color/black"
+                app:hintTextColor="@color/black"
+                app:dropDownBackgroundTint="@color/white"
                 app:errorEnabled="false">
 
                 <AutoCompleteTextView
@@ -283,6 +295,7 @@
                     android:paddingStart="20dp"
                     android:paddingTop="11dp"
                     android:paddingBottom="11dp"
+                    android:textColor="@color/black"
                     android:saveEnabled="false"/>
 
             </com.google.android.material.textfield.TextInputLayout>

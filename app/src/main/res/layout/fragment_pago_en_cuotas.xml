@@ -208,20 +208,25 @@
                 android:id="@+id/tilNCuotas"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="260dp"
-                android:layout_height="50dp"
-                android:background="@color/background_app"
-                android:hint="Número cuotas"
+                android:layout_height="wrap_content"
+                android:hint="@string/num_cuotas"
+                android:textColorHint="@color/black"
+                app:boxBackgroundColor="@color/dropdown_background"
+                app:boxStrokeColor="@color/dropdown_border"
+                app:endIconTint="@color/dropdown_icon"
+                app:hintTextColor="@color/black"
+                app:dropDownBackgroundTint="@color/white"
                 app:errorEnabled="false">
 
                 <AutoCompleteTextView
                     android:id="@+id/tvAutoNCuotas"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
                     android:inputType="none"
                     android:paddingStart="20dp"
                     android:paddingTop="11dp"
                     android:paddingBottom="11dp"
+                    android:textColor="@color/black"
                     android:saveEnabled="false" />
 
             </com.google.android.material.textfield.TextInputLayout>

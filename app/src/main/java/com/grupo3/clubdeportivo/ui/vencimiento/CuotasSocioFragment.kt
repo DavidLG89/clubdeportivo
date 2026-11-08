@@ -30,6 +30,12 @@ import java.io.FileOutputStream
 import java.util.Date
 import kotlin.math.ceil
 
+/**
+ * Fragmento que muestra el historial de cuotas de un socio específico en formato de tabla.
+ *
+ * Permite visualizar el Id, fecha de vencimiento, monto y estado (Pendiente / Pagada)
+ * de cada cuota, así como también exportar e imprimir un comprobante en PDF multipágina.
+ */
 class CuotasSocioFragment : Fragment(R.layout.fragment_cuotas_socio) {
 
     private val viewModel: VencimientoDniViewModel by activityViewModels()
@@ -37,13 +43,16 @@ class CuotasSocioFragment : Fragment(R.layout.fragment_cuotas_socio) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Referencias a vistas del fragmento
         val tvInfoSocio = view.findViewById<TextView>(R.id.tvInfoSocio)
         val tvDniSocio = view.findViewById<TextView>(R.id.tvDniSocio)
         val tableLayout = view.findViewById<TableLayout>(R.id.tableLayoutCuotas)
 
+        // Encabezado de información del socio
         tvInfoSocio?.text = "SOCIO: ${viewModel.nombreSocio} (${viewModel.numeroSocio})"
         tvDniSocio?.text = "DNI: ${viewModel.dni}"
 
+        // Construcción dinámica de la tabla de cuotas
         setupTable(tableLayout)
 
         val btnVolver = view.findViewById<Button>(R.id.btnVolver)
@@ -58,14 +67,19 @@ class CuotasSocioFragment : Fragment(R.layout.fragment_cuotas_socio) {
         }
     }
 
+    /**
+     * Construye dinámicamente las filas y celdas de la tabla de cuotas en la interfaz.
+     *
+     * @param tableLayout El contenedor [TableLayout] de la vista.
+     */
     private fun setupTable(tableLayout: TableLayout?) {
         if (tableLayout == null) return
 
         tableLayout.removeAllViews()
 
-        // Encabezados
+        // Encabezados de la tabla
         val headerRow = TableRow(requireContext())
-        val headers = listOf("Id", "Vencimiento", "Monto", "Estado")
+        val headers = listOf("Id", "Vencimiento", "Monto")
 
         for (texto in headers) {
             val textView = TextView(requireContext()).apply {
@@ -80,7 +94,7 @@ class CuotasSocioFragment : Fragment(R.layout.fragment_cuotas_socio) {
         }
         tableLayout.addView(headerRow)
 
-        // Filas de datos
+        // Filas de datos del historial del socio
         for (cuota in viewModel.cuotasSocio) {
             val tableRow = TableRow(requireContext())
             for (dato in cuota) {
@@ -98,6 +112,9 @@ class CuotasSocioFragment : Fragment(R.layout.fragment_cuotas_socio) {
         }
     }
 
+    /**
+     * Inicia el proceso de impresión del comprobante PDF de cuotas del socio usando [PrintManager].
+     */
     private fun imprimirCuotasSocio() {
         val printManager = requireContext().getSystemService(Context.PRINT_SERVICE) as PrintManager
         val nombreDocumento = "Cuotas_Socio_${viewModel.nombreSocio}"
@@ -113,6 +130,9 @@ class CuotasSocioFragment : Fragment(R.layout.fragment_cuotas_socio) {
         )
     }
 
+    /**
+     * Muestra un diálogo de diálogo de confirmación tras finalizar la impresión con opciones de navegación.
+     */
     private fun mostrarDialogoOpciones() {
         if (!isAdded) return
 
@@ -129,6 +149,9 @@ class CuotasSocioFragment : Fragment(R.layout.fragment_cuotas_socio) {
             .show()
     }
 
+    /**
+     * Adaptador personalizado para la generación y maquetación del PDF multipágina de cuotas del socio.
+     */
     private inner class CuotasSocioPrintAdapter : PrintDocumentAdapter() {
 
         private val rowsPerPage = 14
@@ -140,6 +163,9 @@ class CuotasSocioFragment : Fragment(R.layout.fragment_cuotas_socio) {
             }
         }
 
+        /**
+         * Calcula dinámicamente el número de páginas necesarias para la impresión.
+         */
         override fun onLayout(
             oldAttributes: PrintAttributes?,
             newAttributes: PrintAttributes,
@@ -162,6 +188,9 @@ class CuotasSocioFragment : Fragment(R.layout.fragment_cuotas_socio) {
             callback.onLayoutFinished(info, true)
         }
 
+        /**
+         * Dibuja y genera las páginas del documento PDF en el flujo de salida.
+         */
         override fun onWrite(
             pages: Array<out PageRange>,
             destination: ParcelFileDescriptor,
@@ -206,7 +235,7 @@ class CuotasSocioFragment : Fragment(R.layout.fragment_cuotas_socio) {
 
                     var y = 50f
 
-                    // TÍTULO
+                    // Títulos del comprobante
                     paint.textSize = 22f
                     paint.typeface = Typeface.DEFAULT_BOLD
                     paint.textAlign = Paint.Align.CENTER
@@ -227,7 +256,7 @@ class CuotasSocioFragment : Fragment(R.layout.fragment_cuotas_socio) {
                     canvas.drawLine(margenIzquierdo, y, pageWidth - margenDerecho, y, paint)
 
                     y += 25f
-                    // DATOS DEL SOCIO
+                    // Datos informativos del socio
                     paint.textAlign = Paint.Align.LEFT
                     paint.textSize = 13f
                     paint.typeface = Typeface.DEFAULT_BOLD
@@ -237,7 +266,7 @@ class CuotasSocioFragment : Fragment(R.layout.fragment_cuotas_socio) {
 
                     y += 25f
 
-                    // ENCABEZADOS DE TABLA PDF
+                    // Encabezados de la tabla en PDF
                     paint.style = Paint.Style.FILL
                     paint.color = Color.rgb(169, 212, 244)
                     canvas.drawRect(x1, y, x5, y + altoFila, paint)
@@ -260,11 +289,11 @@ class CuotasSocioFragment : Fragment(R.layout.fragment_cuotas_socio) {
                     canvas.drawText("Id", (x1 + x2) / 2, centroY, paint)
                     canvas.drawText("Vencimiento", (x2 + x3) / 2, centroY, paint)
                     canvas.drawText("Monto", (x3 + x4) / 2, centroY, paint)
-                    canvas.drawText("Estado", (x4 + x5) / 2, centroY, paint)
+                    //canvas.drawText("Estado", (x4 + x5) / 2, centroY, paint)
 
                     y += altoFila
 
-                    // FILAS CORRESPONDIENTES A LA PÁGINA ACTUAL
+                    // Filas de datos correspondientes a la página actual
                     val startRow = pageIndex * rowsPerPage
                     val endRow = minOf((pageIndex + 1) * rowsPerPage, viewModel.cuotasSocio.size)
 
@@ -299,7 +328,7 @@ class CuotasSocioFragment : Fragment(R.layout.fragment_cuotas_socio) {
                         y += altoFila
                     }
 
-                    // PIE DE PÁGINA CON NUMERACIÓN DE PÁGINA
+                    // Pie de página con numeración de páginas
                     paint.textAlign = Paint.Align.LEFT
                     paint.textSize = 10f
                     paint.color = Color.GRAY

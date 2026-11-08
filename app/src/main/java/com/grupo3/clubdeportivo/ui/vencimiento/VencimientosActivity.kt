@@ -10,9 +10,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.grupo3.clubdeportivo.R
-import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
+import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
 
+/**
+ * Actividad menú principal del módulo de Vencimientos.
+ *
+ * Permite seleccionar entre las dos modalidades de consulta de vencimientos:
+ * 1. Búsqueda de historial de cuotas por DNI de socio ([BuscarVencimientoPorDniActivity]).
+ * 2. Consulta e impresión de cuotas vencidas en el día de hoy ([VencimientoDiarioActivity]).
+ */
 class VencimientosActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,19 +31,21 @@ class VencimientosActivity : AppCompatActivity() {
             insets
         }
 
+        // Botón de retroceso
         val btnBack = findViewById<ImageButton>(R.id.btnBack)
         btnBack.setOnClickListener {
             finish()
         }
 
+        // Navegación a la búsqueda por DNI de socio
         val btnSocio = findViewById<Button>(R.id.btnBuscarSocio)
-
         btnSocio.setOnClickListener {
             val intent = Intent(this, BuscarVencimientoPorDniActivity::class.java)
             startActivity(intent)
         }
-        val btnVencimiento = findViewById<Button>(R.id.btnVencimientoDiario)
 
+        // Navegación a la consulta de vencimientos del día
+        val btnVencimiento = findViewById<Button>(R.id.btnVencimientoDiario)
         btnVencimiento.setOnClickListener {
             val intent = Intent(this, VencimientoDiarioActivity::class.java)
             startActivity(intent)
@@ -51,7 +60,6 @@ class VencimientosActivity : AppCompatActivity() {
         // Navegación al Menú Principal desde la barra inferior (Inicio)
         findViewById<LinearLayout>(R.id.navInicio).setOnClickListener {
             val intent = Intent(this, MenuPrincipalActivity::class.java)
-            // FLAG_ACTIVITY_CLEAR_TOP evita acumular ventanas repetidas en el historial hacia atrás
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
             startActivity(intent)
             finish()
