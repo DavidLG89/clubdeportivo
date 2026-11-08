@@ -67,30 +67,31 @@ class ComprobanteReservaFragment : Fragment(R.layout.fragment_comprobante_reserv
                     R.style.ThemeOverlay_App_MaterialAlertDialog_FullWidthButtons
 
                 )
-                    .setMessage(resources.getString(R.string.mensaje_pago))
-                    .setNegativeButton(resources.getString(R.string.no_paga)) { _, _ ->
-                        Toast.makeText(
-                            requireContext(),
-                            "Finalizando reserva de cliente...",
-                            Toast.LENGTH_SHORT
-                        ).show()
-
-                        val intent = Intent(requireContext(), MenuPrincipalActivity::class.java)
-                        startActivity(intent)
+                    .setMessage("¿El cliente desea pagar la reserva ahora?")
+                    .setNegativeButton("No paga") { _, _ ->
 
                         MaterialAlertDialogBuilder(
                             requireContext(),
                             R.style.ThemeOverlay_App_MaterialAlertDialog_FullWidthButtons
 
                         )
-                            .setMessage(resources.getString(R.string.recordatorio))
-
-                            .setPositiveButton(resources.getString(R.string.aceptar)) { dialog, _ ->
+                            .setMessage("Recuerde que la reserva queda pendiente de pago. Debe acercarse 15 minutos antes del inicio de la actividad para cancelar.")
+                            .setCancelable(false)
+                            .setPositiveButton("Aceptar") { dialog, _ ->
                                 dialog.dismiss()
+
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Finalizando reserva de cliente...",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
+                                val intent = Intent(requireContext(), MenuPrincipalActivity::class.java)
+                                startActivity(intent)
                             }
                             .show()
                     }
-                    .setPositiveButton(resources.getString(R.string.paga)) { _, _ ->
+                    .setPositiveButton("Paga") { _, _ ->
                         Toast.makeText(
                             requireContext(),
                             "Redirigiendo a pago de reserva...",
@@ -102,7 +103,7 @@ class ComprobanteReservaFragment : Fragment(R.layout.fragment_comprobante_reserv
                                 putExtra(PagoReservaActivity.EXTRA_DNI, reserva.dni)
                                 putExtra(
                                     PagoReservaActivity.EXTRA_NOMBRE,
-                                    reserva.apellidoCliente
+                                    viewModel.nombreCompleto
                                 )
                                 putExtra(
                                     PagoReservaActivity.EXTRA_ACTIVIDAD,
