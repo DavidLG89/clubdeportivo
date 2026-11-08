@@ -7,19 +7,9 @@ import com.grupo3.clubdeportivo.clases.Helpers.FechaDb
 import com.grupo3.clubdeportivo.clases.Modelos.Socio
 import java.util.Date
 
-/**
- * Repositorio encargado del acceso directo a la base de datos para la consulta de vencimientos de cuotas.
- *
- * Ejecuta consultas compuestas (JOINs) entre las tablas de personas, clientes, socios y cuotas.
- */
 class VencimientoRepo(private val dbHelper: DbHelper) {
 
-    /**
-     * Obtiene la lista de cuotas que vencen en una fecha determinada.
-     *
-     * @param fecha Objeto [Date] que especifica la fecha de vencimiento a consultar.
-     * @return Lista de objetos [CuotaDTO] encontrados en la base de datos.
-     */
+
     fun obtenerVencimientosPorFecha(fecha: Date): List<CuotaDTO> {
         val listaCuotas = mutableListOf<CuotaDTO>()
         val fechaVencimiento = FechaDb.formatearFechaHora(fecha)

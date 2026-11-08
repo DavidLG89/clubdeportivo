@@ -131,8 +131,17 @@ class PagoReservaActivity : AppCompatActivity(),
         val idReserva = viewModel.idReserva
 
         if(idReserva != null && idReserva > 0) {
-            viewModel.reservaSeleccionada = reservaServ.buscarReservaPorId(idReserva)
+            val reservaBuscada = reservaServ.buscarReservaPendientePagoPorId(idReserva)
+
+            if (!reservaBuscada.ok) {
+                Toast.makeText(this, reservaBuscada.mensaje, Toast.LENGTH_LONG).show()
+                finish()
+                return
+            }
+            viewModel.reservaSeleccionada = reservaBuscada.reserva
         }
+
+
 
         if (dni.isNullOrEmpty()) {
 

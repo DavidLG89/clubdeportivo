@@ -8,33 +8,29 @@ object ValidacionDatos {
 
     data class ResultadoValidacion(val esValido: Boolean, val mensaje: String)
 
-    fun soloNumeros(texto: String): ResultadoValidacion {
-        return if (texto.toIntOrNull() == null) {
-            ResultadoValidacion(false, "Debe ingresar solo números")
-        } else {
-            ResultadoValidacion(true, "")
-        }
-    }
-
     fun validarDni(dni: String?): ResultadoValidacion {
         if (dni.isNullOrEmpty()) {
             return ResultadoValidacion(false, "Debe ingresar un DNI")
         }
-        if (!dni.all { it.isDigit() }) {
-            return ResultadoValidacion(false, "DNI debe contener solo números")
+        if (!dni.all { it in '0'..'9' }) {
+            return ResultadoValidacion(false, "El DNI debe contener solo números")
         }
         if (dni.length != 8) {
-            return ResultadoValidacion(false, "DNI solo puede contener 8 dígitos")
+            return ResultadoValidacion(false, "El DNI debe tener 8 dígitos")
         }
         return ResultadoValidacion(true, "")
     }
 
     fun validarMonto(monto: String?): ResultadoValidacion {
-        if (monto.isNullOrEmpty()) {
+        if (monto.isNullOrBlank()) {
             return ResultadoValidacion(false, "Debe ingresar un monto")
         }
-        if (monto.toDoubleOrNull() == null) {
+        val valor = monto.toDoubleOrNull()
+        if (valor == null || valor.isNaN() || valor.isInfinite()) {
             return ResultadoValidacion(false, "Debe ingresar un monto válido")
+        }
+        if(valor <= 0) {
+            return ResultadoValidacion(false, "Monto debe ser mayor a 0")
         }
         return ResultadoValidacion(true, "")
     }

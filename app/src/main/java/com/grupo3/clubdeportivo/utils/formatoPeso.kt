@@ -5,3 +5,6 @@ import java.util.Locale
 
 fun Int.formatoPeso() : String =
     "$" + NumberFormat.getIntegerInstance(Locale.forLanguageTag("es-AR")).format(this)
+
+fun Double.formatoPeso(): String =
+    "$" + NumberFormat.getIntegerInstance(Locale.forLanguageTag("es-AR")).format(this)

@@ -8,7 +8,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
 import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.clases.Helpers.FechaDb
+import com.grupo3.clubdeportivo.clases.Helpers.ValidacionDatos
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerPagoEfectivo
+import com.grupo3.clubdeportivo.utils.formatoPeso
 
 class PagoEfectivoFragment : Fragment(R.layout.fragment_pago_efectivo) {
     private val listener get() = requireActivity() as ListenerPagoEfectivo
@@ -18,7 +21,7 @@ class PagoEfectivoFragment : Fragment(R.layout.fragment_pago_efectivo) {
 
         val montoAPagar = listener.montoAPagar
 
-        view.findViewById<TextView>(R.id.tvMontoPago).text = montoAPagar.toString()
+        view.findViewById<TextView>(R.id.tvMontoPago).text = montoAPagar.formatoPeso()
 
         var pagado = false
 
@@ -26,22 +29,28 @@ class PagoEfectivoFragment : Fragment(R.layout.fragment_pago_efectivo) {
 
         btnPagar.setOnClickListener {
             val etEfectivo = view.findViewById<TextInputEditText>(R.id.etEfectivo)
-            val efectivo = etEfectivo.text?.toString()?.toDoubleOrNull()
+            val efectivo = etEfectivo.text?.toString()?.trim()
+
+
+            val resultado = ValidacionDatos.validarMonto(efectivo)
+
+            // Uso helper para validar monto
+            if(!resultado.esValido) {
+                Toast.makeText(
+                    requireContext(), resultado.mensaje,
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
 
             if (pagado) {
                 listener.onPagoEfectivoContinuar()
                 return@setOnClickListener
             }
 
-            if (efectivo == null || efectivo <= 0.0) {
-                Toast.makeText(
-                    requireContext(), "Debe ingresar un monto válido",
-                    Toast.LENGTH_SHORT
-                ).show()
-                return@setOnClickListener
-            }
+            val efectivoDouble = efectivo!!.toDouble()
 
-            if (efectivo < montoAPagar) {
+            if (efectivoDouble < montoAPagar) {
                 Toast.makeText(
                     requireContext(), "Efectivo debe ser igual o superior al monto a pagar",
                     Toast.LENGTH_SHORT
@@ -49,15 +58,15 @@ class PagoEfectivoFragment : Fragment(R.layout.fragment_pago_efectivo) {
                 return@setOnClickListener
             } else {
 
-                if (!listener.registrarPago(efectivo)) return@setOnClickListener
+                if (!listener.registrarPago(efectivoDouble)) return@setOnClickListener
 
-                val vuelto = efectivo - montoAPagar
+                val vuelto = efectivoDouble - montoAPagar
 
 
                 if(vuelto >= 0.0) {
                     view.findViewById<TextView>(R.id.tvVuelto).visibility = View.VISIBLE
 
-                    view.findViewById<TextView>(R.id.tvVuelto).text = "%.2f".format(vuelto)
+                    view.findViewById<TextView>(R.id.tvVuelto).text = vuelto.formatoPeso()
                     etEfectivo.isEnabled = false
                     pagado = true
                     btnPagar.text = "PAGAR"

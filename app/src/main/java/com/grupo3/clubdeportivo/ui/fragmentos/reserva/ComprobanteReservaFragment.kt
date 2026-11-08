@@ -31,7 +31,7 @@ class ComprobanteReservaFragment : Fragment(R.layout.fragment_comprobante_reserv
         val cliente = viewModel.cliente
         val fecha = reserva.fechaHoraReserva
         val monto = if (reserva.estadoReserva == "Autorizada") "Sin cargo"
-        else reserva.precio.toInt().formatoPeso()
+        else reserva.precio.formatoPeso()
 
 
         // Imprime en pantalla datos de la reserva

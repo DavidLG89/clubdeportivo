@@ -9,6 +9,7 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.grupo3.clubdeportivo.R
+import com.grupo3.clubdeportivo.clases.Helpers.ValidacionDatos
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerDni
 
 class BusquedaDniFragment : Fragment(R.layout.fragment_busqueda_dni) {
@@ -28,19 +29,14 @@ class BusquedaDniFragment : Fragment(R.layout.fragment_busqueda_dni) {
         btnBuscar.setOnClickListener {
             val dni = edtDni.text?.toString()?.trim() ?: ""
 
-            when {
-                dni.isEmpty() -> {
-                    tvError.text = "Debe ingresar un DNI"
-                    tvError.visibility = View.VISIBLE
-                }
-                !dni.matches((Regex("^\\d{8}$"))) -> {
-                    tvError.text = "El DNI debe tener 8 dígitos"
-                    tvError.visibility = View.VISIBLE
-                }
-                else -> {
-                    tvError.visibility = View.GONE
-                    listener.onDniValidado(dni)
-                }
+            val resultado = ValidacionDatos.validarDni(dni)
+
+            if(!resultado.esValido) {
+                tvError.text = resultado.mensaje
+                tvError.visibility = View.VISIBLE
+            } else {
+                tvError.visibility = View.GONE
+                listener.onDniValidado(dni)
             }
         }
     }

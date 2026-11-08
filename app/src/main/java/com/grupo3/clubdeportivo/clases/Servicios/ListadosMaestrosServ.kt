@@ -17,11 +17,6 @@ class ListadosMaestrosServ {
         this.mPagoRepo = mPagoRepo
     }
 
-    constructor(mPagoRepo: MetodoPagoRepo, actRepo: ActividadRepo) {
-        this.mPagoRepo = mPagoRepo
-        this.actRepo = actRepo
-    }
-
     fun obtenerMetodosPago(): List<MetodoPago> {
         return mPagoRepo?.obtenerLista() ?: emptyList()
     }
