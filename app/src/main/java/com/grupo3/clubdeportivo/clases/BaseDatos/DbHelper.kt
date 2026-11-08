@@ -12,7 +12,7 @@ import java.util.Date
  * Administra el esquema relacional para personas, clientes, socios, no socios, actividades,
  * reservas, cuotas de pago y usuarios del sistema.
  */
-class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", null, 12) {
+class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", null, 13) {
 
     /**
      * Habilita las restricciones de claves foráneas en la base de datos SQLite.
@@ -327,6 +327,16 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
             INNER JOIN personas p ON cl.persona_id = p.id
             WHERE p.dni IN ('20123456', '20234567', '20345678');
         """.trimIndent()
+        )
+
+        // Configuración de prueba: No Socio SIN Apto Físico (DNI: 20345678 - Ana Fernández)
+        db.execSQL(
+            """
+            UPDATE clientes SET apto_fisico = 0
+            WHERE persona_id IN (
+                SELECT id FROM personas WHERE dni = '20345678'
+            );
+            """.trimIndent()
         )
 
         // 9. Registro de Socios (resto de clientes)
