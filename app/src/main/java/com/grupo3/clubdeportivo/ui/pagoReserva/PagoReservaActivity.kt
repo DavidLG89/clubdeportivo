@@ -83,6 +83,15 @@ class PagoReservaActivity : AppCompatActivity(),
         configurarFooter()
 
         if (savedInstanceState == null) iniciarFlujo()
+
+        val btnBack = findViewById<ImageButton>(R.id.btnBack)
+        btnBack.setOnClickListener {
+            if (viewModel.pasoActual.value == EtapaPago.COMPROBANTE_PAGO) {
+                finish()
+            } else {
+                onBackPressedDispatcher.onBackPressed()
+            }
+        }
     }
 
     private fun configurarInsets() {
@@ -226,7 +235,7 @@ class PagoReservaActivity : AppCompatActivity(),
         if (reservas.isNullOrEmpty()) {
             val tvError = findViewById<TextView>(R.id.tvError)
             tvError.visibility = View.VISIBLE
-            tvError.text = "Cliente no tiene reservas"
+            tvError.text = "Cliente no tiene reservas pendientes de pago"
             return
         }
 

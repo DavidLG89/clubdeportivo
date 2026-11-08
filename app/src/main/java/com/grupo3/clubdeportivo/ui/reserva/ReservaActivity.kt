@@ -72,9 +72,12 @@ class ReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, List
         }
         // Botón Volver regresa al fragmento anterior
         val btnBack = findViewById<ImageButton>(R.id.btnBack)
-
         btnBack.setOnClickListener {
-            supportFragmentManager.popBackStack()
+            if (viewModel.pasoActual.value == EtapaReserva.CONFIRMACION_RESERVA) {
+                finish()
+            } else {
+                onBackPressedDispatcher.onBackPressed()
+            }
         }
 
         // Observa la etapa actual y actualiza la barra de estado
