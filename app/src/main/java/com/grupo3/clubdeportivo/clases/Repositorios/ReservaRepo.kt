@@ -26,45 +26,50 @@ class ReservaRepo(private val dbHelper: DbHelper) {
         const val ERROR = -99
     }
 
-    fun buscarReservasPorDni(dni: String) : List<ReservaDTO> {
+    fun buscarReservasPorDni(dni: String): List<ReservaDTO> {
 
+        val dniBuscado = dni
         val reservasCliente = mutableListOf<ReservaDTO>()
 
         val query = """
-            SELECT r.id AS id_reserva, pr.id AS id_progr, pr.cupos_disponibles, a.id AS id_actividad, a.nombre AS actividad, a.precio, r.estado, p.nombre AS nombre_cliente, p.apellido AS apellido_cliente, pr.fecha_hora
-            FROM reservas r
-            INNER JOIN programaciones pr ON r.programacion_id = pr.id
-            INNER JOIN actividades a ON pr.actividad_id = a.id
-            INNER JOIN clientes cl ON r.cliente_id = cl.id
-            INNER JOIN personas p ON cl.persona_id = p.id
-            WHERE p.dni = ?
-            AND r.estado = ?
-            ORDER BY pr.fecha_hora
-        """.trimIndent()
+        SELECT r.id AS id_reserva, cl.id AS id_cliente, pr.id AS id_progr, pr.cupos_disponibles,
+               a.id AS id_actividad, a.nombre AS actividad, a.precio, r.estado,
+               p.nombre AS nombre_cliente, p.apellido AS apellido_cliente, pr.fecha_hora
+        FROM reservas r
+        INNER JOIN programaciones pr ON r.programacion_id = pr.id
+        INNER JOIN actividades a ON pr.actividad_id = a.id
+        INNER JOIN clientes cl ON r.cliente_id = cl.id
+        INNER JOIN personas p ON cl.persona_id = p.id
+        WHERE p.dni = ?
+        AND r.estado = ?
+        ORDER BY pr.fecha_hora
+    """.trimIndent()
 
         val db = dbHelper.readableDatabase
 
-        db.rawQuery(query, arrayOf(dni, "Pendiente de pago")).use { cursor ->
-            while(cursor.moveToNext()) {
+        db.rawQuery(query, arrayOf(dniBuscado, "Pendiente de pago")).use { cursor ->
+            while (cursor.moveToNext()) {
                 val fechaStr = cursor.getString(cursor.getColumnIndexOrThrow("fecha_hora")) ?: ""
                 val fechaDate = FechaDb.parsearFecha(fechaStr) ?: Date()
 
-                var reserva = ReservaDTO().apply {
+                val reserva = ReservaDTO().apply {
                     idReserva = cursor.getInt(cursor.getColumnIndexOrThrow("id_reserva"))
-                    nombreCliente = cursor.getString(cursor.getColumnIndexOrThrow("nombre_cliente"))
-                    apellidoCliente = cursor.getString(cursor.getColumnIndexOrThrow("apellido_cliente"))
+                    idCliente = cursor.getInt(cursor.getColumnIndexOrThrow("id_cliente"))
+                    this.dni = dniBuscado
+                    nombreCliente = cursor.getString(cursor.getColumnIndexOrThrow("nombre_cliente")) ?: ""
+                    apellidoCliente = cursor.getString(cursor.getColumnIndexOrThrow("apellido_cliente")) ?: ""
                     idProgramacion = cursor.getInt(cursor.getColumnIndexOrThrow("id_progr"))
                     cuposDisponibles = cursor.getInt(cursor.getColumnIndexOrThrow("cupos_disponibles"))
                     idActividad = cursor.getInt(cursor.getColumnIndexOrThrow("id_actividad"))
-                    actividad = cursor.getString(cursor.getColumnIndexOrThrow("actividad"))
+                    actividad = cursor.getString(cursor.getColumnIndexOrThrow("actividad")) ?: ""
                     fechaHoraReserva = fechaDate
                     precio = cursor.getDouble(cursor.getColumnIndexOrThrow("precio"))
-                    estadoReserva = cursor.getString(cursor.getColumnIndexOrThrow("estado"))
+                    estadoReserva = cursor.getString(cursor.getColumnIndexOrThrow("estado")) ?: ""
                 }
                 reservasCliente.add(reserva)
             }
-            return reservasCliente
         }
+        return reservasCliente
     }
     fun buscarReservaPorId(idReserva: Int): ReservaDTO? {
 

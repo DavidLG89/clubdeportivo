@@ -351,13 +351,14 @@ class PagoReservaActivity : AppCompatActivity(),
 
         return DatosComprobante(
             idPago = viewModel.idPago.toString().padStart(4, '0'),
-            dni = reserva?.dni ?: viewModel.dni,
-            nombre = reserva?.nombreCliente ?: viewModel.nombreCompleto,
+            dni = viewModel.dni ?: reserva?.dni,
+            nombre = viewModel.nombreCompleto
+                ?: reserva?.let { "${it.nombreCliente} ${it.apellidoCliente}".trim() },
             idReserva = (reserva?.idReserva ?: viewModel.idReserva).toString(),
             actividad = reserva?.actividad ?: viewModel.actividad,
             monto = reserva?.precio ?: viewModel.monto,
             metodoPago = viewModel.metodoPago?.nombre,
-            cuota = null, // No es cuota (no socio)
+            cuota = viewModel.numCuotas,
             esNoSocio = true
         )
     }
