@@ -12,7 +12,19 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+
 class ReservaRepo(private val dbHelper: DbHelper) {
+
+    class ReservaRepo(private val dbHelper: DbHelper) {
+        // ...
+    }
+
+    object CodigoReserva {
+        const val SIN_PROGRAMACION = -1
+        const val SIN_CUPOS = -2
+        const val YA_RESERVADA = -3
+        const val ERROR = -99
+    }
 
     fun buscarReservasPorDni(dni: String) : List<ReservaDTO> {
 
@@ -72,14 +84,10 @@ class ReservaRepo(private val dbHelper: DbHelper) {
             val db = dbHelper.readableDatabase
             db.rawQuery(query, arrayOf(idReserva.toString())).use { cursor ->
 
-
                 if (cursor.moveToFirst()) {
-                    val fhStr = cursor.getString(cursor.getColumnIndexOrThrow("fecha_hora")) ?: ""
-                    val fhDate = try {
-                        sdf.parse(fhStr) ?: Date()
-                    } catch (_: Exception) {
-                        Date()
-                    }
+                    val fhDate = FechaDb.parsearFecha(
+                        cursor.getString(cursor.getColumnIndexOrThrow("fecha_hora")) ?: ""
+                    ) ?: Date()
 
                     ReservaDTO().apply {
                         this.idReserva = cursor.getInt(cursor.getColumnIndexOrThrow("id_reserva"))
@@ -190,11 +198,11 @@ class ReservaRepo(private val dbHelper: DbHelper) {
 
 
             db.rawQuery(sql, args).use { c ->
-                if (!c.moveToFirst()) return -1
+                if (!c.moveToFirst()) return CodigoReserva.SIN_PROGRAMACION
                 programacionId = c.getInt(0)
                 cuposDisponibles = c.getInt(1)
-                if (cuposDisponibles <= 0) return -2
-                if (c.getInt(2) == 1) return -3
+                if (cuposDisponibles <= 0) return CodigoReserva.SIN_CUPOS
+                if (c.getInt(2) == 1) return CodigoReserva.YA_RESERVADA
             }
 
             val esSocio = cliente is Socio
@@ -207,7 +215,7 @@ class ReservaRepo(private val dbHelper: DbHelper) {
                 put("estado", if (esSocio) "Autorizada" else "Pendiente de pago")
             }
             val reservaId = db.insert("reservas", null, cv)
-            if (reservaId == -1L) return -99
+            if (reservaId == -1L) return CodigoReserva.ERROR
 
             if (esSocio) {
                 db.execSQL(

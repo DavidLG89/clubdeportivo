@@ -66,12 +66,12 @@ class PagoEnCuotasFragment : Fragment(R.layout.fragment_pago_en_cuotas) {
                 return@setOnClickListener
             }
 
-            val mensaje = when (cuotaSeleccionada) {
-                3 -> "Tiene 5% de descuento"
-                6 -> "Tiene 3% de descuento"
-                else -> "Sin descuento adicional"
-            }
-            Toast.makeText(requireContext(), mensaje, Toast.LENGTH_SHORT).show()
+            //val mensaje = when (cuotaSeleccionada) {
+            //    3 -> "Tiene 5% de descuento"
+             //   6 -> "Tiene 3% de descuento"
+            //    else -> "Sin descuento adicional"
+            //}
+            //Toast.makeText(requireContext(), mensaje, Toast.LENGTH_SHORT).show()
 
             (requireActivity() as? com.grupo3.clubdeportivo.ui.pagoCuota.PagoCuotaActivity)?.procesarRegistroPagoBD()
 

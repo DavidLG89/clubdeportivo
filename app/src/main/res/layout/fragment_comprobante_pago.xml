@@ -251,6 +251,16 @@
                 android:textColor="@color/black"
                 android:textSize="14sp" />
         </LinearLayout>
+        <TextView
+            android:id="@+id/tvPrintFechaPago"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
+            android:text="11/05/2026"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
     </LinearLayout>
 
     <LinearLayout

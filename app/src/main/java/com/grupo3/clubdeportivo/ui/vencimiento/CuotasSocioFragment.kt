@@ -79,7 +79,7 @@ class CuotasSocioFragment : Fragment(R.layout.fragment_cuotas_socio) {
 
         // Encabezados de la tabla
         val headerRow = TableRow(requireContext())
-        val headers = listOf("Id", "Vencimiento", "Monto", "Estado")
+        val headers = listOf("Id", "Vencimiento", "Monto")
 
         for (texto in headers) {
             val textView = TextView(requireContext()).apply {
@@ -289,7 +289,7 @@ class CuotasSocioFragment : Fragment(R.layout.fragment_cuotas_socio) {
                     canvas.drawText("Id", (x1 + x2) / 2, centroY, paint)
                     canvas.drawText("Vencimiento", (x2 + x3) / 2, centroY, paint)
                     canvas.drawText("Monto", (x3 + x4) / 2, centroY, paint)
-                    canvas.drawText("Estado", (x4 + x5) / 2, centroY, paint)
+                    //canvas.drawText("Estado", (x4 + x5) / 2, centroY, paint)
 
                     y += altoFila
 

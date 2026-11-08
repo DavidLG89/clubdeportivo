@@ -8,13 +8,6 @@ class Cuota {
     var estadoPago: String = ""
     var socio: Socio? = null
     var montoCuota: Double = 0.0
-    var pagos: MutableList<Pago> = mutableListOf()
-
-    constructor()
-
-    constructor(montoCuota: Double) {
-        this.montoCuota = montoCuota
-    }
 
     constructor(montoCuota: Double, fechaVencimiento: Date, estadoPago: String, socio: Socio?) {
         this.montoCuota = montoCuota

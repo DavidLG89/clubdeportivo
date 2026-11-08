@@ -36,6 +36,7 @@ import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
 import java.io.FileOutputStream
 import java.util.Date
+import kotlin.collections.get
 import kotlin.math.ceil
 
 /**
@@ -48,7 +49,9 @@ class VencimientoDiarioActivity : AppCompatActivity() {
 
     private lateinit var tableLayout: TableLayout
     private lateinit var fechaHoyActual: String
-    private var cuotas: List<List<String>> = emptyList()
+    private val dbHelper by lazy { DbHelperObject.get(this) }
+    private val vencimientoServ by lazy { VencimientoServ(VencimientoRepo(dbHelper)) }
+   private var cuotas: List<List<String>> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,7 +70,7 @@ class VencimientoDiarioActivity : AppCompatActivity() {
             finish()
         }
 
-        // Obtener fecha actual dinámicamente usando el Helper FechaDb
+        // Obtener fecha actual usando el Helper FechaDb
         fechaHoyActual = FechaDb.formatearFecha(Date())
 
         val tvFechaHoy = findViewById<TextView>(R.id.tvFechaHoy)
@@ -79,10 +82,7 @@ class VencimientoDiarioActivity : AppCompatActivity() {
         val btnImprimir = findViewById<Button>(R.id.btnImprimir)
         val tvError = findViewById<TextView>(R.id.tvError)
 
-        // Cargar cuotas vencidas mediante la capa de servicios VencimientoServ
-        val dbHelper = DbHelperObject.get(this)
-        val vencimientoRepo = VencimientoRepo(dbHelper)
-        val vencimientoServ = VencimientoServ(vencimientoRepo)
+
 
         val resultado = vencimientoServ.obtenerVencimientosPorFecha(Date())
 

@@ -10,8 +10,6 @@ class Pago {
     var cuota: Cuota? = null
     var noSocio: NoSocio? = null
 
-    constructor()
-
     constructor(
         cuota: Cuota?,
         noSocio: NoSocio?,
