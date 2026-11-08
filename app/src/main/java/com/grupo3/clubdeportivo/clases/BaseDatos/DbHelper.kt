@@ -3,20 +3,38 @@ package com.grupo3.clubdeportivo.clases.BaseDatos
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import com.grupo3.clubdeportivo.clases.Helpers.FechaDb
+import java.util.Date
 
-class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", null, 11) {
+/**
+ * Helper principal para la creación, versión y sembrado de la base de datos SQLite "club_deportivo".
+ *
+ * Administra el esquema relacional para personas, clientes, socios, no socios, actividades,
+ * reservas, cuotas de pago y usuarios del sistema.
+ */
+class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", null, 12) {
 
+    /**
+     * Habilita las restricciones de claves foráneas en la base de datos SQLite.
+     */
     override fun onConfigure(db: SQLiteDatabase) {
         super.onConfigure(db)
         db.setForeignKeyConstraintsEnabled(true)
     }
 
+    /**
+     * Se ejecuta al crear la base de datos por primera vez.
+     * Crea todas las tablas e inserta los catálogos y datos iniciales de prueba.
+     */
     override fun onCreate(db: SQLiteDatabase) {
-
         crearTablas(db)
         sembrarCatalogos(db)
     }
 
+    /**
+     * Se ejecuta cuando se incrementa la versión de la base de datos.
+     * Elimina las tablas existentes y reejecuta onCreate para asegurar un entorno limpio.
+     */
     override fun onUpgrade(
         db: SQLiteDatabase,
         oldVersion: Int,
@@ -31,7 +49,11 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
         onCreate(db)
     }
 
+    /**
+     * Crea la estructura completa de tablas relacionales de la aplicación.
+     */
     private fun crearTablas(db: SQLiteDatabase) {
+        // Tabla de Roles de Usuario (ej: admin, user)
         db.execSQL(
             """
                 CREATE TABLE roles(
@@ -41,6 +63,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
             """.trimIndent()
         )
 
+        // Tabla de Personas (datos personales genéricos)
         db.execSQL(
             """
                 CREATE TABLE personas(
@@ -53,6 +76,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
             """.trimIndent()
         )
 
+        // Tabla de Clientes (vinculada a Persona, incluye apto físico)
         db.execSQL(
             """
                 CREATE TABLE clientes(
@@ -64,6 +88,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
             """.trimIndent()
         )
 
+        // Tabla de Usuarios para inicio de sesión en el sistema
         db.execSQL(
             """
                 CREATE TABLE usuarios(
@@ -79,6 +104,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
             """.trimIndent()
         )
 
+        // Tabla de Socios del Club
         db.execSQL(
             """
                 CREATE TABLE socios(
@@ -90,6 +116,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
             """.trimIndent()
         )
 
+        // Tabla de No Socios (clientes temporales)
         db.execSQL(
             """
                 CREATE TABLE no_socios(
@@ -101,6 +128,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
             """.trimIndent()
         )
 
+        // Tabla de Carnet de Identificación de Socio
         db.execSQL(
             """
                 CREATE TABLE carnet(
@@ -113,6 +141,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
             """.trimIndent()
         )
 
+        // Tabla de Cuotas mensuales o de inscripción
         db.execSQL(
             """
                 CREATE TABLE cuotas(
@@ -126,6 +155,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
             """.trimIndent()
         )
 
+        // Tabla de Métodos de Pago disponibles
         db.execSQL(
             """
                 CREATE TABLE metodos_pago(
@@ -135,6 +165,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
             """.trimIndent()
         )
 
+        // Tabla de Actividades deportivas
         db.execSQL(
             """
                 CREATE TABLE actividades(
@@ -145,6 +176,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
             """.trimIndent()
         )
 
+        // Tabla de Programaciones de actividades
         db.execSQL(
             """
                 CREATE TABLE programaciones(
@@ -157,6 +189,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
             """.trimIndent()
         )
 
+        // Tabla de Reservas de actividades realizadas por clientes
         db.execSQL(
             """
                 CREATE TABLE reservas(
@@ -171,6 +204,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
             """.trimIndent()
         )
 
+        // Tabla de Registros de Pagos
         db.execSQL(
             """
                 CREATE TABLE pagos(
@@ -183,15 +217,20 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
                     FOREIGN KEY(cuota_id) REFERENCES cuotas(id),
                     FOREIGN KEY(reserva_id) REFERENCES reservas(id),
                     FOREIGN KEY(metodo_id) REFERENCES metodos_pago(id),
-                    CHECK ((cuota_id IS NOT NULL AND reserva_id IS NULL) OR (cuota_id IS NULL AND reserva_id IS NOT NULL))
+                    CHECK ((cuota_id IS NOT NULL AND reserva_id IS NULL) OR (cuota_id IS NULL AND reserva_id NOT NULL))
                 );
             """.trimIndent()
         )
     }
 
+    /**
+     * Siembra los catálogos y registros iniciales de prueba en la base de datos.
+     */
     private fun sembrarCatalogos(db: SQLiteDatabase) {
+        // 1. Roles de usuario
         db.execSQL("INSERT INTO roles(id, nombre) VALUES (1, 'admin'), (2, 'user');")
 
+        // 2. Personas administrativas base
         db.execSQL(
             """
             INSERT INTO personas(nombre, apellido, dni, email) VALUES
@@ -201,6 +240,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
         """.trimIndent()
         )
 
+        // 3. Usuarios administradores
         db.execSQL(
             """
                     INSERT INTO usuarios(id, persona_id, username, password, rol_id, activo) VALUES
@@ -210,6 +250,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
                 """.trimIndent()
         )
 
+        // 4. Métodos de pago disponibles
         db.execSQL(
             """
                     INSERT INTO metodos_pago(id, nombre) VALUES
@@ -217,6 +258,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
                 """.trimIndent()
         )
 
+        // 5. Catálogo de actividades y precios
         db.execSQL(
             """
                     INSERT INTO actividades(id, nombre, precio) VALUES
@@ -227,6 +269,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
                 """.trimIndent()
         )
 
+        // 6. Lista masiva de personas (socios y no socios)
         db.execSQL(
             """
             INSERT INTO personas (nombre, apellido, dni, email) VALUES
@@ -267,6 +310,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
         """.trimIndent()
         )
 
+        // 7. Registro de Clientes
         db.execSQL(
             """
                     INSERT INTO clientes (persona_id, apto_fisico) 
@@ -274,6 +318,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
                 """.trimIndent()
         )
 
+        // 8. Registro de No Socios (clientes temporales)
         db.execSQL(
             """
             INSERT INTO no_socios (cliente_id, acceso_diario)
@@ -282,54 +327,33 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
             INNER JOIN personas p ON cl.persona_id = p.id
             WHERE p.dni IN ('20123456', '20234567', '20345678');
         """.trimIndent()
-            )
-
-
-        db.execSQL(
-            """
-    INSERT INTO socios (cliente_id, estado)
-    SELECT id, 1 FROM clientes
-    WHERE id NOT IN (SELECT cliente_id FROM no_socios);
-    """.trimIndent()
         )
 
-// NUEVO: socios inactivos
+        // 9. Registro de Socios (resto de clientes)
         db.execSQL(
             """
-    UPDATE socios SET estado = 0
-    WHERE cliente_id IN (
-        SELECT cl.id FROM clientes cl
-        INNER JOIN personas p ON cl.persona_id = p.id
-        WHERE p.dni IN ('20456789', '20567890', '20678901')
-    );
-    """.trimIndent()
+            INSERT INTO socios (cliente_id, estado)
+            SELECT id, 1 FROM clientes
+            WHERE id NOT IN (SELECT cliente_id FROM no_socios);
+            """.trimIndent()
         )
 
-// ... INSERT INTO programaciones (sin cambios) ...
-
+        // 10. Socios inactivos de prueba
         db.execSQL(
             """
-    INSERT INTO cuotas (socio_id, monto_cuota, fecha_vencimiento, estado_cuota)
-    SELECT id, 1500.00, '2026-07-20', 'Pendiente' FROM socios;
-    """.trimIndent()
+            UPDATE socios SET estado = 0
+            WHERE cliente_id IN (
+                SELECT cl.id FROM clientes cl
+                INNER JOIN personas p ON cl.persona_id = p.id
+                WHERE p.dni IN ('20456789', '20567890', '20678901')
+            );
+            """.trimIndent()
         )
 
-// NUEVO: socio activo con cuota paga
+        // 11. Programaciones semanales de actividades
         db.execSQL(
             """
-    UPDATE cuotas SET estado_cuota = 'Pagada', fecha_vencimiento = '2026-12-20'
-    WHERE socio_id IN (
-        SELECT s.id FROM socios s
-        INNER JOIN clientes cl ON s.cliente_id = cl.id
-        INNER JOIN personas p ON cl.persona_id = p.id
-        WHERE p.dni = '20789012'
-    );
-    """.trimIndent()
-        )
-
-        db.execSQL(
-    """
-                    INSERT INTO programaciones (actividad_id, fecha_hora, cupos_disponibles) VALUES
+            INSERT INTO programaciones (actividad_id, fecha_hora, cupos_disponibles) VALUES
 
         (1, '2026-11-04 10:00:00', 20), (1, '2026-11-04 18:00:00', 20),
         (1, '2026-11-05 10:00:00', 20), (1, '2026-11-05 18:00:00', 20),
@@ -435,13 +459,50 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
         (13, '2026-11-09 10:00:00', 25), (13, '2026-11-09 18:00:00', 25),
         (13, '2026-11-10 10:00:00', 25), (13, '2026-11-10 18:00:00', 25);
         """.trimIndent()
-)
+        )
+
+        // 12. Sembrado de cuotas del día para todos los socios
+        sembrarCuotasVencidasHoy(db)
+
+        // 13. Inserción de cuotas pagadas de prueba para la socia Marta García (DNI: 20789012)
+        db.execSQL(
+            """
+            INSERT INTO cuotas (socio_id, monto_cuota, fecha_vencimiento, estado_cuota)
+            SELECT s.id, 15000.00, '2025-01-15', 'Pagada'
+            FROM socios s
+            INNER JOIN clientes cl ON s.cliente_id = cl.id
+            INNER JOIN personas p ON cl.persona_id = p.id
+            WHERE p.dni = '20789012';
+            """.trimIndent()
+        )
 
         db.execSQL(
             """
-                    INSERT INTO cuotas (socio_id, monto_cuota, fecha_vencimiento, estado_cuota)
-                    SELECT id, 1500.00, '2026-07-20', 'Pendiente' FROM socios;
-                """.trimIndent()
+            INSERT INTO cuotas (socio_id, monto_cuota, fecha_vencimiento, estado_cuota)
+            SELECT s.id, 15000.00, '2025-02-15', 'Pagada'
+            FROM socios s
+            INNER JOIN clientes cl ON s.cliente_id = cl.id
+            INNER JOIN personas p ON cl.persona_id = p.id
+            WHERE p.dni = '20789012';
+            """.trimIndent()
+        )
+    }
+
+    /**
+     * Siembra o renueva las cuotas vencidas del día de hoy para todos los socios activos.
+     * Elimina previamente cuotas duplicadas con la fecha de hoy antes de realizar el sembrado.
+     *
+     * @param db Instancia de SQLiteDatabase opcional. Si no se provee, utiliza writableDatabase.
+     */
+    fun sembrarCuotasVencidasHoy(db: SQLiteDatabase? = null) {
+        val database = db ?: writableDatabase
+        val fechaHoyIso = FechaDb.formatearFechaIso(Date())
+        database.execSQL("DELETE FROM cuotas WHERE date(fecha_vencimiento) = date('$fechaHoyIso');")
+        database.execSQL(
+            """
+            INSERT INTO cuotas (socio_id, monto_cuota, fecha_vencimiento, estado_cuota)
+            SELECT id, 15000.00, '$fechaHoyIso', 'Pendiente' FROM socios;
+            """.trimIndent()
         )
     }
 }
