@@ -329,6 +329,16 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
         """.trimIndent()
         )
 
+        // Configuración de prueba: No Socio SIN Apto Físico (DNI: 20345678 - Ana Fernández)
+        db.execSQL(
+            """
+            UPDATE clientes SET apto_fisico = 0
+            WHERE persona_id IN (
+                SELECT id FROM personas WHERE dni = '20345678'
+            );
+            """.trimIndent()
+        )
+
         // 9. Registro de Socios (resto de clientes)
         db.execSQL(
             """
@@ -351,7 +361,6 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
         )
 
         // 11. Programaciones semanales de actividades
-
         db.execSQL(
             """
             WITH RECURSIVE fechas(fecha) AS (
@@ -397,8 +406,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
     """.trimIndent()
         )
 
-
-        // 12. Sembrado de cuotas del día para todos los socios
+        // 12. Sembrado de cuotas del día para socios con ID par
         sembrarCuotasVencidasHoy(db)
 
         // 13. Inserción de cuotas pagadas de prueba para la socia Marta García (DNI: 20789012)
@@ -426,7 +434,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
     }
 
     /**
-     * Siembra o renueva las cuotas vencidas del día de hoy para todos los socios activos.
+     * Siembra o renueva las cuotas vencidas del día de hoy únicamente para los socios con ID par.
      * Elimina previamente cuotas duplicadas con la fecha de hoy antes de realizar el sembrado.
      *
      * @param db Instancia de SQLiteDatabase opcional. Si no se provee, utiliza writableDatabase.
@@ -438,7 +446,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", n
         database.execSQL(
             """
             INSERT INTO cuotas (socio_id, monto_cuota, fecha_vencimiento, estado_cuota)
-            SELECT id, 15000.00, '$fechaHoyIso', 'Pendiente' FROM socios;
+            SELECT id, 15000.00, '$fechaHoyIso', 'Pendiente' FROM socios WHERE id % 2 = 0;
             """.trimIndent()
         )
     }
