@@ -12,7 +12,7 @@ import java.util.Date
  * Administra el esquema relacional para personas, clientes, socios, no socios, actividades,
  * reservas, cuotas de pago y usuarios del sistema.
  */
-class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", null, 14) {
+class DbHelper(context: Context) : SQLiteOpenHelper(context, "club_deportivo", null, 15) {
 
     /**
      * Habilita las restricciones de claves foráneas en la base de datos SQLite.

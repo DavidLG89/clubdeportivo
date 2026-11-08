@@ -1,4 +1,4 @@
-package com.grupo3.clubdeportivo.ui.fragmentos.pago
+package com.grupo3.clubdeportivo.ui.fragmentos.compartidos.compartidosPago
 
 import android.os.Bundle
 import android.view.View
@@ -10,7 +10,6 @@ import com.google.android.material.textfield.TextInputLayout
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.clases.Helpers.ValidacionDatos
 import com.grupo3.clubdeportivo.data.model.EtapaPago
-import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.PagoEnCuotasFragment
 import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
 import java.util.Calendar
 
