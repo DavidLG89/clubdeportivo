@@ -14,6 +14,7 @@ import com.grupo3.clubdeportivo.ui.fragmentos.pago.ComprobantePagoFragment
 import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerComprobantePago
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerMetodoPago
+import com.grupo3.clubdeportivo.ui.interfaces.ListenerPagoEfectivo
 
 class PagoEnCuotasFragment : Fragment(R.layout.fragment_pago_en_cuotas) {
 
