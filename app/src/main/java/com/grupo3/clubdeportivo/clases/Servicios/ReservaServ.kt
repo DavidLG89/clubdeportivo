@@ -39,29 +39,7 @@ class ReservaServ(private val repo: ReservaRepo) {
         return ResultadoReserva(true, "Reserva obtenida exitosamente", reserva)
     }
 
-    fun buscarReservaExistentePorDniYActividad(dni: String, idActividad: Int): ResultadoReserva {
-        val reserva = repo.buscarReservaPorDniYActividadRepo(dni, idActividad)
-            ?: return ResultadoReserva(false, "Reserva no existe", null)
-
-        return ResultadoReserva(true, "Reserva obtenida exitosamente", reserva)
-    }
-
-    fun buscarReservaPendientePorDniYActividad(dni: String, idActividad: Int): ResultadoReserva {
-        val reserva = repo.buscarReservaPorDniYActividadRepo(dni, idActividad)
-            ?: return ResultadoReserva(false, "Reserva no existe", null)
-
-        if (reserva.estadoReserva != "Pendiente de pago") {
-            return ResultadoReserva(false, "Reserva se encuentra pagada", null)
-        }
-
-        if (esAnteriorAHoy(reserva.fechaHoraReserva)) {
-            return ResultadoReserva(false, "Reserva no vigente", null)
-        }
-
-        return ResultadoReserva(true, "Reserva obtenida exitosamente", reserva)
-    }
-
-    fun generarReserva(
+   fun generarReserva(
         actividad: Actividad,
         cliente: Cliente,
         fecha: Date
