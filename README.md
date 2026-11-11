@@ -1,11 +1,11 @@
-# 🏆 Club Deportivo - Sistema de Gestión de Socios, Pagos y Reservas
+# 🏆 Club Deportivo - Sistema de Gestión de Socios, No Socios, Pagos y Reservas
 
 ![Android](https://img.shields.io/badge/Platform-Android-green.svg)
 ![Kotlin](https://img.shields.io/badge/Language-Kotlin-orange.svg)
 ![Database](https://img.shields.io/badge/Database-SQLite-blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-lightgrey.svg)
 
-**Club Deportivo** es una aplicación móvil nativa desarrollada en **Kotlin** para la plataforma **Android**, diseñada para la administración integral de un club o centro deportivo. Permite gestionar socios, no socios, emisión de carnets, control de vencimientos de cuotas, reservas de actividades deportivas y la generación/impresión de comprobantes y reportes en PDF.
+**Club Deportivo** es una aplicación móvil nativa desarrollada en **Kotlin** para la plataforma **Android**, diseñada para la administración integral de un club o centro deportivo. Permite gestionar **socios y no socios**, emisión de carnets digitales, control de vencimientos de cuotas, cobro de pases diarios, reservas de actividades deportivas y la generación/impresión de comprobantes y reportes en PDF.
 
 ---
 
@@ -15,9 +15,9 @@
 * **Inicio de Sesión**: Inicio de sesión seguro por usuario y contraseña con control de roles (`admin` / `user`).
 * **Recuperación de Contraseña**: Módulo de verificación de correo e identidad para restablecimiento de clave.
 
-### 💳 2. Gestión de Socios y Carnet Digital
+### 💳 2. Gestión de Socios, No Socios y Carnet Digital
 * **Registro de Clientes**: Formulario de alta con validación de apto físico y firma/aceptación de contrato.
-* **Diferenciación de Clientes**: Gestión segmentada entre **Socios** (cuota mensual) y **No Socios** (acceso por día/actividad).
+* **Diferenciación de Clientes**: Gestión segmentada entre **Socios** (cuotas mensuales de membresía) y **No Socios** (pases temporales y cobro de acceso diario).
 * **Impresión de Carnet de Socio**: Generación en vista previa e impresión de carnet físico/digital con bordes redondeados y código visual.
 
 ### 📅 3. Módulo de Vencimientos y Cuotas
@@ -113,9 +113,16 @@ Al ejecutar la aplicación por primera vez, SQLite genera automáticamente la ba
 * **Socio de Prueba con Cuotas Pagadas (Historial Completo)**:
   * **DNI**: `20789012` (Marta García)
 
-* **Socios con Cuotas Pendientes**:
+* **Socios de Prueba con Cuotas Pendientes**:
   * **DNI**: `24753731` (Andrea Jiménez)
-  * **DNI**: `20123456` (María González)
+  * **DNI**: `20112345` (Diego Torres)
+
+* **No Socios de Prueba (Pase Diario - CON Apto Físico / Habilitado)**:
+  * **DNI**: `20123456` (María González - Apto Físico: `1`)
+  * **DNI**: `20234567` (Carlos Rodríguez - Apto Físico: `1`)
+
+* **No Socio de Prueba (Pase Diario - SIN Apto Físico / Deshabilitado)**:
+  * **DNI**: `20345678` (Ana Fernández - Apto Físico: `0`)
 
 ---
 

@@ -1,4 +1,4 @@
-package com.grupo3.clubdeportivo.ui.fragmentos.pago
+package com.grupo3.clubdeportivo.ui.fragmentos.compartidos.compartidosPago
 
 import android.os.Bundle
 import android.view.View
@@ -10,7 +10,6 @@ import com.google.android.material.textfield.TextInputLayout
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.clases.Helpers.ValidacionDatos
 import com.grupo3.clubdeportivo.data.model.EtapaPago
-import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.PagoEnCuotasFragment
 import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
 import java.util.Calendar
 
@@ -60,7 +59,7 @@ class BancoFragment : Fragment(R.layout.fragment_pago_banco) {
                 isValid = false
             }
 
-            if (ValidacionDatos.validarDni(dni).esValido) {
+            if (!ValidacionDatos.validarDni(dni).esValido) {
                 tilDni?.error = "El DNI debe tener exactamente 8 dígitos"
                 isValid = false
             }

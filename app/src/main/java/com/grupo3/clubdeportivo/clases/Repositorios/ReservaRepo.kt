@@ -15,10 +15,6 @@ import java.util.Locale
 
 class ReservaRepo(private val dbHelper: DbHelper) {
 
-    class ReservaRepo(private val dbHelper: DbHelper) {
-        // ...
-    }
-
     object CodigoReserva {
         const val SIN_PROGRAMACION = -1
         const val SIN_CUPOS = -2
@@ -41,8 +37,8 @@ class ReservaRepo(private val dbHelper: DbHelper) {
         INNER JOIN clientes cl ON r.cliente_id = cl.id
         INNER JOIN personas p ON cl.persona_id = p.id
         WHERE p.dni = ?
-        AND r.estado = ?
-        ORDER BY pr.fecha_hora
+        AND r.estado IN ('Pendiente de pago', 'Autorizada', 'Pagada')
+          AND pr.fecha_hora >= datetime('now', 'localtime')
     """.trimIndent()
 
         val db = dbHelper.readableDatabase
@@ -121,65 +117,6 @@ class ReservaRepo(private val dbHelper: DbHelper) {
         }
     }
 
-    fun buscarReservaPorDniYActividadRepo(dni: String, idActividad: Int): ReservaDTO? {
-        val query = """
-            SELECT r.id AS id_reserva, cl.id AS id_cliente, p.nombre, p.apellido, p.dni, a.id AS id_actividad, a.nombre AS actividad, a.precio, r.estado, pr.fecha_hora
-            FROM reservas r
-            INNER JOIN programaciones pr ON r.programacion_id = pr.id
-            INNER JOIN actividades a ON pr.actividad_id = a.id
-            INNER JOIN clientes cl ON r.cliente_id = cl.id
-            INNER JOIN personas p ON cl.persona_id = p.id
-            WHERE p.dni = ? AND a.id = ?
-            ORDER BY pr.fecha_hora
-        """.trimIndent()
-
-        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-
-        return try {
-            val db = dbHelper.readableDatabase
-
-            db.rawQuery(query, arrayOf(dni, idActividad.toString())).use { cursor ->
-
-                if (cursor.moveToFirst()) {
-                    val fhStr = cursor.getString(cursor.getColumnIndexOrThrow("fecha_hora")) ?: ""
-                    val fhDate = try {
-                        sdf.parse(fhStr) ?: Date()
-                    } catch (_: Exception) {
-                        Date()
-                    }
-
-                    ReservaDTO().apply {
-                        this.idReserva = cursor.getInt(cursor.getColumnIndexOrThrow("id_reserva"))
-                        idCliente = cursor.getInt(cursor.getColumnIndexOrThrow("id_cliente"))
-                        nombreCliente =
-                            cursor.getString(cursor.getColumnIndexOrThrow("nombre")) ?: ""
-                        apellidoCliente =
-                            cursor.getString(cursor.getColumnIndexOrThrow("apellido")) ?: ""
-                        this.dni = cursor.getString(cursor.getColumnIndexOrThrow("dni")) ?: ""
-                        this.idActividad =
-                            cursor.getInt(cursor.getColumnIndexOrThrow("id_actividad"))
-                        actividad =
-                            cursor.getString(cursor.getColumnIndexOrThrow("actividad")) ?: ""
-                        precio = cursor.getDouble(cursor.getColumnIndexOrThrow("precio"))
-                        fechaHoraReserva = fhDate
-                        estadoReserva =
-                            cursor.getString(cursor.getColumnIndexOrThrow("estado")) ?: ""
-                    }
-
-                } else {
-                    null
-                }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
-    }
-
-    /**
-     * Devuelve: > 0 id de la reserva | -1 sin programación | -2 sin cupos
-     *           -3 ya reservó | -99 error
-     */
     fun generarReservaRepo(actividad: Actividad, cliente: Cliente, fechaHora: Date): Int {
         val db = dbHelper.writableDatabase
 

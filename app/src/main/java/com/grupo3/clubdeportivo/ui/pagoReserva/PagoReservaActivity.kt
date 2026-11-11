@@ -32,12 +32,12 @@ import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.PerfilAdminActivity
 import com.grupo3.clubdeportivo.ui.componentes.CompBarraEstadoPago
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.BusquedaDniFragment
-import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.MetodoPagoFragment
-import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.PagoEnCuotasFragment
-import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.VerificacionFragment
-import com.grupo3.clubdeportivo.ui.fragmentos.pago.BancoFragment
-import com.grupo3.clubdeportivo.ui.fragmentos.pago.ComprobantePagoFragment
-import com.grupo3.clubdeportivo.ui.fragmentos.pago.PagoEfectivoFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.compartidosPago.MetodoPagoFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.compartidosPago.PagoEnCuotasFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.compartidosPago.VerificacionFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.compartidosPago.BancoFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.compartidosPago.ComprobantePagoFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.compartidosPago.PagoEfectivoFragment
 import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerComprobantePago
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerDni
@@ -83,6 +83,15 @@ class PagoReservaActivity : AppCompatActivity(),
         configurarFooter()
 
         if (savedInstanceState == null) iniciarFlujo()
+
+        val btnBack = findViewById<ImageButton>(R.id.btnBack)
+        btnBack.setOnClickListener {
+            if (viewModel.pasoActual.value == EtapaPago.COMPROBANTE_PAGO) {
+                finish()
+            } else {
+                onBackPressedDispatcher.onBackPressed()
+            }
+        }
     }
 
     private fun configurarInsets() {
@@ -226,7 +235,7 @@ class PagoReservaActivity : AppCompatActivity(),
         if (reservas.isNullOrEmpty()) {
             val tvError = findViewById<TextView>(R.id.tvError)
             tvError.visibility = View.VISIBLE
-            tvError.text = "Cliente no tiene reservas"
+            tvError.text = "Cliente no tiene reservas pendientes de pago"
             return
         }
 

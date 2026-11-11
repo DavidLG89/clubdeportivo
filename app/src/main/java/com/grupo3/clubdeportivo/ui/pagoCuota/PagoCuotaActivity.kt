@@ -27,12 +27,12 @@ import com.grupo3.clubdeportivo.data.model.EtapaPago
 import com.grupo3.clubdeportivo.ui.MenuPrincipalActivity
 import com.grupo3.clubdeportivo.ui.componentes.CompBarraEstadoPago
 import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.BusquedaDniFragment
-import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.MetodoPagoFragment
-import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.PagoEnCuotasFragment
-import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.VerificacionFragment
-import com.grupo3.clubdeportivo.ui.fragmentos.pago.BancoFragment
-import com.grupo3.clubdeportivo.ui.fragmentos.pago.ComprobantePagoFragment
-import com.grupo3.clubdeportivo.ui.fragmentos.pago.PagoEfectivoFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.compartidosPago.MetodoPagoFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.compartidosPago.PagoEnCuotasFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.compartidosPago.VerificacionFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.compartidosPago.BancoFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.compartidosPago.ComprobantePagoFragment
+import com.grupo3.clubdeportivo.ui.fragmentos.compartidos.compartidosPago.PagoEfectivoFragment
 import com.grupo3.clubdeportivo.ui.interfaces.BarraEstadoHost
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerComprobantePago
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerDni
@@ -111,6 +111,7 @@ class PagoCuotaActivity : AppCompatActivity(),
 
         val cuotasPendientes = cuotaServ.obtenerCuotasSocioServ(dni)
         val cuota = cuotasPendientes.cuotas.filter { it.estadoCuota == "Pendiente" }
+            .sortedBy { it.fechaVencimiento }
 
         val cliente = clienteServ.buscarClientePorDni(dni)
         android.util.Log.d("CUOTA", "cliente=$cliente clase=${cliente?.javaClass?.simpleName} dni=${cliente?.dni}")
@@ -133,10 +134,10 @@ class PagoCuotaActivity : AppCompatActivity(),
             tvError.text = "Cliente no tiene cuotas pendientes"
             return
         } else {
-            val primeraCuota = cuotasPendientes.cuotas[0]
+            val primeraCuota = cuota[0]
 
             viewModel.dni = dni
-            viewModel.listaCuotasPendientes = cuotasPendientes.cuotas
+            viewModel.listaCuotasPendientes = cuota
             viewModel.cuotaPendiente = primeraCuota
             viewModel.idSocio = primeraCuota.socio?.idSocio
             viewModel.nombre = "${primeraCuota.socio?.apellido}, ${primeraCuota.socio?.nombre}"

@@ -1,4 +1,4 @@
-package com.grupo3.clubdeportivo.ui.fragmentos.compartidos
+package com.grupo3.clubdeportivo.ui.fragmentos.compartidos.compartidosPago
 
 import android.os.Bundle
 import android.view.View
@@ -11,7 +11,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.grupo3.clubdeportivo.R
 import com.grupo3.clubdeportivo.clases.BaseDatos.DbHelperObject
-import com.grupo3.clubdeportivo.clases.Modelos.MetodoPago
 import com.grupo3.clubdeportivo.clases.Repositorios.MetodoPagoRepo
 import com.grupo3.clubdeportivo.clases.Servicios.ListadosMaestrosServ
 import com.grupo3.clubdeportivo.ui.interfaces.ListenerComprobantePago
