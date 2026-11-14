@@ -32,7 +32,6 @@ class SeleccionActividadFragment : Fragment(R.layout.fragment_seleccion_activida
             listaActividades.add(actividad.nombre)
         }
 
-
         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, listaActividades)
 
         val autoCompleteTextView = view.findViewById<AutoCompleteTextView>(R.id.autoActividad)
