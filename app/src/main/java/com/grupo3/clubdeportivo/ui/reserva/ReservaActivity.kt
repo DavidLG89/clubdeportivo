@@ -137,7 +137,6 @@ class ReservaActivity : AppCompatActivity(), BarraEstadoHost<EtapaReserva>, List
         if(cliente is Socio) {
             viewModel.tipoCliente = "Socio"
         } else if(cliente is NoSocio) {
-
             viewModel.tipoCliente = "No Socio"
         }
 

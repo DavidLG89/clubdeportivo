@@ -43,7 +43,7 @@ class ReservaRepo(private val dbHelper: DbHelper) {
 
         val db = dbHelper.readableDatabase
 
-        db.rawQuery(query, arrayOf(dniBuscado, "Pendiente de pago")).use { cursor ->
+        db.rawQuery(query, arrayOf(dniBuscado)).use { cursor ->
             while (cursor.moveToNext()) {
                 val fechaStr = cursor.getString(cursor.getColumnIndexOrThrow("fecha_hora")) ?: ""
                 val fechaDate = FechaDb.parsearFecha(fechaStr) ?: Date()

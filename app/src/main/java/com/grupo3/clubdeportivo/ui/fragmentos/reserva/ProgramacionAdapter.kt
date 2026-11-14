@@ -11,7 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.grupo3.clubdeportivo.clases.Helpers.FechaDb
 import com.grupo3.clubdeportivo.clases.Modelos.Programacion
 
-class ProgramacionAdapter(private val programaciones: List<Programacion>, private val onSeleccionar: (Programacion) -> Unit) : RecyclerView.Adapter<ProgramacionAdapter.ProgramacionViewHolder>() {
+class ProgramacionAdapter(private val programaciones: List<Programacion>, private val onSeleccionar: (Programacion) -> Unit) :
+    RecyclerView.Adapter<ProgramacionAdapter.ProgramacionViewHolder>() {
 
     private var posicionSeleccionada = RecyclerView.NO_POSITION
     class ProgramacionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
