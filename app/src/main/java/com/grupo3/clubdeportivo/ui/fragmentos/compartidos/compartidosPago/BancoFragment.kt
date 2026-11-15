@@ -59,7 +59,7 @@ class BancoFragment : Fragment(R.layout.fragment_pago_banco) {
                 isValid = false
             }
 
-            if (ValidacionDatos.validarDni(dni).esValido) {
+            if (!ValidacionDatos.validarDni(dni).esValido) {
                 tilDni?.error = "El DNI debe tener exactamente 8 dígitos"
                 isValid = false
             }

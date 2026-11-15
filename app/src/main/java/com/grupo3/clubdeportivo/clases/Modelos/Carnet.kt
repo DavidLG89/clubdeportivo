@@ -6,17 +6,10 @@ class Carnet {
     var fechaEmision: String = ""
     var estado: Boolean = false
 
-    constructor()
-
     constructor(id: Int, socio: Socio?, fechaEmision: String, estado: Boolean) {
         this.id = id
         this.socio = socio
         this.fechaEmision = fechaEmision
-        this.estado = estado
-    }
-
-    constructor(socio: Socio?, estado: Boolean) {
-        this.socio = socio
         this.estado = estado
     }
 }

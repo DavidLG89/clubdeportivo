@@ -230,18 +230,18 @@ class PagoReservaActivity : AppCompatActivity(),
             return
         }
 
-        val reservas = reservaServ.buscarReservasPorDni(dni)
+        val reservas = reservaServ.buscarReservasPendientesPagoPorDni(dni)
 
-        if (reservas.isNullOrEmpty()) {
+        if (reservas.isEmpty()) {
             val tvError = findViewById<TextView>(R.id.tvError)
             tvError.visibility = View.VISIBLE
             tvError.text = "Cliente no tiene reservas pendientes de pago"
             return
         }
 
-        viewModel.dni = cliente?.dni
+        viewModel.dni = cliente.dni
         viewModel.nombreCompleto =
-            cliente?.mostrarNombreCompleto()
+            cliente.mostrarNombreCompleto()
         viewModel.reservas = reservas
         viewModel.reservaSeleccionada = null
         viewModel.actividad = null
@@ -397,11 +397,13 @@ class PagoReservaActivity : AppCompatActivity(),
 
         val pago = pagoServ.registrarPago(reserva, montoAPagar, metodoPago)
 
-        if (pago.ok) {
-            viewModel.idPago = pago.resultId
-            return true
+        if (!pago.ok) {
+            Toast.makeText(this, pago.mensaje, Toast.LENGTH_SHORT).show()
+            return false
         }
-        return false
+        viewModel.idPago = pago.resultId
+        return true
+
     }
 
     override fun onPagoEfectivoVolver() {

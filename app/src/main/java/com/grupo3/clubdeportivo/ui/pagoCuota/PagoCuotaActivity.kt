@@ -111,6 +111,7 @@ class PagoCuotaActivity : AppCompatActivity(),
 
         val cuotasPendientes = cuotaServ.obtenerCuotasSocioServ(dni)
         val cuota = cuotasPendientes.cuotas.filter { it.estadoCuota == "Pendiente" }
+            .sortedBy { it.fechaVencimiento }
 
         val cliente = clienteServ.buscarClientePorDni(dni)
         android.util.Log.d("CUOTA", "cliente=$cliente clase=${cliente?.javaClass?.simpleName} dni=${cliente?.dni}")
@@ -133,10 +134,10 @@ class PagoCuotaActivity : AppCompatActivity(),
             tvError.text = "Cliente no tiene cuotas pendientes"
             return
         } else {
-            val primeraCuota = cuotasPendientes.cuotas[0]
+            val primeraCuota = cuota[0]
 
             viewModel.dni = dni
-            viewModel.listaCuotasPendientes = cuotasPendientes.cuotas
+            viewModel.listaCuotasPendientes = cuota
             viewModel.cuotaPendiente = primeraCuota
             viewModel.idSocio = primeraCuota.socio?.idSocio
             viewModel.nombre = "${primeraCuota.socio?.apellido}, ${primeraCuota.socio?.nombre}"
