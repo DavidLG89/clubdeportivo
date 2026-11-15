@@ -17,9 +17,8 @@ data class ResultadoReserva(
 
 class ReservaServ(private val repo: ReservaRepo) {
 
-    fun buscarReservasPorDni(dni: String) : List<ReservaDTO>? {
-        return repo.buscarReservasPorDni(dni)
-    }
+    fun buscarReservasPendientesPagoPorDni(dni: String): List<ReservaDTO> =
+        repo.buscarReservasPorDni(dni).filter { it.estadoReserva == "Pendiente de pago" }
     fun buscarReservaPorId(idReserva: Int): ReservaDTO? {
         return repo.buscarReservaPorId(idReserva)
     }
